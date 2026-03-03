@@ -28,6 +28,21 @@ const withLayoutBasic = (Component: any) => {
 				bgImage = '';
 
 			switch (router.pathname) {
+				case '/clothes':
+					title = 'Clothes Search';
+					desc = 'We are glad to see you again!';
+					bgImage = '/img/banner/properties.png';
+					break;
+				case '/equipment':
+					title = 'Equipment Search';
+					desc = 'We are glad to see you again!';
+					bgImage = '/img/banner/properties.png';
+					break;
+				case '/product':
+					title = 'Product Search';
+					desc = 'We are glad to see you again!';
+					bgImage = '/img/banner/properties.png';
+					break;
 				case '/property':
 					title = 'Property Search';
 					desc = 'We are glad to see you again!';
@@ -40,6 +55,26 @@ const withLayoutBasic = (Component: any) => {
 					break;
 				case '/agent/detail':
 					title = 'Agent Page';
+					desc = 'Home / For Rent';
+					bgImage = '/img/banner/header2.svg';
+					break;
+				case '/trainer':
+					title = 'Trainers';
+					desc = 'Home / For Rent';
+					bgImage = '/img/banner/agents.webp';
+					break;
+				case '/trainer/detail':
+					title = 'Trainer Page';
+					desc = 'Home / For Rent';
+					bgImage = '/img/banner/header2.svg';
+					break;
+				case '/managers':
+					title = 'SalesManagers';
+					desc = 'Home / For Rent';
+					bgImage = '/img/banner/agents.webp';
+					break;
+				case '/manager/detail':
+					title = 'Manager Page';
 					desc = 'Home / For Rent';
 					bgImage = '/img/banner/header2.svg';
 					break;
@@ -93,8 +128,8 @@ const withLayoutBasic = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Nestar</title>
-						<meta name={'title'} content={`Nestar`} />
+						<title>EliteFit</title>
+						<meta name={'title'} content={`EliteFit`} />
 					</Head>
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
@@ -115,8 +150,8 @@ const withLayoutBasic = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Nestar</title>
-						<meta name={'title'} content={`Nestar`} />
+						<title>EliteFit</title>
+						<meta name={'title'} content={`EliteFit`} />
 					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>

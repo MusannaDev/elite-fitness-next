@@ -165,7 +165,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 		[searchFilter],
 	);
 
-	const propertyBedSelectHandler = useCallback(
+	const propertyBathselectHandler = useCallback(
 		async (number: Number) => {
 			try {
 				if (number != 0) {
@@ -188,9 +188,9 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					setSearchFilter({ ...searchFilter });
 				}
 
-				console.log('propertyBedSelectHandler:', number);
+				console.log('propertyBathselectHandler:', number);
 			} catch (err: any) {
-				console.log('ERROR, propertyBedSelectHandler:', err);
+				console.log('ERROR, propertyBathselectHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -421,14 +421,14 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 										<div className={'inside'}>
 											<div
 												className={`room ${!searchFilter?.search?.bedsList ? 'active' : ''}`}
-												onClick={() => propertyBedSelectHandler(0)}
+												onClick={() => propertyBathselectHandler(0)}
 											>
 												Any
 											</div>
 											{[1, 2, 3, 4, 5].map((bed: number) => (
 												<div
 													className={`room ${searchFilter?.search?.bedsList?.includes(bed) ? 'active' : ''}`}
-													onClick={() => propertyBedSelectHandler(bed)}
+													onClick={() => propertyBathselectHandler(bed)}
 													key={bed}
 												>
 													{bed == 0 ? 'Any' : bed}

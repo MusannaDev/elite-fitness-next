@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
@@ -32,6 +31,9 @@ const Top = () => {
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
+	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+	const [shopsOpen, setShopsOpen] = useState(false);
+	const [membersOpen, setMembersOpen] = useState(false);
 
 	/** LIFECYCLE **/
 	useEffect(() => {
@@ -100,37 +102,24 @@ const Top = () => {
 	const StyledMenu = styled((props: MenuProps) => (
 		<Menu
 			elevation={0}
-			anchorOrigin={{
-				vertical: 'bottom',
-				horizontal: 'right',
-			}}
-			transformOrigin={{
-				vertical: 'top',
-				horizontal: 'right',
-			}}
+			anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+			transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 			{...props}
 		/>
 	))(({ theme }) => ({
 		'& .MuiPaper-root': {
 			top: '109px',
-			borderRadius: 6,
+			borderRadius: 8,
 			marginTop: theme.spacing(1),
 			minWidth: 160,
-			color: theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
-			boxShadow:
-				'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-			'& .MuiMenu-list': {
-				padding: '4px 0',
-			},
+			background: '#0d0d0d',
+			border: '1px solid rgba(255,69,0,0.3)',
+			color: '#fff',
+			'& .MuiMenu-list': { padding: '4px 0' },
 			'& .MuiMenuItem-root': {
-				'& .MuiSvgIcon-root': {
-					fontSize: 18,
-					color: theme.palette.text.secondary,
-					marginRight: theme.spacing(1.5),
-				},
-				'&:active': {
-					backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
-				},
+				'& .MuiSvgIcon-root': { fontSize: 18, marginRight: theme.spacing(1.5) },
+				'&:active': { backgroundColor: alpha('#FF4500', 0.15) },
+				'&:hover': { backgroundColor: 'rgba(255,69,0,0.1)' },
 			},
 		},
 	}));
@@ -142,78 +131,102 @@ const Top = () => {
 	if (device == 'mobile') {
 		return (
 			<Stack className={'top'}>
-				<Link href={'/'}>
-					<div>{t('Home')}</div>
-				</Link>
-				<Link href={'/property'}>
-					<div>{t('Properties')}</div>
-				</Link>
-				<Link href={'/agent'}>
-					<div> {t('Agents')} </div>
-				</Link>
-				<Link href={'/community?articleCategory=FREE'}>
-					<div> {t('Community')} </div>
-				</Link>
-				<Link href={'/cs'}>
-					<div> {t('CS')} </div>
-				</Link>
+				<Link href={'/'}><div>{t('Home')}</div></Link>
+				<Link href={'/property'}><div>{t('Properties')}</div></Link>
+				<Link href={'/agent'}><div>{t('Agents')}</div></Link>
+				<Link href={'/community?articleCategory=FREE'}><div>{t('Community')}</div></Link>
+				<Link href={'/cs'}><div>{t('CS')}</div></Link>
 			</Stack>
 		);
 	} else {
 		return (
 			<Stack className={'navbar'}>
-				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
-					<Stack className={'container'}>
+				<Stack className={`navbar-main ${colorChange ? 'scrolled' : ''} ${bgColor ? 'transparent' : ''}`}>
+					<Stack className={'nav-container'}>
+						{/* LOGO */}
 						<Box component={'div'} className={'logo-box'}>
 							<Link href={'/'}>
-								<img src="/img/logo/logoWhite.svg" alt="" />
+								<div className={'logo-wrapper'}>
+									<img src="/img/logo/elite-logo.png" alt="logo" />
+									<span className={'logo-text'}>ELITE<em>FIT</em></span>
+								</div>
 							</Link>
 						</Box>
+
+						{/* NAV LINKS */}
 						<Box component={'div'} className={'router-box'}>
 							<Link href={'/'}>
-								<div>{t('Home')}</div>
+								<div className={'nav-link'}>{t('Home')}</div>
 							</Link>
-							<Link href={'/property'}>
-								<div>{t('Properties')}</div>
-							</Link>
-							<Link href={'/agent'}>
-								<div> {t('Agents')} </div>
-							</Link>
+
+							<div
+								className={'nav-link has-dropdown'}
+								onMouseEnter={() => setShopsOpen(true)}
+								onMouseLeave={() => setShopsOpen(false)}
+							>
+								<span>Shops</span>
+								<CaretDown size={12} weight="bold" />
+								{shopsOpen && (
+									<div className={'mega-dropdown shops-dropdown'}>
+										<Link href={'/property'}><span>{t('Properties')}</span></Link>
+										<Link href={'/product'}><span>{t('Products')}</span></Link>
+										<Link href={'/equipment'}><span>{t('Equipments')}</span></Link>
+										<Link href={'/clothes'}><span>{t('Clothes')}</span></Link>
+									</div>
+								)}
+							</div>
+
+							<div
+								className={'nav-link has-dropdown'}
+								onMouseEnter={() => setMembersOpen(true)}
+								onMouseLeave={() => setMembersOpen(false)}
+							>
+								<span>Members</span>
+								<CaretDown size={12} weight="bold" />
+								{membersOpen && (
+									<div className={'mega-dropdown members-dropdown'}>
+										<Link href={'/agent'}><span>{t('Agents')}</span></Link>
+										<Link href={'/trainer'}><span>{t('Trainers')}</span></Link>
+										<Link href={'/seller'}><span>{t('SalesManagers')}</span></Link>
+									</div>
+								)}
+							</div>
+
 							<Link href={'/community?articleCategory=FREE'}>
-								<div> {t('Community')} </div>
+								<div className={'nav-link'}>{t('Community')}</div>
 							</Link>
+
 							{user?._id && (
 								<Link href={'/mypage'}>
-									<div> {t('My Page')} </div>
+									<div className={'nav-link'}>{t('My Page')}</div>
 								</Link>
 							)}
+
 							<Link href={'/cs'}>
-								<div> {t('CS')} </div>
+								<div className={'nav-link'}>{t('CS')}</div>
 							</Link>
 						</Box>
+
+						{/* USER BOX */}
 						<Box component={'div'} className={'user-box'}>
 							{user?._id ? (
 								<>
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
 										<img
-											src={
-												user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'
-											}
+											src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
 											alt=""
 										/>
+										<span className={'user-pulse'}></span>
 									</div>
-
 									<Menu
 										id="basic-menu"
 										anchorEl={logoutAnchor}
 										open={logoutOpen}
-										onClose={() => {
-											setLogoutAnchor(null);
-										}}
+										onClose={() => setLogoutAnchor(null)}
 										sx={{ mt: '5px' }}
 									>
 										<MenuItem onClick={() => logOut()}>
-											<Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
+											<Logout fontSize="small" style={{ color: '#FF4500', marginRight: '10px' }} />
 											Logout
 										</MenuItem>
 									</Menu>
@@ -222,9 +235,7 @@ const Top = () => {
 								<Link href={'/account/join'}>
 									<div className={'join-box'}>
 										<AccountCircleOutlinedIcon />
-										<span>
-											{t('Login')} / {t('Register')}
-										</span>
+										<span>{t('Login')} / {t('Register')}</span>
 									</div>
 								</Link>
 							)}
@@ -235,46 +246,28 @@ const Top = () => {
 									disableRipple
 									className="btn-lang"
 									onClick={langClick}
-									endIcon={<CaretDown size={14} color="#616161" weight="fill" />}
+									endIcon={<CaretDown size={12} color="#aaa" weight="fill" />}
 								>
 									<Box component={'div'} className={'flag'}>
 										{lang !== null ? (
-											<img src={`/img/flag/lang${lang}.png`} alt={'usaFlag'} />
+											<img src={`/img/flag/lang${lang}.png`} alt={'flag'} />
 										) : (
-											<img src={`/img/flag/langen.png`} alt={'usaFlag'} />
+											<img src={`/img/flag/langen.png`} alt={'flag'} />
 										)}
 									</Box>
 								</Button>
 
 								<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
 									<MenuItem disableRipple onClick={langChoice} id="en">
-										<img
-											className="img-flag"
-											src={'/img/flag/langen.png'}
-											onClick={langChoice}
-											id="en"
-											alt={'usaFlag'}
-										/>
+										<img className="img-flag" src={'/img/flag/langen.png'} onClick={langChoice} id="en" alt={'usaFlag'} />
 										{t('English')}
 									</MenuItem>
 									<MenuItem disableRipple onClick={langChoice} id="kr">
-										<img
-											className="img-flag"
-											src={'/img/flag/langkr.png'}
-											onClick={langChoice}
-											id="uz"
-											alt={'koreanFlag'}
-										/>
+										<img className="img-flag" src={'/img/flag/langkr.png'} onClick={langChoice} id="kr" alt={'koreanFlag'} />
 										{t('Korean')}
 									</MenuItem>
 									<MenuItem disableRipple onClick={langChoice} id="ru">
-										<img
-											className="img-flag"
-											src={'/img/flag/langru.png'}
-											onClick={langChoice}
-											id="ru"
-											alt={'russiaFlag'}
-										/>
+										<img className="img-flag" src={'/img/flag/langru.png'} onClick={langChoice} id="ru" alt={'russiaFlag'} />
 										{t('Russian')}
 									</MenuItem>
 								</StyledMenu>

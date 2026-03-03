@@ -20,7 +20,7 @@ export interface Property {
 	propertyTitle: string;
 	propertyPrice: number;
 	propertySquare: number;
-	propertyBeds: number;
+	propertyBaths: number;
 	propertyRooms: number;
 	propertyViews: number;
 	propertyLikes: number;

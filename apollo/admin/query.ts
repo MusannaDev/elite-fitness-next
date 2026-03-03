@@ -54,7 +54,7 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 				propertyTitle
 				propertyPrice
 				propertySquare
-				propertyBeds
+				propertyBaths
 				propertyRooms
 				propertyViews
 				propertyLikes

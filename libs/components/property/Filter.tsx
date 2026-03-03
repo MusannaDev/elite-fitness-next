@@ -332,7 +332,7 @@ const Filter = (props: FilterType) => {
 		[searchFilter],
 	);
 
-	const propertyBedSelectHandler = useCallback(
+	const propertyBathselectHandler = useCallback(
 		async (number: Number) => {
 			try {
 				if (number != 0) {
@@ -387,9 +387,9 @@ const Filter = (props: FilterType) => {
 					);
 				}
 
-				console.log('propertyBedSelectHandler:', number);
+				console.log('propertyBathselectHandler:', number);
 			} catch (err: any) {
-				console.log('ERROR, propertyBedSelectHandler:', err);
+				console.log('ERROR, propertyBathselectHandler:', err);
 			}
 		},
 		[searchFilter],
@@ -665,7 +665,7 @@ const Filter = (props: FilterType) => {
 								borderRadius: '12px 0 0 12px',
 								border: !searchFilter?.search?.bedsList ? '2px solid #181A20' : '1px solid #b9b9b9',
 							}}
-							onClick={() => propertyBedSelectHandler(0)}
+							onClick={() => propertyBathselectHandler(0)}
 						>
 							Any
 						</Button>
@@ -675,7 +675,7 @@ const Filter = (props: FilterType) => {
 								border: searchFilter?.search?.bedsList?.includes(1) ? '2px solid #181A20' : '1px solid #b9b9b9',
 								borderLeft: searchFilter?.search?.bedsList?.includes(1) ? undefined : 'none',
 							}}
-							onClick={() => propertyBedSelectHandler(1)}
+							onClick={() => propertyBathselectHandler(1)}
 						>
 							1
 						</Button>
@@ -685,7 +685,7 @@ const Filter = (props: FilterType) => {
 								border: searchFilter?.search?.bedsList?.includes(2) ? '2px solid #181A20' : '1px solid #b9b9b9',
 								borderLeft: searchFilter?.search?.bedsList?.includes(2) ? undefined : 'none',
 							}}
-							onClick={() => propertyBedSelectHandler(2)}
+							onClick={() => propertyBathselectHandler(2)}
 						>
 							2
 						</Button>
@@ -695,7 +695,7 @@ const Filter = (props: FilterType) => {
 								border: searchFilter?.search?.bedsList?.includes(3) ? '2px solid #181A20' : '1px solid #b9b9b9',
 								borderLeft: searchFilter?.search?.bedsList?.includes(3) ? undefined : 'none',
 							}}
-							onClick={() => propertyBedSelectHandler(3)}
+							onClick={() => propertyBathselectHandler(3)}
 						>
 							3
 						</Button>
@@ -706,7 +706,7 @@ const Filter = (props: FilterType) => {
 								borderLeft: searchFilter?.search?.bedsList?.includes(4) ? undefined : 'none',
 								// borderRight: false ? undefined : 'none',
 							}}
-							onClick={() => propertyBedSelectHandler(4)}
+							onClick={() => propertyBathselectHandler(4)}
 						>
 							4
 						</Button>
@@ -716,7 +716,7 @@ const Filter = (props: FilterType) => {
 								border: searchFilter?.search?.bedsList?.includes(5) ? '2px solid #181A20' : '1px solid #b9b9b9',
 								borderLeft: searchFilter?.search?.bedsList?.includes(5) ? undefined : 'none',
 							}}
-							onClick={() => propertyBedSelectHandler(5)}
+							onClick={() => propertyBathselectHandler(5)}
 						>
 							5+
 						</Button>

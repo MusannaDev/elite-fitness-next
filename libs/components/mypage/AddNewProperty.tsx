@@ -53,7 +53,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 			propertyBarter: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyBarter : false,
 			propertyRent: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyRent : false,
 			propertyRooms: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyRooms : 0,
-			propertyBeds: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyBeds : 0,
+			propertyBaths: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyBaths : 0,
 			propertySquare: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertySquare : 0,
 			propertyDesc: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyDesc : '',
 			propertyImages: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyImages : [],
@@ -123,7 +123,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 			insertPropertyData.propertyBarter === '' || // @ts-ignore
 			insertPropertyData.propertyRent === '' ||
 			insertPropertyData.propertyRooms === 0 ||
-			insertPropertyData.propertyBeds === 0 ||
+			insertPropertyData.propertyBaths === 0 ||
 			insertPropertyData.propertySquare === 0 ||
 			insertPropertyData.propertyDesc === '' ||
 			insertPropertyData.propertyImages.length === 0
@@ -350,10 +350,10 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<Typography className="title">Bed</Typography>
 									<select
 										className={'select-description'}
-										value={insertPropertyData.propertyBeds || 'select'}
-										defaultValue={insertPropertyData.propertyBeds || 'select'}
+										value={insertPropertyData.propertyBaths || 'select'}
+										defaultValue={insertPropertyData.propertyBaths || 'select'}
 										onChange={({ target: { value } }) =>
-											setInsertPropertyData({ ...insertPropertyData, propertyBeds: parseInt(value) })
+											setInsertPropertyData({ ...insertPropertyData, propertyBaths: parseInt(value) })
 										}
 									>
 										<option disabled={true} selected={true} value={'select'}>
@@ -523,7 +523,7 @@ AddProperty.defaultProps = {
 		propertyBarter: false,
 		propertyRent: false,
 		propertyRooms: 0,
-		propertyBeds: 0,
+		propertyBaths: 0,
 		propertySquare: 0,
 		propertyDesc: '',
 		propertyImages: [],
