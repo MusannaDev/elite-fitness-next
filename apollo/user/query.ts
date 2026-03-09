@@ -42,6 +42,104 @@ export const GET_AGENTS = gql`
 	}
 `;
 
+export const GET_TRAINERS = gql(`
+	query GetTrainers($input: TrainersInquiry!) {
+    getTrainers(input: $input) {
+        list {
+            _id
+            memberType
+            memberStatus
+            memberAuthType
+            memberPhone
+            memberNick
+            memberFullName
+            memberImage
+            memberAddress
+            memberDesc
+            memberProperties
+            memberArticles
+            memberFollowers
+            memberFollowings
+            memberPoints
+            memberLikes
+            memberViews
+            memberComments
+            memberRank
+            memberWarnings
+            memberBlocks
+            deletedAt
+            createdAt
+            updatedAt
+            accessToken
+            meLiked {
+                memberId
+                likeRefId
+                myFavorite
+            }
+            meFollowed {
+                followingId
+                followerId
+                myFollowing
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+  }
+`)
+
+
+export const GET_SALES_MANAGERS = gql(`
+	query GetSalesManagers($input: SalesManagerInquiry!) {
+    getSalesManagers(input: $input) {
+        list {
+            _id
+            memberType
+            memberStatus
+            memberAuthType
+            memberPhone
+            memberNick
+            memberFullName
+            memberImage
+            memberAddress
+            memberDesc
+            memberProperties
+						memberProducts
+						memberClothes
+						memberEquipments
+            memberArticles
+            memberFollowers
+            memberFollowings
+            memberPoints
+            memberLikes
+            memberViews
+            memberComments
+            memberRank
+            memberWarnings
+            memberBlocks
+            deletedAt
+            createdAt
+            updatedAt
+            accessToken
+            meLiked {
+                memberId
+                likeRefId
+                myFavorite
+            }
+            meFollowed {
+                followingId
+                followerId
+                myFollowing
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+  }
+`)
+
 export const GET_MEMBER = gql(`
 query GetMember($input: String!) {
 	getMember(memberId: $input) {

@@ -8,6 +8,7 @@ import { userVar } from '../../../apollo/store';
 import { useReactiveVar } from '@apollo/client';
 import { getJwtToken, updateUserInfo } from '../../auth';
 import Chat from '../Chat';
+import { useRouter } from 'next/router';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -17,8 +18,19 @@ const HeroSection = () => {
 	const [videoLoaded, setVideoLoaded] = useState(false);
 
 	useEffect(() => {
-		if (videoRef.current) {
-			videoRef.current.play().catch(() => {});
+		const video = videoRef.current;
+		if (!video) return;
+
+		// Imperativ ravishda muted o'rnatish (autoplay uchun zarur)
+		video.muted = true;
+
+		// Videoni yuklash va o'ynash
+		video.load();
+		const playPromise = video.play();
+		if (playPromise !== undefined) {
+			playPromise.catch((error) => {
+				console.warn('Autoplay blocked by browser:', error);
+			});
 		}
 	}, []);
 
@@ -33,17 +45,19 @@ const HeroSection = () => {
 					muted
 					loop
 					playsInline
-					onLoadedData={() => setVideoLoaded(true)}
+					preload="auto"
+					onCanPlayThrough={() => setVideoLoaded(true)}
 				>
-			<source src="public/video/Fitness_intro.mp4" type="video/mp4" />
+					<source src="/video/Fitness_intro.mp4" type="video/mp4" />
 				</video>
+
 				{/* OVERLAY LAYERS */}
 				<div className={'hero-overlay'}></div>
 				<div className={'hero-overlay-gradient'}></div>
 				<div className={'hero-noise'}></div>
 			</div>
 
-				{/* HERO CONTENT */}
+			{/* HERO CONTENT */}
 			<div className={'hero-content'}>
 				<div className={'hero-eyebrow'}>
 					<span className={'hero-badge'}>⚡ ELITE FITNESS PLATFORM</span>
@@ -66,12 +80,22 @@ const HeroSection = () => {
 				<div className={'hero-stats'}>
 					<div className={'stat-item'}>
 						<strong>500+</strong>
-						<span>Elite Trainers</span>
+						<span>Trainers and SalesManagers</span>
 					</div>
 					<div className={'stat-divider'}></div>
 					<div className={'stat-item'}>
 						<strong>12K+</strong>
 						<span>Members</span>
+					</div>
+					<div className={'stat-divider'}></div>
+					<div className={'stat-item'}>
+						<strong>10K+</strong>
+						<span>Supplements and Clothings</span>
+					</div>
+					<div className={'stat-divider'}></div>
+					<div className={'stat-item'}>
+						<strong>100+</strong>
+						<span>Equipments</span>
 					</div>
 					<div className={'stat-divider'}></div>
 					<div className={'stat-item'}>
@@ -96,6 +120,10 @@ const withLayoutMain = (Component: any) => {
 	return (props: any) => {
 		const device = useDeviceDetect();
 		const user = useReactiveVar(userVar);
+		const router = useRouter();
+
+		// Faqat homepage da HeroSection ko'rsatish
+		const isHomePage = router.pathname === '/';
 
 		/** LIFECYCLE **/
 		useEffect(() => {
@@ -103,7 +131,7 @@ const withLayoutMain = (Component: any) => {
 			if (jwt) updateUserInfo(jwt);
 		}, []);
 
-		if (device == 'mobile') {
+		if (device === 'mobile') {
 			return (
 				<>
 					<Head>
@@ -126,7 +154,10 @@ const withLayoutMain = (Component: any) => {
 					</Head>
 					<div id="pc-wrap">
 						<div id={'top'}><Top /></div>
-						<HeroSection />
+
+						{/* HeroSection faqat bosh sahifada */}
+						{isHomePage && <HeroSection />}
+
 						<div id={'main'}><Component {...props} /></div>
 						<Chat />
 						<div id={'footer'}><Footer /></div>

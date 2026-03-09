@@ -31,9 +31,12 @@ const Top = () => {
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
-	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+	// Dropdown hover state with delay refs
 	const [shopsOpen, setShopsOpen] = useState(false);
 	const [membersOpen, setMembersOpen] = useState(false);
+	const shopsTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const membersTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 	/** LIFECYCLE **/
 	useEffect(() => {
@@ -51,6 +54,7 @@ const Top = () => {
 				setBgColor(true);
 				break;
 			default:
+				setBgColor(false);
 				break;
 		}
 	}, [router]);
@@ -58,6 +62,13 @@ const Top = () => {
 	useEffect(() => {
 		const jwt = getJwtToken();
 		if (jwt) updateUserInfo(jwt);
+	}, []);
+
+	useEffect(() => {
+		return () => {
+			if (shopsTimeout.current) clearTimeout(shopsTimeout.current);
+			if (membersTimeout.current) clearTimeout(membersTimeout.current);
+		};
 	}, []);
 
 	/** HANDLERS **/
@@ -91,12 +102,22 @@ const Top = () => {
 		setAnchorEl(null);
 	};
 
-	const handleHover = (event: any) => {
-		if (anchorEl !== event.currentTarget) {
-			setAnchorEl(event.currentTarget);
-		} else {
-			setAnchorEl(null);
-		}
+	// Shops dropdown handlers
+	const handleShopsEnter = () => {
+		if (shopsTimeout.current) clearTimeout(shopsTimeout.current);
+		setShopsOpen(true);
+	};
+	const handleShopsLeave = () => {
+		shopsTimeout.current = setTimeout(() => setShopsOpen(false), 200);
+	};
+
+	// Members dropdown handlers
+	const handleMembersEnter = () => {
+		if (membersTimeout.current) clearTimeout(membersTimeout.current);
+		setMembersOpen(true);
+	};
+	const handleMembersLeave = () => {
+		membersTimeout.current = setTimeout(() => setMembersOpen(false), 200);
 	};
 
 	const StyledMenu = styled((props: MenuProps) => (
@@ -128,7 +149,7 @@ const Top = () => {
 		window.addEventListener('scroll', changeNavbarColor);
 	}
 
-	if (device == 'mobile') {
+	if (device === 'mobile') {
 		return (
 			<Stack className={'top'}>
 				<Link href={'/'}><div>{t('Home')}</div></Link>
@@ -159,15 +180,20 @@ const Top = () => {
 								<div className={'nav-link'}>{t('Home')}</div>
 							</Link>
 
+							{/* SHOPS DROPDOWN */}
 							<div
 								className={'nav-link has-dropdown'}
-								onMouseEnter={() => setShopsOpen(true)}
-								onMouseLeave={() => setShopsOpen(false)}
+								onMouseEnter={handleShopsEnter}
+								onMouseLeave={handleShopsLeave}
 							>
-								<span>Shops</span>
+								<span>{t('Shops')}</span>
 								<CaretDown size={12} weight="bold" />
 								{shopsOpen && (
-									<div className={'mega-dropdown shops-dropdown'}>
+									<div
+										className={'mega-dropdown shops-dropdown'}
+										onMouseEnter={handleShopsEnter}
+										onMouseLeave={handleShopsLeave}
+									>
 										<Link href={'/property'}><span>{t('Properties')}</span></Link>
 										<Link href={'/product'}><span>{t('Products')}</span></Link>
 										<Link href={'/equipment'}><span>{t('Equipments')}</span></Link>
@@ -176,15 +202,20 @@ const Top = () => {
 								)}
 							</div>
 
+							{/* MEMBERS DROPDOWN */}
 							<div
 								className={'nav-link has-dropdown'}
-								onMouseEnter={() => setMembersOpen(true)}
-								onMouseLeave={() => setMembersOpen(false)}
+								onMouseEnter={handleMembersEnter}
+								onMouseLeave={handleMembersLeave}
 							>
-								<span>Members</span>
+								<span>{t('Members')}</span>
 								<CaretDown size={12} weight="bold" />
 								{membersOpen && (
-									<div className={'mega-dropdown members-dropdown'}>
+									<div
+										className={'mega-dropdown members-dropdown'}
+										onMouseEnter={handleMembersEnter}
+										onMouseLeave={handleMembersLeave}
+									>
 										<Link href={'/agent'}><span>{t('Agents')}</span></Link>
 										<Link href={'/trainer'}><span>{t('Trainers')}</span></Link>
 										<Link href={'/seller'}><span>{t('SalesManagers')}</span></Link>
@@ -211,10 +242,17 @@ const Top = () => {
 						<Box component={'div'} className={'user-box'}>
 							{user?._id ? (
 								<>
-									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
+									<div
+										className={'login-user'}
+										onClick={(event: any) => setLogoutAnchor(event.currentTarget)}
+									>
 										<img
-											src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
-											alt=""
+											src={
+												user?.memberImage
+													? `${REACT_APP_API_URL}/${user?.memberImage}`
+													: '/img/profile/defaultUser.svg'
+											}
+											alt="user"
 										/>
 										<span className={'user-pulse'}></span>
 									</div>
@@ -241,7 +279,9 @@ const Top = () => {
 							)}
 
 							<div className={'lan-box'}>
-								{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
+								{user?._id && (
+									<NotificationsOutlinedIcon className={'notification-icon'} />
+								)}
 								<Button
 									disableRipple
 									className="btn-lang"

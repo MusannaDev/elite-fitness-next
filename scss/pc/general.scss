@@ -157,6 +157,613 @@
 		}
 	}
 }
+
+.product-big-card-box {
+	width: 100%;
+	cursor: pointer;
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+	overflow: hidden;
+	transition: box-shadow 0.2s ease;
+
+	&:hover {
+		box-shadow: 0px 4px 16px 0px rgba(24, 26, 32, 0.12);
+	}
+
+	.card-img {
+		width: 100%;
+		height: 280px;
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		position: relative;
+
+		.status {
+			position: absolute;
+			top: 20px;
+			left: 16px;
+			display: flex;
+			width: 80px;
+			height: 30px;
+			justify-content: center;
+			align-items: center;
+			border-radius: 6px;
+			padding: 6px 20px;
+			background: #eb6753;
+			color: #fff;
+			text-align: center;
+			text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+			font-family: $font;
+			font-size: 12px;
+			font-style: normal;
+			font-weight: 600;
+			line-height: normal;
+
+			img {
+				height: 16px;
+			}
+		}
+
+		.price {
+			position: absolute;
+			bottom: 20px;
+			left: 20px;
+			padding: 8px 15px;
+			align-items: center;
+			border-radius: 6px;
+			border: 1px solid rgba(255, 255, 255, 0.5);
+			background: #fff;
+			color: #181a20;
+			font-family: $font;
+			font-size: 15px;
+			font-style: normal;
+			font-weight: 600;
+			line-height: normal;
+		}
+	}
+
+	.info {
+		width: 100%;
+		padding: 20px 16px 16px 16px;
+
+		.title {
+			display: block;
+			width: 100%;
+			overflow: hidden;
+			color: #181a20;
+			font-family: $font;
+			font-size: 15px;
+			font-style: normal;
+			font-weight: 600;
+			line-height: normal;
+			text-transform: capitalize;
+			margin-bottom: 5px;
+		}
+
+		.desc {
+			color: #717171;
+			font-family: $font;
+			font-size: 13px;
+			font-style: normal;
+			font-weight: 400;
+			line-height: normal;
+			margin-bottom: 15px;
+		}
+
+		.options {
+			display: flex;
+			flex-direction: row;
+			width: 100%;
+			gap: 20px;
+			margin-bottom: 5px;
+
+			div {
+				display: flex;
+				flex-direction: row;
+				gap: 5px;
+				align-items: center;
+
+				img {
+					width: 16px;
+					height: 16px;
+				}
+
+				span {
+					color: #181a20;
+					font-family: $font;
+					font-size: 13px;
+					font-style: normal;
+					font-weight: 400;
+					line-height: normal;
+				}
+			}
+		}
+
+		.bott {
+			display: flex;
+			flex-direction: row;
+			width: 100%;
+			justify-content: space-between;
+			align-items: center;
+
+			div:first-child {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				gap: 7px;
+
+				p {
+					color: #181a20;
+					font-family: $font;
+					font-style: normal;
+					font-size: 13px;
+					font-weight: 600;
+					line-height: normal;
+				}
+
+				span {
+					color: rgba(143, 143, 143, 0.54);
+					font-family: $font;
+					font-style: normal;
+					font-size: 13px;
+					line-height: normal;
+				}
+			}
+
+			.buttons-box {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+
+				svg {
+					width: 24px;
+					height: 24px;
+					cursor: pointer;
+				}
+
+				.view-cnt {
+					font-size: 13px;
+					color: #181a20;
+					font-family: $font;
+				}
+			}
+		}
+	}
+}
+
+.clothes-big-card-box {
+	width: 100%;
+	cursor: pointer;
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+	overflow: hidden;
+	transition: box-shadow 0.2s ease;
+
+	&:hover {
+		box-shadow: 0px 4px 16px 0px rgba(24, 26, 32, 0.12);
+	}
+
+	.card-img {
+		width: 100%;
+		height: 280px;
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		position: relative;
+
+		.status {
+			position: absolute;
+			top: 20px;
+			left: 16px;
+			display: flex;
+			width: 80px;
+			height: 30px;
+			justify-content: center;
+			align-items: center;
+			border-radius: 6px;
+			padding: 6px 20px;
+			background: #eb6753;
+			color: #fff;
+			text-align: center;
+			text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+			font-family: $font;
+			font-size: 12px;
+			font-style: normal;
+			font-weight: 600;
+			line-height: normal;
+
+			img {
+				height: 16px;
+			}
+		}
+
+		.price {
+			position: absolute;
+			bottom: 20px;
+			left: 20px;
+			padding: 8px 15px;
+			align-items: center;
+			border-radius: 6px;
+			border: 1px solid rgba(255, 255, 255, 0.5);
+			background: #fff;
+			color: #181a20;
+			font-family: $font;
+			font-size: 15px;
+			font-style: normal;
+			font-weight: 600;
+			line-height: normal;
+		}
+	}
+
+	.info {
+		width: 100%;
+		padding: 20px 16px 16px 16px;
+
+		.title {
+			display: block;
+			width: 100%;
+			overflow: hidden;
+			color: #181a20;
+			font-family: $font;
+			font-size: 15px;
+			font-style: normal;
+			font-weight: 600;
+			line-height: normal;
+			text-transform: capitalize;
+			margin-bottom: 5px;
+		}
+
+		.desc {
+			color: #717171;
+			font-family: $font;
+			font-size: 13px;
+			font-style: normal;
+			font-weight: 400;
+			line-height: normal;
+			margin-bottom: 15px;
+		}
+
+		.options {
+			display: flex;
+			flex-direction: row;
+			width: 100%;
+			gap: 20px;
+			margin-bottom: 5px;
+
+			div {
+				display: flex;
+				flex-direction: row;
+				gap: 5px;
+				align-items: center;
+
+				img {
+					width: 16px;
+					height: 16px;
+				}
+
+				span {
+					color: #181a20;
+					font-family: $font;
+					font-size: 13px;
+					font-style: normal;
+					font-weight: 400;
+					line-height: normal;
+				}
+			}
+		}
+
+		.bott {
+			display: flex;
+			flex-direction: row;
+			width: 100%;
+			justify-content: space-between;
+			align-items: center;
+
+			div:first-child {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				gap: 7px;
+
+				p {
+					color: #181a20;
+					font-family: $font;
+					font-style: normal;
+					font-size: 13px;
+					font-weight: 600;
+					line-height: normal;
+				}
+
+				span {
+					color: rgba(143, 143, 143, 0.54);
+					font-family: $font;
+					font-style: normal;
+					font-size: 13px;
+					line-height: normal;
+				}
+			}
+
+			.buttons-box {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+
+				svg {
+					width: 24px;
+					height: 24px;
+					cursor: pointer;
+				}
+
+				.view-cnt {
+					font-size: 13px;
+					color: #181a20;
+					font-family: $font;
+				}
+			}
+		}
+	}
+}
+
+.equipment-big-card {
+		width: 411px;
+		height: auto;
+		border-radius: 12px;
+		background: #fff;
+		box-shadow: 0px 2px 8px 0px rgba(24, 26, 32, 0.08);
+		overflow: hidden;
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0px 8px 24px 0px rgba(24, 26, 32, 0.12);
+		}
+
+		.card-img {
+			position: relative;
+			width: 100%;
+			height: 260px;
+			overflow: hidden;
+
+			a {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transition: transform 0.3s ease;
+			}
+
+			&:hover img {
+				transform: scale(1.05);
+			}
+
+			.status-badge {
+				position: absolute;
+				top: 16px;
+				left: 16px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 6px 16px;
+				border-radius: 6px;
+				background: #eb6753;
+				color: #fff;
+				font-family: $font;
+				font-size: 12px;
+				font-style: normal;
+				font-weight: 600;
+				line-height: normal;
+				text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+			}
+
+			.bestseller-badge {
+				position: absolute;
+				top: 16px;
+				right: 16px;
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				padding: 6px 12px;
+				border-radius: 6px;
+				background: rgba(24, 26, 32, 0.7);
+				backdrop-filter: blur(4px);
+				color: #ffd700;
+				font-family: $font;
+				font-size: 11px;
+				font-weight: 600;
+				line-height: normal;
+
+				svg {
+					width: 14px;
+					height: 14px;
+					fill: #ffd700;
+				}
+			}
+
+			.price-box {
+				position: absolute;
+				bottom: 16px;
+				left: 16px;
+				padding: 8px 16px;
+				border-radius: 6px;
+				border: 1px solid rgba(255, 255, 255, 0.5);
+				background: #fff;
+				box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+
+				p {
+					color: #181a20;
+					font-family: $font;
+					font-size: 16px;
+					font-style: normal;
+					font-weight: 700;
+					line-height: normal;
+				}
+			}
+		}
+
+		.card-info {
+			width: 100%;
+			padding: 20px 20px 16px 20px;
+
+			.name-brand {
+				width: 100%;
+				gap: 4px;
+				margin-bottom: 16px;
+
+				.name {
+					width: 100%;
+					height: 24px;
+					overflow: hidden;
+
+					a {
+						text-decoration: none;
+					}
+
+					p {
+						color: #181a20;
+						font-family: $font;
+						font-size: 16px;
+						font-style: normal;
+						font-weight: 600;
+						line-height: normal;
+						text-transform: capitalize;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+				}
+
+				.brand {
+					width: 100%;
+					overflow: hidden;
+
+					p {
+						color: #717171;
+						font-family: $font;
+						font-size: 13px;
+						font-style: normal;
+						font-weight: 400;
+						line-height: normal;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+				}
+			}
+
+			.options {
+				flex-direction: row;
+				width: 100%;
+				gap: 16px;
+				margin-bottom: 14px;
+				flex-wrap: wrap;
+
+				.option {
+					flex-direction: row;
+					gap: 6px;
+					align-items: center;
+
+					img, svg {
+						width: 16px;
+						height: 16px;
+						opacity: 0.6;
+					}
+
+					p {
+						color: #181a20;
+						font-family: $font;
+						font-size: 13px;
+						font-style: normal;
+						font-weight: 400;
+						line-height: normal;
+					}
+				}
+			}
+
+			.divider {
+				width: 100%;
+				height: 1px;
+				background: #eee;
+				margin-bottom: 14px;
+			}
+
+			.type-buttons {
+				flex-direction: row;
+				width: 100%;
+				justify-content: space-between;
+				align-items: center;
+
+				.type {
+					flex-direction: row;
+					align-items: center;
+					gap: 8px;
+
+					.category-tag {
+						padding: 3px 10px;
+						border-radius: 4px;
+						background: #f5f5f5;
+						color: #181a20;
+						font-family: $font;
+						font-size: 12px;
+						font-style: normal;
+						font-weight: 500;
+						line-height: normal;
+					}
+
+					.location-tag {
+						color: #717171;
+						font-family: $font;
+						font-size: 12px;
+						font-style: normal;
+						font-weight: 400;
+						line-height: normal;
+					}
+				}
+
+				.buttons {
+					flex-direction: row;
+					width: auto;
+					justify-content: center;
+					align-items: center;
+					gap: 8px;
+
+					.button-box {
+						flex-direction: row;
+						align-items: center;
+						gap: 3px;
+
+						svg {
+							width: 22px;
+							height: 22px;
+							cursor: pointer;
+							color: #181a20;
+							transition: color 0.15s;
+
+							&:hover {
+								color: #eb6753;
+							}
+						}
+
+						p {
+							color: #181a20;
+							font-family: $font;
+							font-size: 13px;
+							font-style: normal;
+							font-weight: 400;
+							line-height: normal;
+						}
+					}
+				}
+			}
+		}
+	}
+
 .agent-general-card {
 	position: relative;
 	margin-right: 27px;
@@ -229,6 +836,7 @@
 		}
 	}
 }
+
 .community-general-card-config {
 	position: relative;
 	height: auto;

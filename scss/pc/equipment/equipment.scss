@@ -13,7 +13,7 @@ $f-mono:     'JetBrains Mono', 'Fira Mono', 'Courier New', monospace;
 $f-sans:     'DM Sans', 'Inter', sans-serif;
 
 #pc-wrap {
-	#property-list-page {
+	#equipment-list-page {
 		padding-bottom: 40px;
 		background: #ffffff;
 
@@ -43,7 +43,7 @@ $f-sans:     'DM Sans', 'Inter', sans-serif;
 				}
 			}
 
-			.property-page {
+			.equipment-page {
 				position: relative;
 				width: 100%;
 				flex-direction: row;
@@ -542,125 +542,6 @@ $f-sans:     'DM Sans', 'Inter', sans-serif;
 							}
 						}
 
-						// ── Square Meter ─────────────────────────────────────────────
-						.square-range-wrap {
-							display: flex;
-							flex-direction: column;
-							gap: 10px;
-						}
-
-						.sq-row {
-							display: flex;
-							align-items: flex-end;
-							gap: 8px;
-						}
-
-						.sq-field {
-							flex: 1;
-							display: flex;
-							flex-direction: column;
-							gap: 5px;
-						}
-
-						.sq-field-label {
-							font-family: $f-mono;
-							font-size: 9px;
-							font-weight: 700;
-							letter-spacing: 0.2em;
-							color: $f-mid;
-						}
-
-						.sq-unit-badge {
-							flex-shrink: 0;
-							height: 40px;
-							padding: 0 10px;
-							background: $f-red-dim;
-							border: 1px solid rgba($f-red, 0.3);
-							display: flex;
-							align-items: center;
-							justify-content: center;
-							font-family: $f-mono;
-							font-size: 11px;
-							font-weight: 800;
-							color: $f-red;
-							letter-spacing: 0.1em;
-							margin-bottom: 1px;
-						}
-
-						.sq-form-control {
-							.MuiOutlinedInput-root {
-								font-family: $f-mono;
-								font-size: 15px;
-								font-weight: 700;
-								color: $f-white;
-								background: $f-panel;
-								border-radius: 0;
-								height: 40px;
-
-								.MuiOutlinedInput-notchedOutline {
-									border-color: $f-low;
-									border-radius: 0;
-								}
-
-								&:hover .MuiOutlinedInput-notchedOutline {
-									border-color: rgba($f-red, 0.5);
-								}
-
-								&.Mui-focused .MuiOutlinedInput-notchedOutline {
-									border-color: $f-red;
-									border-width: 1px;
-								}
-
-								.MuiSelect-icon {
-									color: $f-mid;
-									font-size: 18px;
-								}
-
-								.MuiSelect-select {
-									padding: 0 32px 0 12px;
-									display: flex;
-									align-items: center;
-									height: 40px !important;
-									min-height: unset !important;
-								}
-							}
-						}
-
-						.sq-track {
-							position: relative;
-							height: 28px;
-							background: $f-panel;
-							border: 1px solid $f-low;
-							display: flex;
-							align-items: center;
-						}
-
-						.sq-fill {
-							position: absolute;
-							top: 0;
-							bottom: 0;
-							background: repeating-linear-gradient(
-								90deg,
-								rgba($f-red, 0.5) 0px,
-								rgba($f-red, 0.5) 3px,
-								transparent 3px,
-								transparent 6px
-							);
-						}
-
-						.sq-track-label {
-							position: absolute;
-							font-family: $f-mono;
-							font-size: 9px;
-							font-weight: 700;
-							color: $f-white;
-							letter-spacing: 0.06em;
-							z-index: 1;
-
-							&--left { left: 8px; }
-							&--right { right: 8px; }
-						}
-
 						// ── Price Range ──────────────────────────────────────────────
 						.price-range-wrap {
 							display: flex;
@@ -774,7 +655,6 @@ $f-sans:     'DM Sans', 'Inter', sans-serif;
 								transition: all 0.15s;
 								overflow: hidden;
 
-								// diagonal stripe overlay
 								&::before {
 									content: '';
 									position: absolute;

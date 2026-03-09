@@ -21,3 +21,9 @@ export const Messages = {
 };
 
 export const topPropertyRank = 3;
+
+export const topProductRank = 3;
+
+export const topClotheRank = 4;
+
+export const topEquipmentRank = 5
