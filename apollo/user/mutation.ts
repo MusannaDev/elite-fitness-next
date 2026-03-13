@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import exp from 'constants';
 
 /**************************
  *         MEMBER         *
@@ -328,3 +329,293 @@ export const UNSUBSCRIBE = gql`
 		}
 	}
 `;
+
+/**************************
+ *      PRODUCT
+ **************************/
+
+export const CREATE_PRODUCT = gql`
+  mutation CreateProduct($input: ProductInput!) {
+    createProduct(input: $input) {
+        _id
+        productCategory
+        productStatus
+        productName
+        productBrand
+        productPrice
+        productWeight
+        productLeftCount
+        productBenefits
+        productFlavor
+        productCalories
+        productProteinPerServing
+        productDesc
+        productImages
+        isBestseller
+        productViews
+        productLikes
+        productComments
+        productRank
+        memberId
+        soldAt
+        deletedAt
+        createdAt
+        updatedAt
+    }
+  }
+`
+
+export const UPDATE_PRODUCT = gql `
+  mutation UpdateProduct($input: ProductUpdate!) {
+    updateProduct(input: $input) {
+        _id
+        productCategory
+        productStatus
+        productName
+        productBrand
+        productPrice
+        productWeight
+        productLeftCount
+        productBenefits
+        productFlavor
+        productCalories
+        productProteinPerServing
+        productDesc
+        productImages
+        isBestseller
+        productViews
+        productLikes
+        productComments
+        productRank
+        memberId
+        soldAt
+        deletedAt
+        createdAt
+        updatedAt
+    }
+  }
+
+`
+
+export const LIKE_TARGET_PRODUCT = gql`
+  mutation LikeTargetProduct($input: String!) {
+    likeTargetProduct(productId: $input) {
+        _id
+        productCategory
+        productStatus
+        productName
+        productBrand
+        productPrice
+        productWeight
+        productLeftCount
+        productBenefits
+        productFlavor
+        productCalories
+        productProteinPerServing
+        productDesc
+        productImages
+        isBestseller
+        productViews
+        productLikes
+        productComments
+        productRank
+        memberId
+        soldAt
+        deletedAt
+        createdAt
+        updatedAt
+    }
+  }
+`
+
+/* **************************
+*       CLOTHES             *
+*****************************/
+
+export const CREATE_CLOTHE = gql`
+  mutation CreateClothe($input: ClotheInput!) {
+    createClothe(input: $input) {
+        _id
+        clotheCategory
+        clotheStatus
+        clotheName
+        clotheBrand
+        clothePrice
+        clotheMaterial
+        clotheSize
+        clotheGender
+        clotheColor
+        clotheLeftCount
+        clotheImages
+        clotheDesc
+        isBestseller
+        clotheViews
+        clotheLikes
+        clotheComments
+        clotheRank
+        memberId
+        soldAt
+        deletedAt
+        createdAt
+        updatedAt
+    }
+  }
+
+`
+
+export const UPDATE_CLOTHE = gql`
+  mutation UpdateClothe($input: ClotheUpdate!) {
+    updateClothe(input: $input) {
+        _id
+        clotheCategory
+        clotheStatus
+        clotheName
+        clotheBrand
+        clothePrice
+        clotheMaterial
+        clotheSize
+        clotheGender
+        clotheColor
+        clotheLeftCount
+        clotheImages
+        clotheDesc
+        isBestseller
+        clotheViews
+        clotheLikes
+        clotheComments
+        clotheRank
+        memberId
+        soldAt
+        deletedAt
+        createdAt
+        updatedAt
+    }
+  }
+`
+
+export const LIKE_TARGET_CLOTHE = gql`
+  mutation LikeTargetClothe($input: String!) {
+    likeTargetClothe(clotheId: $input) {
+        _id
+        clotheCategory
+        clotheStatus
+        clotheName
+        clotheBrand
+        clothePrice
+        clotheMaterial
+        clotheSize
+        clotheGender
+        clotheColor
+        clotheLeftCount
+        clotheImages
+        clotheDesc
+        isBestseller
+        clotheViews
+        clotheLikes
+        clotheComments
+        clotheRank
+        memberId
+        soldAt
+        deletedAt
+        createdAt
+        updatedAt
+    }
+  }
+`
+
+
+/* **********************
+*     EQUIPMENTS        *
+*************************/
+
+export const CREATE_EQUIPMENT = gql`
+  mutation CreateEquipment($input: EquipmentInput!) {
+    createEquipment(input: $input) {
+        _id
+        equipmentCategory
+        equipmentStatus
+        equipmentName
+        equipmentBrand
+        equipmentPrice
+        equipmentMaterial
+        equipmentWeightCapacity
+        equipmentLocation
+        equipmentWeight
+        equipmentLeftCount
+        equipmentImages
+        equipmentDesc
+        isBestseller
+        equipmentViews
+        equipmentLikes
+        equipmentComments
+        equipmentRank
+        memberId
+        soldAt
+        deletedAt
+        createdAt
+        updatedAt
+    }
+  }
+
+`
+
+export const UPDATE_EQUIPMENT = gql`
+  mutation UpdateEquipment($input: EquipmentUpdate!) {
+    updateEquipment(input: $input) {
+        _id
+        equipmentCategory
+        equipmentStatus
+        equipmentName
+        equipmentBrand
+        equipmentPrice
+        equipmentMaterial
+        equipmentWeightCapacity
+        equipmentLocation
+        equipmentWeight
+        equipmentLeftCount
+        equipmentImages
+        equipmentDesc
+        isBestseller
+        equipmentViews
+        equipmentLikes
+        equipmentComments
+        equipmentRank
+        memberId
+        soldAt
+        deletedAt
+        createdAt
+        updatedAt
+    }
+  }
+`
+
+export const LIKE_TARGET_EQUIPMENT = gql`
+  mutation LikeTargetEquipment($input: String!) {
+    likeTargetEquipment(equipmentId: $input) {
+        _id
+        equipmentCategory
+        equipmentStatus
+        equipmentName
+        equipmentBrand
+        equipmentPrice
+        equipmentMaterial
+        equipmentWeightCapacity
+        equipmentLocation
+        equipmentWeight
+        equipmentLeftCount
+        equipmentImages
+        equipmentDesc
+        isBestseller
+        equipmentViews
+        equipmentLikes
+        equipmentComments
+        equipmentRank
+        memberId
+        soldAt
+        deletedAt
+        createdAt
+        updatedAt
+    }
+  }
+
+`

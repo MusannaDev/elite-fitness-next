@@ -1,119 +1,246 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Stack, Typography, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Property } from '../../types/property/property';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { Product } from '../../types/product/product';
 import Link from 'next/link';
 import { formatterStr } from '../../utils';
-import { REACT_APP_API_URL, topPropertyRank } from '../../config';
+import { REACT_APP_API_URL, topProductRank } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import IconButton from '@mui/material/IconButton';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
-interface PropertyCardType {
-	property: Property;
-	likePropertyHandler?: any;
+// ─── localStorage helpers for persistent likes ───────────────────────────────
+const LIKES_STORAGE_KEY = 'product_likes';
+
+const getLikedProducts = (): Record<string, boolean> => {
+	try {
+		const stored = localStorage.getItem(LIKES_STORAGE_KEY);
+		return stored ? JSON.parse(stored) : {};
+	} catch {
+		return {};
+	}
+};
+
+const setLikedProduct = (productId: string, liked: boolean): void => {
+	try {
+		const current = getLikedProducts();
+		if (liked) {
+			current[productId] = true;
+		} else {
+			delete current[productId];
+		}
+		localStorage.setItem(LIKES_STORAGE_KEY, JSON.stringify(current));
+	} catch {
+		// localStorage unavailable — fail silently
+	}
+};
+
+const isProductLiked = (productId: string): boolean => {
+	return !!getLikedProducts()[productId];
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface ProductCardType {
+	product: Product;
+	likeProductHandler?: any;
 	myFavorites?: boolean;
 	recentlyVisited?: boolean;
 }
 
-const PropertyCard = (props: PropertyCardType) => {
-	const { property, likePropertyHandler, myFavorites, recentlyVisited } = props;
+const ProductCard = (props: ProductCardType) => {
+	const { product, likeProductHandler, myFavorites, recentlyVisited } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
-	const imagePath: string = property?.propertyImages[0]
-		? `${REACT_APP_API_URL}/${property?.propertyImages[0]}`
+	const imagePath: string = product?.productImages[0]
+		? `${REACT_APP_API_URL}/${product?.productImages[0]}`
 		: '/img/banner/header1.svg';
 
+	// Determine initial liked state: localStorage first, then server, then myFavorites
+	const getInitialLiked = (): boolean => {
+		if (myFavorites) return true;
+		// localStorage is the source of truth for UI persistence
+		const localLike = isProductLiked(product?._id);
+		const serverLike = !!(product?.meLiked && product?.meLiked[0]?.myFavorite);
+		return localLike || serverLike;
+	};
+
+	const [localLiked, setLocalLiked] = useState<boolean>(getInitialLiked);
+	const [localLikes, setLocalLikes] = useState<number>(product?.productLikes || 0);
+
+	// Sync localStorage when server data changes (e.g. after navigation back)
+	useEffect(() => {
+		const serverLiked = !!(product?.meLiked && product?.meLiked[0]?.myFavorite);
+		const storedLiked = isProductLiked(product?._id);
+
+		// If server says liked but localStorage doesn't have it, update localStorage
+		if (serverLiked && !storedLiked) {
+			setLikedProduct(product?._id, true);
+		}
+
+		// Update UI state
+		const shouldBeLiked = myFavorites ? true : storedLiked || serverLiked;
+		setLocalLiked(shouldBeLiked);
+		setLocalLikes(product?.productLikes || 0);
+	}, [product?._id, product?.meLiked, product?.productLikes, myFavorites]);
+
+	const handleLikeClick = useCallback(async (e: React.MouseEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		const newLiked = !localLiked;
+
+		// 1. Update UI instantly
+		setLocalLiked(newLiked);
+		setLocalLikes((prev) => (newLiked ? prev + 1 : prev - 1));
+
+		// 2. Persist to localStorage
+		setLikedProduct(product?._id, newLiked);
+
+		// 3. Send to server
+		likeProductHandler(user, product?._id);
+	}, [localLiked, product?._id, user, likeProductHandler]);
+
 	if (device === 'mobile') {
-		return <div>PROPERTY CARD</div>;
+		return <div>PRODUCT CARD</div>;
 	} else {
 		return (
 			<Stack className="card-config">
+				{/* ─── IMAGE SECTION (full-bleed background) ─── */}
 				<Stack className="top">
 					<Link
 						href={{
-							pathname: '/property/detail',
-							query: { id: property?._id },
+							pathname: '/product/detail',
+							query: { id: product?._id },
 						}}
 					>
-						<img src={imagePath} alt="" />
+						<img src={imagePath} alt={product?.productName} />
 					</Link>
-					{property && property?.propertyRank > topPropertyRank && (
+
+					{/* Action buttons — right side, always visible */}
+					<div className="card-actions">
+						<Link
+							href={{
+								pathname: '/product/detail',
+								query: { id: product?._id },
+							}}
+						>
+							<button className="action-btn" title="View details">
+								<RemoveRedEyeIcon />
+								{!!product?.productViews && (
+									<span className="action-badge">{product?.productViews}</span>
+								)}
+							</button>
+						</Link>
+
+						{!recentlyVisited && (
+							<button
+								className={`action-btn${localLiked ? ' liked' : ''}`}
+								title="Favorite"
+								onClick={handleLikeClick}
+							>
+								{localLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+								{!!localLikes && (
+									<span className="action-badge">{localLikes}</span>
+								)}
+							</button>
+						)}
+					</div>
+
+					{/* TOP badge */}
+					{product && product?.productRank > topProductRank && (
 						<Box component={'div'} className={'top-badge'}>
 							<img src="/img/icons/electricity.svg" alt="" />
 							<Typography>TOP</Typography>
 						</Box>
 					)}
-					<Box component={'div'} className={'price-box'}>
-						<Typography>${formatterStr(property?.propertyPrice)}</Typography>
-					</Box>
+
+					{/* Bestseller badge */}
+					{product?.isBestseller && (
+						<Box component={'div'} className={'bestseller-badge'}>
+							<Typography>BESTSELLER</Typography>
+						</Box>
+					)}
 				</Stack>
+
+				{/* ─── BOTTOM INFO (overlay on image) ─── */}
 				<Stack className="bottom">
+					{/* Action icons — top-right of bottom panel */}
+					<div className="footer-actions">
+						<Link
+							href={{
+								pathname: '/product/detail',
+								query: { id: product?._id },
+							}}
+						>
+							<button className="action-btn" title="View details">
+								<RemoveRedEyeIcon />
+								{!!product?.productViews && (
+									<span className="action-badge">{product?.productViews}</span>
+								)}
+							</button>
+						</Link>
+
+						{!recentlyVisited && (
+							<button
+								className={`action-btn${localLiked ? ' liked' : ''}`}
+								title="Favorite"
+								onClick={handleLikeClick}
+							>
+								{localLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+								{!!localLikes && (
+									<span className="action-badge">{localLikes}</span>
+								)}
+							</button>
+						)}
+					</div>
+
 					<Stack className="name-address">
+						<Stack className="brand">
+							<Typography>{product.productBrand}</Typography>
+						</Stack>
 						<Stack className="name">
 							<Link
 								href={{
-									pathname: '/property/detail',
-									query: { id: property?._id },
+									pathname: '/product/detail',
+									query: { id: product?._id },
 								}}
 							>
-								<Typography>{property.propertyTitle}</Typography>
+								<Typography>{product.productName}</Typography>
 							</Link>
 						</Stack>
-						<Stack className="address">
-							<Typography>
-								{property.propertyAddress}, {property.propertyLocation}
-							</Typography>
+					</Stack>
+
+					<Stack className="price-row">
+						<Typography className="price-value">
+							Rs. {formatterStr(product?.productPrice)}
+						</Typography>
+					</Stack>
+
+					<Stack className="specs-row">
+						<Stack className="spec-item">
+							<img src="/img/icons/weight.svg" alt="" />
+							<Typography>{product.productWeight}</Typography>
+						</Stack>
+						<span className="spec-dot" />
+						<Stack className="spec-item">
+							<img src="/img/icons/calories.svg" alt="" />
+							<Typography>{product.productCalories} kcal</Typography>
+						</Stack>
+						<span className="spec-dot" />
+						<Stack className="spec-item">
+							<img src="/img/icons/protein.svg" alt="" />
+							<Typography>{product.productProteinPerServing}g protein</Typography>
 						</Stack>
 					</Stack>
-					<Stack className="options">
-						<Stack className="option">
-							<img src="/img/icons/bed.svg" alt="" /> <Typography>{property.propertyBaths} bed</Typography>
+
+					<Stack className="card-footer">
+						<Stack className="tag-group">
+							<span className="card-tag">{product.productFlavor}</span>
+							<span className="card-tag">{product.productBenefits}</span>
 						</Stack>
-						<Stack className="option">
-							<img src="/img/icons/room.svg" alt="" /> <Typography>{property.propertyRooms} room</Typography>
-						</Stack>
-						<Stack className="option">
-							<img src="/img/icons/expand.svg" alt="" /> <Typography>{property.propertySquare} m2</Typography>
-						</Stack>
-					</Stack>
-					<Stack className="divider"></Stack>
-					<Stack className="type-buttons">
-						<Stack className="type">
-							<Typography
-								sx={{ fontWeight: 500, fontSize: '13px' }}
-								className={property.propertyRent ? '' : 'disabled-type'}
-							>
-								Rent
-							</Typography>
-							<Typography
-								sx={{ fontWeight: 500, fontSize: '13px' }}
-								className={property.propertyBarter ? '' : 'disabled-type'}
-							>
-								Barter
-							</Typography>
-						</Stack>
-						{!recentlyVisited && (
-							<Stack className="buttons">
-								<IconButton color={'default'}>
-									<RemoveRedEyeIcon />
-								</IconButton>
-								<Typography className="view-cnt">{property?.propertyViews}</Typography>
-								<IconButton color={'default'} onClick={() => likePropertyHandler(user, property?._id)}>
-									{myFavorites ? (
-										<FavoriteIcon color="primary" />
-									) : property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-										<FavoriteIcon color="primary" />
-									) : (
-										<FavoriteBorderIcon />
-									)}
-								</IconButton>
-								<Typography className="view-cnt">{property?.propertyLikes}</Typography>
-							</Stack>
-						)}
 					</Stack>
 				</Stack>
 			</Stack>
@@ -121,4 +248,4 @@ const PropertyCard = (props: PropertyCardType) => {
 	}
 };
 
-export default PropertyCard;
+export default ProductCard;

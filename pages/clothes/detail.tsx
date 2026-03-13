@@ -1,19 +1,19 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Button, Checkbox, CircularProgress, Stack, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
 import Review from '../../libs/components/product/Review';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper';
-import ProductBigCard from '../../libs/components/common/ProductBigCard';
+import ClotheBigCard from '../../libs/components/common/ClothesBigCard';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { Product } from '../../libs/types/product/product';
+import { Clothe } from '../../libs/types/clothes/clothes';
 import moment from 'moment';
 import { formatterStr } from '../../libs/utils';
 import { REACT_APP_API_URL } from '../../libs/config';
@@ -27,10 +27,10 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { GET_PRODUCTS, GET_PRODUCT } from '../../apollo/user/query';
+import { GET_CLOTHES, GET_CLOTHE } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { CREATE_COMMENT, LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
+import { CREATE_COMMENT, LIKE_TARGET_CLOTHE } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { GET_COMMENTS } from '../../apollo/admin/query';
 
@@ -42,50 +42,50 @@ export const getStaticProps = async ({ locale }: any) => ({
 	},
 });
 
-const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
+const ClotheDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const [productId, setProductId] = useState<string | null>(null);
-	const [product, setProduct] = useState<Product | null>(null);
+	const [clotheId, setClotheId] = useState<string | null>(null);
+	const [clothe, setClothe] = useState<Clothe | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
-	const [destinationProducts, setDestinationProducts] = useState<Product[]>([]);
+	const [similarClothes, setSimilarClothes] = useState<Clothe[]>([]);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
-	const [productComments, setProductComments] = useState<Comment[]>([]);
+	const [clotheComments, setClotheComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
-		commentGroup: CommentGroup.PRODUCT,
+		commentGroup: CommentGroup.CLOTHES,
 		commentContent: '',
 		commentRefId: '',
 	});
 
 	/** APOLLO REQUESTS **/
 
-	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
+	const [likeTargetClothe] = useMutation(LIKE_TARGET_CLOTHE);
 	const [createComment] = useMutation(CREATE_COMMENT);
 
 	const {
-		loading: getProductLoading,
-		data: getProductData,
-		error: getProductError,
-		refetch: getProductRefetch,
-	} = useQuery(GET_PRODUCT, {
+		loading: getClotheLoading,
+		data: getClotheData,
+		error: getClotheError,
+		refetch: getClotheRefetch,
+	} = useQuery(GET_CLOTHE, {
 		fetchPolicy: 'network-only',
-		variables: { input: productId },
-		skip: !productId,
+		variables: { input: clotheId },
+		skip: !clotheId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getProduct) setProduct(data.getProduct);
-			if (data?.getProduct) setSlideImage(data.getProduct.productImages[0]);
+			if (data?.getClothe) setClothe(data.getClothe);
+			if (data?.getClothe) setSlideImage(data.getClothe.clotheImages[0]);
 		},
 	});
 
 	const {
-		loading: getProductsLoading,
-		data: getProductsData,
-		error: getProductsError,
-		refetch: getProductsRefetch,
-	} = useQuery(GET_PRODUCTS, {
+		loading: getClothesLoading,
+		data: getClothesData,
+		error: getClothesError,
+		refetch: getClothesRefetch,
+	} = useQuery(GET_CLOTHES, {
 		fetchPolicy: 'cache-and-network',
 		variables: {
 			input: {
@@ -94,14 +94,14 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 				sort: 'updatedAt',
 				direction: Direction.DESC,
 				search: {
-					categoryList: product?.productCategory ? [product?.productCategory] : [],
+					categoryList: clothe?.clotheCategory ? [clothe?.clotheCategory] : [],
 				},
 			},
 		},
-		skip: !productId && !product,
+		skip: !clotheId && !clothe,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getProducts?.list) setDestinationProducts(data?.getProducts?.list);
+			if (data?.getClothes?.list) setSimilarClothes(data?.getClothes?.list);
 		},
 	});
 
@@ -116,7 +116,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 		skip: !commentInquiry.search.commentRefId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getComments?.list) setProductComments(data?.getComments?.list);
+			if (data?.getComments?.list) setClotheComments(data?.getComments?.list);
 			setCommentTotal(data?.getComments?.metaCounter[0]?.total ?? 0);
 		},
 	});
@@ -125,7 +125,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	useEffect(() => {
 		if (router.query.id) {
-			setProductId(router.query.id as string);
+			setClotheId(router.query.id as string);
 			setCommentInquiry({
 				...commentInquiry,
 				search: {
@@ -150,34 +150,34 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 		setSlideImage(image);
 	};
 
-	const likeProductHandler = async (user: T, id: string) => {
+	const likeClotheHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
-			await likeTargetProduct({
+			await likeTargetClothe({
 				variables: {
 					input: id,
 				},
 			});
 
-			await getProductRefetch({ input: id });
+			await getClotheRefetch({ input: id });
 
-			await getProductsRefetch({
+			await getClothesRefetch({
 				input: {
 					page: 1,
 					limit: 4,
 					sort: 'updatedAt',
 					direction: Direction.DESC,
 					search: {
-						categoryList: [product?.productCategory],
+						categoryList: [clothe?.clotheCategory],
 					},
 				},
 			});
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.log('ERROR, likeProductHandler:', err.message);
+			console.log('ERROR, likeClotheHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -201,7 +201,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 		}
 	};
 
-	if (getProductLoading) {
+	if (getClotheLoading) {
 		return (
 			<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '1080px' }}>
 				<CircularProgress size={'4rem'} />
@@ -210,41 +210,25 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 	}
 
 	if (device === 'mobile') {
-		return <div>PRODUCT DETAIL PAGE</div>;
+		return <div>CLOTHE DETAIL PAGE</div>;
 	} else {
 		return (
-			<div id={'product-detail-page'}>
+			<div id={'clothe-detail-page'}>
 				<div className={'container'}>
-					<Stack className={'product-detail-config'}>
-						<Stack className={'product-info-config'}>
+					<Stack className={'clothe-detail-config'}>
+						<Stack className={'clothe-info-config'}>
 							<Stack className={'info'}>
 								<Stack className={'left-box'}>
-									<Typography className={'title-main'}>{product?.productTitle}</Typography>
+									<Typography className={'title-main'}>{clothe?.clotheName}</Typography>
 									<Stack className={'top-box'}>
-										<Typography className={'city'}>{product?.productCategory}</Typography>
+										<Typography className={'brand'}>{clothe?.clotheBrand}</Typography>
 										<Stack className={'divider'}></Stack>
-										<Stack className={'buy-rent-box'}>
-											{product?.productBarter && (
-												<>
-													<Stack className={'circle'}>
-														<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
-															<circle cx="3" cy="3" r="3" fill="#EB6753" />
-														</svg>
-													</Stack>
-													<Typography className={'buy-rent'}>Barter</Typography>
-												</>
-											)}
-
-											{product?.productRent && (
-												<>
-													<Stack className={'circle'}>
-														<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
-															<circle cx="3" cy="3" r="3" fill="#EB6753" />
-														</svg>
-													</Stack>
-													<Typography className={'buy-rent'}>Rent</Typography>
-												</>
-											)}
+										<Typography className={'category'}>{clothe?.clotheCategory}</Typography>
+										<Stack className={'divider'}></Stack>
+										<Stack className={'details-box'}>
+											<Typography className={'detail-item'}>Size: {clothe?.clotheSize}</Typography>
+											<Typography className={'detail-item'}>Color: {clothe?.clotheColor}</Typography>
+											<Typography className={'detail-item'}>Gender: {clothe?.clotheGender}</Typography>
 										</Stack>
 										<Stack className={'divider'}></Stack>
 										<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -264,40 +248,49 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 												</clipPath>
 											</defs>
 										</svg>
-										<Typography className={'date'}>{moment().diff(product?.createdAt, 'days')} days ago</Typography>
+										<Typography className={'date'}>{moment().diff(clothe?.createdAt, 'days')} days ago</Typography>
 									</Stack>
+									{clothe?.clotheLeftCount !== undefined && clothe.clotheLeftCount > 0 ? (
+										<Typography className={'in-stock'} sx={{ color: 'green', fontWeight: 600, mt: 1 }}>
+											In Stock ({clothe.clotheLeftCount} left)
+										</Typography>
+									) : (
+										<Typography className={'out-of-stock'} sx={{ color: 'red', fontWeight: 600, mt: 1 }}>
+											Out of Stock
+										</Typography>
+									)}
 								</Stack>
 								<Stack className={'right-box'}>
 									<Stack className="buttons">
 										<Stack className="button-box">
 											<RemoveRedEyeIcon fontSize="medium" />
-											<Typography>{product?.productViews}</Typography>
+											<Typography>{clothe?.clotheViews}</Typography>
 										</Stack>
 										<Stack className="button-box">
-											{product?.meLiked && product?.meLiked[0]?.myFavorite ? (
+											{clothe?.meLiked && clothe?.meLiked[0]?.myFavorite ? (
 												<FavoriteIcon color="primary" fontSize={'medium'} />
 											) : (
 												<FavoriteBorderIcon
 													fontSize={'medium'}
 													// @ts-ignore
-													onClick={() => likeProductHandler(user, product?._id)}
+													onClick={() => likeClotheHandler(user, clothe?._id)}
 												/>
 											)}
-											<Typography>{product?.productLikes}</Typography>
+											<Typography>{clothe?.clotheLikes}</Typography>
 										</Stack>
 									</Stack>
-									<Typography>${formatterStr(product?.productPrice)}</Typography>
+									<Typography>${formatterStr(clothe?.clothePrice)}</Typography>
 								</Stack>
 							</Stack>
 							<Stack className={'images'}>
 								<Stack className={'main-image'}>
 									<img
-										src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/product/bigImage.png'}
+										src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/clothe/bigImage.png'}
 										alt={'main-image'}
 									/>
 								</Stack>
 								<Stack className={'sub-images'}>
-									{product?.productImages?.map((subImg: string) => {
+									{clothe?.clotheImages?.map((subImg: string) => {
 										const imagePath: string = `${REACT_APP_API_URL}/${subImg}`;
 										return (
 											<Stack className={'sub-img-box'} onClick={() => changeImageHandler(subImg)} key={subImg}>
@@ -308,36 +301,50 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 							</Stack>
 						</Stack>
-						<Stack className={'product-desc-config'}>
+						<Stack className={'clothe-desc-config'}>
 							<Stack className={'left-config'}>
 								<Stack className={'prop-desc-config'}>
 									<Stack className={'top'}>
-										<Typography className={'title'}>Product Description</Typography>
-										<Typography className={'desc'}>{product?.productDesc ?? 'No Description!'}</Typography>
+										<Typography className={'title'}>Description</Typography>
+										<Typography className={'desc'}>{clothe?.clotheDesc ?? 'No Description!'}</Typography>
 									</Stack>
 									<Stack className={'bottom'}>
-										<Typography className={'title'}>Product Details</Typography>
+										<Typography className={'title'}>Clothe Details</Typography>
 										<Stack className={'info-box'}>
 											<Stack className={'left'}>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Price</Typography>
-													<Typography className={'data'}>${formatterStr(product?.productPrice)}</Typography>
+													<Typography className={'data'}>${formatterStr(clothe?.clothePrice)}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Category</Typography>
-													<Typography className={'data'}>{product?.productCategory}</Typography>
+													<Typography className={'data'}>{clothe?.clotheCategory}</Typography>
+												</Box>
+												<Box component={'div'} className={'info'}>
+													<Typography className={'title'}>Brand</Typography>
+													<Typography className={'data'}>{clothe?.clotheBrand}</Typography>
+												</Box>
+												<Box component={'div'} className={'info'}>
+													<Typography className={'title'}>Material</Typography>
+													<Typography className={'data'}>{clothe?.clotheMaterial}</Typography>
 												</Box>
 											</Stack>
 											<Stack className={'right'}>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Product Type</Typography>
-													<Typography className={'data'}>{product?.productType}</Typography>
+													<Typography className={'title'}>Size</Typography>
+													<Typography className={'data'}>{clothe?.clotheSize}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Product Options</Typography>
-													<Typography className={'data'}>
-														{product?.productBarter && 'Barter'} {product?.productRent && 'Rent'}
-													</Typography>
+													<Typography className={'title'}>Color</Typography>
+													<Typography className={'data'}>{clothe?.clotheColor}</Typography>
+												</Box>
+												<Box component={'div'} className={'info'}>
+													<Typography className={'title'}>Gender</Typography>
+													<Typography className={'data'}>{clothe?.clotheGender}</Typography>
+												</Box>
+												<Box component={'div'} className={'info'}>
+													<Typography className={'title'}>Bestseller</Typography>
+													<Typography className={'data'}>{clothe?.isBestseller ? 'Yes' : 'No'}</Typography>
 												</Box>
 											</Stack>
 										</Stack>
@@ -364,7 +371,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 											</Stack>
 										</Stack>
 										<Stack className={'review-list'}>
-											{productComments?.map((comment: Comment) => {
+											{clotheComments?.map((comment: Comment) => {
 												return <Review comment={comment} key={comment?._id} />;
 											})}
 											<Box component={'div'} className={'pagination-box'}>
@@ -419,14 +426,14 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<img
 											className={'member-image'}
 											src={
-												product?.memberData?.memberImage
-													? `${REACT_APP_API_URL}/${product?.memberData?.memberImage}`
+												clothe?.memberData?.memberImage
+													? `${REACT_APP_API_URL}/${clothe?.memberData?.memberImage}`
 													: '/img/profile/defaultUser.svg'
 											}
 										/>
 										<Stack className={'name-phone-listings'}>
-											<Link href={`/member?memberId=${product?.memberData?._id}`}>
-												<Typography className={'name'}>{product?.memberData?.memberNick}</Typography>
+											<Link href={`/member?memberId=${clothe?.memberData?._id}`}>
+												<Typography className={'name'}>{clothe?.memberData?.memberNick}</Typography>
 											</Link>
 											<Stack className={'phone-number'}>
 												<svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
@@ -442,7 +449,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 														</clipPath>
 													</defs>
 												</svg>
-												<Typography className={'number'}>{product?.memberData?.memberPhone}</Typography>
+												<Typography className={'number'}>{clothe?.memberData?.memberPhone}</Typography>
 											</Stack>
 											<Typography className={'listings'}>View Listings</Typography>
 										</Stack>
@@ -458,11 +465,11 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Email</Typography>
-									<input type={'text'} placeholder={'creativelayers088'} />
+									<input type={'text'} placeholder={'Enter your email'} />
 								</Stack>
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Message</Typography>
-									<textarea placeholder={'Hello, I am interested in this product'}></textarea>
+									<textarea placeholder={'Hello, I am interested in this item'}></textarea>
 								</Stack>
 								<Stack className={'info-box'}>
 									<Button className={'send-message'}>
@@ -484,12 +491,12 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 							</Stack>
 						</Stack>
-						{destinationProducts.length !== 0 && (
-							<Stack className={'similar-products-config'}>
+						{similarClothes.length !== 0 && (
+							<Stack className={'similar-clothes-config'}>
 								<Stack className={'title-pagination-box'}>
 									<Stack className={'title-box'}>
-										<Typography className={'main-title'}>Similar Products</Typography>
-										<Typography className={'sub-title'}>Aliquam lacinia diam quis lacus euismod</Typography>
+										<Typography className={'main-title'}>Similar Clothes</Typography>
+										<Typography className={'sub-title'}>You might also like these items</Typography>
 									</Stack>
 									<Stack className={'pagination-box'}>
 										<WestIcon className={'swiper-similar-prev'} />
@@ -499,7 +506,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 								<Stack className={'cards-box'}>
 									<Swiper
-										className={'similar-products-swiper'}
+										className={'similar-clothes-swiper'}
 										slidesPerView={'auto'}
 										spaceBetween={35}
 										modules={[Autoplay, Navigation, Pagination]}
@@ -511,13 +518,13 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 											el: '.swiper-similar-pagination',
 										}}
 									>
-										{destinationProducts.map((product: Product) => {
+										{similarClothes.map((clotheItem: Clothe) => {
 											return (
-												<SwiperSlide className={'similar-products-slide'} key={product?.productTitle}>
-													<ProductBigCard
-														product={product}
-														likeProductHandler={likeProductHandler}
-														key={product?._id}
+												<SwiperSlide className={'similar-clothes-slide'} key={clotheItem?._id}>
+													<ClotheBigCard
+														clothe={clotheItem}
+														likeClotheHandler={likeClotheHandler}
+														key={clotheItem?._id}
 													/>
 												</SwiperSlide>
 											);
@@ -533,7 +540,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 	}
 };
 
-ProductDetail.defaultProps = {
+ClotheDetail.defaultProps = {
 	initialComment: {
 		page: 1,
 		limit: 5,
@@ -545,4 +552,4 @@ ProductDetail.defaultProps = {
 	},
 };
 
-export default withLayoutFull(ProductDetail);
+export default withLayoutFull(ClotheDetail);

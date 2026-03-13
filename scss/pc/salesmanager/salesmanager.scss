@@ -1,0 +1,112 @@
+#pc-wrap {
+	.sales-manager-list-page {
+		position: relative;
+		padding: 147px 0 75px;
+		width: 100%;
+		height: auto;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+
+		.container {
+			display: flex;
+			flex-direction: column;
+
+			.filter {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+
+				.left {
+					display: flex;
+					flex-direction: row;
+
+					input {
+						padding: 22px 10px;
+						width: 333px;
+						height: 50px;
+						border-radius: 40px;
+						border: 1px solid #ddd;
+						background: #fff;
+						color: #181a20;
+						font-family: $font;
+						font-size: 14px;
+						font-weight: 400;
+						line-height: 26px;
+						box-sizing: border-box;
+					}
+				}
+
+				.right {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+
+					button {
+						margin-left: 10px;
+						color: #181a20;
+						font-family: $font;
+						font-size: 14px;
+						font-weight: bold;
+						line-height: 26px;
+
+						&:hover {
+							background: none;
+						}
+					}
+				}
+			}
+
+			.card-wrap {
+				position: relative;
+				margin-top: 35px;
+				width: 100%;
+				min-height: 500px;
+				height: auto;
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+
+				.no-data {
+					width: 100%;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					gap: 15px;
+					padding: 80px 0;
+
+					img {
+						width: 60px;
+						height: 60px;
+						opacity: 0.4;
+					}
+
+					p {
+						color: #181a20;
+						font-family: $font;
+						font-size: 16px;
+						font-weight: 400;
+						line-height: normal;
+					}
+				}
+			}
+
+			.pagination {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+
+				span {
+					margin-top: 20px;
+					color: #181a20;
+					font-family: $font;
+					font-size: 14px;
+					font-weight: 400;
+					line-height: 26px;
+				}
+			}
+		}
+	}
+}

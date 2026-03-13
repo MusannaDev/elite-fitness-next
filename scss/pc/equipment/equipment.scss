@@ -1,941 +1,865 @@
 // ─── Design Tokens ─────────────────────────────────────────────────────────────
-// Brutalist editorial: sharp corners, red accent, monospace type, raw grid
-$f-bg:       #f5f4f2;
-$f-surface:  #ffffff;
-$f-panel:    #f2f1ef;
-$f-red:      #e8392a;
-$f-red-dim:  rgba(232, 57, 42, 0.12);
-$f-white:    #1a1a1a;
-$f-mid:      #555560;
-$f-low:      #d4d2cf;
-$f-line:     #ebebeb;
-$f-mono:     'JetBrains Mono', 'Fira Mono', 'Courier New', monospace;
-$f-sans:     'DM Sans', 'Inter', sans-serif;
+$e-bg:        #ffffff;
+$e-surface:   #ffffff;
+$e-panel:     #f7f8fa;
+$e-blue:      #7c3aed;
+$e-blue-dim:  rgba(124, 58, 237, 0.10);
+$e-blue-mid:  rgba(124, 58, 237, 0.25);
+$e-amber:     #ffc107;
+$e-amber-dim: rgba(255, 193, 7, 0.15);
+$e-dark:      #0d1117;
+$e-mid:       #5c6370;
+$e-low:       #dde1e9;
+$e-line:      #eef0f4;
+$e-mono:      'JetBrains Mono', 'Fira Mono', 'Courier New', monospace;
+$e-sans:      'DM Sans', 'Inter', sans-serif;
+$e-display:   'Syne', 'DM Sans', sans-serif;
 
 #pc-wrap {
-	#equipment-list-page {
-		padding-bottom: 40px;
-		background: #ffffff;
-
-		.container {
-			.right {
-				position: absolute;
-				right: 0;
-				top: 3%;
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				z-index: 2;
-
-				button {
-					margin-left: 10px;
-					color: #C9A96E;
-					font-family: $font;
-					font-size: 14px;
-					font-style: normal;
-					font-weight: bold;
-					line-height: 26px;
-
-					&:hover {
-						background: none;
-						color: #EDD28C;
-					}
-				}
-			}
-
-			.equipment-page {
-				position: relative;
-				width: 100%;
-				flex-direction: row;
-				gap: 25px;
-				padding-top: 96px;
-
-				// ─── FILTER SIDEBAR ─────────────────────────────────────────────────
-				.filter-config {
-					width: 339px;
-					height: auto;
-					position: sticky;
-					top: 96px;
-
-					// ── Root wrapper ─────────────────────────────────────────────────
-					.filter-main {
-						width: 100%;
-						background: $f-surface;
-						border: 1px solid $f-low;
-						border-top: 3px solid $f-red;
-						overflow: hidden;
-						position: relative;
-
-						// ── Header ───────────────────────────────────────────────────
-						.filter-header {
-							padding: 18px 20px 16px;
-							border-bottom: 1px solid $f-line;
-
-							.filter-header-top {
-								display: flex;
-								align-items: center;
-								justify-content: space-between;
-								margin-bottom: 14px;
-
-								.filter-title-block {
-									display: flex;
-									align-items: center;
-									gap: 10px;
-
-									.filter-title-line {
-										width: 3px;
-										height: 22px;
-										background: $f-red;
-									}
-
-									.filter-title {
-										font-family: $f-mono;
-										font-size: 13px;
-										font-weight: 700;
-										color: $f-white;
-										letter-spacing: 0.2em;
-									}
-								}
-
-								.reset-btn {
-									display: flex;
-									align-items: center;
-									gap: 5px;
-									cursor: pointer;
-									background: none;
-									border: 1px solid $f-low;
-									padding: 5px 10px;
-									transition: all 0.15s;
-
-									svg {
-										font-size: 14px;
-										color: $f-mid;
-										transition: color 0.15s;
-									}
-
-									span {
-										font-family: $f-mono;
-										font-size: 9px;
-										font-weight: 700;
-										letter-spacing: 0.15em;
-										color: $f-mid;
-										transition: color 0.15s;
-									}
-
-									&:hover {
-										border-color: $f-red;
-										svg, span { color: $f-red; }
-									}
-								}
-							}
-
-							.filter-active-bar {
-								display: flex;
-								align-items: center;
-								gap: 8px;
-								margin-bottom: 12px;
-
-								.filter-active-count {
-									display: flex;
-									align-items: center;
-									justify-content: center;
-									width: 20px;
-									height: 20px;
-									background: $f-red;
-									font-family: $f-mono;
-									font-size: 10px;
-									font-weight: 800;
-									color: $f-white;
-								}
-
-								.filter-active-text {
-									font-family: $f-mono;
-									font-size: 10px;
-									letter-spacing: 0.1em;
-									color: $f-mid;
-								}
-							}
-
-							.filter-search {
-								display: flex;
-								align-items: center;
-								gap: 10px;
-								padding: 0 12px;
-								height: 40px;
-								background: $f-panel;
-								border: 1px solid $f-low;
-								transition: border-color 0.15s;
-
-								&:focus-within {
-									border-color: rgba($f-red, 0.5);
-								}
-
-								svg {
-									font-size: 16px;
-									color: $f-mid;
-									flex-shrink: 0;
-								}
-
-								input {
-									flex: 1;
-									background: transparent;
-									border: none;
-									outline: none;
-									font-family: $f-mono;
-									font-size: 12px;
-									color: $f-white;
-									letter-spacing: 0.04em;
-
-									&::placeholder { color: $f-mid; }
-								}
-
-								.search-clear {
-									font-size: 15px;
-									color: $f-mid;
-									cursor: pointer;
-									transition: color 0.15s;
-									display: flex;
-
-									&:hover { color: $f-red; }
-								}
-							}
-						}
-
-						// ── Scrollable body ──────────────────────────────────────────
-						.filter-scroll-body {
-							overflow-y: auto;
-							max-height: calc(100vh - 260px);
-
-							&::-webkit-scrollbar { width: 2px; }
-							&::-webkit-scrollbar-track { background: transparent; }
-							&::-webkit-scrollbar-thumb {
-								background: $f-red;
-							}
-						}
-
-						// ── Accordion ────────────────────────────────────────────────
-						.accordion-section {
-							border-bottom: 1px solid $f-line;
-
-							.accordion-header {
-								display: flex;
-								align-items: center;
-								justify-content: space-between;
-								padding: 13px 20px;
-								cursor: pointer;
-								transition: background 0.15s;
-
-								&:hover { background: rgba($f-red, 0.03); }
-
-								.accordion-left {
-									display: flex;
-									align-items: center;
-									gap: 10px;
-								}
-
-								.accordion-icon {
-									width: 30px;
-									height: 30px;
-									background: $f-panel;
-									border: 1px solid $f-low;
-									display: flex;
-									align-items: center;
-									justify-content: center;
-									color: $f-mid;
-									flex-shrink: 0;
-									transition: all 0.15s;
-
-									svg { font-size: 15px; }
-
-									&.is-open {
-										background: $f-red-dim;
-										border-color: rgba($f-red, 0.4);
-										color: $f-red;
-									}
-								}
-
-								.accordion-label {
-									font-family: $f-mono;
-									font-size: 11px;
-									font-weight: 600;
-									letter-spacing: 0.1em;
-									color: #333338;
-									text-transform: uppercase;
-									transition: color 0.15s;
-
-									&.is-open { color: #111114; }
-								}
-
-								.accordion-badge {
-									height: 16px;
-									min-width: 16px;
-									padding: 0 4px;
-									background: $f-red;
-									display: flex;
-									align-items: center;
-									justify-content: center;
-
-									span {
-										font-family: $f-mono;
-										font-size: 9px;
-										font-weight: 800;
-										color: $f-white;
-									}
-								}
-
-								.accordion-chevron {
-									font-size: 18px;
-									color: $f-mid;
-									transition: all 0.22s cubic-bezier(.4, 0, .2, 1);
-
-									&.is-open {
-										color: $f-red;
-										transform: rotate(180deg);
-									}
-								}
-							}
-
-							.accordion-body {
-								padding: 0 20px 18px;
-							}
-						}
-
-						// ── Tag chips ────────────────────────────────────────────────
-						.tag-chips-wrap {
-							display: flex;
-							flex-wrap: wrap;
-							gap: 6px;
-						}
-
-						.tag-chip {
-							padding: 5px 12px;
-							cursor: pointer;
-							border: 1px solid $f-low;
-							background: $f-panel;
-							transition: all 0.15s;
-
-							span {
-								font-family: $f-mono;
-								font-size: 10px;
-								font-weight: 600;
-								color: #333338;
-								letter-spacing: 0.06em;
-								transition: color 0.12s;
-							}
-
-							&:hover {
-								border-color: $f-red;
-								background: $f-red-dim;
-								span { color: $f-red; }
-							}
-
-							&.is-active {
-								background: $f-red;
-								border-color: $f-red;
-
-								span {
-									color: #ffffff;
-									font-weight: 700;
-								}
-							}
-						}
-
-						// ── Count Selector — vertical list ──────────────────────────────
-						.count-selector {
-							display: flex;
-							flex-direction: column;
-							gap: 0;
-							border: 1px solid $f-low;
-						}
-
-						.count-row {
-							display: flex;
-							align-items: center;
-							gap: 14px;
-							padding: 10px 14px;
-							cursor: pointer;
-							border-bottom: 1px solid $f-low;
-							background: #ffffff;
-							transition: background 0.13s;
-							position: relative;
-
-							&:last-child { border-bottom: none; }
-
-							&::before {
-								content: '';
-								position: absolute;
-								left: 0;
-								top: 0;
-								bottom: 0;
-								width: 0;
-								background: $f-red;
-								transition: width 0.15s;
-							}
-
-							.count-row-num {
-								font-family: $f-mono;
-								font-size: 18px;
-								font-weight: 800;
-								color: $f-low;
-								width: 28px;
-								text-align: center;
-								flex-shrink: 0;
-								transition: color 0.13s;
-								letter-spacing: -0.02em;
-							}
-
-							.count-row-desc {
-								flex: 1;
-								font-family: $f-sans;
-								font-size: 11px;
-								font-weight: 400;
-								color: $f-mid;
-								transition: color 0.13s;
-							}
-
-							.count-row-check {
-								width: 16px;
-								height: 16px;
-								border: 1px solid $f-low;
-								display: flex;
-								align-items: center;
-								justify-content: center;
-								flex-shrink: 0;
-								transition: border-color 0.13s;
-							}
-
-							.count-row-dot {
-								width: 8px;
-								height: 8px;
-								background: $f-red;
-							}
-
-							&:hover {
-								background: $f-red-dim;
-
-								&::before { width: 3px; }
-
-								.count-row-num { color: $f-red; }
-								.count-row-desc { color: #333338; }
-								.count-row-check { border-color: $f-red; }
-							}
-
-							&.is-active {
-								background: $f-red-dim;
-
-								&::before { width: 3px; }
-
-								.count-row-num {
-									color: $f-red;
-									font-weight: 800;
-								}
-
-								.count-row-desc {
-									color: #333338;
-									font-weight: 500;
-								}
-
-								.count-row-check { border-color: $f-red; }
-							}
-						}
-
-						// ── Options ──────────────────────────────────────────────────
-						.options-list {
-							display: flex;
-							flex-direction: column;
-							gap: 6px;
-						}
-
-						.option-card {
-							display: flex;
-							align-items: center;
-							gap: 12px;
-							padding: 10px 12px;
-							cursor: pointer;
-							border: 1px solid $f-low;
-							background: $f-panel;
-							transition: all 0.15s;
-
-							&:hover {
-								border-color: rgba($f-red, 0.4);
-								background: $f-red-dim;
-							}
-
-							&.is-active {
-								border-color: rgba($f-red, 0.5);
-								border-left: 3px solid $f-red;
-								background: rgba($f-red, 0.08);
-							}
-
-							.option-icon {
-								width: 32px;
-								height: 32px;
-								background: $f-bg;
-								border: 1px solid $f-low;
-								display: flex;
-								align-items: center;
-								justify-content: center;
-								color: $f-mid;
-								flex-shrink: 0;
-								transition: all 0.15s;
-
-								svg { font-size: 16px; }
-
-								&.is-active {
-									background: $f-red-dim;
-									border-color: rgba($f-red, 0.4);
-									color: $f-red;
-								}
-							}
-
-							.option-text {
-								flex: 1;
-
-								.option-name {
-									font-family: $f-mono;
-									font-size: 11px;
-									font-weight: 600;
-									letter-spacing: 0.08em;
-									color: $f-mid;
-									transition: color 0.12s;
-
-									&.is-active { color: $f-white; }
-								}
-
-								.option-sub {
-									font-family: $f-sans;
-									font-size: 10px;
-									color: $f-mid;
-									margin-top: 2px;
-									opacity: 0.6;
-								}
-							}
-
-							.option-toggle {
-								width: 34px;
-								height: 18px;
-								background: $f-bg;
-								border: 1px solid $f-low;
-								position: relative;
-								flex-shrink: 0;
-								transition: all 0.2s;
-
-								.toggle-knob {
-									position: absolute;
-									top: 2px;
-									left: 2px;
-									width: 12px;
-									height: 12px;
-									background: $f-mid;
-									transition: left 0.2s, background 0.2s;
-								}
-
-								&.is-active {
-									background: $f-red-dim;
-									border-color: $f-red;
-
-									.toggle-knob {
-										left: 18px;
-										background: $f-red;
-									}
-								}
-							}
-						}
-
-						// ── Price Range ──────────────────────────────────────────────
-						.price-range-wrap {
-							display: flex;
-							flex-direction: column;
-							gap: 0;
-							border: 1px solid $f-low;
-						}
-
-						.price-block {
-							padding: 12px 14px;
-
-							&:first-child {
-								border-bottom: 1px solid $f-line;
-							}
-						}
-
-						.price-block-label {
-							display: flex;
-							align-items: center;
-							justify-content: space-between;
-							margin-bottom: 8px;
-
-							.price-block-tag {
-								font-family: $f-mono;
-								font-size: 9px;
-								font-weight: 800;
-								letter-spacing: 0.2em;
-								color: $f-red;
-							}
-
-							.price-block-currency {
-								font-family: $f-mono;
-								font-size: 9px;
-								font-weight: 500;
-								letter-spacing: 0.15em;
-								color: $f-mid;
-							}
-						}
-
-						.price-input-wrap {
-							display: flex;
-							align-items: center;
-							gap: 8px;
-							background: $f-panel;
-							border: 1px solid $f-low;
-							padding: 0 12px;
-							height: 44px;
-							transition: border-color 0.15s;
-
-							&:focus-within {
-								border-color: rgba($f-red, 0.5);
-							}
-
-							.price-prefix {
-								font-family: $f-mono;
-								font-size: 18px;
-								font-weight: 800;
-								color: $f-red;
-								line-height: 1;
-								flex-shrink: 0;
-
-								&--dim { color: $f-mid; }
-							}
-
-							.price-input {
-								flex: 1;
-								background: transparent;
-								border: none;
-								outline: none;
-								font-family: $f-mono;
-								font-size: 16px;
-								font-weight: 700;
-								color: $f-white;
-								letter-spacing: 0.04em;
-								-moz-appearance: textfield;
-
-								&::-webkit-outer-spin-button,
-								&::-webkit-inner-spin-button {
-									-webkit-appearance: none;
-									margin: 0;
-								}
-
-								&::placeholder {
-									color: $f-mid;
-									font-size: 12px;
-									font-weight: 400;
-								}
-							}
-						}
-
-						.price-rule {
-							display: none;
-						}
-
-						// ── Footer ───────────────────────────────────────────────────
-						.filter-footer {
-							padding: 16px 20px 20px;
-							border-top: 1px solid $f-line;
-
-							.apply-btn {
-								width: 100%;
-								height: 48px;
-								background: $f-red;
-								border: none;
-								display: flex;
-								align-items: center;
-								justify-content: center;
-								gap: 12px;
-								cursor: pointer;
-								position: relative;
-								transition: all 0.15s;
-								overflow: hidden;
-
-								&::before {
-									content: '';
-									position: absolute;
-									inset: 0;
-									background: repeating-linear-gradient(
-										-45deg,
-										transparent 0px,
-										transparent 8px,
-										rgba(255, 255, 255, 0.04) 8px,
-										rgba(255, 255, 255, 0.04) 9px
-									);
-									pointer-events: none;
-								}
-
-								.apply-label {
-									font-family: $f-mono;
-									font-size: 12px;
-									font-weight: 800;
-									color: $f-white;
-									letter-spacing: 0.2em;
-									position: relative;
-									z-index: 1;
-								}
-
-								.apply-count {
-									width: 20px;
-									height: 20px;
-									background: rgba(0, 0, 0, 0.3);
-									display: flex;
-									align-items: center;
-									justify-content: center;
-									font-family: $f-mono;
-									font-size: 10px;
-									font-weight: 900;
-									color: $f-white;
-									position: relative;
-									z-index: 1;
-								}
-
-								.apply-icon {
-									font-size: 16px;
-									color: $f-white;
-									position: relative;
-									z-index: 1;
-								}
-
-								&:hover {
-									background: darken(#e8392a, 8%);
-									transform: translateY(-1px);
-									box-shadow: 0 6px 20px rgba($f-red, 0.4);
-								}
-
-								&:active { transform: translateY(0); }
-							}
-						}
-					}
-				}
-
-				// ─── MAIN LISTING AREA ──────────────────────────────────────────────
-				.main-config {
-					width: 936px;
-					align-items: center;
-					gap: 109px;
-
-					.list-config {
-						display: flex;
-						width: 100%;
-						height: auto;
-						flex-direction: row;
-						flex-wrap: wrap;
-						gap: 23px;
-
-						.card-config {
-							width: 296px;
-							height: 413px;
-							margin-bottom: 7px;
-							border-radius: 12px;
-							background: #fff;
-							box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-
-							.top {
-								position: relative;
-								width: 100%;
-								height: 240px;
-
-								a { height: 100%; }
-
-								img {
-									width: 100%;
-									height: 100%;
-									object-fit: cover;
-									border-radius: 12px 12px 0 0;
-								}
-
-								.top-badge {
-									position: absolute;
-									top: 20px;
-									left: 16px;
-									display: flex;
-									width: 80px;
-									height: 30px;
-									justify-content: center;
-									align-items: center;
-									border-radius: 6px;
-									padding: 6px 20px;
-									background: #eb6753;
-									color: #fff;
-									text-align: center;
-									text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-									font-family: $font;
-									font-size: 12px;
-									font-style: normal;
-									font-weight: 600;
-									line-height: normal;
-
-									img { height: 16px; }
-								}
-
-								.price-box {
-									position: absolute;
-									bottom: 20px;
-									left: 20px;
-									padding: 8px 15px;
-									align-items: center;
-									border-radius: 6px;
-									border: 1px solid rgba(255, 255, 255, 0.5);
-									background: #fff;
-
-									p {
-										color: #181a20;
-										font-family: $font;
-										font-size: 15px;
-										font-style: normal;
-										font-weight: 600;
-										line-height: normal;
-									}
-								}
-							}
-
-							.bottom {
-								width: 100%;
-								height: 173px;
-								padding: 20px 16px 10px 16px;
-
-								.name-address {
-									width: 100%;
-									height: 48px;
-									gap: 5px;
-									margin-bottom: 20px;
-
-									.name {
-										width: 100%;
-										height: 23px;
-										overflow: hidden;
-
-										p {
-											color: #181a20;
-											font-family: $font;
-											font-size: 15px;
-											font-style: normal;
-											font-weight: 600;
-											line-height: normal;
-											text-transform: capitalize;
-										}
-									}
-
-									.address {
-										width: 100%;
-										overflow: hidden;
-
-										p {
-											color: #717171;
-											font-family: $font;
-											font-size: 13px;
-											font-style: normal;
-											font-weight: 400;
-											line-height: normal;
-										}
-									}
-								}
-
-								.options {
-									flex-direction: row;
-									width: 100%;
-									height: 20px;
-									gap: 20px;
-									margin-bottom: 10px;
-
-									.option {
-										flex-direction: row;
-										gap: 5px;
-										align-items: center;
-
-										p {
-											color: #181a20;
-											font-family: $font;
-											font-size: 13px;
-											font-style: normal;
-											font-weight: 400;
-											line-height: normal;
-										}
-									}
-								}
-
-								.divider {
-									width: 100%;
-									height: 1px;
-									background: #ddd;
-									margin-bottom: 17px;
-								}
-
-								.type-buttons {
-									flex-direction: row;
-									width: 100%;
-									justify-content: space-between;
-									align-items: center;
-
-									.type {
-										flex-direction: row;
-										align-items: center;
-										gap: 7px;
-
-										p {
-											color: #181a20;
-											font-family: $font;
-											font-style: normal;
-											line-height: normal;
-										}
-
-										.disabled-type {
-											color: rgba(143, 143, 143, 0.54);
-											font-family: $font;
-											font-style: normal;
-											line-height: normal;
-										}
-									}
-
-									.buttons {
-										flex-direction: row;
-										width: auto;
-										justify-content: center;
-										align-items: center;
-
-										svg {
-											width: 24px;
-											height: 24px;
-											cursor: pointer;
-										}
-
-										.view-cnt { font-size: 13px; }
-									}
-								}
-							}
-						}
-					}
-
-					.pagination-config {
-						width: 442px;
-						height: 86px;
-						align-items: center;
-						gap: 20px;
-
-						.pagination-box {
-							width: 100%;
-							align-items: center;
-						}
-
-						.total-result {
-							p {
-								color: #181a20;
-								text-align: center;
-								font-family: $font;
-								font-size: 24px;
-								font-style: normal;
-								font-weight: 275;
-								line-height: 26px;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+  #equipment-list-page {
+    padding-bottom: 60px;
+    background: $e-bg;
+    min-height: 100vh;
+
+    .container {
+      .right {
+        position: absolute;
+        right: 0;
+        top: 3%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        z-index: 2;
+
+        span {
+          font-family: $e-mono;
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 0.12em;
+          color: $e-mid;
+          text-transform: uppercase;
+        }
+
+        button {
+          margin-left: 8px;
+          color: $e-blue;
+          font-family: $e-mono;
+          font-size: 13px;
+          font-weight: 700;
+          line-height: 26px;
+          border: 1px solid $e-blue-mid;
+          padding: 4px 14px;
+          border-radius: 4px;
+          transition: all 0.18s;
+
+          &:hover {
+            background: $e-blue-dim;
+            color: #1256a8;
+          }
+        }
+      }
+
+      .equipment-page {
+        position: relative;
+        width: 100%;
+        flex-direction: row;
+        gap: 28px;
+        padding-top: 96px;
+
+        // ─── FILTER SIDEBAR ───────────────────────────────────────────────────
+        .filter-config {
+          width: 300px;
+          height: auto;
+          position: sticky;
+          top: 96px;
+
+          .filter-main {
+            width: 100%;
+            background: $e-surface;
+            border: 1px solid $e-low;
+            border-top: 3px solid $e-blue;
+            overflow: hidden;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 24px rgba(25, 118, 210, 0.06);
+
+            .filter-header {
+              padding: 18px 18px 14px;
+              border-bottom: 1px solid $e-line;
+              background: $e-surface;
+
+              .filter-header-top {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 14px;
+
+                .filter-title-block {
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+
+                  .filter-title-line {
+                    width: 3px;
+                    height: 22px;
+                    background: $e-blue;
+                    border-radius: 2px;
+                  }
+
+                  .filter-title {
+                    font-family: $e-display;
+                    font-size: 14px;
+                    font-weight: 800;
+                    color: $e-dark;
+                    letter-spacing: 0.18em;
+                  }
+                }
+
+                .reset-btn {
+                  display: flex;
+                  align-items: center;
+                  gap: 5px;
+                  cursor: pointer;
+                  background: none;
+                  border: 1px solid $e-low;
+                  padding: 5px 10px;
+                  border-radius: 4px;
+                  transition: all 0.15s;
+
+                  svg { font-size: 14px; color: $e-mid; transition: color 0.15s; }
+
+                  span {
+                    font-family: $e-mono;
+                    font-size: 9px;
+                    font-weight: 700;
+                    letter-spacing: 0.15em;
+                    color: $e-mid;
+                    transition: color 0.15s;
+                  }
+
+                  &:hover {
+                    border-color: $e-blue;
+                    background: $e-blue-dim;
+                    svg, span { color: $e-blue; }
+                  }
+                }
+              }
+
+              .filter-active-bar {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 12px;
+                padding: 6px 10px;
+                background: $e-blue-dim;
+                border-radius: 4px;
+                border: 1px solid $e-blue-mid;
+
+                .filter-active-count {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  width: 20px;
+                  height: 20px;
+                  background: $e-blue;
+                  border-radius: 50%;
+                  font-family: $e-mono;
+                  font-size: 10px;
+                  font-weight: 800;
+                  color: #fff;
+                }
+
+                .filter-active-text {
+                  font-family: $e-mono;
+                  font-size: 10px;
+                  letter-spacing: 0.08em;
+                  color: $e-blue;
+                  font-weight: 600;
+                }
+              }
+
+              .filter-search {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 0 12px;
+                height: 40px;
+                background: $e-panel;
+                border: 1px solid $e-low;
+                border-radius: 6px;
+                transition: border-color 0.15s, box-shadow 0.15s;
+
+                &:focus-within {
+                  border-color: $e-blue;
+                  box-shadow: 0 0 0 3px $e-blue-dim;
+                }
+
+                svg { font-size: 16px; color: $e-mid; flex-shrink: 0; }
+
+                input {
+                  flex: 1;
+                  background: transparent;
+                  border: none;
+                  outline: none;
+                  font-family: $e-sans;
+                  font-size: 13px;
+                  color: $e-dark;
+                  &::placeholder { color: $e-mid; }
+                }
+
+                .search-clear {
+                  font-size: 15px;
+                  color: $e-mid;
+                  cursor: pointer;
+                  transition: color 0.15s;
+                  &:hover { color: $e-blue; }
+                }
+              }
+            }
+
+            // ── Scrollable body ── ingichka, och binafsha scroll ──────────
+            .filter-scroll-body {
+              overflow-y: auto;
+              max-height: calc(100vh - 280px);
+
+              &::-webkit-scrollbar       { width: 1.5px; }
+              &::-webkit-scrollbar-track { background: transparent; }
+              &::-webkit-scrollbar-thumb {
+                background: rgba(124, 58, 237, 0.18);
+                border-radius: 2px;
+                &:hover { background: rgba(124, 58, 237, 0.38); }
+              }
+
+              // Firefox
+              scrollbar-width: thin;
+              scrollbar-color: rgba(124, 58, 237, 0.18) transparent;
+            }
+
+            // ── Accordion ─────────────────────────────────────────────────
+            .accordion-section {
+              border-bottom: 1px solid $e-line;
+
+              .accordion-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 12px 18px;
+                cursor: pointer;
+                transition: background 0.15s;
+                user-select: none;
+
+                &:hover { background: $e-blue-dim; }
+
+                .accordion-left { display: flex; align-items: center; gap: 10px; }
+
+                .accordion-icon {
+                  width: 28px;
+                  height: 28px;
+                  background: $e-panel;
+                  border: 1px solid $e-low;
+                  border-radius: 6px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: $e-mid;
+                  flex-shrink: 0;
+                  transition: all 0.15s;
+                  svg { font-size: 14px; }
+
+                  &.is-open {
+                    background: $e-blue-dim;
+                    border-color: $e-blue-mid;
+                    color: $e-blue;
+                  }
+                }
+
+                .accordion-label {
+                  font-family: $e-mono;
+                  font-size: 10px;
+                  font-weight: 700;
+                  letter-spacing: 0.12em;
+                  color: #44505e;
+                  text-transform: uppercase;
+                  transition: color 0.15s;
+                  &.is-open { color: $e-blue; }
+                }
+
+                .accordion-badge {
+                  height: 16px;
+                  min-width: 18px;
+                  padding: 0 5px;
+                  background: $e-amber;
+                  border-radius: 8px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  span { font-family: $e-mono; font-size: 9px; font-weight: 800; color: $e-dark; }
+                }
+
+                .accordion-chevron {
+                  font-size: 18px;
+                  color: $e-mid;
+                  transition: all 0.22s cubic-bezier(.4, 0, .2, 1);
+                  &.is-open { color: $e-blue; transform: rotate(180deg); }
+                }
+              }
+
+              .accordion-body { padding: 4px 18px 16px; }
+            }
+
+            // ── Tag chips ─────────────────────────────────────────────────
+            .tag-chips-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+
+            .tag-chip {
+              padding: 5px 11px;
+              cursor: pointer;
+              border: 1px solid $e-low;
+              background: $e-panel;
+              border-radius: 20px;
+              transition: all 0.15s;
+
+              span {
+                font-family: $e-mono;
+                font-size: 10px;
+                font-weight: 600;
+                color: $e-mid;
+                letter-spacing: 0.04em;
+                transition: color 0.12s;
+              }
+
+              &:hover { border-color: $e-blue; background: $e-blue-dim; span { color: $e-blue; } }
+
+              &.is-active {
+                background: $e-blue;
+                border-color: $e-blue;
+                span { color: #ffffff; font-weight: 700; }
+              }
+            }
+
+            // ── Price Range ───────────────────────────────────────────────
+            .price-range-wrap { display: flex; flex-direction: column; gap: 10px; }
+
+            .price-block {
+              padding: 10px 12px;
+              background: $e-panel;
+              border: 1px solid $e-low;
+              border-radius: 6px;
+            }
+
+            .price-block-label {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              margin-bottom: 8px;
+
+              .price-block-tag {
+                font-family: $e-mono;
+                font-size: 9px;
+                font-weight: 800;
+                letter-spacing: 0.2em;
+                color: $e-blue;
+              }
+
+              .price-block-currency {
+                font-family: $e-mono;
+                font-size: 9px;
+                font-weight: 500;
+                letter-spacing: 0.15em;
+                color: $e-mid;
+              }
+            }
+
+            .price-input-wrap {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              background: #fff;
+              border: 1px solid $e-low;
+              border-radius: 4px;
+              padding: 0 12px;
+              height: 40px;
+              transition: border-color 0.15s;
+
+              &:focus-within { border-color: $e-blue; box-shadow: 0 0 0 2px $e-blue-dim; }
+
+              .price-prefix {
+                font-family: $e-mono;
+                font-size: 16px;
+                font-weight: 800;
+                color: $e-blue;
+                line-height: 1;
+                flex-shrink: 0;
+                &--dim { color: $e-mid; }
+              }
+
+              .price-input {
+                flex: 1;
+                background: transparent;
+                border: none;
+                outline: none;
+                font-family: $e-mono;
+                font-size: 14px;
+                font-weight: 700;
+                color: $e-dark;
+                -moz-appearance: textfield;
+                appearance: textfield;
+
+                &::-webkit-outer-spin-button,
+                &::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+                &::placeholder { color: $e-mid; font-size: 12px; font-weight: 400; }
+              }
+            }
+
+            .price-rule { display: none; }
+
+            .filter-footer {
+              padding: 14px 18px 18px;
+              border-top: 1px solid $e-line;
+              background: $e-surface;
+
+              .apply-btn {
+                width: 100%;
+                height: 46px;
+                background: $e-blue;
+                border: none;
+                border-radius: 6px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                cursor: pointer;
+                transition: all 0.18s;
+
+                .apply-label {
+                  font-family: $e-mono;
+                  font-size: 11px;
+                  font-weight: 800;
+                  color: #fff;
+                  letter-spacing: 0.18em;
+                }
+
+                .apply-count {
+                  width: 20px;
+                  height: 20px;
+                  background: $e-amber;
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-family: $e-mono;
+                  font-size: 10px;
+                  font-weight: 900;
+                  color: $e-dark;
+                }
+
+                .apply-icon { font-size: 16px; color: rgba(255,255,255,0.8); }
+
+                &:hover {
+                  background: #6425d0;
+                  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.40);
+                  transform: translateY(-1px);
+                }
+                &:active { transform: translateY(0); }
+              }
+            }
+          }
+        }
+
+        // ─── MAIN LISTING AREA ────────────────────────────────────────────────
+        .main-config {
+          flex: 1;
+          align-items: flex-start;
+
+          .list-config {
+            display: flex;
+            width: 100%;
+            height: auto;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 28px;
+
+            .no-data {
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              padding: 80px 0;
+              gap: 16px;
+              color: $e-mid;
+              img { opacity: 0.4; }
+              p { font-family: $e-mono; font-size: 13px; letter-spacing: 0.08em; }
+            }
+
+            // ════════════════════════════════════════════════════════════════
+            // ── TICKET / STUB CARD ──────────────────────────────────────────
+            //
+            //  ┌──────────────────────────┐
+            //  │                          │  ← image area  (260px)
+            //  │         IMAGE            │
+            //  │                          │
+            //  ●──  ──  ──  ──  ──  ──  ──●  ← notch r=14 + dashed tear
+            //  │                          │
+            //  │   name / info / tag      │  ← stub area   (170px)
+            //  │                          │
+            //  └──────────────────────────┘
+            //
+            //  Width: 310px   Total height: 430px   Notch r: 14px   Corner r: 12px
+            //  Tear-line Y: 260px
+            //  clip-path coords:
+            //    left  notch: (0, 246) → arc → (0, 274)   sweep outward (flag 0 0 0)
+            //    right notch: (310,246)→ arc → (310,274)  sweep outward (flag 0 0 1)
+            // ════════════════════════════════════════════════════════════════
+            .card-config {
+              width: 310px;
+              position: relative;
+              background: transparent;
+              overflow: visible;
+              transition: transform 0.24s cubic-bezier(0.4, 0, 0.2, 1),
+                          filter  0.24s cubic-bezier(0.4, 0, 0.2, 1);
+
+              // ── Ticket clip-path ──────────────────────────────────────────
+              clip-path: path('M 12 0 Q 0 0 0 12 L 0 246 A 14 14 0 0 0 0 274 L 0 418 Q 0 430 12 430 L 298 430 Q 310 430 310 418 L 310 274 A 14 14 0 0 1 310 246 L 310 12 Q 310 0 298 0 Z');
+
+              filter: drop-shadow(0 2px 14px rgba(124, 58, 237, 0.07));
+
+              &:hover {
+                transform: translateY(-6px);
+                filter: drop-shadow(0 12px 32px rgba(124, 58, 237, 0.18));
+
+                .top .card-actions { opacity: 1; transform: translateX(0); }
+                .top img { transform: scale(1.05); }
+              }
+
+              // ── SVG border overlay ────────────────────────────────────────
+              .ticket-border {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 430px;
+                pointer-events: none;
+                z-index: 10;
+
+                .border-path {
+                  fill: none;
+                  stroke: rgba(124, 58, 237, 0.22);
+                  stroke-width: 0.75;
+                }
+
+                .tear-line {
+                  fill: none;
+                  stroke: rgba(124, 58, 237, 0.22);
+                  stroke-width: 0.75;
+                  stroke-dasharray: 6 4;
+                }
+              }
+
+              // ── TOP — image area (260px tall) ─────────────────────────────
+              .top {
+                position: relative;
+                width: 100%;
+                height: 260px;
+                overflow: hidden;
+                background: $e-panel;
+
+                a { display: block; width: 100%; height: 100%; }
+
+                img {
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                  transition: transform 0.36s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+
+                // TOP badge
+                .top-badge {
+                  position: absolute;
+                  top: 14px;
+                  left: 14px;
+                  display: flex;
+                  align-items: center;
+                  gap: 4px;
+                  padding: 4px 10px;
+                  background: $e-amber;
+                  border-radius: 20px;
+                  z-index: 2;
+                  img { height: 12px; }
+                  p {
+                    font-family: $e-mono;
+                    font-size: 10px;
+                    font-weight: 800;
+                    color: $e-dark;
+                    letter-spacing: 0.08em;
+                  }
+                }
+
+                // BESTSELLER badge — yuqori o'ng burchak
+                .bestseller-badge {
+                  position: absolute;
+                  top: 14px;
+                  right: 14px;
+                  display: flex;
+                  align-items: center;
+                  gap: 5px;
+                  padding: 5px 11px;
+                  background: $e-blue;
+                  border-radius: 20px;
+                  z-index: 4;
+                  box-shadow: 0 2px 12px rgba(124, 58, 237, 0.40);
+
+                  .bestseller-star {
+                    font-size: 10px;
+                    line-height: 1;
+                    color: $e-amber;
+                  }
+
+                  p {
+                    font-family: $e-mono;
+                    font-size: 9px;
+                    font-weight: 800;
+                    color: #fff;
+                    letter-spacing: 0.14em;
+                    text-transform: uppercase;
+                  }
+                }
+
+                // Hover action buttons
+                .card-actions {
+                  position: absolute;
+                  top: 14px;
+                  right: 14px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 8px;
+                  z-index: 3;
+                  opacity: 0;
+                  transform: translateX(10px);
+                  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+
+                  .action-btn {
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    background: rgba(124, 58, 237, 0.45);
+                    border: none;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    box-shadow: 0 2px 10px rgba(124, 58, 237, 0.20);
+                    transition: all 0.16s;
+                    position: relative;
+                    overflow: visible;
+                    backdrop-filter: blur(4px);
+
+                    svg { font-size: 15px; color: rgba(255, 255, 255, 0.90); }
+
+                    .action-count {
+                      position: absolute;
+                      top: -5px;
+                      right: -5px;
+                      min-width: 15px;
+                      height: 15px;
+                      padding: 0 3px;
+                      background: rgba(124, 58, 237, 0.80);
+                      border-radius: 8px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-family: $e-mono;
+                      font-size: 7px;
+                      font-weight: 800;
+                      color: #fff;
+                      border: 1.5px solid rgba(255,255,255,0.6);
+
+                      &--amber { background: $e-amber; color: $e-dark; }
+                    }
+
+                    &:hover {
+                      background: rgba(124, 58, 237, 0.75);
+                      transform: scale(1.1);
+                      box-shadow: 0 4px 16px rgba(124, 58, 237, 0.40);
+                    }
+
+                    &.like-btn:hover {
+                      background: rgba(231, 76, 60, 0.65);
+                      box-shadow: 0 4px 16px rgba(231, 76, 60, 0.35);
+                    }
+
+                    &.like-btn.liked {
+                      background: rgba(231, 76, 60, 0.75);
+                      box-shadow: 0 2px 10px rgba(231, 76, 60, 0.30);
+                      .action-count { background: #c0392b; }
+                    }
+                  }
+                }
+
+                // Price overlay (bottom of image)
+                .price-box {
+                  position: absolute;
+                  bottom: 0;
+                  left: 0;
+                  right: 0;
+                  padding: 28px 14px 12px;
+                  background: linear-gradient(transparent, rgba(13, 17, 23, 0.58));
+                  display: flex;
+                  align-items: flex-end;
+
+                  p {
+                    font-family: $e-display;
+                    font-size: 17px;
+                    font-weight: 800;
+                    color: #fff;
+                    text-shadow: 0 1px 4px rgba(0,0,0,0.35);
+                    letter-spacing: 0.02em;
+                  }
+                }
+              }
+
+              // ── BOTTOM — stub area (170px tall, starts at y=260) ──────────
+              .bottom {
+                padding: 20px 18px 18px;
+                background: $e-blue;
+                min-height: 170px;
+
+                .name-address {
+                  margin-bottom: 12px;
+
+                  .name a {
+                    text-decoration: none;
+                    p {
+                      font-family: $e-display;
+                      font-size: 15px;
+                      font-weight: 700;
+                      color: #ffffff;
+                      line-height: 1.3;
+                      white-space: nowrap;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      transition: color 0.15s;
+                    }
+                    &:hover p { color: $e-amber; }
+                  }
+
+                  .address {
+                    margin-top: 4px;
+                    p {
+                      font-family: $e-sans;
+                      font-size: 11px;
+                      color: rgba(255, 255, 255, 0.62);
+                      font-weight: 400;
+                      white-space: nowrap;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                    }
+                  }
+                }
+
+                .options {
+                  flex-direction: row;
+                  width: 100%;
+                  gap: 6px;
+                  margin-bottom: 14px;
+                  flex-wrap: wrap;
+
+                  .option {
+                    flex-direction: row;
+                    gap: 4px;
+                    align-items: center;
+                    background: rgba(255, 255, 255, 0.12);
+                    padding: 4px 9px;
+                    border-radius: 5px;
+                    border: 1px solid rgba(255, 255, 255, 0.18);
+
+                    img {
+                      width: 12px;
+                      height: 12px;
+                      opacity: 0.70;
+                      filter: brightness(0) invert(1);
+                    }
+
+                    p {
+                      font-family: $e-mono;
+                      font-size: 9px;
+                      color: rgba(255, 255, 255, 0.88);
+                      font-weight: 600;
+                      letter-spacing: 0.04em;
+                    }
+                  }
+                }
+
+                .divider {
+                  display: block;
+                  width: 100%;
+                  height: 1px;
+                  background: rgba(255, 255, 255, 0.16);
+                  margin-bottom: 12px;
+                }
+
+                .type-buttons {
+                  flex-direction: row;
+                  width: 100%;
+                  justify-content: flex-start;
+                  align-items: center;
+
+                  .type {
+                    flex-direction: row;
+                    align-items: center;
+
+                    p {
+                      font-family: $e-mono;
+                      font-size: 9px;
+                      font-weight: 700;
+                      letter-spacing: 0.12em;
+                      color: $e-blue;
+                      text-transform: uppercase;
+                      background: #ffffff;
+                      padding: 4px 12px;
+                      border-radius: 20px;
+                      border: none;
+                    }
+                  }
+
+                  .buttons { display: none; }
+                }
+              }
+            }
+          }
+
+          .pagination-config {
+            width: 100%;
+            height: 86px;
+            align-items: center;
+            gap: 14px;
+            margin-top: 20px;
+
+            .pagination-box {
+              width: 100%;
+              align-items: center;
+
+              .MuiPaginationItem-root {
+                font-family: $e-mono;
+                font-size: 12px;
+                border-radius: 6px;
+
+                &.Mui-selected { background: $e-blue; color: #fff; }
+              }
+            }
+
+            .total-result {
+              p {
+                font-family: $e-mono;
+                font-size: 13px;
+                color: $e-mid;
+                font-weight: 600;
+                letter-spacing: 0.06em;
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

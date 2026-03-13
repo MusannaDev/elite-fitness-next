@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import exp from 'constants';
 
 /**************************
  *         MEMBER         *
@@ -195,3 +196,124 @@ export const GET_COMMENTS = gql`
 		}
 	}
 `;
+
+
+/* **********************
+*    PRODUCTS           *
+************************/
+
+export const GET_ALL_PRODUCTS_BY_ADMIN = gql`
+  query GetAllProductsByAdmin($input: AllProductsInquiry!) {
+    getAllProductsByAdmin(input: $input) {
+        list {
+            _id
+            productCategory
+            productStatus
+            productName
+            productBrand
+            productPrice
+            productWeight
+            productLeftCount
+            productBenefits
+            productFlavor
+            productCalories
+            productProteinPerServing
+            productDesc
+            productImages
+            isBestseller
+            productViews
+            productLikes
+            productComments
+            productRank
+            memberId
+            soldAt
+            deletedAt
+            createdAt
+            updatedAt
+        }
+        metaCounter {
+            total
+        }
+    }
+  }
+`
+
+/* ********************
+*       CLOTHES       *
+**********************/
+
+export const GET_ALL_CLOTHES_BY_ADMIN = gql`
+  query GetAllClothesByAdmin($input: AllClotheInquiry!) {
+    getAllClothesByAdmin(input: $input) {
+        list {
+            _id
+            clotheCategory
+            clotheStatus
+            clotheName
+            clotheBrand
+            clothePrice
+            clotheMaterial
+            clotheSize
+            clotheGender
+            clotheColor
+            clotheLeftCount
+            clotheImages
+            clotheDesc
+            isBestseller
+            clotheViews
+            clotheLikes
+            clotheComments
+            clotheRank
+            memberId
+            soldAt
+            deletedAt
+            createdAt
+            updatedAt
+        }
+        metaCounter {
+            total
+        }
+    }
+  }
+
+`
+
+/* **********************
+*     EQUIPMENTS        *
+*************************/
+
+export const GET_ALL_EQUIPMENTS_BY_ADMIN = gql`
+  query GetAllEquipmentsByAdmin($input:AllEquipmentsInquiry!) {
+    getAllEquipmentsByAdmin(input: $input) {
+        list {
+            _id
+            equipmentCategory
+            equipmentStatus
+            equipmentName
+            equipmentBrand
+            equipmentPrice
+            equipmentMaterial
+            equipmentWeightCapacity
+            equipmentLocation
+            equipmentWeight
+            equipmentLeftCount
+            equipmentImages
+            equipmentDesc
+            isBestseller
+            equipmentViews
+            equipmentLikes
+            equipmentComments
+            equipmentRank
+            memberId
+            soldAt
+            deletedAt
+            createdAt
+            updatedAt
+        }
+        metaCounter {
+            total
+        }
+    }
+  }
+
+`

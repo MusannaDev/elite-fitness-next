@@ -1,20 +1,20 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography } from '@mui/material';
-import ProductCard from '../../libs/components/product/ProductCard';
+import ClotheCard from '../../libs/components/clothes/ClothesCard';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import Filter from '../../libs/components/product/Filter';
+import Filter from '../../libs/components/clothes/Filter';
 import { useRouter } from 'next/router';
-import { ProductsInquiry } from '../../libs/types/product/product.input';
-import { Product } from '../../libs/types/product/product';
+import { ClotheInquiry } from '../../libs/types/clothes/clothes.input';
+import { Clothe } from '../../libs/types/clothes/clothes';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_PRODUCTS } from '../../apollo/user/query';
+import { GET_CLOTHES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
-import { LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
+import { LIKE_TARGET_CLOTHE } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -23,35 +23,57 @@ export const getStaticProps = async ({ locale }: any) => ({
 	},
 });
 
-const ProductList: NextPage = ({ initialInput, ...props }: any) => {
+const ClotheList: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
-	const [searchFilter, setSearchFilter] = useState<ProductsInquiry>(
+	const [searchFilter, setSearchFilter] = useState<ClotheInquiry>(
 		router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
 	);
-	const [products, setProducts] = useState<Product[]>([]);
+	const [clothes, setClothes] = useState<Clothe[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [sortingOpen, setSortingOpen] = useState(false);
 	const [filterSortName, setFilterSortName] = useState('New');
 
-	/** APOLLO REQUESTS **/
+	// likedMap: { [clotheId]: { liked: boolean, count: number } }
+	const [likedMap, setLikedMap] = useState<Record<string, { liked: boolean; count: number }>>({});
 
-	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
+	/** APOLLO **/
+	const [likeTargetClothe] = useMutation(LIKE_TARGET_CLOTHE);
 
-	const {
-		loading: getProductsLoading,
-		data: getProductsData,
-		error: getProductsError,
-		refetch: getProductsRefetch,
-	} = useQuery(GET_PRODUCTS, {
+	const { refetch: getClothesRefetch } = useQuery(GET_CLOTHES, {
 		fetchPolicy: 'network-only',
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setProducts(data?.getProducts?.list);
-			setTotal(data?.getProducts?.metaCounter[0]?.total);
+			const list: Clothe[] = data?.getClothes?.list ?? [];
+			setClothes(list);
+			setTotal(data?.getClothes?.metaCounter[0]?.total ?? 0);
+
+			// ── DEBUG: meLiked serverdan to'g'ri kelayotganini tekshirish ──
+			console.log('=== SERVER DATA ===');
+			list.forEach((c) => {
+				console.log(`${c.clotheName} | likes: ${c.clotheLikes} | meLiked:`, c.meLiked);
+			});
+			console.log('==================');
+
+			// Serverdan kelgan like holatini likedMap ga to'liq yuklaymiz
+			// (reload qilganda likedMap bo'sh bo'ladi, shuning uchun server data ishlatiladi)
+			setLikedMap((prev) => {
+				const next = { ...prev };
+				list.forEach((c) => {
+					// Faqat likedMap da YO'Q itemlarni serverdan yuklaymiz
+					// Bor itemlarni override qilmaymiz (like bosgandan keyin refetch bo'lsa)
+					if (!(c._id in next)) {
+						next[c._id] = {
+							liked: !!(c.meLiked && c.meLiked[0]?.myFavorite),
+							count: c.clotheLikes ?? 0,
+						};
+					}
+				});
+				return next;
+			});
 		},
 	});
 
@@ -61,44 +83,61 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 			const inputObj = JSON.parse(router?.query?.input as string);
 			setSearchFilter(inputObj);
 		}
-
 		setCurrentPage(searchFilter.page === undefined ? 1 : searchFilter.page);
 	}, [router]);
 
 	useEffect(() => {
-		getProductsRefetch({ input: searchFilter }).then();
-		console.log('searchFilter:', searchFilter);
+		// Filter o'zgarganda likedMap ni TOZALAYMIZ — yangi list keladi
+		setLikedMap({});
+		getClothesRefetch({ input: searchFilter }).then();
 	}, [searchFilter]);
 
 	/** HANDLERS **/
 	const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
 		searchFilter.page = value;
 		await router.push(
-			`/product?input=${JSON.stringify(searchFilter)}`,
-			`/product?input=${JSON.stringify(searchFilter)}`,
-			{
-				scroll: false,
-			},
+			`/clothe?input=${JSON.stringify(searchFilter)}`,
+			`/clothe?input=${JSON.stringify(searchFilter)}`,
+			{ scroll: false },
 		);
 		setCurrentPage(value);
 	};
 
-	const likeProductHandler = async (user: T, id: string) => {
+	const likeClotheHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
-			await likeTargetProduct({
-				variables: {
-					input: id,
-				},
+			// Optimistic update
+			setLikedMap((prev) => {
+				const current = prev[id] ?? { liked: false, count: 0 };
+				return {
+					...prev,
+					[id]: {
+						liked: !current.liked,
+						count: current.liked ? current.count - 1 : current.count + 1,
+					},
+				};
 			});
 
-			await getProductsRefetch({ input: searchFilter });
+			// Mutation — refetch CHAQIRMAYMIZ
+			await likeTargetClothe({ variables: { input: id } });
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.log('ERROR, likeProductHandler:', err.message);
+			// Xato bo'lsa orqaga qaytaramiz
+			setLikedMap((prev) => {
+				const current = prev[id];
+				if (!current) return prev;
+				return {
+					...prev,
+					[id]: {
+						liked: !current.liked,
+						count: current.liked ? current.count - 1 : current.count + 1,
+					},
+				};
+			});
+			console.log('ERROR, likeClotheHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -120,11 +159,11 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 				setFilterSortName('New');
 				break;
 			case 'lowest':
-				setSearchFilter({ ...searchFilter, sort: 'productPrice', direction: Direction.ASC });
+				setSearchFilter({ ...searchFilter, sort: 'clothePrice', direction: Direction.ASC });
 				setFilterSortName('Lowest Price');
 				break;
 			case 'highest':
-				setSearchFilter({ ...searchFilter, sort: 'productPrice', direction: Direction.DESC });
+				setSearchFilter({ ...searchFilter, sort: 'clothePrice', direction: Direction.DESC });
 				setFilterSortName('Highest Price');
 				break;
 		}
@@ -133,10 +172,10 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <h1>PRODUCTS MOBILE</h1>;
+		return <h1>CLOTHES MOBILE</h1>;
 	} else {
 		return (
-			<div id="product-list-page" style={{ position: 'relative' }}>
+			<div id="clothe-list-page" style={{ position: 'relative' }}>
 				<div className="container">
 					<Box component={'div'} className={'right'}>
 						<span>Sort by</span>
@@ -145,59 +184,37 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 								{filterSortName}
 							</Button>
 							<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
-								<MenuItem
-									onClick={sortingHandler}
-									id={'new'}
-									disableRipple
-									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
-								>
-									New
-								</MenuItem>
-								<MenuItem
-									onClick={sortingHandler}
-									id={'lowest'}
-									disableRipple
-									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
-								>
-									Lowest Price
-								</MenuItem>
-								<MenuItem
-									onClick={sortingHandler}
-									id={'highest'}
-									disableRipple
-									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
-								>
-									Highest Price
-								</MenuItem>
+								<MenuItem onClick={sortingHandler} id={'new'} disableRipple>New</MenuItem>
+								<MenuItem onClick={sortingHandler} id={'lowest'} disableRipple>Lowest Price</MenuItem>
+								<MenuItem onClick={sortingHandler} id={'highest'} disableRipple>Highest Price</MenuItem>
 							</Menu>
 						</div>
 					</Box>
-					<Stack className={'product-page'}>
+					<Stack className={'clothe-page'}>
 						<Stack className={'filter-config'}>
 							{/* @ts-ignore */}
 							<Filter searchFilter={searchFilter} setSearchFilter={setSearchFilter} initialInput={initialInput} />
 						</Stack>
 						<Stack className="main-config" mb={'76px'}>
 							<Stack className={'list-config'}>
-								{products?.length === 0 ? (
+								{clothes?.length === 0 ? (
 									<div className={'no-data'}>
 										<img src="/img/icons/icoAlert.svg" alt="" />
-										<p>No Products found!</p>
+										<p>No Clothes found!</p>
 									</div>
 								) : (
-									products.map((product: Product) => {
-										return (
-											<ProductCard
-												product={product}
-												likeProductHandler={likeProductHandler}
-												key={product?._id}
-											/>
-										);
-									})
+									clothes.map((clothe: Clothe) => (
+										<ClotheCard
+											clothe={clothe}
+											likeClotheHandler={likeClotheHandler}
+											likedOverride={likedMap[clothe._id]}
+											key={clothe?._id}
+										/>
+									))
 								)}
 							</Stack>
 							<Stack className="pagination-config">
-								{products.length !== 0 && (
+								{clothes.length !== 0 && (
 									<Stack className="pagination-box">
 										<Pagination
 											page={currentPage}
@@ -208,11 +225,10 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 										/>
 									</Stack>
 								)}
-
-								{products.length !== 0 && (
+								{clothes.length !== 0 && (
 									<Stack className="total-result">
 										<Typography>
-											Total {total} product{total > 1 ? 's' : ''} available
+											Total {total} item{total > 1 ? 's' : ''} available
 										</Typography>
 									</Stack>
 								)}
@@ -225,19 +241,16 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 	}
 };
 
-ProductList.defaultProps = {
+ClotheList.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 9,
 		sort: 'createdAt',
 		direction: 'DESC',
 		search: {
-			pricesRange: {
-				start: 0,
-				end: 2000000,
-			},
+			pricesRange: { start: 0, end: 2000000 },
 		},
 	},
 };
 
-export default withLayoutBasic(ProductList);
+export default withLayoutBasic(ClotheList);

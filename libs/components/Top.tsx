@@ -60,6 +60,39 @@ const Top = () => {
 	}, [router]);
 
 	useEffect(() => {
+		switch (router.pathname) {
+			case '/product/detail':
+				setBgColor(true);
+				break;
+			default:
+				setBgColor(false);
+				break;
+		}
+	}, [router]);
+
+	useEffect(() => {
+		switch (router.pathname) {
+			case '/equipment/detail':
+				setBgColor(true);
+				break;
+			default:
+				setBgColor(false);
+				break;
+		}
+	}, [router]);
+
+	useEffect(() => {
+		switch (router.pathname) {
+			case '/clothes/detail':
+				setBgColor(true);
+				break;
+			default:
+				setBgColor(false);
+				break;
+		}
+	}, [router]);
+
+	useEffect(() => {
 		const jwt = getJwtToken();
 		if (jwt) updateUserInfo(jwt);
 	}, []);
@@ -218,7 +251,7 @@ const Top = () => {
 									>
 										<Link href={'/agent'}><span>{t('Agents')}</span></Link>
 										<Link href={'/trainer'}><span>{t('Trainers')}</span></Link>
-										<Link href={'/seller'}><span>{t('SalesManagers')}</span></Link>
+										<Link href={'/sales-manager'}><span>{t('SalesManagers')}</span></Link>
 									</div>
 								)}
 							</div>

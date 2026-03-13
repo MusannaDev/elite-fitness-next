@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Button, Checkbox, CircularProgress, Stack, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
@@ -49,7 +49,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [productId, setProductId] = useState<string | null>(null);
 	const [product, setProduct] = useState<Product | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
-	const [destinationProducts, setDestinationProducts] = useState<Product[]>([]);
+	const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [productComments, setProductComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
@@ -101,7 +101,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 		skip: !productId && !product,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getProducts?.list) setDestinationProducts(data?.getProducts?.list);
+			if (data?.getProducts?.list) setSimilarProducts(data?.getProducts?.list);
 		},
 	});
 
@@ -219,32 +219,15 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<Stack className={'product-info-config'}>
 							<Stack className={'info'}>
 								<Stack className={'left-box'}>
-									<Typography className={'title-main'}>{product?.productTitle}</Typography>
+									<Typography className={'title-main'}>{product?.productName}</Typography>
 									<Stack className={'top-box'}>
-										<Typography className={'city'}>{product?.productCategory}</Typography>
+										<Typography className={'brand'}>{product?.productBrand}</Typography>
 										<Stack className={'divider'}></Stack>
-										<Stack className={'buy-rent-box'}>
-											{product?.productBarter && (
-												<>
-													<Stack className={'circle'}>
-														<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
-															<circle cx="3" cy="3" r="3" fill="#EB6753" />
-														</svg>
-													</Stack>
-													<Typography className={'buy-rent'}>Barter</Typography>
-												</>
-											)}
-
-											{product?.productRent && (
-												<>
-													<Stack className={'circle'}>
-														<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
-															<circle cx="3" cy="3" r="3" fill="#EB6753" />
-														</svg>
-													</Stack>
-													<Typography className={'buy-rent'}>Rent</Typography>
-												</>
-											)}
+										<Typography className={'category'}>{product?.productCategory}</Typography>
+										<Stack className={'divider'}></Stack>
+										<Stack className={'details-box'}>
+											<Typography className={'detail-item'}>Weight: {product?.productWeight}</Typography>
+											<Typography className={'detail-item'}>Flavor: {product?.productFlavor}</Typography>
 										</Stack>
 										<Stack className={'divider'}></Stack>
 										<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -266,6 +249,15 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</svg>
 										<Typography className={'date'}>{moment().diff(product?.createdAt, 'days')} days ago</Typography>
 									</Stack>
+									{product?.productLeftCount !== undefined && product.productLeftCount > 0 ? (
+										<Typography className={'in-stock'} sx={{ color: 'green', fontWeight: 600, mt: 1 }}>
+											In Stock ({product.productLeftCount} left)
+										</Typography>
+									) : (
+										<Typography className={'out-of-stock'} sx={{ color: 'red', fontWeight: 600, mt: 1 }}>
+											Out of Stock
+										</Typography>
+									)}
 								</Stack>
 								<Stack className={'right-box'}>
 									<Stack className="buttons">
@@ -327,17 +319,31 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 													<Typography className={'title'}>Category</Typography>
 													<Typography className={'data'}>{product?.productCategory}</Typography>
 												</Box>
+												<Box component={'div'} className={'info'}>
+													<Typography className={'title'}>Brand</Typography>
+													<Typography className={'data'}>{product?.productBrand}</Typography>
+												</Box>
+												<Box component={'div'} className={'info'}>
+													<Typography className={'title'}>Weight</Typography>
+													<Typography className={'data'}>{product?.productWeight}</Typography>
+												</Box>
 											</Stack>
 											<Stack className={'right'}>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Product Type</Typography>
-													<Typography className={'data'}>{product?.productType}</Typography>
+													<Typography className={'title'}>Flavor</Typography>
+													<Typography className={'data'}>{product?.productFlavor}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Product Options</Typography>
-													<Typography className={'data'}>
-														{product?.productBarter && 'Barter'} {product?.productRent && 'Rent'}
-													</Typography>
+													<Typography className={'title'}>Benefits</Typography>
+													<Typography className={'data'}>{product?.productBenefits}</Typography>
+												</Box>
+												<Box component={'div'} className={'info'}>
+													<Typography className={'title'}>Calories</Typography>
+													<Typography className={'data'}>{product?.productCalories} kcal</Typography>
+												</Box>
+												<Box component={'div'} className={'info'}>
+													<Typography className={'title'}>Protein per Serving</Typography>
+													<Typography className={'data'}>{product?.productProteinPerServing}g</Typography>
 												</Box>
 											</Stack>
 										</Stack>
@@ -458,7 +464,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Email</Typography>
-									<input type={'text'} placeholder={'creativelayers088'} />
+									<input type={'text'} placeholder={'Enter your email'} />
 								</Stack>
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Message</Typography>
@@ -484,12 +490,12 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 							</Stack>
 						</Stack>
-						{destinationProducts.length !== 0 && (
+						{similarProducts.length !== 0 && (
 							<Stack className={'similar-products-config'}>
 								<Stack className={'title-pagination-box'}>
 									<Stack className={'title-box'}>
 										<Typography className={'main-title'}>Similar Products</Typography>
-										<Typography className={'sub-title'}>Aliquam lacinia diam quis lacus euismod</Typography>
+										<Typography className={'sub-title'}>You might also like these products</Typography>
 									</Stack>
 									<Stack className={'pagination-box'}>
 										<WestIcon className={'swiper-similar-prev'} />
@@ -511,13 +517,13 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 											el: '.swiper-similar-pagination',
 										}}
 									>
-										{destinationProducts.map((product: Product) => {
+										{similarProducts.map((productItem: Product) => {
 											return (
-												<SwiperSlide className={'similar-products-slide'} key={product?.productTitle}>
+												<SwiperSlide className={'similar-products-slide'} key={productItem?._id}>
 													<ProductBigCard
-														product={product}
+														product={productItem}
 														likeProductHandler={likeProductHandler}
-														key={product?._id}
+														key={productItem?._id}
 													/>
 												</SwiperSlide>
 											);

@@ -3,7 +3,7 @@ import { Box, Button, Checkbox, CircularProgress, Stack, Typography } from '@mui
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
-import Review from '../../libs/components/equipment/Review';
+import Review from '../../libs/components/equipments/Review';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper';
 import EquipmentBigCard from '../../libs/components/common/EquipmentBigCard';

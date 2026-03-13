@@ -1,26 +1,35 @@
-// ─── Clothes Filter Design Tokens ──────────────────────────────────────────────
-// Soft, rounded, teal-mint palette — inspired by modern fashion filter UIs
-$cl-teal:       #1a9e8f;
-$cl-teal-light: #e8faf7;
-$cl-teal-mid:   rgba(26, 158, 143, 0.15);
-$cl-bg:         #f9fafb;
-$cl-white:      #ffffff;
-$cl-dark:       #1f2937;
-$cl-mid:        #6b7280;
-$cl-muted:      #9ca3af;
-$cl-border:     #e5e7eb;
-$cl-border-lt:  #f3f4f6;
-$cl-radius:     12px;
-$cl-radius-sm:  10px;
-$cl-sans:       'Nunito', 'DM Sans', 'Inter', sans-serif;
+// ─── Design Tokens ─────────────────────────────────────────────────────────────
+$cl-bg:        #ffffff;
+$cl-bg-off:    #f7f7f5;
+$cl-surface:   #ffffff;
+$cl-panel:     #f4f4f2;
+$cl-card-img:  #3a3a3a;
+$cl-dark:      #111111;
+$cl-lime:      #a0c814;
+$cl-lime-dim:  rgba(160, 200, 20, 0.08);
+$cl-lime-mid:  rgba(160, 200, 20, 0.18);
+$cl-lime-dark: #7da30e;
 
-// ─── Root Filter Panel ─────────────────────────────────────────────────────────
-#cl-wrap {
-	#clothes-list-page {
-		padding-bottom: 40px;
+$cl-text:      #1a1a1a;
+$cl-text-mid:  #555555;
+$cl-text-dim:  #999999;
+$cl-line:      #e5e5e3;
+$cl-line-dark: #d0d0cc;
+$cl-mono:      'JetBrains Mono', 'Fira Mono', 'Courier New', monospace;
+$cl-serif:     'Cormorant Garamond', Georgia, serif;
+$cl-sans:      'DM Sans', 'Inter', sans-serif;
+
+#pc-wrap {
+	#clothe-list-page {
+		padding-bottom: 60px;
 		background: $cl-bg;
+		min-height: 100vh;
 
 		.container {
+
+			// ═══════════════════════════════════════════════════════════════════
+			// ─── SORT BAR ─────────────────────────────────────────────────────
+			// ═══════════════════════════════════════════════════════════════════
 			.right {
 				position: absolute;
 				right: 0;
@@ -28,352 +37,372 @@ $cl-sans:       'Nunito', 'DM Sans', 'Inter', sans-serif;
 				display: flex;
 				flex-direction: row;
 				align-items: center;
+				gap: 16px;
 				z-index: 2;
 
-				button {
-					margin-left: 10px;
-					color: $cl-teal;
-					font-family: $cl-sans;
-					font-size: 14px;
-					font-weight: 600;
-					line-height: 26px;
+				span {
+					color: $cl-text-dim;
+					font-family: $cl-mono;
+					font-size: 11px;
+					font-weight: 500;
+					letter-spacing: 0.25em;
+					text-transform: uppercase;
+				}
 
-					&:hover {
+				div {
+					button {
+						color: $cl-lime-dark;
+						font-family: $cl-mono;
+						font-size: 15px;
+						font-weight: 700;
+						letter-spacing: 0.02em;
+						line-height: 26px;
 						background: none;
-						color: darken($cl-teal, 8%);
+						border: none;
+						padding: 6px 12px;
+						transition: all 0.15s;
+
+						svg {
+							color: $cl-lime-dark;
+							transition: transform 0.2s ease;
+						}
+
+						&:hover {
+							background: $cl-lime-dim;
+							color: $cl-lime;
+						}
 					}
 				}
 			}
 
-			.clothes-page {
+			// ── Sort dropdown (MUI Menu override) ──────────────────────────────
+			.MuiMenu-paper {
+				background: $cl-surface !important;
+				border: 1px solid $cl-line !important;
+				border-radius: 0 !important;
+				box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08) !important;
+				margin-top: 4px;
+
+				.MuiMenuItem-root {
+					font-family: $cl-mono !important;
+					font-size: 12px !important;
+					font-weight: 600 !important;
+					letter-spacing: 0.08em !important;
+					color: $cl-text-mid !important;
+					padding: 10px 24px !important;
+					transition: all 0.12s !important;
+
+					&:hover {
+						background: $cl-lime-dim !important;
+						color: $cl-lime-dark !important;
+					}
+
+					&.Mui-selected,
+					&.Mui-selected:hover {
+						background: $cl-lime !important;
+						color: #fff !important;
+					}
+				}
+			}
+
+			.clothe-page {
 				position: relative;
 				width: 100%;
 				flex-direction: row;
-				gap: 28px;
+				gap: 25px;
 				padding-top: 96px;
 
-				// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-				// FILTER SIDEBAR
-				// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+				// ═══════════════════════════════════════════════════════════════
+				// ─── FILTER SIDEBAR ────────────────────────────────────────────
+				// ═══════════════════════════════════════════════════════════════
 				.filter-config {
-					width: 340px;
+					width: 339px;
 					height: auto;
 					position: sticky;
 					top: 96px;
 
 					.cl-filter {
 						width: 100%;
-						background: $cl-white;
-						border-radius: $cl-radius;
-						box-shadow:
-							0 1px 3px rgba(0, 0, 0, 0.04),
-							0 6px 24px rgba(0, 0, 0, 0.06);
+						background: $cl-surface;
+						border: 1px solid $cl-line;
+						border-top: 3px solid $cl-lime;
 						overflow: hidden;
-						display: flex;
-						flex-direction: column;
+						position: relative;
 
-						// ── Header ───────────────────────────────────────────────
 						.cl-filter__header {
+							padding: 18px 20px 16px;
+							border-bottom: 1px solid $cl-line;
 							display: flex;
 							align-items: center;
 							justify-content: space-between;
-							padding: 18px 22px;
 
 							.cl-filter__close {
-								font-size: 22px;
-								color: $cl-dark;
+								font-size: 20px;
+								color: $cl-text-dim;
 								cursor: pointer;
-								border-radius: 50%;
-								padding: 2px;
-								transition: background 0.15s;
+								transition: color 0.15s;
 
-								&:hover {
-									background: $cl-border-lt;
-								}
+								&:hover { color: $cl-lime-dark; }
 							}
 
 							.cl-filter__heading {
-								font-family: $cl-sans;
-								font-size: 18px;
-								font-weight: 800;
-								color: $cl-dark;
-								letter-spacing: -0.01em;
+								font-family: $cl-mono;
+								font-size: 13px;
+								font-weight: 700;
+								color: $cl-text;
+								letter-spacing: 0.2em;
+								text-transform: uppercase;
+								margin: 0;
 							}
 
 							.cl-filter__trash {
-								background: none;
-								border: none;
-								cursor: pointer;
-								padding: 4px;
-								border-radius: 8px;
 								display: flex;
 								align-items: center;
-								justify-content: center;
-								transition: background 0.15s;
+								cursor: pointer;
+								background: none;
+								border: 1px solid $cl-line;
+								padding: 5px 10px;
+								transition: all 0.15s;
 
 								svg {
-									font-size: 22px;
-									color: $cl-dark;
+									font-size: 16px;
+									color: $cl-text-dim;
+									transition: color 0.15s;
 								}
 
 								&:hover {
-									background: $cl-border-lt;
-
-									svg { color: #ef4444; }
+									border-color: $cl-lime;
+									svg { color: $cl-lime-dark; }
 								}
 							}
 						}
 
-						// ── Divider ──────────────────────────────────────────────
 						.cl-filter__divider {
+							width: 100%;
 							height: 1px;
-							background: $cl-border;
-							margin: 0 22px;
+							background: $cl-line;
 						}
 
-						// ── Scrollable body ──────────────────────────────────────
 						.cl-filter__body {
 							overflow-y: auto;
-							max-height: calc(100vh - 280px);
-							padding: 6px 0;
+							max-height: calc(100vh - 260px);
+							padding: 0 0 10px 0;
 
-							&::-webkit-scrollbar { width: 4px; }
+							&::-webkit-scrollbar { width: 3px; }
 							&::-webkit-scrollbar-track { background: transparent; }
 							&::-webkit-scrollbar-thumb {
-								background: $cl-teal-mid;
-								border-radius: 4px;
+								background: $cl-lime;
+								border-radius: 2px;
 							}
 						}
 
-						// ── Section ──────────────────────────────────────────────
 						.cl-filter-section {
-							padding: 20px 22px 6px;
+							border-bottom: 1px solid $cl-line;
+							padding: 16px 20px;
 
-							&__title {
-								font-family: $cl-sans;
-								font-size: 15px;
-								font-weight: 700;
-								color: $cl-dark;
-								margin-bottom: 14px;
-								letter-spacing: -0.01em;
+							.cl-filter-section__title {
+								font-family: $cl-mono;
+								font-size: 11px;
+								font-weight: 600;
+								letter-spacing: 0.1em;
+								color: $cl-text-mid;
+								text-transform: uppercase;
+								margin: 0 0 12px 0;
 							}
 
-							&__body {
-								padding-bottom: 14px;
-							}
+							.cl-filter-section__body { width: 100%; }
 						}
 
-						// ── Chips ────────────────────────────────────────────────
 						.cl-chips {
 							display: flex;
 							flex-wrap: wrap;
-							gap: 8px;
+							gap: 6px;
 						}
 
 						.cl-chip {
-							display: inline-flex;
-							align-items: center;
-							gap: 7px;
-							padding: 8px 16px;
-							border-radius: $cl-radius-sm;
-							border: 1.5px solid $cl-border;
-							background: $cl-white;
+							padding: 5px 12px;
 							cursor: pointer;
-							transition: all 0.18s ease;
-							user-select: none;
+							border: 1px solid $cl-line;
+							background: $cl-panel;
+							transition: all 0.15s;
+							display: flex;
+							align-items: center;
+							gap: 6px;
 
 							.cl-chip__dot {
-								width: 14px;
-								height: 14px;
-								border-radius: 4px;
+								width: 12px;
+								height: 12px;
+								border-radius: 50%;
 								flex-shrink: 0;
-								transform: rotate(45deg);
 							}
 
 							.cl-chip__label {
-								font-family: $cl-sans;
-								font-size: 13px;
+								font-family: $cl-mono;
+								font-size: 10px;
 								font-weight: 600;
-								color: $cl-mid;
-								letter-spacing: 0.01em;
-								text-transform: capitalize;
-								white-space: nowrap;
+								color: $cl-text-mid;
+								letter-spacing: 0.06em;
+								transition: color 0.12s;
 							}
 
 							&:hover {
-								border-color: $cl-teal;
-								background: $cl-teal-light;
-
-								.cl-chip__label { color: $cl-teal; }
+								border-color: $cl-lime;
+								background: $cl-lime-dim;
+								.cl-chip__label { color: $cl-lime-dark; }
 							}
 
-							&--active {
-								background: $cl-teal-light;
-								border-color: transparent;
-
+							&.cl-chip--active {
+								background: $cl-lime;
+								border-color: $cl-lime;
 								.cl-chip__label {
-									color: $cl-teal;
+									color: #fff;
 									font-weight: 700;
-								}
-
-								&:hover {
-									background: darken(#e8faf7, 3%);
 								}
 							}
 						}
 
-						// ── Price Slider ─────────────────────────────────────────
 						.cl-price {
-							padding: 4px 0 8px;
+							display: flex;
+							flex-direction: column;
+							gap: 12px;
 
 							.cl-price__values {
 								display: flex;
 								justify-content: space-between;
-								margin-bottom: 12px;
-							}
+								align-items: center;
 
-							.cl-price__tag {
-								font-family: $cl-sans;
-								font-size: 16px;
-								font-weight: 800;
-								color: $cl-dark;
-								letter-spacing: -0.01em;
+								.cl-price__tag {
+									font-family: $cl-mono;
+									font-size: 14px;
+									font-weight: 700;
+									color: $cl-text;
+									letter-spacing: 0.04em;
+								}
 							}
 
 							.cl-price__track-wrap {
 								position: relative;
-								height: 28px;
-							}
-
-							.cl-price__track {
-								position: absolute;
-								top: 50%;
-								left: 0;
-								right: 0;
-								height: 4px;
-								background: $cl-border;
-								border-radius: 4px;
-								transform: translateY(-50%);
-							}
-
-							.cl-price__fill {
-								position: absolute;
-								height: 100%;
-								background: $cl-teal;
-								border-radius: 4px;
-							}
-
-							.cl-price__range {
-								position: absolute;
-								top: 50%;
-								left: 0;
 								width: 100%;
-								transform: translateY(-50%);
-								-webkit-appearance: none;
-								appearance: none;
-								background: transparent;
-								pointer-events: none;
-								margin: 0;
-								height: 28px;
+								height: 30px;
 
-								&::-webkit-slider-thumb {
-									-webkit-appearance: none;
-									width: 22px;
-									height: 22px;
-									border-radius: 50%;
-									background: $cl-white;
-									border: 3px solid $cl-teal;
-									box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
-									cursor: pointer;
-									pointer-events: auto;
-									transition: box-shadow 0.15s;
+								.cl-price__track {
+									position: absolute;
+									top: 50%;
+									left: 0;
+									right: 0;
+									height: 4px;
+									background: $cl-line;
+									transform: translateY(-50%);
 
-									&:hover {
-										box-shadow: 0 2px 12px rgba($cl-teal, 0.35);
+									.cl-price__fill {
+										position: absolute;
+										height: 100%;
+										background: $cl-lime;
 									}
 								}
 
-								&::-moz-range-thumb {
-									width: 22px;
-									height: 22px;
-									border-radius: 50%;
-									background: $cl-white;
-									border: 3px solid $cl-teal;
-									box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
-									cursor: pointer;
-									pointer-events: auto;
+								.cl-price__range {
+									position: absolute;
+									top: 0;
+									left: 0;
+									width: 100%;
+									height: 100%;
+									-webkit-appearance: none;
+									appearance: none;
+									background: transparent;
+									pointer-events: none;
+									margin: 0;
+
+									&::-webkit-slider-thumb {
+										-webkit-appearance: none;
+										appearance: none;
+										width: 18px;
+										height: 18px;
+										background: $cl-lime;
+										border: 2px solid $cl-bg;
+										border-radius: 50%;
+										cursor: pointer;
+										pointer-events: auto;
+										box-shadow: 0 2px 6px rgba($cl-lime, 0.3);
+									}
+
+									&::-moz-range-thumb {
+										width: 18px;
+										height: 18px;
+										background: $cl-lime;
+										border: 2px solid $cl-bg;
+										border-radius: 50%;
+										cursor: pointer;
+										pointer-events: auto;
+										box-shadow: 0 2px 6px rgba($cl-lime, 0.3);
+									}
 								}
 							}
 						}
 
-						// ── Footer ───────────────────────────────────────────────
 						.cl-filter__footer {
-							padding: 16px 22px 22px;
+							padding: 16px 20px 20px;
+							border-top: 1px solid $cl-line;
 
 							.cl-filter__apply {
 								width: 100%;
-								height: 52px;
-								background: $cl-teal;
+								height: 48px;
+								background: $cl-lime;
 								border: none;
-								border-radius: $cl-radius;
 								display: flex;
 								align-items: center;
 								justify-content: center;
-								gap: 10px;
+								gap: 12px;
 								cursor: pointer;
-								transition: all 0.2s ease;
 								position: relative;
+								transition: all 0.15s;
 								overflow: hidden;
 
 								span {
-									font-family: $cl-sans;
-									font-size: 15px;
-									font-weight: 700;
-									color: $cl-white;
-									letter-spacing: 0.02em;
+									font-family: $cl-mono;
+									font-size: 12px;
+									font-weight: 800;
+									color: #fff;
+									letter-spacing: 0.2em;
 									position: relative;
 									z-index: 1;
 								}
 
 								.cl-filter__apply-count {
-									display: inline-flex;
+									width: 20px;
+									height: 20px;
+									background: rgba(0, 0, 0, 0.15);
+									display: flex;
 									align-items: center;
 									justify-content: center;
-									min-width: 22px;
-									height: 22px;
-									padding: 0 6px;
-									border-radius: 20px;
-									background: rgba(255, 255, 255, 0.25);
-									font-family: $cl-sans;
-									font-size: 12px;
-									font-weight: 800;
-									color: $cl-white;
+									font-family: $cl-mono;
+									font-size: 10px;
+									font-weight: 900;
+									color: #fff;
+									border-radius: 50%;
 									position: relative;
 									z-index: 1;
 								}
 
 								&:hover {
-									background: darken($cl-teal, 6%);
+									background: $cl-lime-dark;
 									transform: translateY(-1px);
-									box-shadow: 0 8px 24px rgba($cl-teal, 0.35);
+									box-shadow: 0 6px 20px rgba($cl-lime, 0.3);
 								}
 
-								&:active {
-									transform: translateY(0);
-									box-shadow: 0 2px 8px rgba($cl-teal, 0.25);
-								}
+								&:active { transform: translateY(0); }
 							}
 						}
 					}
 				}
 
-				// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-				// MAIN LISTING AREA
-				// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+				// ═══════════════════════════════════════════════════════════════
+				// ─── MAIN LISTING AREA ─────────────────────────────────────────
+				// ═══════════════════════════════════════════════════════════════
 				.main-config {
 					width: 936px;
 					align-items: center;
-					gap: 109px;
+					gap: 80px;
 
 					.list-config {
 						display: flex;
@@ -381,190 +410,401 @@ $cl-sans:       'Nunito', 'DM Sans', 'Inter', sans-serif;
 						height: auto;
 						flex-direction: row;
 						flex-wrap: wrap;
-						gap: 23px;
+						gap: 20px;
 
-						.card-config {
-							width: 296px;
-							height: 413px;
-							margin-bottom: 7px;
-							border-radius: 16px;
-							background: $cl-white;
-							box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
-							overflow: hidden;
-							transition: box-shadow 0.2s ease, transform 0.2s ease;
+						.no-data {
+							width: 100%;
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							justify-content: center;
+							gap: 15px;
+							padding: 80px 0;
 
-							&:hover {
-								box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
-								transform: translateY(-2px);
+							img {
+								width: 60px;
+								height: 60px;
+								opacity: 0.4;
 							}
 
+							p {
+								color: $cl-text-dim;
+								font-family: $cl-sans;
+								font-size: 16px;
+								font-weight: 400;
+								line-height: normal;
+							}
+						}
+
+						// ═════════════════════════════════════════════════════
+						// ─── CARD ─────────────────────────────────────────────
+						// ═════════════════════════════════════════════════════
+						.card-config {
+							width: 290px;
+							margin-bottom: 10px;
+							background: $cl-dark;
+							overflow: hidden;
+							border: 1px solid rgba(255, 255, 255, 0.06);
+							transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+
+							&:hover {
+								transform: translateY(-5px);
+								box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+								border-color: $cl-lime;
+
+								.top {
+									.card-image-overlay { opacity: 1; }
+									.card-actions {
+										opacity: 1;
+										transform: translateX(0) translateY(-50%);
+									}
+									img { transform: scale(1.05); }
+								}
+
+								.bottom {
+									.type-buttons {
+										.buttons { opacity: 1; }
+									}
+								}
+							}
+
+							// ── Image area ──────────────────────────────────────
 							.top {
 								position: relative;
 								width: 100%;
-								height: 240px;
+								height: 340px;
+								overflow: hidden;
+								background: #2a2a2a;
 
-								a { height: 100%; }
+								a {
+									display: block;
+									width: 100%;
+									height: 100%;
+								}
 
 								img {
 									width: 100%;
 									height: 100%;
 									object-fit: cover;
+									object-position: top center;
+									transition: transform 0.4s ease;
+									display: block;
 								}
 
+								.card-image-overlay {
+									position: absolute;
+									inset: 0;
+									background: linear-gradient(
+										180deg,
+										rgba(0, 0, 0, 0.0) 40%,
+										rgba(0, 0, 0, 0.55) 100%
+									);
+									opacity: 0;
+									transition: opacity 0.3s ease;
+									pointer-events: none;
+								}
+
+								// ── Action buttons (left side) ───────────────────
+								.card-actions {
+									position: absolute;
+									top: 50%;
+									left: 18px;
+									transform: translateX(-70px) translateY(-50%);
+									display: flex;
+									flex-direction: column;
+									gap: 10px;
+									opacity: 0;
+									transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+									z-index: 3;
+
+									.action-btn {
+										width: 46px;
+										height: 46px;
+										border-radius: 50%;
+										background: $cl-lime;
+										border: none;
+										display: flex;
+										align-items: center;
+										justify-content: center;
+										cursor: pointer;
+										transition: all 0.2s ease;
+										box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+										position: relative;
+
+										svg {
+											width: 20px;
+											height: 20px;
+											color: #fff;
+										}
+
+										.action-count {
+											position: absolute;
+											top: -6px;
+											right: -6px;
+											min-width: 20px;
+											height: 20px;
+											padding: 0 5px;
+											border-radius: 10px;
+											background: $cl-dark;
+											color: #fff;
+											font-family: $cl-mono;
+											font-size: 10px;
+											font-weight: 800;
+											line-height: 20px;
+											text-align: center;
+											letter-spacing: 0.02em;
+											box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+										}
+
+										&:hover {
+											transform: scale(1.12);
+											box-shadow: 0 6px 18px rgba($cl-lime, 0.45);
+											background: $cl-lime-dark;
+										}
+
+										&:active { transform: scale(0.95); }
+
+										&.is-liked {
+											background: #e53935 !important;
+											box-shadow: 0 3px 12px rgba(229, 57, 53, 0.35) !important;
+
+											svg, svg path {
+												color: #fff !important;
+												fill: #fff !important;
+											}
+
+											.action-count { background: #c62828; }
+
+											&:hover {
+												background: #c62828 !important;
+												box-shadow: 0 6px 18px rgba(229, 57, 53, 0.5) !important;
+											}
+										}
+									}
+								}
+
+								// ── BEST badge ────────────────────────────────────
 								.top-badge {
 									position: absolute;
 									top: 14px;
-									left: 14px;
-									display: inline-flex;
-									height: 28px;
+									right: 0;
+									display: flex;
+									height: 26px;
 									justify-content: center;
 									align-items: center;
-									border-radius: 8px;
-									padding: 5px 14px;
-									background: $cl-teal;
-									color: $cl-white;
-									font-family: $cl-sans;
-									font-size: 11px;
-									font-weight: 700;
-									letter-spacing: 0.03em;
+									padding: 4px 14px 4px 12px;
+									background: $cl-lime;
+									clip-path: polygon(8px 0%, 100% 0%, 100% 100%, 0% 100%);
+									z-index: 2;
 
-									img { height: 14px; }
-								}
-
-								.price-box {
-									position: absolute;
-									bottom: 14px;
-									left: 14px;
-									padding: 6px 14px;
-									border-radius: 8px;
-									background: rgba(255, 255, 255, 0.95);
-									backdrop-filter: blur(6px);
-									box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+									img {
+										height: 14px;
+										width: auto;
+										margin-right: 4px;
+										filter: brightness(0) invert(1);
+									}
 
 									p {
-										color: $cl-dark;
-										font-family: $cl-sans;
-										font-size: 15px;
-										font-weight: 700;
+										color: #fff;
+										font-family: $cl-mono;
+										font-size: 10px;
+										font-weight: 800;
+										letter-spacing: 0.15em;
+										line-height: 1;
+										margin: 0;
 									}
 								}
+
+								.price-box { display: none; }
 							}
 
+							// ── Info area (dark bg) ──────────────────────────────
 							.bottom {
 								width: 100%;
-								height: 173px;
-								padding: 18px 16px 12px;
+								padding: 18px 18px 16px 18px;
+								background: $cl-dark;
 
 								.name-address {
 									width: 100%;
-									height: 48px;
 									gap: 4px;
-									margin-bottom: 16px;
+									margin-bottom: 0;
 
-									.name {
-										width: 100%;
-										height: 23px;
-										overflow: hidden;
-
-										p {
-											color: $cl-dark;
-											font-family: $cl-sans;
-											font-size: 15px;
-											font-weight: 700;
-											text-transform: capitalize;
-										}
-									}
-
+									// Brand row
 									.address {
 										width: 100%;
 										overflow: hidden;
-
-										p {
-											color: $cl-muted;
-											font-family: $cl-sans;
-											font-size: 13px;
-											font-weight: 400;
-										}
-									}
-								}
-
-								.options {
-									flex-direction: row;
-									width: 100%;
-									height: 20px;
-									gap: 16px;
-									margin-bottom: 12px;
-
-									.option {
-										flex-direction: row;
-										gap: 5px;
+										order: -1;
+										display: flex;
 										align-items: center;
+										gap: 7px;
+										margin-bottom: 4px;
+
+										&::before {
+											content: '';
+											display: block;
+											width: 6px;
+											height: 6px;
+											border-radius: 50%;
+											background: $cl-lime;
+											flex-shrink: 0;
+										}
 
 										p {
-											color: $cl-dark;
-											font-family: $cl-sans;
-											font-size: 13px;
-											font-weight: 500;
+											color: $cl-lime;
+											font-family: $cl-mono;
+											font-size: 10px;
+											font-weight: 700;
+											letter-spacing: 0.2em;
+											text-transform: uppercase;
+											line-height: normal;
+											margin: 0;
+										}
+									}
+
+									// Product name
+									.name {
+										width: 100%;
+										height: auto;
+										overflow: hidden;
+										margin-bottom: 14px;
+
+										a { display: block; }
+
+										p {
+											color: #f0ebe0;
+											font-family: $cl-serif;
+											font-size: 26px;
+											font-weight: 600;
+											line-height: 1.15;
+											text-transform: capitalize;
+											white-space: nowrap;
+											overflow: hidden;
+											text-overflow: ellipsis;
+											margin: 0;
 										}
 									}
 								}
 
+								.options { display: none; }
+
+								// Divider with lime left accent
 								.divider {
 									width: 100%;
 									height: 1px;
-									background: $cl-border;
+									background: rgba(255, 255, 255, 0.08);
 									margin-bottom: 14px;
+									position: relative;
+
+									&::after {
+										content: '';
+										position: absolute;
+										left: 0;
+										top: 0;
+										width: 36px;
+										height: 1px;
+										background: $cl-lime;
+									}
 								}
 
+								// Price + Cart button row
 								.type-buttons {
 									flex-direction: row;
 									width: 100%;
 									justify-content: space-between;
 									align-items: center;
+									margin-top: 0;
 
 									.type {
 										flex-direction: row;
-										align-items: center;
-										gap: 7px;
+										align-items: baseline;
+										gap: 2px;
 
 										p {
-											color: $cl-dark;
-											font-family: $cl-sans;
-											font-weight: 600;
-										}
+											color: #f0ebe0;
+											font-family: $cl-serif;
+											font-size: 28px;
+											font-weight: 400;
+											line-height: 1;
+											margin: 0;
 
-										.disabled-type {
-											color: $cl-muted;
-											font-family: $cl-sans;
+											&::before {
+												content: '$';
+												font-size: 14px;
+												vertical-align: super;
+												color: $cl-lime;
+												font-weight: 600;
+												font-family: $cl-mono;
+											}
 										}
 									}
 
-									.buttons {
-										flex-direction: row;
-										width: auto;
-										justify-content: center;
+									// Cart button (always visible)
+									.cart-btn {
+										display: flex;
 										align-items: center;
+										gap: 8px;
+										background: transparent;
+										border: 1px solid $cl-lime;
+										color: $cl-lime;
+										font-family: $cl-mono;
+										font-size: 9px;
+										font-weight: 800;
+										letter-spacing: 0.18em;
+										text-transform: uppercase;
+										padding: 9px 14px;
+										cursor: pointer;
+										transition: all 0.2s ease;
+										position: relative;
+										overflow: hidden;
 
 										svg {
-											width: 22px;
-											height: 22px;
-											cursor: pointer;
-											color: $cl-mid;
-											transition: color 0.15s;
-
-											&:hover { color: $cl-teal; }
+											width: 15px;
+											height: 15px;
+											color: $cl-lime;
+											transition: color 0.2s;
+											flex-shrink: 0;
 										}
 
-										.view-cnt {
-											font-size: 13px;
-											color: $cl-mid;
+										span {
+											position: relative;
+											z-index: 1;
+											transition: color 0.2s;
 										}
+
+										&::before {
+											content: '';
+											position: absolute;
+											top: 0;
+											left: -100%;
+											width: 100%;
+											height: 100%;
+											background: $cl-lime;
+											transition: left 0.22s ease;
+											z-index: 0;
+										}
+
+										&:hover {
+											color: $cl-dark;
+											border-color: $cl-lime;
+
+											svg { color: $cl-dark; }
+
+											span { color: $cl-dark; }
+
+											&::before { left: 0; }
+										}
+									}
+
+									// Eye + Like buttons — visible only on hover (via parent &:hover)
+									.buttons {
+										display: none; // hidden — actions are in .card-actions overlay
 									}
 								}
 							}
 						}
 					}
 
+					// ── Pagination ─────────────────────────────────────────────
 					.pagination-config {
 						width: 442px;
 						height: 86px;
@@ -574,15 +814,41 @@ $cl-sans:       'Nunito', 'DM Sans', 'Inter', sans-serif;
 						.pagination-box {
 							width: 100%;
 							align-items: center;
+
+							.MuiPagination-root {
+								.MuiPaginationItem-root {
+									color: $cl-text-mid;
+									font-family: $cl-mono;
+									font-size: 13px;
+									border: 1px solid $cl-line;
+									background: transparent;
+
+									&:hover {
+										background: $cl-lime-dim;
+										border-color: $cl-lime;
+										color: $cl-lime-dark;
+									}
+
+									&.Mui-selected {
+										background: $cl-lime;
+										border-color: $cl-lime;
+										color: #fff;
+										font-weight: 700;
+
+										&:hover { background: $cl-lime-dark; }
+									}
+								}
+							}
 						}
 
 						.total-result {
 							p {
-								color: $cl-dark;
+								color: $cl-text-dim;
 								text-align: center;
-								font-family: $cl-sans;
-								font-size: 22px;
-								font-weight: 300;
+								font-family: $cl-mono;
+								font-size: 13px;
+								font-weight: 400;
+								letter-spacing: 0.05em;
 								line-height: 26px;
 							}
 						}
