@@ -1,0 +1,394 @@
+/* ===================================================
+   ADD NEW PRODUCT — Trainer Product Form
+   Glass Morphism + Warm Amber Accent
+   =================================================== */
+
+$accent: #d4a04a;
+$accent-dark: #b8862f;
+$accent-light: rgba(212, 160, 74, 0.07);
+$accent-glow: rgba(212, 160, 74, 0.15);
+$accent-border: rgba(212, 160, 74, 0.2);
+$glass-bg: rgba(255, 255, 255, 0.55);
+$glass-bg-solid: rgba(255, 255, 255, 0.72);
+$glass-border: rgba(255, 255, 255, 0.45);
+$glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+$backdrop: blur(16px) saturate(1.4);
+$text-primary: #1c1917;
+$text-secondary: #57534e;
+$text-muted: #a8a29e;
+$input-bg: rgba(255, 255, 255, 0.5);
+$input-bg-focus: rgba(255, 255, 255, 0.85);
+$input-border: rgba(0, 0, 0, 0.07);
+$input-border-focus: $accent;
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$radius-xl: 20px;
+$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+#pc-wrap {
+	#my-page {
+		#add-product-page {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 0;
+			animation: amberReveal 0.5s ease-out;
+
+			@keyframes amberReveal {
+				from {
+					opacity: 0;
+					transform: translateY(16px);
+					filter: blur(3px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+					filter: blur(0);
+				}
+			}
+
+			/* ---- Title ---- */
+			.main-title-box {
+				margin-bottom: 24px;
+
+				.main-title {
+					font-size: 28px;
+					font-weight: 800;
+					letter-spacing: -0.5px;
+					background: linear-gradient(135deg, $text-primary 0%, $accent-dark 100%);
+					-webkit-background-clip: text;
+					-webkit-text-fill-color: transparent;
+					background-clip: text;
+				}
+
+				.sub-title {
+					font-size: 14px;
+					color: $text-secondary;
+					margin-top: 6px;
+				}
+			}
+
+			/* ---- Main Config ---- */
+			.config {
+				display: flex;
+				flex-direction: column;
+				gap: 24px;
+
+				/* ---- Form Glass Panel ---- */
+				.description-box {
+					display: flex;
+					flex-direction: column;
+					gap: 20px;
+					padding: 32px;
+					border-radius: $radius-xl;
+					background: $glass-bg;
+					backdrop-filter: $backdrop;
+					-webkit-backdrop-filter: $backdrop;
+					border: 1px solid $glass-border;
+					box-shadow: $glass-shadow;
+
+					.config-column {
+						display: flex;
+						flex-direction: column;
+						gap: 8px;
+					}
+
+					.config-row {
+						display: flex;
+						flex-direction: row;
+						gap: 20px;
+
+						.price-year-after-price {
+							flex: 1;
+							display: flex;
+							flex-direction: column;
+							gap: 8px;
+							position: relative;
+						}
+					}
+
+					.title {
+						font-size: 12px;
+						font-weight: 700;
+						color: $text-secondary;
+						text-transform: uppercase;
+						letter-spacing: 0.6px;
+					}
+
+					.property-title {
+						font-size: 16px;
+						font-weight: 700;
+						color: $text-primary;
+						margin-top: 12px;
+						padding-top: 20px;
+						border-top: 1px solid rgba(0, 0, 0, 0.05);
+						display: flex;
+						align-items: center;
+						gap: 10px;
+
+						&::before {
+							content: '';
+							width: 3px;
+							height: 18px;
+							background: linear-gradient(180deg, $accent, $accent-dark);
+							border-radius: 2px;
+						}
+					}
+
+					/* ---- Inputs ---- */
+					.description-input {
+						width: 100%;
+						height: 50px;
+						padding: 0 16px;
+						border: 1px solid $input-border;
+						border-radius: $radius-md;
+						background: $input-bg;
+						backdrop-filter: blur(8px);
+						color: $text-primary;
+						font-size: 14px;
+						font-weight: 500;
+						outline: none;
+						transition: $transition;
+						box-sizing: border-box;
+
+						&::placeholder {
+							color: $text-muted;
+							font-size: 13px;
+							font-weight: 400;
+						}
+
+						&:focus {
+							border-color: $input-border-focus;
+							background: $input-bg-focus;
+							box-shadow: 0 0 0 3px $accent-glow;
+						}
+
+						&:hover:not(:focus) {
+							border-color: rgba(0, 0, 0, 0.14);
+						}
+					}
+
+					/* ---- Selects ---- */
+					.select-description {
+						width: 100%;
+						height: 50px;
+						padding: 0 16px;
+						border: 1px solid $input-border;
+						border-radius: $radius-md;
+						background: $input-bg;
+						backdrop-filter: blur(8px);
+						color: $text-primary;
+						font-size: 14px;
+						font-weight: 500;
+						outline: none;
+						appearance: none;
+						cursor: pointer;
+						transition: $transition;
+
+						&:focus {
+							border-color: $input-border-focus;
+							background: $input-bg-focus;
+							box-shadow: 0 0 0 3px $accent-glow;
+						}
+					}
+
+					.divider {
+						display: none;
+					}
+
+					.arrow-down {
+						position: absolute;
+						right: 16px;
+						bottom: 18px;
+						width: 12px;
+						height: 12px;
+						opacity: 0.4;
+						pointer-events: none;
+					}
+
+					/* ---- Textarea ---- */
+					.description-text {
+						width: 100%;
+						height: 140px;
+						padding: 16px;
+						border: 1px solid $input-border;
+						border-radius: $radius-md;
+						background: $input-bg;
+						backdrop-filter: blur(8px);
+						color: $text-primary;
+						font-size: 14px;
+						font-family: inherit;
+						font-weight: 400;
+						line-height: 1.6;
+						outline: none;
+						resize: vertical;
+						transition: $transition;
+						box-sizing: border-box;
+
+						&:focus {
+							border-color: $input-border-focus;
+							background: $input-bg-focus;
+							box-shadow: 0 0 0 3px $accent-glow;
+						}
+					}
+				}
+
+				/* ---- Upload Section ---- */
+				.upload-title {
+					font-size: 16px;
+					font-weight: 700;
+					color: $text-primary;
+					display: flex;
+					align-items: center;
+					gap: 10px;
+
+					&::before {
+						content: '';
+						width: 3px;
+						height: 18px;
+						background: linear-gradient(180deg, $accent, $accent-dark);
+						border-radius: 2px;
+					}
+				}
+
+				.images-box {
+					display: flex;
+					flex-direction: column;
+					gap: 20px;
+
+					.upload-box {
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						justify-content: center;
+						gap: 16px;
+						padding: 40px 32px;
+						border-radius: $radius-xl;
+						background: $glass-bg;
+						backdrop-filter: $backdrop;
+						-webkit-backdrop-filter: $backdrop;
+						border: 2px dashed $accent-border;
+						transition: $transition;
+
+						&:hover {
+							border-color: $accent;
+							background: rgba(212, 160, 74, 0.04);
+						}
+
+						.text-box {
+							text-align: center;
+							gap: 6px;
+
+							.drag-title {
+								font-size: 15px;
+								font-weight: 600;
+								color: $text-primary;
+							}
+
+							.format-title {
+								font-size: 12px;
+								color: $text-muted;
+							}
+						}
+
+						.browse-button {
+							display: flex;
+							align-items: center;
+							gap: 8px;
+							padding: 10px 28px;
+							border-radius: $radius-md;
+							background: $text-primary;
+							border: none;
+							cursor: pointer;
+							transition: $transition;
+
+							&:hover {
+								background: lighten($text-primary, 15%);
+								transform: translateY(-1px);
+								box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+							}
+
+							.browse-button-text {
+								color: #fff;
+								font-size: 13px;
+								font-weight: 600;
+								text-transform: none;
+							}
+
+							svg path {
+								fill: #fff;
+							}
+						}
+					}
+
+					.gallery-box {
+						display: flex;
+						flex-direction: row;
+						flex-wrap: wrap;
+						gap: 12px;
+
+						.image-box {
+							width: 120px;
+							height: 90px;
+							border-radius: $radius-md;
+							overflow: hidden;
+							border: 1px solid $glass-border;
+							box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+							transition: $transition;
+
+							&:hover {
+								transform: scale(1.04);
+								box-shadow: 0 4px 16px rgba(212, 160, 74, 0.15);
+							}
+
+							img {
+								width: 100%;
+								height: 100%;
+								object-fit: cover;
+							}
+						}
+					}
+				}
+
+				/* ---- Save Button ---- */
+				.buttons-row {
+					display: flex;
+					justify-content: flex-end;
+					padding-top: 8px;
+
+					.next-button {
+						display: flex;
+						align-items: center;
+						gap: 8px;
+						padding: 12px 36px;
+						border-radius: $radius-md;
+						background: linear-gradient(135deg, $accent, $accent-dark);
+						border: none;
+						cursor: pointer;
+						transition: $transition;
+						box-shadow: 0 4px 16px rgba(212, 160, 74, 0.3);
+
+						&:hover:not(:disabled) {
+							transform: translateY(-2px);
+							box-shadow: 0 6px 24px rgba(212, 160, 74, 0.4);
+						}
+
+						&:disabled {
+							background: rgba(212, 160, 74, 0.3);
+							box-shadow: none;
+							cursor: not-allowed;
+						}
+
+						.next-button-text {
+							color: #fff;
+							font-size: 14px;
+							font-weight: 700;
+							text-transform: none;
+						}
+					}
+				}
+			}
+		}
+	}
+}

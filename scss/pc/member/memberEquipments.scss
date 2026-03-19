@@ -1,0 +1,373 @@
+// ============================================================
+//  member-equipments.scss
+//  SalesManager · Equipment listings
+//  Accent: amber #d97706
+// ============================================================
+
+$font: 'Nunito', 'Poppins', sans-serif;
+
+// Spacing
+$sp-xs: 4px;   $sp-sm: 8px;
+$sp-md: 16px;  $sp-lg: 24px;  $sp-xl: 32px;
+
+// Radius
+$r-sm: 6px;  $r-md: 10px;  $r-lg: 16px;  $r-pill: 9999px;
+
+// Neutral palette
+$c-dark:     #181a20;
+$c-mid:      #4a4d57;
+$c-muted:    #9fa3b0;
+$c-border:   #e8eaf0;
+$c-bg-soft:  #f7f8fc;
+$c-bg-hover: #f0f2f8;
+
+// Equipment accent — amber
+$c-eq:        #d97706;
+$c-eq-bg:     rgba(217, 119, 6, 0.08);
+$c-eq-border: rgba(217, 119, 6, 0.22);
+
+// Stock
+$c-in:    #059669;   $c-in-bg:  rgba(16, 185, 129, 0.10);
+$c-out:   #dc2626;   $c-out-bg: rgba(220, 38,  38,  0.10);
+
+// Column widths — keep header + row in sync
+$w-item:     2;        // flex value
+$w-category: 155px;
+$w-material: 115px;
+$w-location: 135px;
+$w-weight:   105px;
+$w-price:    105px;
+$w-stock:    100px;
+
+// ── Helpers ──────────────────────────────────────────────────
+@mixin row-base {
+	flex-direction: row;
+	align-items: center;
+}
+
+@mixin skeleton-pulse {
+	background: linear-gradient(90deg, $c-bg-soft 25%, darken($c-bg-soft, 3%) 50%, $c-bg-soft 75%);
+	background-size: 200% 100%;
+	animation: eq-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes eq-pulse {
+	0%   { background-position: 200% 0; }
+	100% { background-position: -200% 0; }
+}
+
+// ─────────────────────────────────────────────────────────────
+
+#pc-wrap {
+	#member-page {
+		#member-equipments-page {
+			width: 100%;
+			padding-bottom: $sp-xl;
+
+			// ── Page header ───────────────────────────────────
+			.meq-page-header {
+				@include row-base;
+				justify-content: space-between;
+				padding-bottom: $sp-lg;
+				border-bottom: 2px solid $c-border;
+				margin-bottom: $sp-lg;
+
+				.meq-page-header-left {
+					@include row-base;
+					gap: $sp-md;
+
+					.meq-header-icon-wrap {
+						width: 50px; height: 50px;
+						border-radius: $r-md;
+						background: $c-eq-bg;
+						border: 1px solid $c-eq-border;
+						display: flex; align-items: center; justify-content: center;
+						flex-shrink: 0; transition: transform 0.22s;
+						svg { color: $c-eq; font-size: 24px; }
+						&:hover { transform: rotate(-8deg) scale(1.06); }
+					}
+
+					.meq-page-title {
+						font-family: $font; font-size: 26px; font-weight: 800;
+						color: $c-dark; letter-spacing: -0.3px; line-height: 1.2;
+					}
+
+					.meq-page-sub {
+						font-family: $font; font-size: 13px;
+						color: $c-muted; margin-top: 2px;
+					}
+				}
+
+				.meq-total-chip {
+					background: $c-eq-bg !important;
+					color: $c-eq !important;
+					border: 1px solid $c-eq-border !important;
+					font-weight: 700 !important; font-family: $font !important;
+					.MuiChip-icon { color: $c-eq !important; }
+				}
+
+				.meq-filter-toggle {
+					@include row-base;
+					gap: $sp-xs; padding: 8px 16px; border-radius: $r-pill;
+					border: 1.5px solid $c-border; background: #fff;
+					font-family: $font; font-size: 13px; font-weight: 600;
+					color: $c-mid; cursor: pointer; transition: all 0.2s;
+					position: relative;
+
+					&:hover, &.open {
+						border-color: $c-eq; color: $c-eq; background: $c-eq-bg;
+					}
+
+					.meq-filter-badge {
+						@include row-base; justify-content: center;
+						width: 18px; height: 18px; border-radius: 50%;
+						background: $c-eq; color: #fff;
+						font-size: 10px; font-weight: 700; margin-left: 2px;
+					}
+				}
+			}
+
+			// ── Filter panel ──────────────────────────────────
+			.meq-filter-panel {
+				background: #fff; border: 1.5px solid $c-border;
+				border-radius: $r-lg; padding: $sp-lg;
+				margin-bottom: $sp-lg; gap: $sp-md;
+				animation: eq-panel-in 0.2s ease;
+
+				@keyframes eq-panel-in {
+					from { opacity: 0; transform: translateY(-6px); }
+					to   { opacity: 1; transform: translateY(0); }
+				}
+
+				.meq-filter-selects {
+					flex-direction: row; flex-wrap: wrap; gap: $sp-md;
+
+					.meq-filter-field {
+						min-width: 180px; flex: 1;
+						.MuiOutlinedInput-root {
+							border-radius: $r-md; font-family: $font;
+							&.Mui-focused .MuiOutlinedInput-notchedOutline { border-color: $c-eq; }
+						}
+						.MuiInputLabel-root.Mui-focused { color: $c-eq; }
+					}
+				}
+
+				.meq-price-row {
+					gap: $sp-sm; padding: 0 $sp-sm;
+					.meq-price-label {
+						font-family: $font; font-size: 13px; color: $c-mid;
+						strong { color: $c-dark; }
+					}
+					.meq-price-slider {
+						color: $c-eq !important;
+						.MuiSlider-thumb:hover,
+						.MuiSlider-thumb.Mui-focusVisible { box-shadow: 0 0 0 8px rgba(217,119,6,0.16); }
+						.MuiSlider-track, .MuiSlider-rail { height: 4px; }
+					}
+				}
+
+				.meq-filter-actions {
+					padding-top: $sp-sm; flex-direction: row; align-items: center; gap: $sp-sm;
+				}
+
+				.meq-btn-apply, .meq-btn-clear {
+					@include row-base; gap: $sp-xs; padding: 8px 20px;
+					border-radius: $r-pill; font-family: $font;
+					font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+					border: 1.5px solid transparent;
+				}
+				.meq-btn-apply {
+					background: $c-eq; color: #fff;
+					&:hover { background: darken($c-eq, 8%); }
+				}
+				.meq-btn-clear {
+					background: #fff; color: $c-mid; border-color: $c-border;
+					&:hover { border-color: $c-out; color: $c-out; }
+				}
+			}
+
+			// ── Table wrapper ─────────────────────────────────
+			.meq-table-wrap {
+				gap: 0;
+
+				// Column header
+				.meq-col-header {
+					@include row-base; padding: 11px 20px;
+					background: $c-bg-soft; border-radius: $r-md;
+					margin-bottom: $sp-md;
+
+					.meq-th {
+						display: flex; align-items: center; gap: 4px;
+						font-family: $font; font-size: 11px; font-weight: 700;
+						color: $c-muted; letter-spacing: 0.9px; text-transform: uppercase;
+
+						&.th-item     { flex: $w-item; }
+						&.th-category { width: $w-category; }
+						&.th-material { width: $w-material; }
+						&.th-location { width: $w-location; }
+						&.th-weight   { width: $w-weight; }
+						&.th-price    { width: $w-price; }
+						&.th-stock    { width: $w-stock; }
+					}
+				}
+
+				// Skeleton
+				.meq-skeleton-list {
+					gap: 10px;
+					.meq-skeleton-row {
+						width: 100%; height: 86px;
+						border-radius: $r-md;
+						@include skeleton-pulse;
+					}
+				}
+
+				// Empty state
+				.meq-empty {
+					align-items: center; justify-content: center;
+					padding: 80px 20px; gap: $sp-md;
+					.meq-empty-icon-wrap {
+						width: 80px; height: 80px; border-radius: 50%;
+						background: $c-bg-soft; border: 2px solid $c-border;
+						display: flex; align-items: center; justify-content: center;
+						svg { font-size: 36px; color: $c-border; }
+					}
+					.meq-empty-title {
+						font-family: $font; font-size: 18px;
+						font-weight: 700; color: $c-mid;
+					}
+					.meq-empty-desc {
+						font-family: $font; font-size: 13px;
+						color: $c-muted; text-align: center; max-width: 320px;
+					}
+					.meq-btn-clear {
+						@include row-base; gap: $sp-xs; padding: 8px 20px;
+						border-radius: $r-pill; font-family: $font;
+						font-size: 13px; font-weight: 600; cursor: pointer;
+						background: #fff; color: $c-mid;
+						border: 1.5px solid $c-border; margin-top: $sp-sm;
+						transition: all 0.2s;
+						&:hover { border-color: $c-out; color: $c-out; }
+					}
+				}
+
+				// Rows
+				.meq-list {
+					gap: 0;
+
+					.meq-row {
+						@include row-base; padding: 15px 20px;
+						background: #fff; border: 1px solid $c-border;
+						border-radius: $r-md; margin-bottom: 10px;
+						cursor: pointer; transition: all 0.22s;
+
+						&:hover {
+							border-color: $c-eq-border; background: $c-bg-hover;
+							transform: translateY(-2px);
+							box-shadow: 0 6px 24px rgba(217,119,6,0.07);
+						}
+						&:last-child { margin-bottom: 0; }
+
+						.meq-cell {
+							align-items: flex-start; justify-content: center;
+							&.th-item     { flex: $w-item; flex-direction: row !important; align-items: center; gap: $sp-md; }
+							&.th-category { width: $w-category; }
+							&.th-material { width: $w-material; }
+							&.th-location { width: $w-location; }
+							&.th-weight   { width: $w-weight; }
+							&.th-price    { width: $w-price; }
+							&.th-stock    { width: $w-stock; }
+						}
+
+						// Image
+						.meq-img-wrap {
+							width: 76px; height: 66px;
+							border-radius: $r-sm; overflow: hidden;
+							position: relative; flex-shrink: 0;
+							img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+							.meq-status-dot {
+								position: absolute; top: 6px; right: 6px;
+								width: 9px; height: 9px; border-radius: 50%;
+								border: 1.5px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+							}
+						}
+						&:hover .meq-img-wrap img { transform: scale(1.06); }
+
+						// Info text
+						.meq-info {
+							.meq-name {
+								font-family: $font; font-size: 14px; font-weight: 700;
+								color: $c-dark; margin-bottom: 3px; line-height: 1.3;
+							}
+							.meq-brand {
+								font-family: $font; font-size: 12px; color: $c-muted; margin-bottom: 2px;
+							}
+							.meq-weight-info {
+								font-family: $font; font-size: 11px; color: $c-eq; font-weight: 600;
+							}
+						}
+
+						// Category badge (colour set inline)
+						.meq-cat-badge {
+							display: inline-flex; align-items: center; gap: 4px;
+							padding: 4px 10px; border-radius: $r-pill; border: 1px solid;
+							font-family: $font; font-size: 11px; font-weight: 700;
+							letter-spacing: 0.2px; white-space: nowrap;
+						}
+
+						// Material chip
+						.meq-material-chip {
+							background: $c-bg-soft !important; border: 1px solid $c-border !important;
+							font-family: $font !important; font-size: 11px !important;
+							font-weight: 600 !important; color: $c-mid !important;
+						}
+
+						// Location
+						.meq-location {
+							display: flex; align-items: center; gap: 4px;
+							.meq-loc-icon { color: $c-muted; font-size: 14px !important; }
+							.meq-loc-text {
+								font-family: $font; font-size: 12px; color: $c-mid;
+								white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;
+							}
+						}
+
+						// Weight capacity badge
+						.meq-wc-badge {
+							display: inline-flex; align-items: center; gap: 4px;
+							padding: 4px 10px; border-radius: $r-pill;
+							background: $c-eq-bg; border: 1px solid $c-eq-border;
+							color: $c-eq; font-family: $font;
+							font-size: 11px; font-weight: 600;
+						}
+
+						.meq-na { font-family: $font; font-size: 14px; color: $c-border; }
+
+						// Price
+						.meq-price {
+							font-family: $font; font-size: 15px; font-weight: 800; color: $c-dark;
+						}
+
+						// Stock badge
+						.meq-stock {
+							padding: 5px 12px; border-radius: $r-pill;
+							font-family: $font; font-size: 12px; font-weight: 700; white-space: nowrap;
+							&.in  { background: $c-in-bg;  color: $c-in; }
+							&.out { background: $c-out-bg; color: $c-out; }
+						}
+					}
+				}
+
+				// Pagination
+				.meq-pagination {
+					flex-direction: row; align-items: center;
+					justify-content: center; gap: $sp-md; padding-top: $sp-xl;
+					.meq-page-label { font-family: $font; font-size: 13px; color: $c-muted; }
+					.MuiPaginationItem-root {
+						font-family: $font; font-weight: 600;
+						&.Mui-selected { background: $c-eq !important; color: #fff !important; }
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,375 @@
+/* ===================================================
+   MY EQUIPMENTS — Sales Manager Equipment List
+   Glass Morphism + Industrial Steel-Teal Accent
+   =================================================== */
+
+$accent: #2d8a7e;
+$accent-dark: #1e6b62;
+$accent-light: rgba(45, 138, 126, 0.08);
+$accent-glow: rgba(45, 138, 126, 0.12);
+$accent-glow-strong: rgba(45, 138, 126, 0.2);
+$glass-bg: rgba(255, 255, 255, 0.5);
+$glass-bg-hover: rgba(255, 255, 255, 0.68);
+$glass-border: rgba(255, 255, 255, 0.4);
+$glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+$glass-shadow-hover: 0 14px 44px rgba(0, 0, 0, 0.1);
+$backdrop: blur(18px) saturate(1.5);
+$text-primary: #1a2332;
+$text-secondary: #4a5568;
+$text-muted: #94a3b8;
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$radius-xl: 20px;
+$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+#pc-wrap {
+	#my-page {
+		#my-equipments-page {
+			width: 100%;
+			height: auto;
+			display: flex;
+			flex-direction: column;
+			gap: 24px;
+			animation: steelReveal 0.5s ease-out;
+
+			@keyframes steelReveal {
+				from {
+					opacity: 0;
+					transform: translateY(16px) scale(0.99);
+					filter: blur(3px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0) scale(1);
+					filter: blur(0);
+				}
+			}
+
+			/* ---- Page Title ---- */
+			.main-title-box {
+				.right-box {
+					.main-title {
+						font-size: 28px;
+						font-weight: 800;
+						color: $text-primary;
+						letter-spacing: -0.5px;
+						background: linear-gradient(135deg, $text-primary 30%, $accent 100%);
+						-webkit-background-clip: text;
+						-webkit-text-fill-color: transparent;
+						background-clip: text;
+					}
+
+					.sub-title {
+						font-size: 14px;
+						font-weight: 400;
+						color: $text-secondary;
+						margin-top: 6px;
+					}
+				}
+			}
+
+			/* ---- Tab Box ---- */
+			.equipment-list-box {
+				width: 100%;
+
+				.tab-name-box {
+					width: 100%;
+					height: 54px;
+					flex-direction: row;
+					justify-content: center;
+					align-items: flex-end;
+					gap: 4px;
+					border-radius: $radius-xl $radius-xl 0 0;
+					background: $glass-bg;
+					backdrop-filter: $backdrop;
+					-webkit-backdrop-filter: $backdrop;
+					border: 1px solid $glass-border;
+					border-bottom: none;
+
+					.tab-name {
+						width: 120px;
+						height: 38px;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						cursor: pointer;
+						color: $text-muted;
+						font-size: 14px;
+						font-weight: 500;
+						border-radius: $radius-sm $radius-sm 0 0;
+						transition: $transition;
+
+						&:hover {
+							color: $text-secondary;
+							background: rgba(255, 255, 255, 0.35);
+						}
+					}
+
+					.active-tab-name {
+						width: 120px;
+						height: 38px;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						cursor: pointer;
+						color: $accent-dark;
+						font-size: 14px;
+						font-weight: 700;
+						border-bottom: 2.5px solid $accent;
+						background: $accent-light;
+						border-radius: $radius-sm $radius-sm 0 0;
+					}
+				}
+			}
+
+			/* ---- List Panel ---- */
+			.list-box {
+				width: 100%;
+				min-height: 500px;
+				padding: 24px;
+				border-radius: 0 0 $radius-xl $radius-xl;
+				background: $glass-bg;
+				backdrop-filter: $backdrop;
+				-webkit-backdrop-filter: $backdrop;
+				border: 1px solid $glass-border;
+				border-top: none;
+				box-shadow: $glass-shadow;
+
+				/* ---- Column Headers ---- */
+				.listing-title-box {
+					width: 100%;
+					flex-direction: row;
+					padding: 12px 18px;
+					border-radius: $radius-md;
+					background: $accent-light;
+					border: 1px solid rgba(45, 138, 126, 0.1);
+
+					.title-text {
+						color: $accent-dark;
+						font-size: 11px;
+						font-weight: 800;
+						text-transform: uppercase;
+						letter-spacing: 1px;
+						flex: 1;
+
+						&:first-child {
+							flex: 1.8;
+						}
+					}
+				}
+
+				/* ---- Equipment Card Row ---- */
+				.equipment-card-box {
+					width: 100%;
+					flex-direction: row;
+					align-items: center;
+					padding: 14px 18px;
+					margin-top: 4px;
+					border-radius: $radius-md;
+					border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+					transition: $transition;
+					position: relative;
+
+					&:hover {
+						background: $glass-bg-hover;
+						box-shadow: 0 4px 24px rgba(45, 138, 126, 0.07);
+						border-bottom-color: transparent;
+						transform: translateX(4px);
+					}
+
+					.image-box {
+						width: 68px;
+						height: 56px;
+						overflow: hidden;
+						margin-right: 14px;
+						flex-shrink: 0;
+						border-radius: $radius-md;
+						border: 1px solid rgba(255, 255, 255, 0.5);
+						box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+
+						img {
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+						}
+					}
+
+					.information-box {
+						flex: 1;
+
+						.name {
+							color: $text-primary;
+							font-size: 14px;
+							font-weight: 700;
+							margin-bottom: 2px;
+							letter-spacing: -0.2px;
+						}
+
+						.price {
+							font-size: 14px;
+							font-weight: 800;
+
+							strong {
+								background: linear-gradient(135deg, $accent, $accent-dark);
+								-webkit-background-clip: text;
+								-webkit-text-fill-color: transparent;
+								background-clip: text;
+							}
+						}
+
+						.weight-capacity {
+							color: $text-muted;
+							font-size: 11px;
+							font-weight: 500;
+							margin-top: 2px;
+						}
+					}
+
+					.category-box {
+						flex: 1;
+						align-items: center;
+						justify-content: center;
+
+						.category-badge {
+							display: inline-flex;
+							padding: 5px 14px;
+							border-radius: 20px;
+							background: $accent-glow;
+							color: $accent-dark;
+							font-size: 11px;
+							font-weight: 700;
+							text-transform: capitalize;
+							border: 1px solid rgba(45, 138, 126, 0.15);
+							backdrop-filter: blur(6px);
+							letter-spacing: 0.2px;
+						}
+					}
+
+					.material-box {
+						flex: 1;
+						align-items: center;
+						justify-content: center;
+
+						.material {
+							color: $text-secondary;
+							font-size: 12px;
+							font-weight: 600;
+							text-transform: capitalize;
+							padding: 4px 10px;
+							background: rgba(255, 255, 255, 0.5);
+							border-radius: $radius-sm;
+							border: 1px solid rgba(0, 0, 0, 0.04);
+						}
+					}
+
+					.status-box {
+						flex: 1;
+						align-items: center;
+						justify-content: center;
+
+						.coloured-box {
+							height: 32px;
+							padding: 0 16px;
+							align-items: center;
+							justify-content: center;
+							border-radius: 20px;
+							cursor: pointer;
+							backdrop-filter: blur(8px);
+							border: 1px solid rgba(255, 255, 255, 0.3);
+							transition: $transition;
+
+							&:hover {
+								transform: scale(1.05);
+							}
+
+							.status {
+								font-size: 12px;
+								font-weight: 600;
+							}
+						}
+					}
+
+					.views-box {
+						flex: 0.5;
+						align-items: center;
+						justify-content: center;
+
+						.views {
+							color: $text-secondary;
+							font-size: 13px;
+							font-weight: 500;
+						}
+					}
+
+					.action-box {
+						flex: 0.8;
+						flex-direction: row;
+						align-items: center;
+						justify-content: center;
+						gap: 6px;
+
+						.icon-button {
+							width: 34px;
+							height: 34px;
+							border-radius: $radius-sm;
+							transition: $transition;
+							background: rgba(255, 255, 255, 0.45);
+							backdrop-filter: blur(6px);
+							border: 1px solid rgba(255, 255, 255, 0.35);
+
+							&:hover {
+								background: $accent-glow-strong;
+								border-color: rgba(45, 138, 126, 0.25);
+								transform: scale(1.1);
+							}
+
+							.buttons {
+								color: $text-secondary;
+								font-size: 17px;
+							}
+						}
+					}
+				}
+
+				/* ---- Empty State ---- */
+				.no-data {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					padding: 80px 0;
+					gap: 14px;
+
+					img {
+						width: 52px;
+						opacity: 0.3;
+					}
+
+					p {
+						color: $text-muted;
+						font-size: 15px;
+						font-weight: 500;
+					}
+				}
+
+				/* ---- Pagination ---- */
+				.pagination-config {
+					width: 100%;
+					justify-content: center;
+					align-items: center;
+					margin-top: 28px;
+					gap: 12px;
+
+					.total-result {
+						p {
+							color: $text-muted;
+							text-align: center;
+							font-size: 13px;
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import { Pagination, Stack, Typography } from '@mui/material';
+import { Pagination, Stack, Typography, Chip, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { PropertyCard } from '../mypage/PropertyCard';
 import { Property } from '../../types/property/property';
@@ -9,35 +9,38 @@ import { T } from '../../types/common';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
+import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
+import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
+import ViewListRoundedIcon from '@mui/icons-material/ViewListRounded';
 
-const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
+const MemberProperties: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const { memberId } = router.query;
 	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>({ ...initialInput });
 	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
 	const [total, setTotal] = useState<number>(0);
+	const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
 
 	/** APOLLO REQUESTS **/
-
-	const { 
+	const {
 		loading: getPropertiesLoading,
 		data: getPropertiesData,
 		error: getPropertiesError,
-		refetch: getPropertiesRefetch
+		refetch: getPropertiesRefetch,
 	} = useQuery(GET_PROPERTIES, {
-		fetchPolicy: "network-only",
+		fetchPolicy: 'network-only',
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			setAgentProperties(data?.getProperties?.list);
-			setTotal(data?.getProperties?.metaCounter[0]?.total);
-		}
+			setTotal(data?.getProperties?.metaCounter[0]?.total ?? 0);
+		},
 	});
 
 	/** LIFECYCLE **/
 	useEffect(() => {
-		getPropertiesRefetch().then()
+		getPropertiesRefetch().then();
 	}, [searchFilter]);
 
 	useEffect(() => {
@@ -51,67 +54,101 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>NESTAR PROPERTIES MOBILE</div>;
+		return <div>MEMBER PROPERTIES MOBILE</div>;
 	} else {
 		return (
 			<div id="member-properties-page">
-				<Stack className="main-title-box">
-					<Stack className="right-box">
-						<Typography className="main-title">Properties</Typography>
+				{/* HEADER */}
+				<Stack className="mp-header">
+					<Stack className="mp-header-left">
+						<HomeWorkOutlinedIcon className="mp-header-icon" />
+						<Box>
+							<Typography className="mp-main-title">Listed Properties</Typography>
+							<Typography className="mp-sub-title">
+								{total > 0 ? `${total} properties available` : 'No listings yet'}
+							</Typography>
+						</Box>
+					</Stack>
+					<Stack className="mp-header-right">
+						<Chip
+							label={`${total} Total`}
+							className="mp-total-chip"
+							size="small"
+						/>
+						<Stack className="mp-view-toggle">
+							<button
+								className={`mp-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
+								onClick={() => setViewMode('list')}
+							>
+								<ViewListRoundedIcon fontSize="small" />
+							</button>
+							<button
+								className={`mp-toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
+								onClick={() => setViewMode('grid')}
+							>
+								<GridViewRoundedIcon fontSize="small" />
+							</button>
+						</Stack>
 					</Stack>
 				</Stack>
-				<Stack className="properties-list-box">
-					<Stack className="list-box">
-						{agentProperties?.length > 0 && (
-							<Stack className="listing-title-box">
-								<Typography className="title-text">Listing title</Typography>
-								<Typography className="title-text">Date Published</Typography>
-								<Typography className="title-text">Status</Typography>
-								<Typography className="title-text">View</Typography>
-							</Stack>
-						)}
-						{agentProperties?.length === 0 && (
-							<div className={'no-data'}>
-								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Property found!</p>
-							</div>
-						)}
-						{agentProperties?.map((property: Property) => {
-							return <PropertyCard property={property} memberPage={true} key={property?._id} />;
-						})}
 
-						{agentProperties.length !== 0 && (
-							<Stack className="pagination-config">
-								<Stack className="pagination-box">
-									<Pagination
-										count={Math.ceil(total / searchFilter.limit)}
-										page={searchFilter.page}
-										shape="circular"
-										color="primary"
-										onChange={paginationHandler}
-									/>
-								</Stack>
-								<Stack className="total-result">
-									<Typography>{total} property available</Typography>
-								</Stack>
-							</Stack>
-						)}
+				{/* TABLE HEADER */}
+				<Stack className="mp-properties-container">
+					{agentProperties?.length > 0 && (
+						<Stack className="mp-table-header">
+							<Typography className="mp-col-title col-listing">Listing</Typography>
+							<Typography className="mp-col-title col-date">Published</Typography>
+							<Typography className="mp-col-title col-status">Status</Typography>
+							<Typography className="mp-col-title col-views">Views</Typography>
+						</Stack>
+					)}
+
+					{/* EMPTY STATE */}
+					{agentProperties?.length === 0 && (
+						<Stack className="mp-empty-state">
+							<Box className="mp-empty-icon-wrap">
+								<HomeWorkOutlinedIcon className="mp-empty-icon" />
+							</Box>
+							<Typography className="mp-empty-title">No Properties Listed</Typography>
+							<Typography className="mp-empty-desc">This agent hasn't listed any properties yet.</Typography>
+						</Stack>
+					)}
+
+					{/* PROPERTY LIST */}
+					<Stack className={`mp-list ${viewMode}`}>
+						{agentProperties?.map((property: Property) => (
+							<PropertyCard property={property} memberPage={true} key={property?._id} />
+						))}
 					</Stack>
+
+					{/* PAGINATION */}
+					{agentProperties.length !== 0 && (
+						<Stack className="mp-pagination-wrap">
+							<Pagination
+								count={Math.ceil(total / searchFilter.limit)}
+								page={searchFilter.page}
+								shape="rounded"
+								color="primary"
+								onChange={paginationHandler}
+							/>
+							<Typography className="mp-pagination-label">
+								Page {searchFilter.page} of {Math.ceil(total / searchFilter.limit)}
+							</Typography>
+						</Stack>
+					)}
 				</Stack>
 			</div>
 		);
 	}
 };
 
-MyProperties.defaultProps = {
+MemberProperties.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 5,
 		sort: 'createdAt',
-		search: {
-			memberId: '',
-		},
+		search: { memberId: '' },
 	},
 };
 
-export default MyProperties;
+export default MemberProperties;

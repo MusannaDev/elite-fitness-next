@@ -7,84 +7,84 @@ import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-
-// ─── localStorage helpers for persistent likes ───────────────────────────────
-const TRAINER_LIKES_KEY = 'trainer_likes';
-
-const getTrainerLikes = (): Record<string, boolean> => {
-	try {
-		const stored = localStorage.getItem(TRAINER_LIKES_KEY);
-		return stored ? JSON.parse(stored) : {};
-	} catch {
-		return {};
-	}
-};
-
-const setTrainerLike = (trainerId: string, liked: boolean): void => {
-	try {
-		const current = getTrainerLikes();
-		if (liked) {
-			current[trainerId] = true;
-		} else {
-			delete current[trainerId];
-		}
-		localStorage.setItem(TRAINER_LIKES_KEY, JSON.stringify(current));
-	} catch {}
-};
-
-const isTrainerLiked = (trainerId: string): boolean => {
-	return !!getTrainerLikes()[trainerId];
-};
-// ─────────────────────────────────────────────────────────────────────────────
 
 interface TrainerCardProps {
 	trainer: any;
 	likeMemberHandler: any;
+	subscribeHandler?: any;
+	unsubscribeHandler?: any;
 }
 
 const TrainerCard = (props: TrainerCardProps) => {
-	const { trainer, likeMemberHandler } = props;
+	const { trainer, likeMemberHandler, subscribeHandler, unsubscribeHandler } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const imagePath: string = trainer?.memberImage
 		? `${REACT_APP_API_URL}/${trainer?.memberImage}`
 		: '/img/profile/defaultUser.svg';
 
-	const getInitialLiked = (): boolean => {
-		const localLike = isTrainerLiked(trainer?._id);
-		const serverLike = !!(trainer?.meLiked && trainer?.meLiked[0]?.myFavorite);
-		return localLike || serverLike;
-	};
-
-	const [localLiked, setLocalLiked] = useState<boolean>(getInitialLiked);
+	const [localLiked, setLocalLiked] = useState<boolean>(
+		!!(trainer?.meLiked && trainer?.meLiked[0]?.myFavorite),
+	);
 	const [localLikes, setLocalLikes] = useState<number>(trainer?.memberLikes || 0);
+	const [isFollowing, setIsFollowing] = useState<boolean>(
+		!!(trainer?.meFollowed && trainer?.meFollowed[0]?.myFollowing),
+	);
 
+	/** Sync with server data after refetch **/
 	useEffect(() => {
 		const serverLiked = !!(trainer?.meLiked && trainer?.meLiked[0]?.myFavorite);
-		const storedLiked = isTrainerLiked(trainer?._id);
-
-		if (serverLiked && !storedLiked) {
-			setTrainerLike(trainer?._id, true);
-		}
-
-		setLocalLiked(storedLiked || serverLiked);
+		setLocalLiked(serverLiked);
 		setLocalLikes(trainer?.memberLikes || 0);
-	}, [trainer?._id, trainer?.meLiked, trainer?.memberLikes]);
+	}, [trainer?.meLiked, trainer?.memberLikes]);
+
+	useEffect(() => {
+		const serverFollowing = !!(trainer?.meFollowed && trainer?.meFollowed[0]?.myFollowing);
+		setIsFollowing(serverFollowing);
+	}, [trainer?.meFollowed]);
 
 	const handleLikeClick = useCallback(
-		(e: React.MouseEvent) => {
+		async (e: React.MouseEvent) => {
 			e.preventDefault();
 			e.stopPropagation();
 
 			const newLiked = !localLiked;
 			setLocalLiked(newLiked);
-			setLocalLikes((prev) => (newLiked ? prev + 1 : prev - 1));
-			setTrainerLike(trainer?._id, newLiked);
-			likeMemberHandler(user, trainer?._id);
+			setLocalLikes((prev) => (newLiked ? prev + 1 : Math.max(0, prev - 1)));
+
+			try {
+				await likeMemberHandler(user, trainer?._id);
+			} catch (err) {
+				setLocalLiked(!newLiked);
+				setLocalLikes((prev) => (!newLiked ? prev + 1 : Math.max(0, prev - 1)));
+			}
 		},
 		[localLiked, trainer?._id, user, likeMemberHandler],
+	);
+
+	const handleFollowClick = useCallback(
+		async (e: React.MouseEvent) => {
+			e.preventDefault();
+			e.stopPropagation();
+
+			const wasFollowing = isFollowing;
+			setIsFollowing(!wasFollowing);
+
+			try {
+				if (wasFollowing && unsubscribeHandler) {
+					await unsubscribeHandler(trainer?._id);
+				} else if (!wasFollowing && subscribeHandler) {
+					await subscribeHandler(trainer?._id);
+				}
+			} catch (err) {
+				setIsFollowing(wasFollowing);
+			}
+		},
+		[isFollowing, trainer?._id, subscribeHandler, unsubscribeHandler],
 	);
 
 	if (device === 'mobile') {
@@ -92,52 +92,83 @@ const TrainerCard = (props: TrainerCardProps) => {
 	} else {
 		return (
 			<Stack className="trainer-general-card">
-				<Link
-					href={{
-						pathname: '/trainer/detail',
-						query: { trainerId: trainer?._id },
-					}}
-				>
-					<Box
-						component={'div'}
-						className={'trainer-img'}
-						style={{
-							backgroundImage: `url(${imagePath})`,
-							backgroundSize: 'cover',
-							backgroundPosition: 'center',
-							backgroundRepeat: 'no-repeat',
+				<Box component={'div'} className={'card-media'}>
+					<Link
+						href={{
+							pathname: '/trainer/detail',
+							query: { trainerId: trainer?._id },
 						}}
 					>
-						<div>{trainer?.memberProducts} products</div>
-					</Box>
-				</Link>
+						<Box
+							component={'div'}
+							className={'trainer-img'}
+							style={{
+								backgroundImage: `url(${imagePath})`,
+								backgroundSize: 'cover',
+								backgroundPosition: 'center',
+								backgroundRepeat: 'no-repeat',
+							}}
+						/>
+					</Link>
 
-				<Stack className={'trainer-desc'}>
-					<Box component={'div'} className={'trainer-info'}>
+					<div className={'product-badge'}>
+						<span>{trainer?.memberProducts}</span> products
+					</div>
+
+					<IconButton className={'like-btn-float'} onClick={handleLikeClick}>
+						{localLiked ? (
+							<FavoriteIcon className="liked" />
+						) : (
+							<FavoriteBorderIcon />
+						)}
+					</IconButton>
+				</Box>
+
+				<Stack className={'card-body'}>
+					<Box component={'div'} className={'trainer-identity'}>
 						<Link
 							href={{
 								pathname: '/trainer/detail',
 								query: { trainerId: trainer?._id },
 							}}
 						>
-							<strong>{trainer?.memberFullName ?? trainer?.memberNick}</strong>
+							<Typography className="trainer-name">
+								{trainer?.memberFullName ?? trainer?.memberNick}
+							</Typography>
 						</Link>
-						<span>Trainer</span>
+						<Typography className="trainer-role">Professional Trainer</Typography>
 					</Box>
-					<Box component={'div'} className={'buttons'}>
-						<IconButton color={'default'}>
+
+					<Box component={'div'} className={'card-stats'}>
+						<div className={'stat-item'}>
 							<RemoveRedEyeIcon />
-						</IconButton>
-						<Typography className="view-cnt">{trainer?.memberViews}</Typography>
-						<IconButton color={'default'} onClick={handleLikeClick}>
-							{localLiked ? (
-								<FavoriteIcon color={'primary'} />
-							) : (
-								<FavoriteBorderIcon />
-							)}
-						</IconButton>
-						<Typography className="view-cnt">{localLikes}</Typography>
+							<span>{trainer?.memberViews}</span>
+						</div>
+						<div className={'stat-divider'} />
+						<div className={'stat-item'}>
+							<FavoriteIcon />
+							<span>{localLikes}</span>
+						</div>
 					</Box>
+
+					{user?._id !== trainer?._id && (
+						<button
+							className={`follow-btn ${isFollowing ? 'followed' : ''}`}
+							onClick={handleFollowClick}
+						>
+							{isFollowing ? (
+								<>
+									<HowToRegIcon />
+									<span>Followed</span>
+								</>
+							) : (
+								<>
+									<PersonAddAlt1Icon />
+									<span>Follow</span>
+								</>
+							)}
+						</button>
+					)}
 				</Stack>
 			</Stack>
 		);

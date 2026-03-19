@@ -1,57 +1,290 @@
+// ============================================================
+//  member-articles.scss
+//  Community · Articles — Glass classic editorial design
+//  Accent: #7c3aed  (violet-purple)
+// ============================================================
+
+$font:   'Nunito', 'Poppins', sans-serif;
+$accent: #7c3aed;
+$accent-light:  rgba(124, 58, 237, 0.09);
+$accent-border: rgba(124, 58, 237, 0.22);
+$accent-glow:   rgba(124, 58, 237, 0.14);
+
+// Glass tokens
+$glass-bg:       rgba(255, 255, 255, 0.60);
+$glass-bg-tint:  rgba(248, 245, 255, 0.72);   // violet-tinted glass
+$glass-border:   rgba(255, 255, 255, 0.82);
+$glass-border-v: rgba(180, 140, 255, 0.30);
+$glass-blur:     blur(18px);
+$glass-blur-sm:  blur(10px);
+$glass-shadow:   0 8px 40px rgba(124, 58, 237, 0.07), 0 2px 10px rgba(0,0,0,0.05);
+
+// Neutrals
+$c-dark:  #181a20;
+$c-mid:   #4a4d57;
+$c-muted: #9fa3b0;
+$c-bg:    #f7f8fc;
+$c-border: #e8eaf0;
+
+// Skeleton
+@mixin skeleton-pulse {
+  background: linear-gradient(90deg, $c-bg 25%, darken($c-bg, 3%) 50%, $c-bg 75%);
+  background-size: 200% 100%;
+  animation: mar-pulse 1.5s ease-in-out infinite;
+}
+@keyframes mar-pulse {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+// ─────────────────────────────────────────────────────────────
+
 #pc-wrap {
-	#member-articles-page {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		.main-title-box {
-			width: auto;
-			height: auto;
-			flex-direction: row;
-			justify-content: space-between;
-			align-self: flex-start;
-			.right-box {
-				width: 315px;
-				.main-title {
-					color: #181a20;
-					font-family: $font;
-					font-size: 30px;
-					font-style: normal;
-					font-weight: 600;
-					line-height: normal;
-					letter-spacing: 0.6px;
-					text-transform: capitalize;
-				}
-			}
-		}
-		.articles-list-box {
-			width: 100%;
-			height: auto;
-			flex-direction: row;
-			flex-wrap: wrap;
-			gap: 35px;
-			margin-top: 85px;
-			.no-data {
-				width: 100%;
-			}
-		}
-		.pagination-config {
-			width: 100%;
-			height: auto;
-			justify-content: center;
-			align-items: center;
-			margin-top: 30px;
-			.total-result {
-				p {
-					color: #181a20;
-					text-align: center;
-					font-family: $font;
-					font-size: 14px;
-					font-style: normal;
-					font-weight: 400;
-					line-height: 26px;
-				}
-			}
-		}
-	}
+  #member-page {
+    #member-articles-page {
+      width: 100%;
+      padding-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+
+      // ── Glass header ─────────────────────────────────────
+      .mar-glass-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background: $glass-bg-tint;
+        border: 1px solid $glass-border-v;
+        backdrop-filter: $glass-blur;
+        -webkit-backdrop-filter: $glass-blur;
+        box-shadow: $glass-shadow;
+        border-radius: 20px;
+        padding: 22px 26px;
+        margin-bottom: 28px;
+        position: relative;
+        overflow: hidden;
+
+        // Top-left glow orb
+        &::before {
+          content: '';
+          position: absolute;
+          top: -50px; left: -50px;
+          width: 160px; height: 160px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba($accent, 0.14) 0%, transparent 65%);
+          pointer-events: none;
+        }
+
+        // Bottom-right shimmer line
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0; left: 10%; right: 10%;
+          height: 1px;
+          background: linear-gradient(to right, transparent, rgba($accent, 0.30), transparent);
+        }
+
+        .mar-header-left {
+          flex-direction: row;
+          align-items: center;
+          gap: 16px;
+
+          .mar-header-icon-wrap {
+            width: 54px; height: 54px;
+            border-radius: 15px;
+            background: $accent-light;
+            border: 1px solid $accent-border;
+            backdrop-filter: $glass-blur-sm;
+            -webkit-backdrop-filter: $glass-blur-sm;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            transition: transform 0.24s, box-shadow 0.24s;
+            box-shadow: 0 4px 14px $accent-glow;
+
+            svg {
+              color: $accent;
+              font-size: 26px;
+            }
+
+            &:hover {
+              transform: rotate(-6deg) scale(1.08);
+              box-shadow: 0 6px 20px rgba($accent, 0.25);
+            }
+          }
+
+          .mar-page-title {
+            font-family: $font;
+            font-size: 24px;
+            font-weight: 800;
+            color: $c-dark;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+          }
+
+          .mar-page-sub {
+            font-family: $font;
+            font-size: 13px;
+            color: $c-muted;
+            margin-top: 3px;
+          }
+        }
+
+        .mar-total-chip {
+          background: $accent-light !important;
+          color: $accent !important;
+          border: 1px solid $accent-border !important;
+          font-weight: 700 !important;
+          font-family: $font !important;
+          backdrop-filter: $glass-blur-sm;
+
+          .MuiChip-icon { color: $accent !important; }
+        }
+      }
+
+      // ── Skeleton grid ─────────────────────────────────────
+      .mar-skeleton-grid {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 22px;
+
+        .mar-skeleton-card {
+          width: calc(33.333% - 16px);
+          height: 240px;
+          border-radius: 16px;
+          @include skeleton-pulse;
+        }
+      }
+
+      // ── Empty state ───────────────────────────────────────
+      .mar-empty {
+        align-items: center;
+        justify-content: center;
+        padding: 90px 20px;
+        gap: 16px;
+
+        .mar-empty-icon-wrap {
+          width: 88px; height: 88px;
+          border-radius: 50%;
+          background: $accent-light;
+          border: 2px solid $accent-border;
+          backdrop-filter: $glass-blur-sm;
+          display: flex; align-items: center; justify-content: center;
+          box-shadow: 0 4px 20px $accent-glow;
+
+          svg { font-size: 40px; color: $accent; }
+        }
+
+        .mar-empty-title {
+          font-family: $font;
+          font-size: 20px;
+          font-weight: 800;
+          color: $c-mid;
+        }
+
+        .mar-empty-desc {
+          font-family: $font;
+          font-size: 14px;
+          color: $c-muted;
+          text-align: center;
+          max-width: 300px;
+          line-height: 1.6;
+        }
+      }
+
+      // ── Articles grid ─────────────────────────────────────
+      .mar-articles-grid {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 22px;
+        align-items: stretch;
+
+        .mar-card-wrap {
+          width: calc(33.333% - 16px);
+          min-width: 240px;
+          position: relative;
+
+          // Glass frosted overlay on each card
+          background: $glass-bg;
+          border: 1px solid $glass-border;
+          backdrop-filter: $glass-blur;
+          -webkit-backdrop-filter: $glass-blur;
+          border-radius: 18px;
+          overflow: hidden;
+          transition: transform 0.24s, box-shadow 0.24s, border-color 0.24s;
+          box-shadow:
+            0 4px 20px rgba(124, 58, 237, 0.06),
+            0 1px 4px rgba(0,0,0,0.04),
+            inset 0 1px 0 rgba(255,255,255,0.80);
+
+          // Left accent line
+          &::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 15%; bottom: 15%;
+            width: 3px;
+            border-radius: 0 3px 3px 0;
+            background: linear-gradient(to bottom, transparent, $accent, transparent);
+            opacity: 0;
+            transition: opacity 0.24s;
+          }
+
+          &:hover {
+            transform: translateY(-4px);
+            border-color: $accent-border;
+            box-shadow:
+              0 12px 36px rgba(124, 58, 237, 0.13),
+              0 2px 8px rgba(0,0,0,0.06),
+              inset 0 1px 0 rgba(255,255,255,0.90);
+
+            &::before { opacity: 1; }
+          }
+
+          // Override CommunityCard inner styles for glass context
+          .community-card {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+        }
+      }
+
+      // ── Pagination ────────────────────────────────────────
+      .mar-pagination {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        padding-top: 36px;
+
+        // Glass pill wrap around pagination
+        background: $glass-bg;
+        border: 1px solid $glass-border;
+        backdrop-filter: $glass-blur-sm;
+        -webkit-backdrop-filter: $glass-blur-sm;
+        border-radius: 50px;
+        padding: 10px 24px;
+        margin-top: 32px;
+        align-self: center;
+        box-shadow: 0 4px 20px rgba(124, 58, 237, 0.06);
+
+        .mar-page-label {
+          font-family: $font;
+          font-size: 13px;
+          color: $c-muted;
+          white-space: nowrap;
+        }
+
+        .MuiPaginationItem-root {
+          font-family: $font;
+          font-weight: 600;
+          &.Mui-selected {
+            background: $accent !important;
+            color: #fff !important;
+            box-shadow: 0 3px 10px rgba($accent, 0.35) !important;
+          }
+        }
+      }
+    }
+  }
 }

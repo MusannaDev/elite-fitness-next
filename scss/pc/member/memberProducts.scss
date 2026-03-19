@@ -1,0 +1,270 @@
+// ============================================================
+//  member-products.scss
+//  Trainer · Supplement & Products  —  Classic glass design
+//  Accent: #16a34a (green)
+// ============================================================
+
+$font:   'Nunito', 'Poppins', sans-serif;
+$accent: #16a34a;
+$accent-light: rgba(22, 163, 74, 0.10);
+$accent-border: rgba(22, 163, 74, 0.22);
+
+$glass-bg:     rgba(255, 255, 255, 0.60);
+$glass-border: rgba(255, 255, 255, 0.80);
+$glass-shadow: 0 8px 32px rgba(22, 163, 74, 0.08);
+$glass-blur:   blur(14px);
+
+$c-dark:  #181a20;
+$c-mid:   #4a4d57;
+$c-muted: #9fa3b0;
+$c-border: #e8eaf0;
+$c-bg:    #f7f8fc;
+
+$c-in:  #059669;  $c-in-bg:  rgba(16, 185, 129, 0.10);
+$c-out: #dc2626;  $c-out-bg: rgba(220, 38, 38, 0.10);
+
+// Column widths
+$w-product:  2;       // flex
+$w-category: 155px;
+$w-price:    105px;
+$w-stock:    105px;
+$w-rating:   145px;
+
+@mixin row-base { flex-direction: row; align-items: center; }
+
+@mixin skeleton-pulse {
+  background: linear-gradient(90deg, $c-bg 25%, darken($c-bg, 3%) 50%, $c-bg 75%);
+  background-size: 200% 100%;
+  animation: pr-pulse 1.4s ease-in-out infinite;
+}
+@keyframes pr-pulse {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+// ─────────────────────────────────────────────────────────────
+
+#pc-wrap {
+  #member-page {
+    #member-products-page {
+      width: 100%;
+      padding-bottom: 32px;
+
+      // ── Glass header ────────────────────────────────────
+      .mpr-glass-header {
+        @include row-base;
+        justify-content: space-between;
+        background: $glass-bg;
+        border: 1px solid $glass-border;
+        backdrop-filter: $glass-blur;
+        -webkit-backdrop-filter: $glass-blur;
+        box-shadow: $glass-shadow;
+        border-radius: 18px;
+        padding: 20px 24px;
+        margin-bottom: 24px;
+        position: relative;
+        overflow: hidden;
+
+        // decorative glow
+        &::after {
+          content: '';
+          position: absolute;
+          top: -40px; right: -40px;
+          width: 120px; height: 120px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba($accent, 0.15) 0%, transparent 70%);
+          pointer-events: none;
+        }
+
+        .mpr-header-left {
+          @include row-base; gap: 16px;
+
+          .mpr-header-icon-wrap {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            background: $accent-light;
+            border: 1px solid $accent-border;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: transform 0.22s;
+            svg { color: $accent; font-size: 26px; }
+            &:hover { transform: rotate(-8deg) scale(1.06); }
+          }
+
+          .mpr-page-title {
+            font-family: $font; font-size: 22px; font-weight: 800;
+            color: $c-dark; letter-spacing: -0.3px; line-height: 1.2;
+          }
+
+          .mpr-page-sub {
+            font-family: $font; font-size: 13px; color: $c-muted; margin-top: 2px;
+          }
+        }
+
+        .mpr-total-chip {
+          background: $accent-light !important;
+          color: $accent !important;
+          border: 1px solid $accent-border !important;
+          font-weight: 700 !important; font-family: $font !important;
+          .MuiChip-icon { color: $accent !important; }
+        }
+      }
+
+      // ── Column header ────────────────────────────────────
+      .mpr-col-header {
+        @include row-base; padding: 11px 20px;
+        background: $c-bg; border-radius: 10px; margin-bottom: 12px;
+
+        .mpr-th {
+          font-family: $font; font-size: 11px; font-weight: 700;
+          color: $c-muted; letter-spacing: 0.9px; text-transform: uppercase;
+          &.th-product  { flex: $w-product; }
+          &.th-category { width: $w-category; }
+          &.th-price    { width: $w-price; }
+          &.th-stock    { width: $w-stock; }
+          &.th-rating   { width: $w-rating; }
+        }
+      }
+
+      // ── Skeleton ─────────────────────────────────────────
+      .mpr-skeleton-list {
+        gap: 10px;
+        .mpr-skeleton-row { width: 100%; height: 82px; border-radius: 12px; @include skeleton-pulse; }
+      }
+
+      // ── Empty state ──────────────────────────────────────
+      .mpr-empty {
+        align-items: center; justify-content: center;
+        padding: 80px 20px; gap: 14px;
+
+        .mpr-empty-icon-wrap {
+          width: 80px; height: 80px; border-radius: 50%;
+          background: $accent-light; border: 2px solid $accent-border;
+          display: flex; align-items: center; justify-content: center;
+          svg { font-size: 36px; color: $accent; }
+        }
+
+        .mpr-empty-title { font-family: $font; font-size: 18px; font-weight: 700; color: $c-mid; }
+        .mpr-empty-desc  { font-family: $font; font-size: 13px; color: $c-muted; text-align: center; }
+      }
+
+      // ── Product rows ─────────────────────────────────────
+      .mpr-list {
+        gap: 0;
+
+        .mpr-row {
+          @include row-base;
+          padding: 16px 20px;
+          background: $glass-bg;
+          border: 1px solid $glass-border;
+          backdrop-filter: $glass-blur;
+          -webkit-backdrop-filter: $glass-blur;
+          border-radius: 14px;
+          margin-bottom: 10px;
+          cursor: pointer;
+          transition: all 0.22s;
+          position: relative;
+          overflow: hidden;
+
+          // subtle left accent line
+          &::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 20%; bottom: 20%;
+            width: 3px; border-radius: 0 3px 3px 0;
+            background: $accent;
+            opacity: 0;
+            transition: opacity 0.2s;
+          }
+
+          &:hover {
+            border-color: $accent-border;
+            box-shadow: 0 8px 28px rgba(22, 163, 74, 0.10);
+            transform: translateY(-2px);
+            &::before { opacity: 1; }
+          }
+
+          &:last-child { margin-bottom: 0; }
+
+          .mpr-cell {
+            align-items: flex-start; justify-content: center;
+            &.th-product  { flex: $w-product; flex-direction: row !important; align-items: center; gap: 14px; }
+            &.th-category { width: $w-category; }
+            &.th-price    { width: $w-price; }
+            &.th-stock    { width: $w-stock; }
+            &.th-rating   { width: $w-rating; flex-direction: row !important; align-items: center; gap: 6px; }
+          }
+
+          // ── Supplement icon box ──
+          .mpr-icon-wrap {
+            width: 56px; height: 56px;
+            border-radius: 14px;
+            background: $accent-light;
+            border: 1px solid $accent-border;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: all 0.22s;
+
+            .mpr-supp-icon {
+              font-size: 26px !important;
+              color: $accent;
+              transition: transform 0.22s;
+            }
+          }
+
+          &:hover .mpr-icon-wrap {
+            background: $accent;
+            .mpr-supp-icon { color: #fff; transform: scale(1.1) rotate(-5deg); }
+          }
+
+          // ── Text info ──
+          .mpr-info {
+            .mpr-name {
+              font-family: $font; font-size: 14px; font-weight: 700;
+              color: $c-dark; margin-bottom: 4px; line-height: 1.3;
+            }
+            .mpr-desc { font-family: $font; font-size: 12px; color: $c-muted; line-height: 1.4; }
+          }
+
+          // ── Category chip ──
+          .mpr-cat-chip {
+            background: rgba(99, 102, 241, 0.08) !important;
+            color: #6366f1 !important;
+            border: 1px solid rgba(99, 102, 241, 0.20) !important;
+            font-family: $font !important; font-size: 11px !important; font-weight: 700 !important;
+            .MuiChip-icon { color: #6366f1 !important; font-size: 13px !important; }
+          }
+
+          // ── Price ──
+          .mpr-price {
+            font-family: $font; font-size: 15px; font-weight: 800; color: $c-dark;
+          }
+
+          // ── Stock badge ──
+          .mpr-stock {
+            padding: 5px 12px; border-radius: 20px;
+            font-family: $font; font-size: 12px; font-weight: 700; white-space: nowrap;
+            &.in  { background: $c-in-bg;  color: $c-in; }
+            &.out { background: $c-out-bg; color: $c-out; }
+          }
+
+          // ── Rating ──
+          .mpr-rating-val {
+            font-family: $font; font-size: 12px; color: $c-muted;
+          }
+        }
+      }
+
+      // ── Pagination ───────────────────────────────────────
+      .mpr-pagination {
+        flex-direction: row; align-items: center;
+        justify-content: center; gap: 16px; padding-top: 28px;
+
+        .mpr-page-label { font-family: $font; font-size: 13px; color: $c-muted; }
+
+        .MuiPaginationItem-root {
+          font-family: $font; font-weight: 600;
+          &.Mui-selected { background: $accent !important; color: #fff !important; }
+        }
+      }
+    }
+  }
+}

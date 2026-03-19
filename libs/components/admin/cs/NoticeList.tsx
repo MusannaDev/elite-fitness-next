@@ -1,20 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {
-	TableCell,
-	TableHead,
-	TableBody,
-	TableRow,
-	Table,
-	TableContainer,
-	Button,
-	Menu,
-	Fade,
-	MenuItem,
-	Box,
-	Checkbox,
-	Toolbar,
+	TableCell, TableHead, TableBody, TableRow,
+	Table, TableContainer, Button, Box,
 } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { IconButton, Tooltip } from '@mui/material';
@@ -23,147 +12,15 @@ import { Stack } from '@mui/material';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { NotePencil } from 'phosphor-react';
 
-type Order = 'asc' | 'desc';
-
-interface Data {
-	category: string;
-	title: string;
-	id: string;
-	writer: string;
-	date: string;
-	view: number;
-	action: string;
-}
-interface HeadCell {
-	disablePadding: boolean;
-	id: keyof Data;
-	label: string;
-	numeric: boolean;
-}
-
-const headCells: readonly HeadCell[] = [
-	{
-		id: 'category',
-		numeric: true,
-		disablePadding: false,
-		label: 'Category',
-	},
-	{
-		id: 'title',
-		numeric: true,
-		disablePadding: false,
-		label: 'TITLE',
-	},
-	{
-		id: 'id',
-		numeric: true,
-		disablePadding: false,
-		label: 'ID',
-	},
-	{
-		id: 'writer',
-		numeric: true,
-		disablePadding: false,
-		label: 'WRITER',
-	},
-	{
-		id: 'date',
-		numeric: true,
-		disablePadding: false,
-		label: 'DATE',
-	},
-	{
-		id: 'view',
-		numeric: true,
-		disablePadding: false,
-		label: 'VIEW',
-	},
-	{
-		id: 'action',
-		numeric: false,
-		disablePadding: false,
-		label: 'ACTION',
-	},
+const headCells = [
+	{ id: 'category', label: 'Category', align: 'left' as const },
+	{ id: 'title',    label: 'Title',    align: 'left' as const },
+	{ id: 'id',       label: 'ID',       align: 'left' as const },
+	{ id: 'writer',   label: 'Writer',   align: 'left' as const },
+	{ id: 'date',     label: 'Date',     align: 'left' as const },
+	{ id: 'view',     label: 'View',     align: 'left' as const },
+	{ id: 'action',   label: 'Action',   align: 'center' as const },
 ];
-
-interface EnhancedTableProps {
-	numSelected: number;
-	onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-	onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	order: Order;
-	orderBy: string;
-	rowCount: number;
-}
-
-interface EnhancedTableToolbarProps {
-	numSelected: number;
-	onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-	onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	order: Order;
-	orderBy: string;
-	rowCount: number;
-}
-
-const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-	const [select, setSelect] = useState('');
-	const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-
-	return (
-		<>
-			{numSelected > 0 ? (
-				<>
-					<Toolbar>
-						<Box component={'div'}>
-							<Box component={'div'} className="flex_box">
-								<Checkbox
-									color="primary"
-									indeterminate={numSelected > 0 && numSelected < rowCount}
-									checked={rowCount > 0 && numSelected === rowCount}
-									onChange={onSelectAllClick}
-									inputProps={{
-										'aria-label': 'select all',
-									}}
-								/>
-								<Typography sx={{ flex: '1 1 100%' }} color="inherit" variant="h6" component="div">
-									{numSelected} selected
-								</Typography>
-							</Box>
-							<Button variant={'text'} size={'large'}>
-								Delete
-							</Button>
-						</Box>
-					</Toolbar>
-				</>
-			) : (
-				<TableHead>
-					<TableRow>
-						<TableCell padding="checkbox">
-							<Checkbox
-								color="primary"
-								indeterminate={numSelected > 0 && numSelected < rowCount}
-								checked={rowCount > 0 && numSelected === rowCount}
-								onChange={onSelectAllClick}
-								inputProps={{
-									'aria-label': 'select all',
-								}}
-							/>
-						</TableCell>
-						{headCells.map((headCell) => (
-							<TableCell
-								key={headCell.id}
-								align={headCell.numeric ? 'left' : 'right'}
-								padding={headCell.disablePadding ? 'none' : 'normal'}
-							>
-								{headCell.label}
-							</TableCell>
-						))}
-					</TableRow>
-				</TableHead>
-			)}
-			{numSelected > 0 ? null : null}
-		</>
-	);
-};
 
 interface NoticeListType {
 	dense?: boolean;
@@ -176,64 +33,57 @@ interface NoticeListType {
 }
 
 export const NoticeList = (props: NoticeListType) => {
-	const {
-		dense,
-		membersData,
-		searchMembers,
-		anchorEl,
-		handleMenuIconClick,
-		handleMenuIconClose,
-		generateMentorTypeHandle,
-	} = props;
+	const { dense } = props;
 	const router = useRouter();
-
-	/** APOLLO REQUESTS **/
-	/** LIFECYCLE **/
-	/** HANDLERS **/
 
 	return (
 		<Stack>
 			<TableContainer>
-				<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
-					{/*@ts-ignore*/}
-					<EnhancedTableToolbar />
+				<Table sx={{ minWidth: 750 }} size={dense ? 'small' : 'medium'}>
+					<TableHead>
+						<TableRow>{headCells.map((c) => <TableCell key={c.id} align={c.align}>{c.label}</TableCell>)}</TableRow>
+					</TableHead>
 					<TableBody>
 						{[1, 2, 3, 4, 5].map((ele: any, index: number) => {
 							const member_image = '/img/profile/defaultUser.svg';
-
 							return (
-								<TableRow hover key={'member._id'} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-									<TableCell padding="checkbox">
-										<Checkbox color="primary" />
-									</TableCell>
-									<TableCell align="left">mb id</TableCell>
-									<TableCell align="left">member.mb_full_name</TableCell>
-									<TableCell align="left">member.mb_phone</TableCell>
+								<TableRow hover key={index} sx={{ '&:last-child td': { border: 0 } }}>
+									<TableCell align="left"><Box className={'tag-pill stone'}>General</Box></TableCell>
+									<TableCell align="left"><Typography className={'row-title'}>Notice Title</Typography></TableCell>
+									<TableCell align="left"><Typography className={'mono-id'}>notice_id</Typography></TableCell>
 									<TableCell align="left" className={'name'}>
-										<Stack direction={'row'}>
-											<Link href={`/_admin/users/detail?mb_id=$'{member._id'}`}>
-												<div>
-													<Avatar alt="Remy Sharp" src={member_image} sx={{ ml: '2px', mr: '10px' }} />
-												</div>
+										<Stack direction={'row'} alignItems={'center'} gap={'7px'}>
+											<Link href={`/_admin/users`}>
+												<Avatar src={member_image} sx={{ width: 24, height: 24 }} />
 											</Link>
-											<Link href={`/_admin/users/detail?mb_id=${'member._id'}`}>
-												<div>member.mb_nick</div>
+											<Link href={`/_admin/users`}>
+												<Typography className={'meta-text'} sx={{ fontWeight: 600 }}>Admin</Typography>
 											</Link>
 										</Stack>
 									</TableCell>
-									<TableCell align="left">member.mb_phone</TableCell>
-									<TableCell align="left">member.mb_phone</TableCell>
-									<TableCell align="right">
-										<Tooltip title={'delete'}>
-											<IconButton>
-												<DeleteRoundedIcon />
-											</IconButton>
-										</Tooltip>
-										<Tooltip title="edit">
-											<IconButton onClick={() => router.push(`/_admin/cs/notice_create?id=notice._id`)}>
-												<NotePencil size={24} weight="fill" />
-											</IconButton>
-										</Tooltip>
+									<TableCell align="left"><Typography className={'meta-text'}>2024.01.01</Typography></TableCell>
+									<TableCell align="left"><Typography className={'meta-text'}>120</Typography></TableCell>
+									<TableCell align="center">
+										<Stack direction={'row'} justifyContent={'center'} gap={'2px'}>
+											<Tooltip title={'Delete'}>
+												<IconButton size="small" sx={{
+													width: 28, height: 28, borderRadius: '6px',
+													background: 'rgba(239,68,68,0.06)',
+													'&:hover': { background: 'rgba(239,68,68,0.12)' },
+												}}>
+													<DeleteRoundedIcon sx={{ fontSize: 14, color: '#DC2626' }} />
+												</IconButton>
+											</Tooltip>
+											<Tooltip title="Edit">
+												<IconButton size="small" onClick={() => router.push(`/_admin/cs/notice_create?id=notice._id`)} sx={{
+													width: 28, height: 28, borderRadius: '6px',
+													background: 'rgba(200,149,108,0.08)',
+													'&:hover': { background: 'rgba(200,149,108,0.15)' },
+												}}>
+													<NotePencil size={14} weight="bold" color="#C8956C" />
+												</IconButton>
+											</Tooltip>
+										</Stack>
 									</TableCell>
 								</TableRow>
 							);

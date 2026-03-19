@@ -1,318 +1,382 @@
+/* ===================================================
+   MY PROFILE — Hero Image + Stacked Cards
+   =================================================== */
+
+$accent: #6c5ce7;
+$accent-light: rgba(108, 92, 231, 0.08);
+$accent-gradient: linear-gradient(135deg, #6c5ce7, #a29bfe);
+$danger: #e74c3c;
+$danger-light: rgba(231, 76, 60, 0.08);
+$text-primary: #1a1a1a;
+$text-secondary: #6b6560;
+$text-muted: #9e9892;
+$bg-card: #ffffff;
+$bg-surface: #f8f7f5;
+$border-subtle: rgba(0, 0, 0, 0.06);
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+$shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.08);
+$transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
 #pc-wrap {
 	#my-page {
 		#my-profile-page {
 			width: 100%;
-			height: auto;
 			display: flex;
 			flex-direction: column;
-			gap: 20px;
-			.main-title-box {
-				width: auto;
-				height: auto;
-				flex-direction: row;
-				justify-content: space-between;
-				.right-box {
-					width: 315px;
-					.main-title {
-						color: #181a20;
-						font-family: $font;
-						font-size: 30px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-						letter-spacing: 0.6px;
-						text-transform: capitalize;
-					}
-					.sub-title {
-						color: #181a20;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 400;
-						line-height: 26px;
-					}
+			gap: 16px;
+			animation: fadeInUp 0.4s ease-out;
+
+			@keyframes fadeInUp {
+				from {
+					opacity: 0;
+					transform: translateY(12px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
 				}
 			}
-			.top-box {
-				width: 100%;
-				padding: 30px;
-				margin-top: 35px;
-				gap: 25px;
-				border-radius: 12px;
-				border: 1px solid #c4c4c4;
-				background: #fff;
-				box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-				.photo-box {
-					gap: 23px;
-					.title {
-						color: #181a20;
-						font-family: $font;
-						font-size: 17px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-					}
-					.image-big-box {
-						flex-direction: row;
-						gap: 50px;
-						.image-box {
-							position: relative;
-							width: 194px;
-							height: 157px;
-							img {
-								width: 100%;
-								height: 100%;
-								object-fit: cover;
-								border-radius: 15px;
-								object-fit: cover;
-							}
-							.delete-box {
-								position: absolute;
-								top: 10px;
-								left: 10px;
-								width: 36px;
-								height: 32px;
-								background-color: #ffffff;
-								align-items: center;
-								justify-content: center;
-								border-radius: 12px;
-							}
+
+			/* ========================
+			   HERO CARD (Image first!)
+			   ======================== */
+			.profile-hero-card {
+				background: $bg-card;
+				border-radius: $radius-lg;
+				border: 1px solid $border-subtle;
+				box-shadow: $shadow-card;
+				padding: 28px 32px;
+				transition: $transition;
+
+				&:hover {
+					box-shadow: $shadow-hover;
+				}
+
+				.hero-inner {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					gap: 28px;
+
+					.hero-avatar {
+						position: relative;
+						width: 100px;
+						height: 100px;
+						flex-shrink: 0;
+
+						img {
+							width: 100%;
+							height: 100%;
+							border-radius: 50%;
+							object-fit: cover;
+							border: 3px solid $bg-surface;
+							box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
 						}
-						.upload-big-box {
-							align-self: flex-end;
-							gap: 22px;
-							.labeler {
-								display: flex;
-								width: 210.023px;
-								height: 40.135px;
-								justify-content: center;
-								align-items: center;
-								cursor: pointer;
-								border-radius: 12px;
-								border: 1px solid #181a20;
-								p {
-									color: #181a20;
-									font-family: $font;
-									font-size: 13px;
-									font-style: normal;
-									font-weight: 600;
-									line-height: normal;
+
+						.upload-overlay {
+							position: absolute;
+							bottom: 0;
+							left: 0;
+							right: 0;
+							height: 4px;
+							border-radius: 0 0 50px 50px;
+							overflow: hidden;
+
+							.MuiLinearProgress-root {
+								height: 100%;
+								background: rgba(108, 92, 231, 0.2);
+
+								.MuiLinearProgress-bar {
+									background: $accent;
 								}
 							}
-							.upload-text {
-								color: #181a20;
-								font-family: $font;
-								font-size: 12px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
-							}
 						}
 					}
-				}
-				.small-input-box {
-					width: 100%;
-					height: auto;
-					flex-direction: row;
-					flex-wrap: wrap;
-					gap: 30px;
-					.input-box {
-						width: 48%;
-						gap: 10px;
-						.title {
-							color: #181a20;
-							font-family: $font;
-							font-size: 12px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
+
+					.hero-info {
+						flex: 1;
+
+						.hero-name {
+							font-size: 22px;
+							font-weight: 700;
+							color: $text-primary;
+							line-height: 1.2;
+							letter-spacing: -0.3px;
 						}
-						input {
-							height: 55px;
-							outline: none;
-							padding: 0px 15px;
-							border-radius: 8px;
-							border: 1px solid #ddd;
-							::placeholder {
-								color: #717171;
-								font-family: $font;
-								font-size: 12px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
-							}
-						}
-					}
-				}
-				.address-box {
-					gap: 10px;
-					.title {
-						color: #181a20;
-						font-family: $font;
-						font-size: 12px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-					}
-					input {
-						height: 55px;
-						outline: none;
-						padding: 0px 15px;
-						border-radius: 8px;
-						border: 1px solid #ddd;
-						::placeholder {
-							color: #717171;
-							font-family: $font;
-							font-size: 12px;
-							font-style: normal;
-							font-weight: 400;
-							line-height: 26px;
-						}
-					}
-				}
-				.about-me-box {
-					gap: 10px;
-					.title {
-						color: #181a20;
-						font-family: $font;
-						font-size: 12px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-					}
-					.about-textarea {
-						height: 170px;
-						padding: 20px 15px;
-						border-radius: 8px;
-						border: 1px solid #ddd;
-						color: #717171;
-						font-family: $font;
-						font-size: 12px;
-						font-style: normal;
-						font-weight: 400;
-						line-height: 26px;
-					}
-					.update-button {
-						display: flex;
-						width: 170px;
-						height: 38px;
-						justify-content: center;
-						align-items: center;
-						gap: 10px;
-						align-self: flex-end;
-						margin-top: 30px;
-						border-radius: 12px;
-						background-color: #000000;
-						p {
-							color: #fff;
-							font-family: $font;
+
+						.hero-role {
 							font-size: 13px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
+							color: $text-muted;
+							margin-top: 4px;
+							font-weight: 400;
 						}
-					}
-					button:disabled {
-						background: #181a2045;
+
+						.hero-actions {
+							flex-direction: row;
+							gap: 10px;
+							margin-top: 16px;
+
+							.btn-upload {
+								font-size: 13px;
+								font-weight: 600;
+								text-transform: none;
+								color: $bg-card;
+								background: $text-primary;
+								border: none;
+								border-radius: $radius-sm;
+								padding: 8px 20px;
+								cursor: pointer;
+								transition: $transition;
+								box-shadow: none;
+
+								svg {
+									font-size: 17px;
+								}
+
+								&:hover {
+									background: lighten($text-primary, 18%);
+									box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+								}
+							}
+
+							.btn-remove {
+								font-size: 13px;
+								font-weight: 500;
+								text-transform: none;
+								color: $danger;
+								background: transparent;
+								border: 1px solid rgba(231, 76, 60, 0.3);
+								border-radius: $radius-sm;
+								padding: 7px 18px;
+								cursor: pointer;
+								transition: $transition;
+
+								svg {
+									font-size: 17px;
+								}
+
+								&:hover {
+									background: $danger-light;
+									border-color: $danger;
+								}
+							}
+						}
 					}
 				}
 			}
-			.bottom-box {
-				width: 100%;
-				padding: 30px;
-				gap: 25px;
-				border-radius: 12px;
-				border: 1px solid #c4c4c4;
-				background: #fff;
-				box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-				.top-inner-box {
-					gap: 20px;
-					.title {
-						color: #181a20;
-						font-family: $font;
-						font-size: 15px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-					}
-					.old-password-box {
-						gap: 10px;
-						.title {
-							color: #181a20;
-							font-family: $font;
-							font-size: 12px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-						}
-						input {
-							width: 50%;
-							height: 55px;
-							outline: none;
-							padding: 0px 15px;
-							border-radius: 8px;
-							border: 1px solid #ddd;
-							::placeholder {
-								color: #717171;
-								font-family: $font;
-								font-size: 12px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
-							}
-						}
-					}
+
+			/* ========================
+			   SHARED CARD STYLES
+			   ======================== */
+			.profile-card {
+				background: $bg-card;
+				border-radius: $radius-lg;
+				border: 1px solid $border-subtle;
+				box-shadow: $shadow-card;
+				padding: 28px 32px;
+				transition: $transition;
+
+				&:hover {
+					box-shadow: $shadow-hover;
 				}
-				.bottom-inner-box {
-					width: 100%;
-					flex-direction: row;
-					gap: 45px;
-					.new-password-box {
-						width: 100%;
-						gap: 10px;
-						.title {
-							color: #181a20;
-							font-family: $font;
-							font-size: 12px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-						}
-						input {
-							height: 55px;
-							outline: none;
-							padding: 0px 15px;
-							border-radius: 8px;
-							border: 1px solid #ddd;
-							::placeholder {
-								color: #717171;
-								font-family: $font;
-								font-size: 12px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
-							}
-						}
-					}
-				}
-				.change-password {
+
+				.card-title {
+					font-size: 16px;
+					font-weight: 700;
+					color: $text-primary;
+					margin-bottom: 22px;
 					display: flex;
-					width: 170px;
-					height: 38px;
-					justify-content: center;
 					align-items: center;
 					gap: 10px;
-					align-self: flex-end;
-					margin-top: 18px;
-					border-radius: 12px;
-					background-color: #000000;
-					p {
-						color: #fff;
-						font-family: $font;
-						font-size: 13px;
-						font-style: normal;
+
+					&::before {
+						content: '';
+						width: 3px;
+						height: 18px;
+						background: $accent-gradient;
+						border-radius: 2px;
+					}
+				}
+			}
+
+			/* ========================
+			   DETAILS CARD
+			   ======================== */
+			.details-card {
+				.form-grid {
+					display: grid;
+					grid-template-columns: 1fr 1fr;
+					gap: 22px;
+					margin-bottom: 22px;
+				}
+
+				.form-field {
+					display: flex;
+					flex-direction: column;
+					gap: 8px;
+
+					&.full-width {
+						width: 100%;
+					}
+
+					.field-label {
+						flex-direction: row;
+						align-items: center;
+						gap: 6px;
+
+						.field-icon {
+							font-size: 16px;
+							color: $text-muted;
+						}
+
+						p {
+							font-size: 12px;
+							font-weight: 700;
+							color: $text-secondary;
+							text-transform: uppercase;
+							letter-spacing: 0.5px;
+						}
+					}
+
+					input {
+						width: 100%;
+						height: 50px;
+						padding: 0 16px;
+						border: 1px solid rgba(0, 0, 0, 0.08);
+						border-radius: $radius-md;
+						background: $bg-surface;
+						color: $text-primary;
+						font-size: 14px;
+						font-weight: 400;
+						outline: none;
+						transition: $transition;
+						box-sizing: border-box;
+
+						&::placeholder {
+							color: $text-muted;
+							font-size: 13px;
+						}
+
+						&:focus {
+							border-color: $accent;
+							background: $bg-card;
+							box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+						}
+
+						&:hover:not(:focus) {
+							border-color: rgba(0, 0, 0, 0.18);
+						}
+					}
+				}
+			}
+
+			/* ========================
+			   ABOUT ME CARD
+			   ======================== */
+			.about-card {
+				.form-field {
+					display: flex;
+					flex-direction: column;
+					gap: 8px;
+
+					&.full-width {
+						width: 100%;
+					}
+
+					.field-label {
+						flex-direction: row;
+						align-items: center;
+						gap: 6px;
+
+						.field-icon {
+							font-size: 16px;
+							color: $text-muted;
+						}
+
+						p {
+							font-size: 12px;
+							font-weight: 700;
+							color: $text-secondary;
+							text-transform: uppercase;
+							letter-spacing: 0.5px;
+						}
+					}
+
+					textarea {
+						width: 100%;
+						height: 140px;
+						padding: 14px 16px;
+						border: 1px solid rgba(0, 0, 0, 0.08);
+						border-radius: $radius-md;
+						background: $bg-surface;
+						color: $text-primary;
+						font-size: 14px;
+						font-family: inherit;
+						font-weight: 400;
+						outline: none;
+						resize: vertical;
+						transition: $transition;
+						box-sizing: border-box;
+						line-height: 1.6;
+
+						&::placeholder {
+							color: $text-muted;
+							font-size: 13px;
+						}
+
+						&:focus {
+							border-color: $accent;
+							background: $bg-card;
+							box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+						}
+
+						&:hover:not(:focus) {
+							border-color: rgba(0, 0, 0, 0.18);
+						}
+					}
+				}
+
+				.save-section {
+					flex-direction: row;
+					justify-content: flex-end;
+					margin-top: 24px;
+
+					.btn-save {
+						font-size: 14px;
 						font-weight: 600;
-						line-height: normal;
+						text-transform: none;
+						color: #ffffff;
+						background: $accent;
+						border: none;
+						border-radius: $radius-md;
+						padding: 11px 32px;
+						cursor: pointer;
+						transition: $transition;
+						box-shadow: 0 2px 10px rgba(108, 92, 231, 0.3);
+
+						svg {
+							font-size: 18px;
+						}
+
+						&:hover:not(:disabled) {
+							background: darken($accent, 8%);
+							box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4);
+							transform: translateY(-1px);
+						}
+
+						&:active {
+							transform: translateY(0);
+						}
+
+						&:disabled {
+							background: #c4c0d4;
+							box-shadow: none;
+							cursor: not-allowed;
+							color: rgba(255, 255, 255, 0.7);
+						}
 					}
 				}
 			}

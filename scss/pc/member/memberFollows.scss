@@ -1,172 +1,408 @@
+// ============================================================
+//  member-follows.scss
+//  Followers & Followings — Glass card layout
+//  Works in BOTH #my-page AND #member-page
+// ============================================================
+
+$font:   'Nunito', 'Poppins', sans-serif;
+
+$accent:          #6c5ce7;
+$accent-light:    rgba(108, 92, 231, 0.08);
+$accent-border:   rgba(108, 92, 231, 0.18);
+$accent-glow:     rgba(108, 92, 231, 0.14);
+
+$follow-green:     #10b981;
+$follow-green-bg:  rgba(16, 185, 129, 0.09);
+$follow-green-glow: rgba(16, 185, 129, 0.22);
+
+$unfollow-red:     #ef4444;
+$unfollow-red-bg:  rgba(239, 68, 68, 0.07);
+$unfollow-red-glow: rgba(239, 68, 68, 0.18);
+
+$like-rose: #f43f5e;
+
+$glass-bg:       rgba(255, 255, 255, 0.58);
+$glass-bg-card:  rgba(255, 255, 255, 0.65);
+$glass-bg-hover: rgba(255, 255, 255, 0.82);
+$glass-border:   rgba(255, 255, 255, 0.75);
+$glass-blur:     blur(18px) saturate(1.5);
+$glass-shadow:   0 6px 28px rgba(0,0,0,0.05);
+$glass-shadow-hover: 0 12px 40px rgba(108, 92, 231, 0.10);
+
+$c-dark:  #1a1a2e;
+$c-mid:   #555270;
+$c-muted: #a09cb5;
+
+$transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ── Shared mixin — applied to both page selectors ──
+@mixin follows-styles {
+  #member-follows-page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: followsReveal 0.45s ease-out;
+
+    @keyframes followsReveal {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    // ── Header ─────────────────────────────────────────
+    .follows-header {
+      background: rgba(248, 246, 255, 0.72);
+      border: 1px solid rgba(180, 160, 255, 0.28);
+      backdrop-filter: $glass-blur;
+      -webkit-backdrop-filter: $glass-blur;
+      border-radius: 18px;
+      padding: 20px 24px;
+      box-shadow: 0 6px 28px $accent-glow;
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: -40px; left: -40px;
+        width: 140px; height: 140px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba($accent, 0.13) 0%, transparent 65%);
+        pointer-events: none;
+      }
+
+      .header-content {
+        .header-title {
+          font-family: $font;
+          font-size: 26px;
+          font-weight: 800;
+          letter-spacing: -0.4px;
+          background: linear-gradient(135deg, $c-dark 20%, $accent 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .header-count {
+          font-family: $font;
+          font-size: 13px;
+          color: $c-muted;
+          margin-top: 4px;
+          font-weight: 400;
+        }
+      }
+    }
+
+    // ── Cards grid ─────────────────────────────────────
+    .follows-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      // ── Empty state ──
+      .empty-state {
+        align-items: center;
+        justify-content: center;
+        padding: 80px 40px;
+        border-radius: 18px;
+        background: $glass-bg;
+        backdrop-filter: $glass-blur;
+        -webkit-backdrop-filter: $glass-blur;
+        border: 1px solid $glass-border;
+        gap: 12px;
+
+        .empty-icon {
+          font-size: 54px;
+          color: $accent;
+          opacity: 0.25;
+        }
+
+        .empty-title {
+          font-family: $font;
+          font-size: 18px;
+          font-weight: 700;
+          color: $c-mid;
+        }
+
+        .empty-desc {
+          font-family: $font;
+          font-size: 14px;
+          color: $c-muted;
+          text-align: center;
+          max-width: 280px;
+          line-height: 1.6;
+        }
+      }
+
+      // ── Follow card ──
+      .follow-card {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 16px 22px;
+        border-radius: 16px;
+        background: $glass-bg-card;
+        backdrop-filter: $glass-blur;
+        -webkit-backdrop-filter: $glass-blur;
+        border: 1px solid $glass-border;
+        box-shadow: $glass-shadow;
+        transition: $transition;
+        gap: 16px;
+        position: relative;
+        overflow: hidden;
+
+        // Left accent bar on hover
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0; top: 20%; bottom: 20%;
+          width: 3px;
+          border-radius: 0 3px 3px 0;
+          background: linear-gradient(to bottom, transparent, $accent, transparent);
+          opacity: 0;
+          transition: opacity 0.24s;
+        }
+
+        &:hover {
+          background: $glass-bg-hover;
+          box-shadow: $glass-shadow-hover;
+          transform: translateY(-2px);
+          border-color: $accent-border;
+          &::before { opacity: 1; }
+        }
+
+        // ── Avatar + name ──
+        .card-identity {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 14px;
+          flex: 1.2;
+          cursor: pointer;
+          min-width: 0;
+
+          .avatar-wrapper {
+            width: 50px; height: 50px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2.5px solid rgba(255,255,255,0.80);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            transition: $transition;
+            background: $accent-light;
+
+            img {
+              width: 100%; height: 100%;
+              object-fit: cover; display: block;
+            }
+          }
+
+          &:hover .avatar-wrapper {
+            border-color: $accent;
+            box-shadow: 0 4px 16px $accent-glow;
+            transform: scale(1.06);
+          }
+
+          .identity-text {
+            min-width: 0;
+
+            .member-name {
+              font-family: $font;
+              font-size: 15px;
+              font-weight: 700;
+              color: $c-dark;
+              letter-spacing: -0.2px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+
+            .member-type {
+              font-family: $font;
+              font-size: 11px;
+              font-weight: 700;
+              color: $accent;
+              text-transform: uppercase;
+              letter-spacing: 0.6px;
+              margin-top: 2px;
+              opacity: 0.85;
+            }
+          }
+        }
+
+        // ── Stats ──
+        .card-stats {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          flex: 1.5;
+          justify-content: center;
+          padding: 10px 18px;
+          border-radius: 12px;
+          background: rgba(255,255,255,0.45);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.60);
+          gap: 0;
+
+          .stat-item {
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            cursor: default;
+
+            .stat-value {
+              font-family: $font;
+              font-size: 16px;
+              font-weight: 800;
+              color: $c-dark;
+              letter-spacing: -0.3px;
+              line-height: 1;
+            }
+
+            .stat-label {
+              font-family: $font;
+              font-size: 10px;
+              font-weight: 600;
+              color: $c-muted;
+              text-transform: uppercase;
+              letter-spacing: 0.8px;
+              margin-top: 3px;
+            }
+
+            &.like-stat {
+              cursor: pointer;
+              transition: $transition;
+              flex-direction: row;
+              gap: 5px;
+
+              .liked-icon {
+                color: $like-rose;
+                font-size: 19px;
+                filter: drop-shadow(0 2px 4px rgba(244,63,94,0.30));
+              }
+
+              .like-icon {
+                color: $c-muted;
+                font-size: 19px;
+                transition: $transition;
+              }
+
+              &:hover .like-icon {
+                color: $like-rose;
+                transform: scale(1.18);
+              }
+            }
+          }
+
+          .stat-divider {
+            width: 1px;
+            height: 26px;
+            background: linear-gradient(to bottom, transparent, rgba($accent, 0.20), transparent);
+            margin: 0 4px;
+            flex-shrink: 0;
+          }
+        }
+
+        // ── Action buttons ──
+        .card-action {
+          flex: 0.8;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 8px;
+
+          .btn-follow {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 22px;
+            border-radius: 24px;
+            background: $follow-green;
+            color: #fff;
+            font-family: $font;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: none !important;
+            letter-spacing: 0.2px;
+            border: none;
+            box-shadow: 0 4px 14px $follow-green-glow;
+            transition: $transition;
+
+            svg { font-size: 16px; }
+
+            &:hover {
+              background: darken($follow-green, 7%);
+              transform: translateY(-1px);
+              box-shadow: 0 6px 20px rgba(16,185,129,0.30);
+            }
+          }
+
+          .btn-unfollow {
+            padding: 9px 22px;
+            border-radius: 24px;
+            background: $glass-bg;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: $unfollow-red;
+            font-family: $font;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: none !important;
+            border: 1px solid rgba($unfollow-red, 0.22);
+            transition: $transition;
+
+            &:hover {
+              background: $unfollow-red;
+              color: #fff;
+              border-color: $unfollow-red;
+              transform: translateY(-1px);
+              box-shadow: 0 5px 18px $unfollow-red-glow;
+            }
+          }
+        }
+      }
+    }
+
+    // ── Pagination ──────────────────────────────────────
+    .follows-pagination {
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 8px;
+      padding: 14px 28px;
+      border-radius: 50px;
+      background: $glass-bg;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid $glass-border;
+      box-shadow: 0 4px 20px $accent-glow;
+      align-self: center;
+
+      .pagination-info {
+        font-family: $font;
+        font-size: 13px;
+        color: $c-muted;
+        white-space: nowrap;
+      }
+
+      .MuiPaginationItem-root {
+        font-family: $font;
+        font-weight: 600;
+        &.Mui-selected {
+          background: $accent !important;
+          color: #fff !important;
+          box-shadow: 0 3px 10px $accent-glow !important;
+        }
+      }
+    }
+  }
+}
+
+// ── Apply to BOTH page wrappers ─────────────────────────────
 #pc-wrap {
-	#member-follows-page {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		.main-title-box {
-			width: 100%;
-			height: auto;
-			flex-direction: row;
-			justify-content: space-between;
-			.right-box {
-				width: 315px;
-				.main-title {
-					color: #181a20;
-					font-family: $font;
-					font-size: 30px;
-					font-style: normal;
-					font-weight: 600;
-					line-height: normal;
-					letter-spacing: 0.6px;
-					text-transform: capitalize;
-				}
-			}
-		}
-		.follows-list-box {
-			width: 100%;
-			margin-top: 85px;
-			gap: 15px;
-			.listing-title-box {
-				width: 100%;
-				height: auto;
-				flex-direction: row;
-				gap: 110px;
-				padding: 18px 34px 18px 33px;
-				border-radius: 12px;
-				background: #f6f6f6;
-				justify-content: space-between;
-				.title-text {
-					color: #181a20;
-					font-family: $font;
-					font-size: 15px;
-					font-style: normal;
-					font-weight: 600;
-					line-height: normal;
-				}
-			}
-			.follows-card-box {
-				padding-right: 30px;
-				padding-bottom: 5px;
-				width: 100%;
-				height: auto;
-				flex-direction: row;
-				align-items: center;
-				gap: 10px;
-				border-bottom: 1px solid #ddd;
-				.info {
-					width: 300px;
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					cursor: pointer;
-					.image-box {
-						width: 110px;
-						height: 110px;
-						overflow: hidden;
-						margin-right: 25px;
-						img {
-							width: 100%;
-							height: 100%;
-							object-fit: cover;
-							border-radius: 50%;
-						}
-					}
-					.information-box {
-						width: auto;
-						height: auto;
-						padding: 5px 0px;
-						.name {
-							color: #181a20;
-							font-family: $font;
-							font-size: 13px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-						}
-					}
-				}
-				.details-box {
-					width: 300px;
-					display: flex;
-					flex-direction: row;
-					justify-content: space-between;
-					.info-box {
-						display: flex;
-						align-items: center;
-						img {
-							width: 24px;
-							height: 24px;
-						}
-						svg {
-							width: 24px;
-							height: 24px;
-							cursor: pointer;
-						}
-						p {
-							color: #181a20;
-							font-family: $font;
-							font-size: 15px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-						}
-						span {
-							margin-left: 4px;
-							color: #181a20;
-							font-family: $font;
-							font-size: 13px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-						}
-					}
-				}
-				.action-box {
-					width: 300px;
-					height: 100%;
-					flex-direction: row;
-					align-items: center;
-					justify-content: flex-end;
-					gap: 20px;
-					button {
-						border: 1px solid #b9b9b9;
-						color: #181a20;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 400;
-						line-height: normal;
-					}
-					p {
-						color: #b9b9b9;
-						font-family: $font;
-						font-size: 14px;
-						font-style: italic;
-						font-weight: 400;
-						line-height: normal;
-					}
-				}
-			}
-		}
-		.pagination-config {
-			width: 100%;
-			height: auto;
-			justify-content: center;
-			align-items: center;
-			margin-top: 30px;
-			.total-result {
-				p {
-					color: #181a20;
-					text-align: center;
-					font-family: $font;
-					font-size: 14px;
-					font-style: normal;
-					font-weight: 400;
-					line-height: 26px;
-				}
-			}
-		}
-	}
+  #member-page { @include follows-styles; }
+  #my-page     { @include follows-styles; }
 }

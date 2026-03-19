@@ -1,117 +1,34 @@
 import React from 'react';
 import Link from 'next/link';
 import {
-	TableCell,
-	TableHead,
-	TableBody,
-	TableRow,
-	Table,
-	TableContainer,
-	Button,
-	Menu,
-	Fade,
-	MenuItem,
+	TableCell, TableHead, TableBody, TableRow,
+	Table, TableContainer, Button, Menu, Fade, MenuItem,
 } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import { Stack } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import { Stack, Box } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Property } from '../../../types/property/property';
 import { REACT_APP_API_URL } from '../../../config';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Typography from '@mui/material/Typography';
 import { PropertyStatus } from '../../../enums/property.enum';
 
-interface Data {
-	id: string;
-	title: string;
-	price: string;
-	agent: string;
-	location: string;
-	type: string;
-	status: string;
-}
-
-type Order = 'asc' | 'desc';
-
-interface HeadCell {
-	disablePadding: boolean;
-	id: keyof Data;
-	label: string;
-	numeric: boolean;
-}
-
-const headCells: readonly HeadCell[] = [
-	{
-		id: 'id',
-		numeric: true,
-		disablePadding: false,
-		label: 'MB ID',
-	},
-	{
-		id: 'title',
-		numeric: true,
-		disablePadding: false,
-		label: 'TITLE',
-	},
-	{
-		id: 'price',
-		numeric: false,
-		disablePadding: false,
-		label: 'PRICE',
-	},
-	{
-		id: 'agent',
-		numeric: false,
-		disablePadding: false,
-		label: 'AGENT',
-	},
-	{
-		id: 'location',
-		numeric: false,
-		disablePadding: false,
-		label: 'LOCATION',
-	},
-	{
-		id: 'type',
-		numeric: false,
-		disablePadding: false,
-		label: 'TYPE',
-	},
-	{
-		id: 'status',
-		numeric: false,
-		disablePadding: false,
-		label: 'STATUS',
-	},
+const headCells = [
+	{ id: 'id',       label: 'ID',       align: 'left' as const },
+	{ id: 'title',    label: 'Title',    align: 'left' as const },
+	{ id: 'price',    label: 'Price',    align: 'center' as const },
+	{ id: 'agent',    label: 'Agent',    align: 'center' as const },
+	{ id: 'location', label: 'Location', align: 'center' as const },
+	{ id: 'type',     label: 'Type',     align: 'center' as const },
+	{ id: 'status',   label: 'Status',   align: 'center' as const },
 ];
 
-interface EnhancedTableProps {
-	numSelected: number;
-	onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-	onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	order: Order;
-	orderBy: string;
-	rowCount: number;
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-	const { onSelectAllClick } = props;
-
-	return (
-		<TableHead>
-			<TableRow>
-				{headCells.map((headCell) => (
-					<TableCell
-						key={headCell.id}
-						align={headCell.numeric ? 'left' : 'center'}
-						padding={headCell.disablePadding ? 'none' : 'normal'}
-					>
-						{headCell.label}
-					</TableCell>
-				))}
-			</TableRow>
-		</TableHead>
-	);
-}
+const statusStyle = (s: string) => {
+	switch (s) {
+		case 'ACTIVE': return { bg: 'rgba(34,197,94,0.08)',  color: '#16A34A', border: 'rgba(34,197,94,0.18)' };
+		case 'SOLD':   return { bg: 'rgba(245,158,11,0.08)', color: '#D97706', border: 'rgba(245,158,11,0.18)' };
+		default:       return { bg: 'var(--hover)',           color: 'var(--text-muted)', border: 'var(--border)' };
+	}
+};
 
 interface PropertyPanelListType {
 	properties: Property[];
@@ -123,114 +40,87 @@ interface PropertyPanelListType {
 }
 
 export const PropertyPanelList = (props: PropertyPanelListType) => {
-	const {
-		properties,
-		anchorEl,
-		menuIconClickHandler,
-		menuIconCloseHandler,
-		updatePropertyHandler,
-		removePropertyHandler,
-	} = props;
+	const { properties, anchorEl, menuIconClickHandler, menuIconCloseHandler, updatePropertyHandler, removePropertyHandler } = props;
 
 	return (
 		<Stack>
 			<TableContainer>
-				<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'medium'}>
-					{/*@ts-ignore*/}
-					<EnhancedTableHead />
+				<Table sx={{ minWidth: 750 }} size={'medium'}>
+					<TableHead>
+						<TableRow>{headCells.map((c) => <TableCell key={c.id} align={c.align}>{c.label}</TableCell>)}</TableRow>
+					</TableHead>
 					<TableBody>
 						{properties.length === 0 && (
-							<TableRow>
-								<TableCell align="center" colSpan={8}>
-									<span className={'no-data'}>data not found!</span>
-								</TableCell>
-							</TableRow>
+							<TableRow><TableCell align="center" colSpan={7}><Typography className={'no-data'}>No properties found</Typography></TableCell></TableRow>
 						)}
-
-						{properties.length !== 0 &&
-							properties.map((property: Property, index: number) => {
-								const propertyImage = `${REACT_APP_API_URL}/${property?.propertyImages[0]}`;
-
-								return (
-									<TableRow hover key={property?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-										<TableCell align="left">{property._id}</TableCell>
-										<TableCell align="left" className={'name'}>
-											{property.propertyStatus === PropertyStatus.ACTIVE ? (
-											  <Stack direction={'row'}>
-													<Link href={`/property/detail?id=${property?._id}`}>
-														<div>
-															<Avatar alt="Remy Sharp" src={propertyImage} sx={{ ml: '2px', mr: '10px' }} />
-														</div>
-													</Link>
-													<Link href={`/property/detail?id=${property?._id}`}>
-														<div>{property.propertyTitle}</div>
-													</Link>
-												</Stack> 
-											) : (
-												<Stack direction={'row'}>
-													<div>
-														<Avatar alt="Remy Sharp" src={propertyImage} sx={{ ml: '2px', mr: '10px' }} />
-													</div>
-													<div style={{ marginTop: "10px"}}>{property.propertyTitle}</div>
-											  </Stack>
-						        	)}
-											
-										</TableCell>
-										<TableCell align="center">{property.propertyPrice}</TableCell>
-										<TableCell align="center">{property.memberData?.memberNick}</TableCell>
-										<TableCell align="center">{property.propertyLocation}</TableCell>
-										<TableCell align="center">{property.propertyType}</TableCell>
-										<TableCell align="center">
-											{property.propertyStatus === PropertyStatus.DELETE && (
-												<Button
-													variant="outlined"
-													sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid #000000' } }}
-													onClick={() => removePropertyHandler(property._id)}
-												>
-													<DeleteIcon fontSize="small" />
+						{properties.map((property: Property, index: number) => {
+							const propertyImage = `${REACT_APP_API_URL}/${property?.propertyImages[0]}`;
+							const ss = statusStyle(property.propertyStatus);
+							return (
+								<TableRow hover key={property._id} sx={{ '&:last-child td': { border: 0 } }}>
+									<TableCell align="left"><Typography className={'mono-id'}>{property._id}</Typography></TableCell>
+									<TableCell align="left" className={'name'}>
+										{property.propertyStatus === PropertyStatus.ACTIVE ? (
+											<Stack direction={'row'} alignItems={'center'} gap={'8px'}>
+												<Link href={`/property/detail?id=${property._id}`}>
+													<Avatar src={propertyImage} variant="rounded" sx={{ width: 32, height: 32, borderRadius: '7px' }} />
+												</Link>
+												<Link href={`/property/detail?id=${property._id}`}>
+													<Typography className={'row-title'}>{property.propertyTitle}</Typography>
+												</Link>
+											</Stack>
+										) : (
+											<Stack direction={'row'} alignItems={'center'} gap={'8px'}>
+												<Avatar src={propertyImage} variant="rounded" sx={{ width: 32, height: 32, borderRadius: '7px', opacity: 0.4 }} />
+												<Typography className={'row-title muted'}>{property.propertyTitle}</Typography>
+											</Stack>
+										)}
+									</TableCell>
+									<TableCell align="center"><Typography className={'price-text'}>${property.propertyPrice?.toLocaleString()}</Typography></TableCell>
+									<TableCell align="center"><Typography className={'meta-text'}>{property.memberData?.memberNick}</Typography></TableCell>
+									<TableCell align="center"><Box className={'tag-pill stone'}>{property.propertyLocation}</Box></TableCell>
+									<TableCell align="center"><Box className={'tag-pill amber'}>{property.propertyType}</Box></TableCell>
+									<TableCell align="center">
+										{property.propertyStatus === PropertyStatus.DELETE && (
+											<Button onClick={() => removePropertyHandler(property._id)} sx={{
+												minWidth: 'auto', width: 28, height: 28, p: 0, borderRadius: '6px',
+												background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.18)',
+												'&:hover': { background: 'rgba(239,68,68,0.15)' },
+											}}>
+												<DeleteIcon sx={{ fontSize: 14, color: '#DC2626' }} />
+											</Button>
+										)}
+										{property.propertyStatus === PropertyStatus.SOLD && (
+											<Button sx={{ px: '8px', py: '2px', borderRadius: '5px', fontSize: '10px', fontWeight: 700,
+												background: ss.bg, border: `1px solid ${ss.border}`, color: ss.color,
+												minWidth: 'auto', textTransform: 'none', cursor: 'default' }}>
+												{property.propertyStatus}
+											</Button>
+										)}
+										{property.propertyStatus === PropertyStatus.ACTIVE && (
+											<>
+												<Button onClick={(e: any) => menuIconClickHandler(e, index)} sx={{
+													px: '8px', py: '2px', borderRadius: '5px', fontSize: '10px', fontWeight: 700,
+													background: ss.bg, border: `1px solid ${ss.border}`, color: ss.color,
+													minWidth: 'auto', textTransform: 'none', '&:hover': { opacity: 0.8 },
+												}}>
+													{property.propertyStatus}
 												</Button>
-											)}
-
-											{property.propertyStatus === PropertyStatus.SOLD && (
-												<Button className={'badge warning'}>{property.propertyStatus}</Button>
-											)}
-
-											{property.propertyStatus === PropertyStatus.ACTIVE && (
-												<>
-													<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
-														{property.propertyStatus}
-													</Button>
-
-													<Menu
-														className={'menu-modal'}
-														MenuListProps={{
-															'aria-labelledby': 'fade-button',
-														}}
-														anchorEl={anchorEl[index]}
-														open={Boolean(anchorEl[index])}
-														onClose={menuIconCloseHandler}
-														TransitionComponent={Fade}
-														sx={{ p: 1 }}
-													>
-														{Object.values(PropertyStatus)
-															.filter((ele) => ele !== property.propertyStatus)
-															.map((status: string) => (
-																<MenuItem
-																	onClick={() => updatePropertyHandler({ _id: property._id, propertyStatus: status })}
-																	key={status}
-																>
-																	<Typography variant={'subtitle1'} component={'span'}>
-																		{status}
-																	</Typography>
-																</MenuItem>
-															))}
-													</Menu>
-												</>
-											)}
-										</TableCell>
-									</TableRow>
-								);
-							})}
+												<Menu className={'menu-modal'} MenuListProps={{ 'aria-labelledby': 'fade-button' }}
+													anchorEl={anchorEl[index]} open={Boolean(anchorEl[index])}
+													onClose={menuIconCloseHandler} TransitionComponent={Fade}>
+													{Object.values(PropertyStatus).filter((e) => e !== property.propertyStatus).map((status: string) => (
+														<MenuItem key={status} onClick={() => updatePropertyHandler({ _id: property._id, propertyStatus: status })}>
+															<Typography variant={'subtitle1'} component={'span'}>{status}</Typography>
+														</MenuItem>
+													))}
+												</Menu>
+											</>
+										)}
+									</TableCell>
+								</TableRow>
+							);
+						})}
 					</TableBody>
 				</Table>
 			</TableContainer>

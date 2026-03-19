@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
 import { MemberPanelList } from '../../../libs/components/admin/users/MemberList';
 import { Box, InputAdornment, List, ListItem, Stack } from '@mui/material';
@@ -22,6 +23,7 @@ import { GET_ALL_MEMBERS_BY_ADMIN } from '../../../apollo/admin/query';
 import { T } from '../../../libs/types/common';
 
 const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
+	const router = useRouter();
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
 	const [membersInquiry, setMembersInquiry] = useState<MembersInquiry>(initialInquiry);
 	const [members, setMembers] = useState<Member[]>([]);
@@ -33,7 +35,6 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [searchType, setSearchType] = useState('ALL');
 
 	/** APOLLO REQUESTS **/
-
 	const [updateMemberByAdmin] = useMutation(UPDATE_MEMBER_BY_ADMIN);
 
 	const {
@@ -46,11 +47,22 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			setMembers(data?.getAllMembersByAdmin?.list);
-			setMembersTotal(data?.getAllMembersByAdmin?.metaCounter[0]?.total ?? 0)
-		}
+			setMembersTotal(data?.getAllMembersByAdmin?.metaCounter[0]?.total ?? 0);
+		},
 	});
 
 	/** LIFECYCLE **/
+	useEffect(() => {
+		if (!router.isReady) return;
+		const pageParam = Array.isArray(router.query.page) ? router.query.page[0] : router.query.page;
+		const limitParam = Array.isArray(router.query.limit) ? router.query.limit[0] : router.query.limit;
+		const nextPage = pageParam ? Math.max(parseInt(pageParam as string, 10), 1) : undefined;
+		const nextLimit = limitParam ? Math.max(parseInt(limitParam as string, 10), 1) : undefined;
+		if (nextPage || nextLimit) {
+			setMembersInquiry((prev) => ({ ...prev, page: nextPage ?? prev.page, limit: nextLimit ?? prev.limit }));
+		}
+	}, [router.isReady, router.query.page, router.query.limit]);
+
 	useEffect(() => {
 		setMembers(getAllMembersByAdminData?.getAllMembersByAdmin?.list ?? []);
 		setMembersTotal(getAllMembersByAdminData?.getAllMembersByAdmin?.metaCounter?.[0]?.total ?? 0);
@@ -67,21 +79,15 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 	/** HANDLERS **/
 	const changePageHandler = async (event: unknown, newPage: number) => {
 		await getAllMembersRefetch({ input: membersInquiry });
-		setMembersInquiry((prev) => ({
-			...prev,
-			page: newPage + 1,
-		}));
+		setMembersInquiry((prev) => ({ ...prev, page: newPage + 1 }));
+		router.push({ pathname: router.pathname, query: { ...router.query, page: newPage + 1, limit: membersInquiry.limit } }, undefined, { shallow: true });
 	};
 
 	const changeRowsPerPageHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		
+		const nextLimit = parseInt(event.target.value, 10);
 		await getAllMembersRefetch({ input: membersInquiry });
-		await getAllMembersRefetch({ input: membersInquiry });
-		setMembersInquiry((prev) => ({
-			...prev,
-			limit: parseInt(event.target.value, 10),
-			page: 1,
-		}));
+		setMembersInquiry((prev) => ({ ...prev, limit: nextLimit, page: 1 }));
+		router.push({ pathname: router.pathname, query: { ...router.query, page: 1, limit: nextLimit } }, undefined, { shallow: true });
 	};
 
 	const menuIconClickHandler = (e: any, index: number) => {
@@ -90,9 +96,7 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 		setAnchorEl(tempAnchor);
 	};
 
-	const menuIconCloseHandler = () => {
-		setAnchorEl([]);
-	};
+	const menuIconCloseHandler = () => setAnchorEl([]);
 
 	const tabChangeHandler = async (event: any, newValue: string) => {
 		setValue(newValue);
@@ -100,76 +104,36 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 		setMembersInquiry((prev) => {
 			const nextSearch = { ...prev.search };
 			delete nextSearch.memberStatus;
-
 			switch (newValue) {
-				case 'ACTIVE':
-					nextSearch.memberStatus = MemberStatus.ACTIVE;
-					break;
-				case 'BLOCK':
-					nextSearch.memberStatus = MemberStatus.BLOCK;
-					break;
-				case 'DELETE':
-					nextSearch.memberStatus = MemberStatus.DELETE;
-					break;
-				default:
-					break;
+				case 'ACTIVE': nextSearch.memberStatus = MemberStatus.ACTIVE; break;
+				case 'BLOCK':  nextSearch.memberStatus = MemberStatus.BLOCK; break;
+				case 'DELETE': nextSearch.memberStatus = MemberStatus.DELETE; break;
 			}
-
 			return { ...prev, page: 1, sort: 'createdAt', search: nextSearch };
 		});
 	};
 
 	const updateMemberHandler = async (updateData: MemberUpdate) => {
 		try {
-			await updateMemberByAdmin({
-				variables: {
-					input: updateData,
-				},
-			});
+			await updateMemberByAdmin({ variables: { input: updateData } });
 			menuIconCloseHandler();
-
 			await getAllMembersRefetch({ input: membersInquiry });
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
 		}
 	};
 
-	const textHandler = useCallback((value: string) => {
-		try {
-			setSearchText(value);
-		} catch (err: any) {
-			console.log('textHandler: ', err.message);
-		}
-	}, []);
+	const textHandler = useCallback((value: string) => setSearchText(value), []);
 
 	const searchTextHandler = () => {
-		try {
-			setMembersInquiry((prev) => ({
-				...prev,
-				search: {
-					...prev.search,
-					text: searchText,
-				},
-			}));
-		} catch (err: any) {
-			console.log('searchTextHandler: ', err.message);
-		}
+		setMembersInquiry((prev) => ({ ...prev, search: { ...prev.search, text: searchText } }));
 	};
 
 	const searchTypeHandler = async (newValue: string) => {
 		try {
 			setSearchType(newValue);
-
 			if (newValue !== 'ALL') {
-				setMembersInquiry((prev) => ({
-					...prev,
-					page: 1,
-					sort: 'createdAt',
-					search: {
-						...prev.search,
-						memberType: newValue as MemberType,
-					},
-				}));
+				setMembersInquiry((prev) => ({ ...prev, page: 1, sort: 'createdAt', search: { ...prev.search, memberType: newValue as MemberType } }));
 			} else {
 				setMembersInquiry((prev) => {
 					const nextSearch = { ...prev.search };
@@ -184,7 +148,7 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 
 	return (
 		<Box component={'div'} className={'content'}>
-			<Typography variant={'h2'} className={'tit'} sx={{ mb: '24px' }}>
+			<Typography variant={'h2'} className={'tit'} sx={{ mb: '20px' }}>
 				Member List
 			</Typography>
 			<Box component={'div'} className={'table-wrap'}>
@@ -192,46 +156,26 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 					<TabContext value={value}>
 						<Box component={'div'}>
 							<List className={'tab-menu'}>
-								<ListItem
-									onClick={(e: any) => tabChangeHandler(e, 'ALL')}
-									value="ALL"
-									className={value === 'ALL' ? 'li on' : 'li'}
-								>
-									All
-								</ListItem>
-								<ListItem
-									onClick={(e: any) => tabChangeHandler(e, 'ACTIVE')}
-									value="ACTIVE"
-									className={value === 'ACTIVE' ? 'li on' : 'li'}
-								>
-									Active
-								</ListItem>
-								<ListItem
-									onClick={(e: any) => tabChangeHandler(e, 'BLOCK')}
-									value="BLOCK"
-									className={value === 'BLOCK' ? 'li on' : 'li'}
-								>
-									Blocked
-								</ListItem>
-								<ListItem
-									onClick={(e: any) => tabChangeHandler(e, 'DELETE')}
-									value="DELETE"
-									className={value === 'DELETE' ? 'li on' : 'li'}
-								>
-									Deleted
-								</ListItem>
+								{['ALL', 'ACTIVE', 'BLOCK', 'DELETE'].map((tab) => (
+									<ListItem
+										key={tab}
+										onClick={(e: any) => tabChangeHandler(e, tab)}
+										value={tab}
+										className={value === tab ? 'li on' : 'li'}
+									>
+										{tab === 'ALL' ? 'All' : tab === 'BLOCK' ? 'Blocked' : tab === 'DELETE' ? 'Deleted' : 'Active'}
+									</ListItem>
+								))}
 							</List>
 							<Divider />
-							<Stack className={'search-area'} sx={{ m: '24px' }}>
+							<Stack className={'search-area'} sx={{ m: '0' }}>
 								<OutlinedInput
 									value={searchText}
 									onChange={(e: any) => textHandler(e.target.value)}
 									sx={{ width: '100%' }}
 									className={'search'}
 									placeholder="Search user name"
-									onKeyDown={(event) => {
-										if (event.key == 'Enter') searchTextHandler();
-									}}
+									onKeyDown={(event) => { if (event.key === 'Enter') searchTextHandler(); }}
 									endAdornment={
 										<>
 											{searchText && (
@@ -239,13 +183,7 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 													style={{ cursor: 'pointer' }}
 													onClick={() => {
 														setSearchText('');
-														setMembersInquiry((prev) => ({
-															...prev,
-															search: {
-																...prev.search,
-																text: '',
-															},
-														}));
+														setMembersInquiry((prev) => ({ ...prev, search: { ...prev.search, text: '' } }));
 													}}
 												/>
 											)}
@@ -255,19 +193,11 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 										</>
 									}
 								/>
-								<Select sx={{ width: '160px', ml: '20px' }} value={searchType}>
-									<MenuItem value={'ALL'} onClick={() => searchTypeHandler('ALL')}>
-										All
-									</MenuItem>
-									<MenuItem value={'USER'} onClick={() => searchTypeHandler('USER')}>
-										User
-									</MenuItem>
-									<MenuItem value={'AGENT'} onClick={() => searchTypeHandler('AGENT')}>
-										Agent
-									</MenuItem>
-									<MenuItem value={'ADMIN'} onClick={() => searchTypeHandler('ADMIN')}>
-										Admin
-									</MenuItem>
+								<Select sx={{ width: '160px', ml: '12px' }} value={searchType}>
+									<MenuItem value={'ALL'} onClick={() => searchTypeHandler('ALL')}>All</MenuItem>
+									<MenuItem value={'USER'} onClick={() => searchTypeHandler('USER')}>User</MenuItem>
+									<MenuItem value={'AGENT'} onClick={() => searchTypeHandler('AGENT')}>Agent</MenuItem>
+									<MenuItem value={'ADMIN'} onClick={() => searchTypeHandler('ADMIN')}>Admin</MenuItem>
 								</Select>
 							</Stack>
 							<Divider />
@@ -279,7 +209,6 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 							menuIconCloseHandler={menuIconCloseHandler}
 							updateMemberHandler={updateMemberHandler}
 						/>
-
 						<TablePagination
 							rowsPerPageOptions={[10, 20, 40, 60]}
 							component="div"
@@ -297,13 +226,7 @@ const AdminUsers: NextPage = ({ initialInquiry, ...props }: any) => {
 };
 
 AdminUsers.defaultProps = {
-	initialInquiry: {
-		page: 1,
-		limit: 10,
-		sort: 'createdAt',
-		direction: 'DESC',
-		search: {},
-	},
+	initialInquiry: { page: 1, limit: 10, sort: 'createdAt', direction: 'DESC', search: {} },
 };
 
 export default withAdminLayout(AdminUsers);

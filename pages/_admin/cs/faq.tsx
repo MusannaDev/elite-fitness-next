@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import type { NextPage } from 'next';
 import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
 import { Box, Button, InputAdornment, Stack } from '@mui/material';
@@ -16,106 +16,64 @@ import { FaqArticlesPanelList } from '../../../libs/components/admin/cs/FaqList'
 
 const FaqArticles: NextPage = (props: any) => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
+	const [value, setValue] = useState('ALL');
+	const [searchCategory, setSearchCategory] = useState('ALL');
+	const [searchInput, setSearchInput] = useState('');
 
 	/** APOLLO REQUESTS **/
 	/** LIFECYCLE **/
 	/** HANDLERS **/
+	const tabChangeHandler = (event: any, newValue: string) => setValue(newValue);
+	const textHandler = useCallback((val: string) => setSearchInput(val), []);
 
 	return (
-		// @ts-ignore
 		<Box component={'div'} className={'content'}>
-			<Box component={'div'} className={'title flex_space'}>
-				<Typography variant={'h2'}>FAQ Management</Typography>
-				<Button
-					className="btn_add"
-					variant={'contained'}
-					size={'medium'}
-					// onClick={() => router.push(`/_admin/cs/faq_create`)}
-				>
-					<AddRoundedIcon sx={{ mr: '8px' }} />
+			<Box component={'div'} className={'flex_space'} sx={{ mb: '20px' }}>
+				<Typography variant={'h2'} className={'tit'} sx={{ mb: '0 !important' }}>
+					FAQ Management
+				</Typography>
+				<Button className="btn_add" variant={'contained'} size={'medium'}>
+					<AddRoundedIcon sx={{ mr: '6px', fontSize: 16 }} />
 					ADD
 				</Button>
 			</Box>
 			<Box component={'div'} className={'table-wrap'}>
 				<Box component={'div'} sx={{ width: '100%', typography: 'body1' }}>
-					<TabContext value={'value'}>
+					<TabContext value={value}>
 						<Box component={'div'}>
 							<List className={'tab-menu'}>
-								<ListItem
-									// onClick={(e) => handleTabChange(e, 'all')}
-									value="all"
-									className={'all' === 'all' ? 'li on' : 'li'}
-								>
-									All (0)
-								</ListItem>
-								<ListItem
-									// onClick={(e) => handleTabChange(e, 'active')}
-									value="active"
-									className={'all' === 'all' ? 'li on' : 'li'}
-								>
-									Active (0)
-								</ListItem>
-								<ListItem
-									// onClick={(e) => handleTabChange(e, 'blocked')}
-									value="blocked"
-									className={'all' === 'all' ? 'li on' : 'li'}
-								>
-									Blocked (0)
-								</ListItem>
-								<ListItem
-									// onClick={(e) => handleTabChange(e, 'deleted')}
-									value="deleted"
-									className={'all' === 'all' ? 'li on' : 'li'}
-								>
-									Deleted (0)
-								</ListItem>
+								{['ALL', 'ACTIVE', 'BLOCKED', 'DELETED'].map((tab) => (
+									<ListItem key={tab} onClick={(e: any) => tabChangeHandler(e, tab)} value={tab}
+										className={value === tab ? 'li on' : 'li'}>
+										{tab === 'ALL' ? 'All' : tab.charAt(0) + tab.slice(1).toLowerCase()} (0)
+									</ListItem>
+								))}
 							</List>
 							<Divider />
-							<Stack className={'search-area'} sx={{ m: '24px' }}>
-								<Select sx={{ width: '160px', mr: '20px' }} value={'searchCategory'}>
-									<MenuItem value={'mb_nick'}>mb_nick</MenuItem>
-									<MenuItem value={'mb_id'}>mb_id</MenuItem>
+							<Stack className={'search-area'} sx={{ m: '0' }}>
+								<Select sx={{ width: '160px', mr: '12px' }} value={searchCategory}
+									onChange={(e) => setSearchCategory(e.target.value)}>
+									<MenuItem value={'ALL'}>All</MenuItem>
+									<MenuItem value={'mb_nick'}>Nickname</MenuItem>
+									<MenuItem value={'mb_id'}>ID</MenuItem>
 								</Select>
-
-								<OutlinedInput
-									value={'searchInput'}
-									// onChange={(e) => handleInput(e.target.value)}
-									sx={{ width: '100%' }}
-									className={'search'}
-									placeholder="Search user name"
-									onKeyDown={(event) => {
-										// if (event.key == 'Enter') searchTargetHandler().then();
-									}}
-									endAdornment={
-										<>
-											{true && <CancelRoundedIcon onClick={() => {}} />}
-											<InputAdornment position="end" onClick={() => {}}>
-												<img src="/img/icons/search_icon.png" alt={'searchIcon'} />
-											</InputAdornment>
-										</>
-									}
+								<OutlinedInput value={searchInput} onChange={(e) => textHandler(e.target.value)}
+									sx={{ width: '100%' }} placeholder="Search FAQ"
+									onKeyDown={(event) => { if (event.key === 'Enter') { /* searchHandler */ } }}
+									endAdornment={<>
+										{searchInput && <CancelRoundedIcon style={{ cursor: 'pointer' }} onClick={() => setSearchInput('')} />}
+										<InputAdornment position="end" onClick={() => {}}>
+											<img src="/img/icons/search_icon.png" alt={'searchIcon'} style={{ cursor: 'pointer' }} />
+										</InputAdornment>
+									</>}
 								/>
 							</Stack>
 							<Divider />
 						</Box>
-						<FaqArticlesPanelList
-							// dense={dense}
-							// membersData={membersData}
-							// searchMembers={searchMembers}
-							anchorEl={anchorEl}
-							// handleMenuIconClick={handleMenuIconClick}
-							// handleMenuIconClose={handleMenuIconClose}
-							// generateMentorTypeHandle={generateMentorTypeHandle}
-						/>
-
-						<TablePagination
-							rowsPerPageOptions={[20, 40, 60]}
-							component="div"
-							count={4}
-							rowsPerPage={10}
-							page={1}
-							onPageChange={() => {}}
-							onRowsPerPageChange={() => {}}
+						<FaqArticlesPanelList anchorEl={anchorEl} />
+						<TablePagination rowsPerPageOptions={[20, 40, 60]} component="div"
+							count={4} rowsPerPage={10} page={0}
+							onPageChange={() => {}} onRowsPerPageChange={() => {}}
 						/>
 					</TabContext>
 				</Box>

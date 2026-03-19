@@ -8,10 +8,11 @@ import { Follower } from '../../types/follow/follow';
 import { REACT_APP_API_URL } from '../../config';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import { userVar } from '../../../apollo/store';
 import { T } from '../../types/common';
 import { GET_MEMBER_FOLLOWERS } from '../../../apollo/user/query';
-
 
 interface MemberFollowsProps {
 	initialInput: FollowInquiry;
@@ -22,40 +23,47 @@ interface MemberFollowsProps {
 }
 
 const MemberFollowers = (props: MemberFollowsProps) => {
-	const { initialInput, subscribeHandler, unsubscribeHandler, likeMemberHandler, redirectToMemberPageHandler, } = props;
+	const {
+		initialInput,
+		subscribeHandler,
+		unsubscribeHandler,
+		likeMemberHandler,
+		redirectToMemberPageHandler,
+	} = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const [total, setTotal] = useState<number>(0);
-	const category: any = router.query?.category ?? 'properties';
 	const [followInquiry, setFollowInquiry] = useState<FollowInquiry>(initialInput);
 	const [memberFollowers, setMemberFollowers] = useState<Follower[]>([]);
 	const user = useReactiveVar(userVar);
 
 	/** APOLLO REQUESTS **/
-
-	const { 
+	const {
 		loading: getMemberFollowersLoading,
 		data: getMemberFollowersData,
 		error: getMemberFollowersError,
-		refetch: getMemberFollowersRefetch
+		refetch: getMemberFollowersRefetch,
 	} = useQuery(GET_MEMBER_FOLLOWERS, {
-		fetchPolicy: "network-only",
+		fetchPolicy: 'network-only',
 		variables: { input: followInquiry },
 		skip: !followInquiry?.search?.followingId || followInquiry.search.followingId.length !== 24,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			setMemberFollowers(data?.getMemberFollowers?.list);
 			setTotal(data?.getMemberFollowers?.metaCounter[0]?.total);
-		}
+		},
 	});
 
 	/** LIFECYCLE **/
 	useEffect(() => {
 		if (typeof router.query.memberId === 'string') {
-			setFollowInquiry((prev) => ({ ...prev, search: { followingId: router.query.memberId as string } }));
-		  } else if (user?._id) {
+			setFollowInquiry((prev) => ({
+				...prev,
+				search: { followingId: router.query.memberId as string },
+			}));
+		} else if (user?._id) {
 			setFollowInquiry((prev) => ({ ...prev, search: { followingId: user._id } }));
-		  }
+		}
 	}, [router.query.memberId, user?._id]);
 
 	/** HANDLERS **/
@@ -65,107 +73,140 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>NESTAR FOLLOWS MOBILE</div>;
+		return <div>FOLLOWERS MOBILE</div>;
 	} else {
 		return (
 			<div id="member-follows-page">
-				<Stack className="main-title-box">
-					<Stack className="right-box">
-						<Typography className="main-title">{category === 'followers' ? 'Followers' : 'Followings'}</Typography>
+				{/* Header */}
+				<Stack className="follows-header">
+					<Stack className="header-content">
+						<Typography className="header-title">Followers</Typography>
+						<Typography className="header-count">{total} people following you</Typography>
 					</Stack>
 				</Stack>
-				<Stack className="follows-list-box">
-					<Stack className="listing-title-box">
-						<Typography className="title-text">Name</Typography>
-						<Typography className="title-text">Details</Typography>
-						<Typography className="title-text">Subscription</Typography>
-					</Stack>
+
+				{/* Followers Grid */}
+				<Stack className="follows-grid">
 					{memberFollowers?.length === 0 && (
-						<div className={'no-data'}>
-							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Followers yet!</p>
-						</div>
+						<Stack className="empty-state">
+							<PeopleOutlineIcon className="empty-icon" />
+							<Typography className="empty-title">No followers yet</Typography>
+							<Typography className="empty-desc">
+								When someone follows you, they'll appear here
+							</Typography>
+						</Stack>
 					)}
+
 					{memberFollowers.map((follower: Follower) => {
 						const imagePath: string = follower?.followerData?.memberImage
 							? `${REACT_APP_API_URL}/${follower?.followerData?.memberImage}`
 							: '/img/profile/defaultUser.svg';
 						return (
-							<Stack className="follows-card-box" key={follower._id}>
-								<Stack className={'info'} onClick={() => redirectToMemberPageHandler(follower?.followerData?._id)}>
-									<Stack className="image-box">
+							<Stack className="follow-card" key={follower._id}>
+								{/* Left: Avatar + Info */}
+								<Stack
+									className="card-identity"
+									onClick={() => redirectToMemberPageHandler(follower?.followerData?._id)}
+								>
+									<Stack className="avatar-wrapper">
 										<img src={imagePath} alt="" />
 									</Stack>
-									<Stack className="information-box">
-										<Typography className="name">{follower?.followerData?.memberNick}</Typography>
+									<Stack className="identity-text">
+										<Typography className="member-name">
+											{follower?.followerData?.memberNick}
+										</Typography>
+										<Typography className="member-type">
+											{follower?.followerData?.memberType}
+										</Typography>
 									</Stack>
 								</Stack>
-								<Stack className={'details-box'}>
-									<Box className={'info-box'} component={'div'}>
-										<p>Followers</p>
-										<span>({follower?.followerData?.memberFollowers})</span>
-									</Box>
-									<Box className={'info-box'} component={'div'}>
-										<p>Followings</p>
-										<span>({follower?.followerData?.memberFollowings})</span>
-									</Box>
-									<Box className={'info-box'} component={'div'}>
+
+								{/* Center: Stats */}
+								<Stack className="card-stats">
+									<Stack className="stat-item">
+										<Typography className="stat-value">
+											{follower?.followerData?.memberFollowers}
+										</Typography>
+										<Typography className="stat-label">Followers</Typography>
+									</Stack>
+									<Stack className="stat-divider" />
+									<Stack className="stat-item">
+										<Typography className="stat-value">
+											{follower?.followerData?.memberFollowings}
+										</Typography>
+										<Typography className="stat-label">Following</Typography>
+									</Stack>
+									<Stack className="stat-divider" />
+									<Stack
+										className="stat-item like-stat"
+										onClick={() =>
+											likeMemberHandler(
+												follower?.followerData?._id,
+												getMemberFollowersRefetch,
+												followInquiry,
+											)
+										}
+									>
 										{follower?.meLiked && follower?.meLiked[0]?.myFavorite ? (
-											<FavoriteIcon color="primary" onClick={() =>
-											  likeMemberHandler(follower?.followerData?._id, getMemberFollowersRefetch, followInquiry)
-											}/>
+											<FavoriteIcon className="liked-icon" />
 										) : (
-											<FavoriteBorderIcon 
-											  onClick={() =>
-													likeMemberHandler(follower?.followerData?._id, getMemberFollowersRefetch, followInquiry)
-											  }
-											/>
+											<FavoriteBorderIcon className="like-icon" />
 										)}
-										<span>({follower?.followerData?.memberLikes})</span>
-									</Box>
+										<Typography className="stat-value">
+											{follower?.followerData?.memberLikes}
+										</Typography>
+									</Stack>
 								</Stack>
+
+								{/* Right: Action */}
 								{user?._id !== follower?.followerId && (
-									<Stack className="action-box">
+									<Stack className="card-action">
 										{follower.meFollowed && follower.meFollowed[0]?.myFollowing ? (
-											<>
-												<Typography>Following</Typography>
-												<Button
-													variant="outlined"
-													sx={{ background: '#ed5858', ':hover': { background: '#ee7171' } }}
-													onClick={() => unsubscribeHandler(follower?.followerData?._id, getMemberFollowersRefetch, followInquiry )}
-												>
-													Unfollow
-												</Button>
-											</>
-											) : (
-												<Button
-													variant="contained"
-													sx={{ background: '#60eb60d4', ':hover': { background: '#60eb60d4' } }}
-													onClick={() => subscribeHandler(follower?.followerData?._id, getMemberFollowersRefetch, followInquiry)}
-												>
-													Follow
-												</Button>
-											)}
+											<Button
+												className="btn-unfollow"
+												onClick={() =>
+													unsubscribeHandler(
+														follower?.followerData?._id,
+														getMemberFollowersRefetch,
+														followInquiry,
+													)
+												}
+											>
+												Unfollow
+											</Button>
+										) : (
+											<Button
+												className="btn-follow"
+												onClick={() =>
+													subscribeHandler(
+														follower?.followerData?._id,
+														getMemberFollowersRefetch,
+														followInquiry,
+													)
+												}
+											>
+												<PersonAddAltOutlinedIcon />
+												Follow
+											</Button>
+										)}
 									</Stack>
 								)}
 							</Stack>
 						);
 					})}
 				</Stack>
+
+				{/* Pagination */}
 				{memberFollowers.length !== 0 && (
-					<Stack className="pagination-config">
-						<Stack className="pagination-box">
-							<Pagination
-								page={followInquiry.page}
-								count={Math.ceil(total / followInquiry.limit)}
-								onChange={paginationHandler}
-								shape="circular"
-								color="primary"
-							/>
-						</Stack>
-						<Stack className="total-result">
-							<Typography>{total} followers</Typography>
-						</Stack>
+					<Stack className="follows-pagination">
+						<Pagination
+							page={followInquiry.page}
+							count={Math.ceil(total / followInquiry.limit)}
+							onChange={paginationHandler}
+							shape="circular"
+							color="primary"
+						/>
+						<Typography className="pagination-info">{total} followers total</Typography>
 					</Stack>
 				)}
 			</div>

@@ -1,3 +1,27 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   TRAINER DETAIL PAGE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+$font-display: 'Raleway', sans-serif;
+$font-body: 'DM Sans', sans-serif;
+
+$color-ink: #1a1c23;
+$color-ink-light: #5a5d6b;
+$color-ink-muted: #9196a8;
+$color-surface: #f6f7fb;
+$color-white: #ffffff;
+$color-accent: #e8553d;
+$color-accent-soft: rgba(232, 85, 61, 0.08);
+$color-border: #e8eaef;
+$color-border-light: #f0f1f5;
+$shadow-card: 0 1px 3px rgba(26, 28, 35, 0.04), 0 6px 24px rgba(26, 28, 35, 0.06);
+$shadow-card-hover: 0 4px 12px rgba(26, 28, 35, 0.06), 0 16px 40px rgba(26, 28, 35, 0.1);
+$shadow-soft: 0 2px 8px rgba(26, 28, 35, 0.05);
+$radius-lg: 20px;
+$radius-md: 14px;
+$radius-sm: 10px;
+$radius-pill: 100px;
+
 #pc-wrap {
 	.trainer-detail-page {
 		position: relative;
@@ -37,7 +61,7 @@
 
 					strong {
 						color: #181a20;
-						font-family: $font;
+						font-family: $font-body;
 						font-size: 24px;
 						font-weight: 600;
 						line-height: normal;
@@ -58,7 +82,7 @@
 
 						span {
 							color: #181a20;
-							font-family: $font;
+							font-family: $font-body;
 							font-size: 20px;
 							font-weight: 400;
 							line-height: 28px;
@@ -104,7 +128,7 @@
 					span {
 						margin-top: 20px;
 						color: #181a20;
-						font-family: $font;
+						font-family: $font-body;
 						font-size: 14px;
 						font-weight: 400;
 						line-height: 26px;
@@ -127,7 +151,7 @@
 
 						p {
 							color: #181a20;
-							font-family: $font;
+							font-family: $font-body;
 							font-size: 16px;
 							font-weight: 400;
 							line-height: normal;
@@ -136,49 +160,58 @@
 				}
 			}
 
-			// ── Review Box ─────────────────────────────────────────────────────
+			// ══════════════════════════════════════════════════════════════════
+			// REVIEW BOX — Redesigned
+			// ══════════════════════════════════════════════════════════════════
 			.review-box {
 				position: relative;
 				margin-top: 75px;
-				padding: 58px 19px;
+				padding: 48px 32px;
 				width: 95%;
 				height: auto;
-				border-radius: 24px;
-				background: #f6f6f6;
+				border-radius: $radius-lg;
+				background: $color-surface;
 
 				.main-intro {
 					display: flex;
 					flex-direction: column;
+					margin-bottom: 32px;
 
 					span {
-						color: #181a20;
-						font-family: $font;
-						font-size: 30px;
-						font-weight: 600;
-						line-height: normal;
-						letter-spacing: 0.6px;
-						text-transform: capitalize;
+						color: $color-ink;
+						font-family: $font-display;
+						font-size: 28px;
+						font-weight: 800;
+						line-height: 1.2;
+						letter-spacing: -0.02em;
 					}
 
 					p {
-						color: #181a20;
-						font-family: $font;
-						font-size: 14px;
+						margin-top: 8px;
+						color: $color-ink-light;
+						font-family: $font-body;
+						font-size: 15px;
 						font-weight: 400;
-						line-height: 26px;
+						line-height: 1.6;
 					}
 				}
 
+				// ── Review Wrap ──────────────────────────────────────
 				.review-wrap {
-					padding: 29px 25px;
-					margin-top: 57px;
+					padding: 28px;
+					margin-top: 0;
 					display: flex;
 					flex-direction: column;
-					border-radius: 12px;
-					background: #fff;
-					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+					border-radius: $radius-md;
+					background: $color-white;
+					box-shadow: $shadow-card;
+					border: 1px solid $color-border-light;
 
 					.title-box {
+						display: flex;
+						align-items: center;
+						margin-bottom: 20px;
+
 						svg {
 							width: 10px;
 							height: 10px;
@@ -186,57 +219,210 @@
 
 						span {
 							margin-left: 8px;
-							color: #181a20;
-							font-family: $font;
+							color: $color-ink;
+							font-family: $font-display;
 							font-size: 17px;
-							font-weight: 600;
+							font-weight: 700;
 							line-height: normal;
 						}
 					}
 
+					// ── Review Card — New Design ─────────────────────
 					.review-card {
-						margin-top: 20px;
+						position: relative;
+						margin-top: 16px;
 						display: flex;
 						flex-direction: column;
-						padding-bottom: 10px;
-						border-bottom: 1px solid #c4c4c4;
+						padding: 24px;
+						padding-left: 28px;
+						border-bottom: none;
+						background: $color-white;
+						border: 1px solid $color-border-light;
+						border-radius: $radius-md;
+						transition: transform 0.3s ease, box-shadow 0.3s ease;
+						overflow: hidden;
 
+						// Left accent bar
+						&::before {
+							content: '';
+							position: absolute;
+							top: 0;
+							left: 0;
+							width: 4px;
+							height: 100%;
+							background: linear-gradient(
+								180deg,
+								$color-accent 0%,
+								darken($color-accent, 10%) 100%
+							);
+							border-radius: 0 4px 4px 0;
+						}
+
+						&:hover {
+							transform: translateY(-2px);
+							box-shadow: $shadow-card-hover;
+						}
+
+						// Stagger animation
+						animation: reviewIn 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
+
+						// Quote icon
+						.review-quote-icon {
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							width: 36px;
+							height: 36px;
+							background: $color-accent-soft;
+							border-radius: $radius-sm;
+							margin-bottom: 14px;
+
+							svg {
+								font-size: 20px;
+								color: $color-accent;
+								transform: rotate(180deg);
+							}
+						}
+
+						// Review text
+						.review-content,
+						p {
+							color: $color-ink;
+							font-family: $font-body;
+							font-size: 15px;
+							font-weight: 400;
+							line-height: 1.7;
+							margin-bottom: 18px;
+							margin-top: 0;
+							display: -webkit-box;
+							-webkit-line-clamp: 4;
+							-webkit-box-orient: vertical;
+							overflow: hidden;
+						}
+
+						// Footer with avatar + reply
+						.review-footer {
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							justify-content: space-between;
+							padding-top: 16px;
+							border-top: 1px solid $color-border-light;
+
+							.reviewer-info {
+								display: flex;
+								flex-direction: row;
+								align-items: center;
+								gap: 12px;
+
+								.reviewer-avatar {
+									width: 42px;
+									height: 42px;
+									border-radius: 50%;
+									overflow: hidden;
+									border: 2px solid $color-border;
+									flex-shrink: 0;
+
+									img {
+										width: 100%;
+										height: 100%;
+										object-fit: cover;
+									}
+								}
+
+								.reviewer-meta {
+									display: flex;
+									flex-direction: column;
+									gap: 1px;
+
+									strong {
+										font-family: $font-display;
+										font-size: 14px;
+										font-weight: 700;
+										color: $color-ink;
+										letter-spacing: -0.01em;
+									}
+
+									span {
+										font-family: $font-body;
+										font-size: 12px;
+										color: $color-ink-muted;
+										font-weight: 400;
+										margin-left: 0;
+									}
+								}
+							}
+
+							.reply-btn {
+								display: flex;
+								align-items: center;
+								gap: 6px;
+								padding: 8px 18px;
+								border: 1.5px solid $color-border;
+								border-radius: $radius-pill;
+								background: transparent;
+								cursor: pointer;
+								transition: all 0.25s ease;
+								color: $color-ink-light;
+
+								svg {
+									font-size: 16px;
+								}
+
+								span {
+									font-family: $font-body;
+									font-size: 13px;
+									font-weight: 600;
+									margin-left: 0;
+								}
+
+								&:hover {
+									border-color: $color-ink;
+									color: $color-ink;
+									background: $color-surface;
+								}
+							}
+						}
+
+						// ── Legacy layout fallback (info > left/right) ───
 						.info {
 							display: flex;
 							flex-direction: row;
 							justify-content: space-between;
+							margin-bottom: 12px;
 
 							.left {
 								display: flex;
 								flex-direction: row;
+								align-items: center;
+								gap: 12px;
 
 								img {
-									width: 55px;
-									height: 59px;
+									width: 42px;
+									height: 42px;
 									border-radius: 50%;
 									object-fit: cover;
+									border: 2px solid $color-border;
 								}
 
 								div {
-									margin-left: 8px;
 									display: flex;
 									flex-direction: column;
+									gap: 1px;
 
 									strong {
-										color: #181a20;
-										font-family: $font;
-										font-size: 15px;
-										font-weight: 600;
-										line-height: normal;
+										font-family: $font-display;
+										font-size: 14px;
+										font-weight: 700;
+										color: $color-ink;
 									}
 
 									span {
-										margin-top: 4px;
-										color: #181a20;
-										font-family: $font;
-										font-size: 13px;
-										font-weight: 400;
-										line-height: normal;
+										font-family: $font-body;
+										font-size: 12px;
+										color: $color-ink-muted;
+										margin-left: 0;
+										margin-top: 0;
 									}
 								}
 							}
@@ -244,25 +430,52 @@
 							.right {
 								display: flex;
 								flex-direction: row;
+								align-items: center;
 
 								svg {
-									color: #edf023;
+									color: #f59e0b;
+									font-size: 18px;
 								}
 							}
 						}
 
-						p {
-							margin-top: 10px;
-							color: #181a20;
-							font-family: $font;
-							font-size: 14px;
-							font-weight: 400;
-							line-height: 26px;
+						// Reply button (legacy)
+						.reply-button-box {
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							gap: 6px;
+							margin-top: 12px;
+							padding: 8px 18px;
+							border: 1.5px solid $color-border;
+							border-radius: $radius-pill;
+							background: transparent;
+							cursor: pointer;
+							transition: all 0.25s ease;
+							color: $color-ink-light;
+							width: fit-content;
+
+							svg {
+								width: 16px;
+								height: 16px;
+							}
+
+							.reply-text {
+								font-family: $font-body;
+								font-size: 13px;
+								font-weight: 600;
+							}
+
+							&:hover {
+								border-color: $color-ink;
+								color: $color-ink;
+								background: $color-surface;
+							}
 						}
 					}
 
 					.pagination-box {
-						margin-top: 15px;
+						margin-top: 20px;
 						width: 100%;
 						height: auto;
 						display: flex;
@@ -270,25 +483,27 @@
 					}
 				}
 
+				// ── Leave Review Config ──────────────────────────────
 				.leave-review-config {
-					margin-top: 15px;
-					border-radius: 12px;
-					background: #fff;
-					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-					padding: 30px 38px;
+					margin-top: 20px;
+					border-radius: $radius-md;
+					background: $color-white;
+					box-shadow: $shadow-card;
+					border: 1px solid $color-border-light;
+					padding: 32px 36px;
 
 					.main-title {
-						color: #181a20;
-						font-family: $font;
-						font-size: 17px;
-						font-weight: 600;
+						color: $color-ink;
+						font-family: $font-display;
+						font-size: 18px;
+						font-weight: 700;
 						line-height: normal;
 					}
 
 					.review-title {
 						margin-top: 20px;
-						color: #181a20;
-						font-family: $font;
+						color: $color-ink;
+						font-family: $font-body;
 						font-size: 14px;
 						font-weight: 600;
 						line-height: normal;
@@ -298,14 +513,26 @@
 						width: 100%;
 						height: 120px;
 						margin-top: 8px;
-						padding: 20px;
-						border-radius: 8px;
-						border: 1px solid #ddd;
-						color: #717171;
-						font-family: $font;
+						padding: 16px 20px;
+						border-radius: $radius-sm;
+						border: 2px solid $color-border;
+						color: $color-ink;
+						font-family: $font-body;
 						font-size: 14px;
 						font-weight: 400;
-						line-height: 26px;
+						line-height: 1.6;
+						outline: none;
+						transition: border-color 0.25s ease, box-shadow 0.25s ease;
+						resize: vertical;
+
+						&::placeholder {
+							color: $color-ink-muted;
+						}
+
+						&:focus {
+							border-color: $color-accent;
+							box-shadow: 0 0 0 4px $color-accent-soft;
+						}
 					}
 
 					.submit-btn {
@@ -314,32 +541,59 @@
 						justify-content: flex-end;
 
 						button:disabled {
-							background: #dfdfdf;
+							background: $color-border;
+							border-color: $color-border;
+							color: $color-ink-muted;
+							cursor: not-allowed;
+							box-shadow: none;
 						}
 
 						.submit-review {
 							display: flex;
 							width: 256px;
-							margin-top: 30px;
-							padding: 16px 30px;
+							margin-top: 24px;
+							padding: 14px 30px;
 							justify-content: center;
 							align-items: center;
 							gap: 10px;
-							border-radius: 12px;
-							border: 1px solid #c4c4c4;
+							border-radius: $radius-sm;
+							border: 2px solid $color-ink;
+							background: $color-ink;
 							cursor: pointer;
+							transition: all 0.25s ease;
 
 							.title {
-								color: #181a20;
-								font-family: $font;
+								color: $color-white;
+								font-family: $font-body;
 								font-size: 15px;
-								font-weight: 600;
+								font-weight: 700;
 								line-height: normal;
+							}
+
+							&:hover {
+								background: lighten($color-ink, 10%);
+								box-shadow: $shadow-soft;
+							}
+
+							&:active {
+								transform: scale(0.97);
 							}
 						}
 					}
 				}
 			}
 		}
+	}
+}
+
+// ── Review card entrance animation ──
+@keyframes reviewIn {
+	from {
+		opacity: 0;
+		transform: translateX(-12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
 	}
 }

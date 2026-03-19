@@ -30,7 +30,6 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [searchType, setSearchType] = useState('ALL');
 
 	/** APOLLO REQUESTS **/
-
 	const [updatePropertyByAdmin] = useMutation(UPDATE_PROPERTY_BY_ADMIN);
 	const [removePropertyByAdmin] = useMutation(REMOVE_PROPERTY_BY_ADMIN);
 
@@ -44,8 +43,8 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			setProperties(data?.getAllPropertiesByAdmin?.list);
-			setPropertiesTotal(data?.getAllPropertiesByAdmin?.metaCounter[0]?.total ?? 0)
-		}
+			setPropertiesTotal(data?.getAllPropertiesByAdmin?.metaCounter[0]?.total ?? 0);
+		},
 	});
 
 	/** LIFECYCLE **/
@@ -73,41 +72,26 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 		setAnchorEl(tempAnchor);
 	};
 
-	const menuIconCloseHandler = () => {
-		setAnchorEl([]);
-	};
+	const menuIconCloseHandler = () => setAnchorEl([]);
 
 	const tabChangeHandler = async (event: any, newValue: string) => {
 		setValue(newValue);
-
-		setPropertiesInquiry({ ...propertiesInquiry, page: 1, sort: 'createdAt' });
-
-		switch (newValue) {
-			case 'ACTIVE':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.ACTIVE } });
-				break;
-			case 'SOLD':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.SOLD } });
-				break;
-			case 'DELETE':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.DELETE } });
-				break;
-			default:
-				delete propertiesInquiry?.search?.propertyStatus;
-				setPropertiesInquiry({ ...propertiesInquiry });
-				break;
-		}
+		setPropertiesInquiry((prev) => {
+			const nextSearch = { ...prev.search };
+			delete nextSearch.propertyStatus;
+			switch (newValue) {
+				case 'ACTIVE': nextSearch.propertyStatus = PropertyStatus.ACTIVE; break;
+				case 'SOLD':   nextSearch.propertyStatus = PropertyStatus.SOLD; break;
+				case 'DELETE': nextSearch.propertyStatus = PropertyStatus.DELETE; break;
+			}
+			return { ...prev, page: 1, sort: 'createdAt', search: nextSearch };
+		});
 	};
 
 	const removePropertyHandler = async (id: string) => {
 		try {
 			if (await sweetConfirmAlert('Are you sure to remove?')) {
-				await removePropertyByAdmin({
-					variables: {
-						input: id,
-					},
-			  });
-
+				await removePropertyByAdmin({ variables: { input: id } });
 				await getAllPropertiesRefetch({ input: propertiesInquiry });
 			}
 			menuIconCloseHandler();
@@ -119,20 +103,17 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	const searchTypeHandler = async (newValue: string) => {
 		try {
 			setSearchType(newValue);
-
 			if (newValue !== 'ALL') {
-				setPropertiesInquiry({
-					...propertiesInquiry,
-					page: 1,
-					sort: 'createdAt',
-					search: {
-						...propertiesInquiry.search,
-						propertyLocationList: [newValue as PropertyLocation],
-					},
-				});
+				setPropertiesInquiry((prev) => ({
+					...prev, page: 1, sort: 'createdAt',
+					search: { ...prev.search, propertyLocationList: [newValue as PropertyLocation] },
+				}));
 			} else {
-				delete propertiesInquiry?.search?.propertyLocationList;
-				setPropertiesInquiry({ ...propertiesInquiry });
+				setPropertiesInquiry((prev) => {
+					const next = { ...prev.search };
+					delete next.propertyLocationList;
+					return { ...prev, search: next };
+				});
 			}
 		} catch (err: any) {
 			console.log('searchTypeHandler: ', err.message);
@@ -141,14 +122,9 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 
 	const updatePropertyHandler = async (updateData: PropertyUpdate) => {
 		try {
-			await updatePropertyByAdmin({
-				variables: {
-					input: updateData,
-				},
-			});
+			await updatePropertyByAdmin({ variables: { input: updateData } });
 			menuIconCloseHandler();
-
-      await getAllPropertiesRefetch({ input: propertiesInquiry });			
+			await getAllPropertiesRefetch({ input: propertiesInquiry });
 		} catch (err: any) {
 			menuIconCloseHandler();
 			sweetErrorHandling(err).then();
@@ -157,7 +133,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 
 	return (
 		<Box component={'div'} className={'content'}>
-			<Typography variant={'h2'} className={'tit'} sx={{ mb: '24px' }}>
+			<Typography variant={'h2'} className={'tit'} sx={{ mb: '20px' }}>
 				Property List
 			</Typography>
 			<Box component={'div'} className={'table-wrap'}>
@@ -165,67 +141,32 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 					<TabContext value={value}>
 						<Box component={'div'}>
 							<List className={'tab-menu'}>
-								<ListItem
-									onClick={(e: any) => tabChangeHandler(e, 'ALL')}
-									value="ALL"
-									className={value === 'ALL' ? 'li on' : 'li'}
-								>
-									All
-								</ListItem>
-								<ListItem
-									onClick={(e: any) => tabChangeHandler(e, 'ACTIVE')}
-									value="ACTIVE"
-									className={value === 'ACTIVE' ? 'li on' : 'li'}
-								>
-									Active
-								</ListItem>
-								<ListItem
-									onClick={(e: any) => tabChangeHandler(e, 'SOLD')}
-									value="SOLD"
-									className={value === 'SOLD' ? 'li on' : 'li'}
-								>
-									Sold
-								</ListItem>
-								<ListItem
-									onClick={(e: any) => tabChangeHandler(e, 'DELETE')}
-									value="DELETE"
-									className={value === 'DELETE' ? 'li on' : 'li'}
-								>
-									Delete
-								</ListItem>
+								{['ALL', 'ACTIVE', 'SOLD', 'DELETE'].map((tab) => (
+									<ListItem key={tab} onClick={(e: any) => tabChangeHandler(e, tab)} value={tab}
+										className={value === tab ? 'li on' : 'li'}>
+										{tab === 'ALL' ? 'All' : tab === 'DELETE' ? 'Deleted' : tab.charAt(0) + tab.slice(1).toLowerCase()}
+									</ListItem>
+								))}
 							</List>
 							<Divider />
-							<Stack className={'search-area'} sx={{ m: '24px' }}>
-								<Select sx={{ width: '160px', mr: '20px' }} value={searchType}>
-									<MenuItem value={'ALL'} onClick={() => searchTypeHandler('ALL')}>
-										ALL
-									</MenuItem>
+							<Stack className={'search-area'} sx={{ m: '0' }}>
+								<Select sx={{ width: '160px' }} value={searchType}>
+									<MenuItem value={'ALL'} onClick={() => searchTypeHandler('ALL')}>All</MenuItem>
 									{Object.values(PropertyLocation).map((location: string) => (
-										<MenuItem value={location} onClick={() => searchTypeHandler(location)} key={location}>
-											{location}
-										</MenuItem>
+										<MenuItem value={location} onClick={() => searchTypeHandler(location)} key={location}>{location}</MenuItem>
 									))}
 								</Select>
 							</Stack>
 							<Divider />
 						</Box>
 						<PropertyPanelList
-							properties={properties}
-							anchorEl={anchorEl}
-							menuIconClickHandler={menuIconClickHandler}
-							menuIconCloseHandler={menuIconCloseHandler}
-							updatePropertyHandler={updatePropertyHandler}
-							removePropertyHandler={removePropertyHandler}
+							properties={properties} anchorEl={anchorEl}
+							menuIconClickHandler={menuIconClickHandler} menuIconCloseHandler={menuIconCloseHandler}
+							updatePropertyHandler={updatePropertyHandler} removePropertyHandler={removePropertyHandler}
 						/>
-
-						<TablePagination
-							rowsPerPageOptions={[10, 20, 40, 60]}
-							component="div"
-							count={propertiesTotal}
-							rowsPerPage={propertiesInquiry?.limit}
-							page={propertiesInquiry?.page - 1}
-							onPageChange={changePageHandler}
-							onRowsPerPageChange={changeRowsPerPageHandler}
+						<TablePagination rowsPerPageOptions={[10, 20, 40, 60]} component="div" count={propertiesTotal}
+							rowsPerPage={propertiesInquiry?.limit} page={propertiesInquiry?.page - 1}
+							onPageChange={changePageHandler} onRowsPerPageChange={changeRowsPerPageHandler}
 						/>
 					</TabContext>
 				</Box>
@@ -235,13 +176,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 };
 
 AdminProperties.defaultProps = {
-	initialInquiry: {
-		page: 1,
-		limit: 10,
-		sort: 'createdAt',
-		direction: 'DESC',
-		search: {},
-	},
+	initialInquiry: { page: 1, limit: 10, sort: 'createdAt', direction: 'DESC', search: {} },
 };
 
 export default withAdminLayout(AdminProperties);

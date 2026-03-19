@@ -1,111 +1,430 @@
-#pc-wrap {
-	.sales-manager-list-page {
-		position: relative;
-		padding: 147px 0 75px;
-		width: 100%;
-		height: auto;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
+// ============================================================
+// Sales Manager List Page
+// ============================================================
 
-		.container {
+.sales-manager-list-page {
+	min-height: 100vh;
+	background: #ffffff;
+	padding: 133px 0 80px;
+
+	.container {
+		max-width: 1280px;
+		margin: 0 auto;
+		padding: 0 40px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	// ---------- Page Header ----------
+	.page-header {
+		padding: 0 0 32px;
+		border-bottom: 1px solid #f0f0f0;
+		margin-bottom: 40px;
+
+		.page-title {
+			font-size: 32px;
+			font-weight: 700;
+			color: #181a20;
+			margin: 0 0 6px;
+			letter-spacing: -0.5px;
+		}
+
+		.page-subtitle {
+			font-size: 14px;
+			color: #9a9a9a;
+			margin: 0;
+		}
+	}
+
+	// ---------- Content Layout ----------
+	.content-layout {
+		flex-direction: row !important;
+		align-items: flex-start !important;
+		gap: 40px;
+	}
+
+	// ---------- Sticky Sidebar ----------
+	.sidebar-filter {
+		width: 210px;
+		min-width: 210px;
+		flex-shrink: 0;
+		position: sticky;
+		top: 100px;
+		background: #fafafa;
+		border: 1px solid #f0f0f0;
+		border-radius: 16px;
+		padding: 24px 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 28px;
+
+		.sidebar-section {
 			display: flex;
 			flex-direction: column;
+			gap: 10px;
+		}
 
-			.filter {
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
+		.sidebar-label {
+			font-size: 10px;
+			font-weight: 700;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			color: #b0b0b0;
+		}
 
-				.left {
-					display: flex;
-					flex-direction: row;
+		.sidebar-search-wrap {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			background: #fff;
+			border: 1px solid #e8e8e8;
+			border-radius: 10px;
+			padding: 9px 12px;
+			color: #b0b0b0;
+			transition: border-color 0.2s;
 
-					input {
-						padding: 22px 10px;
-						width: 333px;
-						height: 50px;
-						border-radius: 40px;
-						border: 1px solid #ddd;
-						background: #fff;
-						color: #181a20;
-						font-family: $font;
-						font-size: 14px;
-						font-weight: 400;
-						line-height: 26px;
-						box-sizing: border-box;
-					}
+			&:focus-within {
+				border-color: #6366f1;
+				color: #6366f1;
+			}
+		}
+
+		.sidebar-search {
+			border: none;
+			outline: none;
+			background: transparent;
+			font-size: 13px;
+			color: #181a20;
+			width: 100%;
+
+			&::placeholder {
+				color: #c0c0c0;
+			}
+		}
+
+		.sidebar-sort-list {
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+		}
+
+		.sidebar-sort-item {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			padding: 9px 12px;
+			border-radius: 10px;
+			border: none;
+			background: transparent;
+			cursor: pointer;
+			font-size: 13px;
+			color: #6b6b6b;
+			text-align: left;
+			transition: background 0.18s, color 0.18s;
+			width: 100%;
+
+			.sort-dot {
+				width: 6px;
+				height: 6px;
+				border-radius: 50%;
+				background: #e0e0e0;
+				flex-shrink: 0;
+				transition: background 0.18s, transform 0.18s;
+			}
+
+			&:hover {
+				background: #f0f0f0;
+				color: #181a20;
+			}
+
+			&.active {
+				background: #eef0ff;
+				color: #4f46e5;
+				font-weight: 600;
+
+				.sort-dot {
+					background: #4f46e5;
+					transform: scale(1.3);
 				}
+			}
+		}
+	}
 
-				.right {
-					display: flex;
-					flex-direction: row;
-					align-items: center;
+	// ---------- Cards Area ----------
+	.cards-area {
+		flex: 1 !important;
+		min-width: 0;
+	}
 
-					button {
-						margin-left: 10px;
-						color: #181a20;
-						font-family: $font;
-						font-size: 14px;
-						font-weight: bold;
-						line-height: 26px;
+	.card-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 40px;
+		align-items: start;
+	}
 
-						&:hover {
-							background: none;
-						}
-					}
+	.loading-state {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 40px;
+	}
+
+	.skeleton-blob {
+		width: 100%;
+		aspect-ratio: 2/3;
+		background: linear-gradient(120deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+		background-size: 200% 100%;
+		animation: smShimmer 1.4s infinite;
+		border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+	}
+
+	@keyframes smShimmer {
+		0% { background-position: 200% 0; }
+		100% { background-position: -200% 0; }
+	}
+
+	.no-data {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 80px 0;
+		gap: 16px;
+		color: #c0c0c0;
+
+		img { width: 48px; opacity: 0.4; }
+		p { font-size: 14px; }
+	}
+
+	.pagination-wrap {
+		margin-top: 48px;
+		align-items: center !important;
+
+		.MuiPagination-root { margin: 0 auto; }
+	}
+}
+
+
+// ============================================================
+// Sales Manager Card — Organic Blob + Glassmorphism
+// ============================================================
+.sm-blob-card {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 2/3;
+	cursor: pointer;
+	border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+	overflow: visible;
+	transition: border-radius 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
+
+	&:hover {
+		border-radius: 45% 55% 40% 60% / 55% 45% 60% 40%;
+		transform: translateY(-6px) scale(1.02);
+		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+	}
+
+	.sm-blob-bg {
+		position: absolute;
+		inset: 0;
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		transition: transform 0.4s ease;
+		border-radius: inherit;
+		overflow: hidden;
+	}
+
+	&:hover .sm-blob-bg {
+		transform: scale(1.06);
+	}
+
+	.sm-blob-overlay {
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		overflow: hidden;
+		background: linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 0.04) 0%,
+			rgba(0, 0, 0, 0.15) 45%,
+			rgba(0, 0, 0, 0.68) 100%
+		);
+	}
+
+	.sm-blob-badges {
+		position: absolute;
+		top: 16px;
+		right: 16px;
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		z-index: 2;
+	}
+
+	.sm-badge {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		background: rgba(255, 255, 255, 0.2);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		border: 1px solid rgba(255, 255, 255, 0.3);
+		color: #fff;
+		font-size: 12px;
+		font-weight: 500;
+		padding: 5px 10px;
+		border-radius: 999px;
+	}
+
+	.sm-blob-content {
+		position: absolute;
+		bottom: 12%;
+		left: 6%;
+		right: 6%;
+		padding: 14px 12px 12px;
+		background: rgba(255, 255, 255, 0.12);
+		backdrop-filter: blur(14px);
+		-webkit-backdrop-filter: blur(14px);
+		border-radius: 16px;
+		border: 1px solid rgba(255, 255, 255, 0.25);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 5px;
+		z-index: 2;
+	}
+
+	.sm-name {
+		font-size: 16px;
+		font-weight: 700;
+		color: #ffffff;
+		text-align: center;
+		line-height: 1.3;
+		text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+	}
+
+	.sm-role {
+		font-size: 12px;
+		color: rgba(255, 255, 255, 0.72);
+	}
+
+	.sm-tag {
+		font-size: 11px;
+		background: rgba(255, 255, 255, 0.18);
+		border: 1px solid rgba(255, 255, 255, 0.32);
+		color: #fff;
+		padding: 3px 12px;
+		border-radius: 999px;
+		letter-spacing: 0.04em;
+		text-transform: capitalize;
+	}
+
+	.sm-actions {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin-top: 8px;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	// Like — small square icon-only button
+	.sm-icon-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		background: rgba(255, 255, 255, 0.15);
+		border: 1px solid rgba(255, 255, 255, 0.3);
+		border-radius: 10px;
+		width: 28px;
+		height: 28px;
+		padding: 0;
+		color: rgba(255, 255, 255, 0.9);
+		cursor: pointer;
+		transition: background 0.2s, transform 0.2s;
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
+
+		svg {
+			width: 14px;
+			height: 14px;
+			flex-shrink: 0;
+		}
+
+		span {
+			display: none;
+		}
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.26);
+			transform: scale(1.08);
+		}
+	}
+
+	// Follow — takes all remaining width
+	.sm-follow-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 4px;
+		flex: 1;
+		min-width: 0;
+		background: rgba(255, 255, 255, 0.92);
+		border: none;
+		border-radius: 8px;
+		height: 26px;
+		padding: 0 6px;
+		color: #181a20;
+		font-size: 11px;
+		font-weight: 700;
+		cursor: pointer;
+		letter-spacing: 0.03em;
+		position: relative;
+		overflow: hidden;
+		transition: background 0.25s, transform 0.2s, color 0.25s, box-shadow 0.25s;
+		white-space: nowrap;
+
+		&:hover {
+			background: #ffffff;
+			transform: scale(1.03);
+		}
+
+		&.following {
+			background: linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #3b82f6 100%);
+			color: #fff;
+			border: none;
+			box-shadow:
+				0 0 12px rgba(168, 85, 247, 0.75),
+				0 0 30px rgba(99, 102, 241, 0.45),
+				inset 0 1px 0 rgba(255, 255, 255, 0.2);
+			text-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
+
+			&::before {
+				content: '';
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(135deg, #c084fc 0%, #818cf8 50%, #60a5fa 100%);
+				opacity: 0;
+				transition: opacity 0.25s;
+				border-radius: 10px;
+			}
+
+			&:hover {
+				transform: scale(1.03);
+				box-shadow:
+					0 0 20px rgba(168, 85, 247, 0.9),
+					0 0 45px rgba(99, 102, 241, 0.55),
+					inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+				&::before {
+					opacity: 1;
 				}
 			}
 
-			.card-wrap {
+			svg, span {
 				position: relative;
-				margin-top: 35px;
-				width: 100%;
-				min-height: 500px;
-				height: auto;
-				display: flex;
-				flex-direction: row;
-				flex-wrap: wrap;
-
-				.no-data {
-					width: 100%;
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					justify-content: center;
-					gap: 15px;
-					padding: 80px 0;
-
-					img {
-						width: 60px;
-						height: 60px;
-						opacity: 0.4;
-					}
-
-					p {
-						color: #181a20;
-						font-family: $font;
-						font-size: 16px;
-						font-weight: 400;
-						line-height: normal;
-					}
-				}
-			}
-
-			.pagination {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-
-				span {
-					margin-top: 20px;
-					color: #181a20;
-					font-family: $font;
-					font-size: 14px;
-					font-weight: 400;
-					line-height: 26px;
-				}
+				z-index: 1;
 			}
 		}
 	}

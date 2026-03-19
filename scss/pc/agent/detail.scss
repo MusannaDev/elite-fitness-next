@@ -7,16 +7,19 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
+
 		.container {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
+
 			.agent-info {
 				margin-left: 58px;
 				width: 100%;
 				display: flex;
 				flex-direction: row;
 				align-items: center;
+
 				img {
 					margin-right: 32px;
 					width: 135px;
@@ -25,9 +28,11 @@
 					cursor: pointer;
 					object-fit: cover;
 				}
+
 				.info {
 					display: flex;
 					flex-direction: column;
+
 					strong {
 						color: #181a20;
 						font-family: $font;
@@ -38,16 +43,19 @@
 						text-transform: capitalize;
 						cursor: pointer;
 					}
+
 					div {
 						margin-top: 13px;
 						display: flex;
 						flex-direction: row;
 						align-items: center;
+
 						img {
 							margin-right: 10px;
 							width: 16px;
 							height: 16px;
 						}
+
 						span {
 							color: #181a20;
 							font-family: $font;
@@ -59,6 +67,7 @@
 					}
 				}
 			}
+
 			.agent-home-list {
 				position: relative;
 				width: 100%;
@@ -69,6 +78,7 @@
 				border-radius: 12px;
 				background: #fff;
 				box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+
 				.card-wrap {
 					position: relative;
 					margin-top: 35px;
@@ -77,6 +87,7 @@
 					display: flex;
 					flex-direction: row;
 					flex-wrap: wrap;
+
 					.wrap-main {
 						margin-right: 0px;
 						margin-left: 5px;
@@ -84,18 +95,21 @@
 						flex-direction: row;
 						flex-wrap: wrap;
 					}
+
 					.agent-card {
 						position: relative;
 						margin-right: 27px;
 						margin-bottom: 34px;
 						display: flex;
 						flex-direction: column;
+
 						.agent-img {
 							border-radius: 12px;
 							width: 233px;
 							height: 273px;
 							background-size: cover;
 							cursor: pointer;
+
 							div {
 								position: absolute;
 								padding: 12px;
@@ -111,10 +125,12 @@
 								line-height: normal;
 							}
 						}
+
 						.agent-info {
 							margin-top: 23px;
 							display: flex;
 							flex-direction: column;
+
 							strong {
 								color: #181a20;
 								font-family: $font;
@@ -124,6 +140,7 @@
 								line-height: normal;
 								cursor: pointer;
 							}
+
 							span {
 								color: #181a20;
 								font-family: $font;
@@ -135,10 +152,12 @@
 						}
 					}
 				}
+
 				.pagination {
 					display: flex;
 					flex-direction: column;
 					align-items: center;
+
 					span {
 						margin-top: 20px;
 						color: #181a20;
@@ -150,6 +169,7 @@
 					}
 				}
 			}
+
 			.review-box {
 				position: relative;
 				margin-top: 75px;
@@ -158,9 +178,11 @@
 				height: auto;
 				border-radius: 24px;
 				background: #f6f6f6;
+
 				.main-intro {
 					display: flex;
 					flex-direction: column;
+
 					span {
 						color: #181a20;
 						font-family: $font;
@@ -171,6 +193,7 @@
 						letter-spacing: 0.6px;
 						text-transform: capitalize;
 					}
+
 					p {
 						color: #181a20;
 						font-family: $font;
@@ -180,6 +203,7 @@
 						line-height: 26px;
 					}
 				}
+
 				.review-wrap {
 					padding: 29px 25px;
 					margin-top: 57px;
@@ -188,11 +212,13 @@
 					border-radius: 12px;
 					background: #fff;
 					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+
 					.title-box {
 						svg {
 							width: 10px;
 							height: 10px;
 						}
+
 						span {
 							margin-left: 8px;
 							color: #181a20;
@@ -203,66 +229,207 @@
 							line-height: normal;
 						}
 					}
+
+					// ── Review Card — Bubble style ──────────────────────────
 					.review-card {
 						margin-top: 20px;
 						display: flex;
-						flex-direction: column;
-						padding-bottom: 10px;
-						border-bottom: 1px solid #c4c4c4;
-						.info {
+						flex-direction: row;
+						gap: 12px;
+						padding-bottom: 16px;
+						position: relative;
+
+						&:not(:last-of-type) {
+							border-bottom: 1px solid #f0eef8;
+						}
+
+						&:last-of-type {
+							.review-avatar-line {
+								display: none;
+							}
+						}
+
+						// Left column: avatar + vertical line
+						.review-avatar-col {
 							display: flex;
-							flex-direction: row;
-							justify-content: space-between;
-							.left {
+							flex-direction: column;
+							align-items: center;
+							flex-shrink: 0;
+
+							.review-avatar-img {
+								width: 38px;
+								height: 38px;
+								border-radius: 10px;
+								object-fit: cover;
+								flex-shrink: 0;
+								border: 2px solid #f0f0f0;
+							}
+
+							.review-avatar-initials {
+								width: 38px;
+								height: 38px;
+								border-radius: 10px;
+								background: #eeedfe;
 								display: flex;
-								flex-direction: row;
-								img {
-									width: 55px;
-									height: 59px;
-									border-radius: 50%;
-									object-fit: cover;
+								align-items: center;
+								justify-content: center;
+								font-size: 13px;
+								font-weight: 600;
+								color: #534ab7;
+								flex-shrink: 0;
+							}
+
+							.review-avatar-line {
+								width: 1.5px;
+								flex: 1;
+								background: #f0eef8;
+								margin-top: 8px;
+								min-height: 20px;
+							}
+						}
+
+						// Right column: bubble
+						.review-bubble-col {
+							flex: 1;
+							min-width: 0;
+
+							.review-bubble {
+								background: #fafaff;
+								border: 1.5px solid #f0eef8;
+								border-radius: 4px 14px 14px 14px;
+								padding: 12px 16px;
+								transition: background 0.18s;
+
+								&:hover {
+									background: #f4f3ff;
 								}
-								div {
-									margin-left: 8px;
+
+								// Header: nick + verified badge + date
+								.review-bubble-header {
 									display: flex;
-									flex-direction: column;
-									strong {
-										color: #181a20;
-										font-family: $font;
-										font-size: 15px;
-										font-style: normal;
-										font-weight: 600;
-										line-height: normal;
+									justify-content: space-between;
+									align-items: flex-start;
+									margin-bottom: 8px;
+									flex-wrap: wrap;
+									gap: 4px;
+
+									.review-user-info {
+										display: flex;
+										align-items: center;
+										gap: 8px;
+										flex-wrap: wrap;
+
+										.review-nick {
+											color: #181a20;
+											font-family: $font;
+											font-size: 13px;
+											font-weight: 600;
+											line-height: normal;
+										}
+
+										.review-verified {
+											display: flex;
+											align-items: center;
+											gap: 4px;
+											font-family: $font;
+											font-size: 11px;
+											color: #534ab7;
+											background: #f0eeff;
+											padding: 2px 7px;
+											border-radius: 20px;
+											font-weight: 500;
+
+											svg {
+												flex-shrink: 0;
+											}
+										}
 									}
-									span {
-										margin-top: 4px;
-										color: #181a20;
+
+									.review-author-date {
+										color: #b0b0b0;
 										font-family: $font;
-										font-size: 13px;
-										font-style: normal;
+										font-size: 11px;
 										font-weight: 400;
 										line-height: normal;
+										white-space: nowrap;
+									}
+								}
+
+								// Comment text
+								.review-content {
+									font-family: $font;
+									font-size: 14px;
+									font-style: normal;
+									font-weight: 400;
+									color: #2a2a2a;
+									line-height: 1.65;
+									margin: 0 0 10px;
+								}
+
+								// Footer: like + reply
+								.review-bubble-footer {
+									display: flex;
+									align-items: center;
+									gap: 12px;
+									border-top: 1px solid #ebebeb;
+									padding-top: 8px;
+
+									.review-like-btn {
+										display: flex;
+										align-items: center;
+										gap: 4px;
+										font-family: $font;
+										font-size: 12px;
+										color: #b0b0b0;
+										background: none;
+										border: none;
+										cursor: pointer;
+										padding: 0;
+										transition: color 0.15s;
+
+										span {
+											font-weight: 500;
+										}
+
+										&:hover:not(.liked) {
+											color: #d4537e;
+										}
+
+										&.liked {
+											color: #d4537e;
+										}
+
+										&:active {
+											transform: scale(0.92);
+										}
+									}
+
+									.review-reply-btn {
+										display: flex;
+										align-items: center;
+										gap: 5px;
+										border: 1px solid #e8e8e8;
+										background: transparent;
+										border-radius: 8px;
+										padding: 6px 12px;
+										font-family: $font;
+										font-size: 12px;
+										color: #6b6b6b;
+										cursor: pointer;
+										transition: background 0.18s, border-color 0.18s, color 0.18s;
+
+										&:hover {
+											background: #eef0ff;
+											border-color: #c7caff;
+											color: #534ab7;
+										}
 									}
 								}
 							}
-							.right {
-								display: flex;
-								flex-direction: row;
-								svg {
-									color: #edf023;
-								}
-							}
-						}
-						p {
-							margin-top: 10px;
-							color: #181a20;
-							font-family: $font;
-							font-size: 14px;
-							font-style: normal;
-							font-weight: 400;
-							line-height: 26px;
 						}
 					}
+					// ── end .review-card ───────────────────────────────────
+
 					.pagination-box {
 						margin-top: 15px;
 						width: 100%;
@@ -271,12 +438,14 @@
 						justify-content: center;
 					}
 				}
+
 				.leave-review-config {
 					margin-top: 15px;
 					border-radius: 12px;
 					background: #fff;
 					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
 					padding: 30px 38px;
+
 					.main-title {
 						color: #181a20;
 						font-family: $font;
@@ -285,6 +454,7 @@
 						font-weight: 600;
 						line-height: normal;
 					}
+
 					.review-title {
 						margin-top: 20px;
 						color: #181a20;
@@ -294,6 +464,7 @@
 						font-weight: 600;
 						line-height: normal;
 					}
+
 					textarea {
 						width: 100%;
 						height: 120px;
@@ -308,13 +479,16 @@
 						font-weight: 400;
 						line-height: 26px;
 					}
+
 					.submit-btn {
 						width: 100%;
 						display: flex;
 						justify-content: flex-end;
+
 						button:disabled {
 							background: #dfdfdf;
 						}
+
 						.submit-review {
 							display: flex;
 							width: 256px;
@@ -326,6 +500,7 @@
 							border-radius: 12px;
 							border: 1px solid #c4c4c4;
 							cursor: pointer;
+
 							.title {
 								color: #181a20;
 								font-family: $font;
