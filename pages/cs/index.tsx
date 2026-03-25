@@ -17,60 +17,50 @@ export const getStaticProps = async ({ locale }: any) => ({
 const CS: NextPage = () => {
 	const device = useDeviceDetect();
 	const router = useRouter();
-
-	/** HANDLERS **/
-	const changeTabHandler = (tab: string) => {
-		router.push(
-			{
-				pathname: '/cs',
-				query: { tab: tab },
-			},
-			undefined,
-			{ scroll: false },
-		);
-	};
 	const tab = router.query.tab ?? 'notice';
 
-	if (device === 'mobile') {
-		return <h1>CS PAGE MOBILE</h1>;
-	} else {
-		return (
-			<Stack className={'cs-page'}>
-				<Stack className={'container'}>
-					<Box component={'div'} className={'cs-main-info'}>
-						<Box component={'div'} className={'info'}>
-							<span>Cs center</span>
-							<p>I will answer your questions</p>
-						</Box>
-						<Box component={'div'} className={'btns'}>
-							<div
-								className={tab == 'notice' ? 'active' : ''}
-								onClick={() => {
-									changeTabHandler('notice');
-								}}
-							>
-								Notice
-							</div>
-							<div
-								className={tab == 'faq' ? 'active' : ''}
-								onClick={() => {
-									changeTabHandler('faq');
-								}}
-							>
-								FAQ
-							</div>
-						</Box>
-					</Box>
+	const changeTabHandler = (tab: string) => {
+		router.push({ pathname: '/cs', query: { tab } }, undefined, { scroll: false });
+	};
 
-					<Box component={'div'} className={'cs-content'}>
-						{tab === 'notice' && <Notice />}
+	if (device === 'mobile') return <h1>CS PAGE MOBILE</h1>;
 
-						{tab === 'faq' && <Faq />}
-					</Box>
-				</Stack>
+	return (
+		<Stack className={'cs-page'}>
+			<Stack className={'container'}>
+				{/* Hero header */}
+				<Box component={'div'} className={'cs-hero'}>
+					<div className={'hero-eyebrow'}>Support Center</div>
+					<h1 className={'hero-title'}>How can we help you?</h1>
+					<p className={'hero-sub'}>Browse announcements or find answers to common questions</p>
+
+					{/* Tab switcher */}
+					<div className={'cs-tab-switcher'}>
+						<button
+							className={`tab-pill ${tab === 'notice' ? 'active' : ''}`}
+							onClick={() => changeTabHandler('notice')}
+						>
+							<span className={'tab-dot'} />
+							Notices
+						</button>
+						<button
+							className={`tab-pill ${tab === 'faq' ? 'active' : ''}`}
+							onClick={() => changeTabHandler('faq')}
+						>
+							<span className={'tab-dot'} />
+							FAQ
+						</button>
+					</div>
+				</Box>
+
+				{/* Content area */}
+				<Box component={'div'} className={'cs-body'}>
+					{tab === 'notice' && <Notice />}
+					{tab === 'faq' && <Faq />}
+				</Box>
 			</Stack>
-		);
-	}
+		</Stack>
+	);
 };
 
 export default withLayoutBasic(CS);

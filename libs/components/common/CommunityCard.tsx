@@ -18,17 +18,22 @@ interface CommunityCardProps {
 	likeBoardArticleHandler: any;
 }
 
+const CARD_COLORS = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6'];
+
 const CommunityCard = (props: CommunityCardProps) => {
 	const { boardArticle, size = 'normal', likeBoardArticleHandler } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const imagePath: string = boardArticle?.articleImage
+
+	const imagePath: string | null = boardArticle?.articleImage
 		? `${REACT_APP_API_URL}/${boardArticle?.articleImage}`
-		: '/img/community/communityImg.png';
+		: null;
+
+	const colorClass = CARD_COLORS[Math.floor(Math.random() * CARD_COLORS.length)];
 
 	/** HANDLERS **/
-	const chooseArticleHandler = (e: React.SyntheticEvent, boardArticle: BoardArticle) => {
+	const chooseArticleHandler = (e: React.SyntheticEvent) => {
 		router.push(
 			{
 				pathname: '/community/detail',
@@ -39,7 +44,8 @@ const CommunityCard = (props: CommunityCardProps) => {
 		);
 	};
 
-	const goMemberPage = (id: string) => {
+	const goMemberPage = (e: React.SyntheticEvent, id: string) => {
+		e.stopPropagation();
 		if (id === user?._id) router.push('/mypage');
 		else router.push(`/member?memberId=${id}`);
 	};
@@ -48,51 +54,65 @@ const CommunityCard = (props: CommunityCardProps) => {
 		return <div>COMMUNITY CARD MOBILE</div>;
 	} else {
 		return (
-			<Stack
-				sx={{ width: size === 'small' ? '285px' : '317px' }}
-				className="community-general-card-config"
-				onClick={(e:any) => chooseArticleHandler(e, boardArticle)}
-			>
-				<Stack className="image-box">
-					<img src={imagePath} alt="" className="card-img" />
-				</Stack>
-				<Stack className="desc-box" sx={{ marginTop: '-20px' }}>
-					<Stack>
-						<Typography
-							className="desc"
-							onClick={(e:any) => {
-								e.stopPropagation();
-								goMemberPage(boardArticle?.memberData?._id as string);
-							}}
+			<div className="community-card" onClick={chooseArticleHandler}>
+				{/* IMAGE / COLOR ZONE */}
+			<div className={`card-image-zone ${colorClass}`}>
+				{imagePath ? (
+					<img src={imagePath} alt="" className="card-real-img" />
+				) : (
+					<div className="card-icon-placeholder">
+						<span>📝</span>
+					</div>
+				)}
+				<span className="card-cat-badge">{boardArticle?.articleCategory}</span>
+			</div>
+
+				{/* BODY */}
+				<div className="card-body">
+					<p className="card-article-title">{boardArticle?.articleTitle}</p>
+
+					<div className="card-footer">
+						<div
+							className="card-author"
+							onClick={(e: any) => goMemberPage(e, boardArticle?.memberData?._id as string)}
 						>
-							{boardArticle?.memberData?.memberNick}
-						</Typography>
-						<Typography className="title">{boardArticle?.articleTitle}</Typography>
-					</Stack>
-					<Stack className={'buttons'}>
-						<IconButton color={'default'}>
-							<RemoveRedEyeIcon />
-						</IconButton>
-						<Typography className="view-cnt">{boardArticle?.articleViews}</Typography>
-						<IconButton color={'default'} onClick={(e:any) => {likeBoardArticleHandler(e, user, boardArticle?._id)}}>
-							{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
-								<FavoriteIcon color={'primary'} />
-							) : (
-								<FavoriteBorderIcon />
-							)}
-						</IconButton>
-						<Typography className="view-cnt">{boardArticle?.articleLikes}</Typography>
-					</Stack>
-				</Stack>
-				<Stack className="date-box">
-					<Moment className="month" format={'MMMM'}>
-						{boardArticle?.createdAt}
-					</Moment>
-					<Typography className="day">
-						<Moment format={'DD'}>{boardArticle?.createdAt}</Moment>
-					</Typography>
-				</Stack>
-			</Stack>
+							<div
+								className="card-avatar"
+								style={{
+									backgroundImage: boardArticle?.memberData?.memberImage
+										? `url(${REACT_APP_API_URL}/${boardArticle?.memberData?.memberImage})`
+										: undefined,
+								}}
+							>
+								{!boardArticle?.memberData?.memberImage &&
+									boardArticle?.memberData?.memberNick?.charAt(0).toUpperCase()}
+							</div>
+							<span className="card-nick">{boardArticle?.memberData?.memberNick}</span>
+						</div>
+
+						<div className="card-stats">
+							<span className="card-stat">
+								<RemoveRedEyeIcon sx={{ fontSize: 13 }} />
+								{boardArticle?.articleViews}
+							</span>
+							<span
+								className="card-stat like-btn"
+								onClick={(e: any) => {
+									e.stopPropagation();
+									likeBoardArticleHandler(e, user, boardArticle?._id);
+								}}
+							>
+								{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
+									<FavoriteIcon sx={{ fontSize: 13, color: '#ff1744' }} />
+								) : (
+									<FavoriteBorderIcon sx={{ fontSize: 13 }} />
+								)}
+								{boardArticle?.articleLikes}
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
 		);
 	}
 };

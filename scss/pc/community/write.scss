@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap');
+
+$red: #ff1744;
+$red-soft: rgba(255, 23, 68, 0.08);
+$red-glow: rgba(255, 23, 68, 0.25);
+$light-bg: #f8f5f0;
+$light-surface: #ffffff;
+$light-border: #ede8e0;
+$light-text: #1a1a1a;
+$light-muted: #999;
+$font-body: 'Inter', sans-serif;
+$font-display: 'Fraunces', serif;
+
+#tui-editor-wrap {
+	font-family: $font-body;
+	background: $light-bg;
+	min-height: 100vh;
+	padding: 40px 32px 60px;
+	max-width: 960px;
+	margin: 0 auto;
+
+	// ── HEADER ──
+	.editor-header {
+		margin-bottom: 32px;
+
+		.editor-title {
+			font-family: $font-display;
+			font-size: 32px;
+			font-weight: 300;
+			color: $light-text;
+			letter-spacing: -0.5px;
+			margin: 0 0 6px;
+			line-height: 1.1;
+
+			em {
+				font-style: italic;
+				color: $red;
+				text-shadow: 0 0 20px $red-glow;
+			}
+		}
+
+		.editor-sub {
+			font-size: 13px;
+			color: $light-muted;
+		}
+	}
+
+	// ── META ROW ──
+	.editor-meta-row {
+		display: grid;
+		grid-template-columns: 260px 1fr;
+		gap: 16px;
+		margin-bottom: 20px;
+
+		@media (max-width: 640px) {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.editor-field {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+
+		.field-label {
+			font-size: 11px;
+			font-weight: 600;
+			letter-spacing: 1.5px;
+			text-transform: uppercase;
+			color: $light-muted;
+		}
+	}
+
+	// ── EDITOR BODY ──
+	.editor-body {
+		border-radius: 12px;
+		overflow: hidden;
+		border: 1px solid $light-border;
+		margin-bottom: 20px;
+
+		.toastui-editor-toolbar {
+			background: #faf8f5;
+			border-bottom: 1px solid $light-border;
+		}
+
+		.toastui-editor-defaultUI {
+			border: none;
+		}
+	}
+
+	// ── FOOTER ──
+	.editor-footer {
+		display: flex;
+		justify-content: center;
+
+		.register-btn {
+			background: $red;
+			color: #fff;
+			border: none;
+			padding: 13px 48px;
+			border-radius: 10px;
+			font-family: $font-body;
+			font-size: 14px;
+			font-weight: 500;
+			cursor: pointer;
+			letter-spacing: 0.5px;
+			transition: opacity 0.2s, transform 0.15s;
+
+			&:hover {
+				opacity: 0.88;
+				transform: translateY(-1px);
+			}
+
+			&:active {
+				transform: translateY(0);
+			}
+		}
+	}
+}

@@ -1,974 +1,1223 @@
-#pc-wrap {
-	.home-page {
-		position: relative;
-		width: 100%;
-		height: auto;
-		.info-box {
-			width: 100%;
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
-			.left {
-				display: flex;
-				flex-direction: column;
-				span {
-					color: #181a20;
-					font-family: $font;
-					font-size: 34px;
-					font-style: normal;
-					font-weight: 500;
-					line-height: 150%;
-					letter-spacing: -0.646px;
-					text-transform: capitalize;
-					&.white {
-						color: #ffffff;
-					}
-				}
-				p {
-					color: #181a20;
-					font-family: $font;
-					font-size: 14px;
-					font-style: normal;
-					font-weight: 400;
-					line-height: 26px;
-					&.white {
-						color: #ffffff;
-					}
-				}
-			}
-			.right {
-				display: flex;
-				flex-direction: row;
-				align-items: flex-end;
-				.pagination-box {
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					.swiper-pagination-bullet.swiper-pagination-bullet-active {
-						background: #000000;
-					}
-					.swiper-trend-next {
-						margin-left: 20px;
-						cursor: pointer;
-					}
-					.swiper-trend-prev {
-						margin-right: 20px;
-						cursor: pointer;
-					}
-					.swiper-top-next {
-						margin-left: 20px;
-						cursor: pointer;
-					}
-					.swiper-top-prev {
-						margin-right: 20px;
-						cursor: pointer;
-					}
-				}
-				.more-box {
-					display: flex;
-					flex-direction: row;
-					cursor: pointer;
-					align-items: center;
-					span {
-						color: #181a20;
-						font-family: $font;
-						font-size: 15px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-						text-transform: capitalize;
-					}
-					img {
-						margin-left: 10px;
-						width: 16px;
-						height: 16px;
-					}
-				}
-				.btn-box {
-					display: flex;
-					flex-direction: row;
-					button {
-						border-radius: 6px;
-						background: rgba(255, 255, 255, 0.07);
-						color: #ffffff;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 500;
-						line-height: 28px;
-						text-transform: capitalize;
-						&:first-child {
-							margin-right: 20px;
-						}
-						&.active {
-							border: 1px solid #181a20;
-							background: #fff;
-							color: #181a20;
-							font-family: $font;
-							font-size: 14px;
-							font-style: normal;
-							font-weight: 500;
-							line-height: 28px;
-						}
-					}
-				}
-			}
-		}
-		.trend-properties {
-			padding: 108px 0px 76px;
-			width: 100%;
-			height: 697px;
-			display: flex;
-			flex-direction: row;
-			.container {
-				flex-direction: column;
-				.card-box {
-					position: relative;
-					margin-top: 64px;
-					display: flex;
-					flex-direction: row;
-					.empty-list {
-						width: 100%;
-						height: 280px;
-						display: flex;
-						justify-content: center;
-						align-items: center;
-					}
-					.trend-property-swiper {
-						width: 100%;
-						height: 400px;
-						display: flex;
-						flex-direction: row;
-						.trend-property-slide {
-							width: auto;
-							height: auto;
-							display: flex;
-							margin: 10px 0 0 10px;
-						}
-					}
-					.trend-card-box {
-						position: relative;
-						width: 300px;
-						height: 375px;
-						display: flex;
-						flex-direction: column;
-						transition: transform 0.3s;
-						&:hover {
-							opacity: 1;
-							transform: scale(1.05);
-						}
-						.card-img {
-							position: relative;
-							width: 100%;
-							height: 203px;
-							background-size: cover;
-							border-radius: 12px 12px 0px 0px;
-							cursor: pointer;
-							div {
-								position: absolute;
-								padding: 8px 12px;
-								left: 12px;
-								bottom: 12px;
-								border-radius: 6px;
-								background: #fff;
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-							}
-						}
-						.info {
-							padding: 20px 22px 17px;
-							display: flex;
-							flex-direction: column;
-							box-sizing: border-box;
-							border-radius: 0px 0px 12px 12px;
-							border: 1px solid rgba(196, 196, 196, 0.71);
-							border-top: none;
-							background: #fff;
-							box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-							.title {
-								overflow: hidden;
-								color: #181a20;
-								text-overflow: ellipsis;
-								white-space: nowrap;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								text-transform: capitalize;
-								cursor: pointer;
-							}
-							.desc {
-								margin-top: 5px;
-								overflow: hidden;
-								color: #717171;
-								font-family: $font;
-								font-size: 13px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: normal;
-								text-overflow: ellipsis;
-								white-space: nowrap;
-							}
-							.options {
-								margin-top: 15px;
-								display: flex;
-								flex-direction: row;
-								justify-content: space-between;
-								div {
-									display: flex;
-									flex-direction: row;
-									img {
-										margin-right: 5px;
-										width: 17px;
-										height: 17px;
-									}
-									span {
-										color: #181a20;
-										font-family: $font;
-										font-size: 13px;
-										font-style: normal;
-										font-weight: 400;
-										line-height: normal;
-									}
-								}
-							}
-							.bott {
-								display: flex;
-								flex-direction: row;
-								justify-content: space-between;
-								align-items: center;
-								p {
-									color: #181a20;
-									font-family: $font;
-									font-size: 13px;
-									font-style: normal;
-									font-weight: 400;
-									line-height: normal;
-									text-transform: capitalize;
-								}
-								button {
-									margin-left: 7px;
-									width: 16px;
-									height: 16px;
-									box-sizing: border-box;
-								}
-								.view-like-box {
-									display: flex;
-									flex-direction: row;
-									gap: 7px;
-									align-items: center;
-									.view-cnt {
-										color: #717171;
-										font-family: $font;
-										font-size: 13px;
-										font-style: normal;
-										font-weight: 400;
-										line-height: normal;
-										text-overflow: ellipsis;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		.popular-properties {
-			padding: 132px 0px 94px;
-			width: 100%;
-			height: 816px;
-			display: flex;
-			flex-direction: row;
-			background: #f6f6f6;
-			.container {
-				flex-direction: column;
-				align-items: center;
-				.card-box {
-					margin-top: 34px;
-					width: 100%;
-					height: auto;
-					display: flex;
-					flex-direction: row;
-					justify-content: space-between;
-					.popular-property-swiper {
-						width: 100%;
-						height: 425px;
-						display: flex;
-						flex-direction: row;
-						.popular-property-slide {
-							width: auto;
-							height: auto;
-							display: flex;
-							margin: 10px 0 10px 10px;
-						}
-					}
-					.popular-card-box {
-						position: relative;
-						width: 400px;
-						height: 425px;
-						display: flex;
-						flex-direction: column;
-						transition: transform 0.3s, opacity 0.3s;
-						&:hover {
-							opacity: 1;
-							transform: scale(1.05);
-						}
-						.card-img {
-							position: relative;
-							width: 100%;
-							height: 203px;
-							background-size: cover;
-							border-radius: 12px 12px 0px 0px;
-							cursor: pointer;
-							div.status {
-								position: absolute;
-								padding: 6px 34px;
-								left: 20px;
-								top: 20px;
-								display: flex;
-								align-items: center;
-								border-radius: 6px;
-								background: #eb6753;
-								img {
-									width: 14px;
-									height: 14px;
-								}
-								span {
-									margin-left: 5px;
-									color: #fff;
-									font-family: $font;
-									font-size: 12px;
-									font-style: normal;
-									font-weight: 600;
-									line-height: normal;
-									text-transform: uppercase;
-								}
-							}
-							div.price {
-								position: absolute;
-								padding: 8px 12px;
-								left: 20px;
-								bottom: 20px;
-								border-radius: 6px;
-								background: #fff;
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-							}
-						}
-						.info {
-							padding: 20px 22px 17px;
-							display: flex;
-							flex-direction: column;
-							box-sizing: border-box;
-							border-radius: 0px 0px 12px 12px;
-							border: 1px solid rgba(196, 196, 196, 0.71);
-							border-top: none;
-							background: #fff;
-							box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-							.title {
-								overflow: hidden;
-								color: #181a20;
-								text-overflow: ellipsis;
-								white-space: nowrap;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								text-transform: capitalize;
-								cursor: pointer;
-							}
-							.desc {
-								margin-top: 5px;
-								overflow: hidden;
-								color: #717171;
-								font-family: $font;
-								font-size: 13px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: normal;
-								text-overflow: ellipsis;
-								white-space: nowrap;
-							}
-							.options {
-								margin-top: 15px;
-								display: flex;
-								flex-direction: row;
-								justify-content: space-between;
-								div {
-									display: flex;
-									flex-direction: row;
-									img {
-										margin-right: 5px;
-										width: 17px;
-										height: 17px;
-									}
-									span {
-										color: #181a20;
-										font-family: $font;
-										font-size: 13px;
-										font-style: normal;
-										font-weight: 400;
-										line-height: normal;
-									}
-								}
-							}
-							.bott {
-								display: flex;
-								flex-direction: row;
-								justify-content: space-between;
-								align-items: center;
-								p {
-									color: #181a20;
-									font-family: $font;
-									font-size: 13px;
-									font-style: normal;
-									font-weight: 500;
-									line-height: normal;
-									text-transform: capitalize;
-								}
-								button {
-									margin-left: 7px;
-									width: 16px;
-									height: 16px;
-									box-sizing: border-box;
-								}
-								.view-like-box {
-									display: flex;
-									flex-direction: row;
-									gap: 7px;
-									align-items: center;
-									.view-cnt {
-										color: #717171;
-										font-family: $font;
-										font-size: 13px;
-										font-style: normal;
-										font-weight: 400;
-										line-height: normal;
-										text-overflow: ellipsis;
-									}
-								}
-							}
-						}
-					}
-				}
-				.pagination-box {
-					display: flex;
-					flex-direction: row;
-					justify-content: center;
-					align-items: center;
-					.swiper-pagination-bullet.swiper-pagination-bullet-active {
-						background: #000000;
-					}
-					.swiper-popular-next {
-						margin-left: 20px;
-						cursor: pointer;
-					}
-					.swiper-popular-prev {
-						margin-right: 20px;
-						cursor: pointer;
-					}
-				}
-			}
-		}
-		.video-frame {
-			width: 100%;
-			height: 678px;
-			background: black;
-			transform: perspective(0px);
-			box-shadow: -3px 0px 20px 14px #34343480;
-		}
-		.top-properties {
-			padding: 108px 0px 76px;
-			width: 100%;
-			height: 697px;
-			display: flex;
-			flex-direction: row;
-			.container {
-				flex-direction: column;
-				.card-box {
-					position: relative;
-					margin-top: 64px;
-					display: flex;
-					flex-direction: row;
-					.top-property-swiper {
-						width: 100%;
-						height: 400px;
-						display: flex;
-						flex-direction: row;
-						.top-property-slide {
-							width: auto;
-							height: auto;
-							display: flex;
-							margin: 10px 0 0 10px;
-						}
-					}
-					.top-card-box {
-						position: relative;
-						width: 300px;
-						height: 375px;
-						display: flex;
-						flex-direction: column;
-						transition: transform 0.3s;
-						&:hover {
-							opacity: 1;
-							transform: scale(1.05);
-						}
-						.card-img {
-							position: relative;
-							width: 100%;
-							height: 203px;
-							background-size: cover;
-							border-radius: 12px 12px 0px 0px;
-							cursor: pointer;
-							div {
-								position: absolute;
-								padding: 8px 12px;
-								left: 12px;
-								bottom: 12px;
-								border-radius: 6px;
-								background: #fff;
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-							}
-						}
-						.info {
-							padding: 20px 22px 17px;
-							display: flex;
-							flex-direction: column;
-							box-sizing: border-box;
-							border-radius: 0px 0px 12px 12px;
-							border: 1px solid rgba(196, 196, 196, 0.71);
-							border-top: none;
-							background: #fff;
-							box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-							.title {
-								overflow: hidden;
-								color: #181a20;
-								text-overflow: ellipsis;
-								white-space: nowrap;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								text-transform: capitalize;
-								cursor: pointer;
-							}
-							.desc {
-								margin-top: 5px;
-								overflow: hidden;
-								color: #717171;
-								font-family: $font;
-								font-size: 13px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: normal;
-								text-overflow: ellipsis;
-								white-space: nowrap;
-							}
-							.options {
-								margin-top: 15px;
-								display: flex;
-								flex-direction: row;
-								justify-content: space-between;
-								div {
-									display: flex;
-									flex-direction: row;
-									img {
-										margin-right: 5px;
-										width: 17px;
-										height: 17px;
-									}
-									span {
-										color: #181a20;
-										font-family: $font;
-										font-size: 13px;
-										font-style: normal;
-										font-weight: 400;
-										line-height: normal;
-									}
-								}
-							}
-							.bott {
-								display: flex;
-								flex-direction: row;
-								justify-content: space-between;
-								align-items: center;
-								p {
-									color: #181a20;
-									font-family: $font;
-									font-size: 13px;
-									font-style: normal;
-									font-weight: 400;
-									line-height: normal;
-									text-transform: capitalize;
-								}
-								button {
-									margin-left: 7px;
-									width: 16px;
-									height: 16px;
-									box-sizing: border-box;
-								}
-								.view-like-box {
-									display: flex;
-									flex-direction: row;
-									gap: 7px;
-									align-items: center;
-									.view-cnt {
-										color: #717171;
-										font-family: $font;
-										font-size: 13px;
-										font-style: normal;
-										font-weight: 400;
-										line-height: normal;
-										text-overflow: ellipsis;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		.top-agents {
-			position: relative;
-			padding: 153px 0px 135px;
-			width: 100%;
-			height: 722px;
-			display: flex;
-			flex-direction: row;
-			background: #f6f6f6;
-			.container {
-				position: relative;
-				flex-direction: column;
-				align-items: center;
-				.wrapper {
-					width: 100%;
-					margin-top: 83px;
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					justify-content: space-between;
-					.switch-btn {
-						width: 53px;
-						height: 53px;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						border-radius: 50%;
-						background: #ffffff;
-						filter: drop-shadow(0px 10px 35px rgba(5, 16, 54, 0.1));
-						cursor: pointer;
-						svg {
-							width: 14px;
-							height: 14px;
-						}
-						&.swiper-agents-next {
-							transform: rotate(180deg);
-						}
-					}
-					.card-wrapper {
-						width: 1174px;
-						height: 280px;
-						display: flex;
-						flex-direction: row;
-						.top-agents-swiper {
-							width: 99.7%;
-							height: 280px;
-							display: flex;
-							flex-direction: row;
-							.top-agents-slide {
-								width: auto;
-								height: auto;
-								display: flex;
-							}
-						}
-						.top-agent-card {
-							width: 205px;
-							height: 280px;
-							display: flex;
-							flex-direction: column;
-							img {
-								width: 209px;
-								height: 209px;
-								border-radius: 50%;
-								cursor: pointer;
-								object-fit: cover;
-							}
-							strong {
-								margin-top: 20px;
-								color: #181a20;
-								text-align: center;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								text-transform: capitalize;
-								cursor: pointer;
-							}
-							span {
-								color: #181a20;
-								text-align: center;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 28px;
-							}
-						}
-					}
-				}
-			}
-		}
-		.events {
-			position: relative;
-			padding: 100px 0px 92px;
-			width: 100%;
-			height: 810px;
-			display: flex;
-			flex-direction: row;
-			background: #181a20;
-			.container {
-				flex-direction: column;
-				align-items: center;
-				.card-wrapper {
-					position: relative;
-					margin-top: 48px;
-					width: 100%;
-					height: auto;
-					display: flex;
-					flex-direction: row;
-					justify-content: space-between;
-					.event-card {
-						position: relative;
-						width: 300px;
-						height: 420px;
-						border-radius: 12px;
-						opacity: 0.9;
-						cursor: pointer;
-						transition: opacity 0.4s;
-						&:hover {
-							opacity: 1;
-							scale: 1.05;
-							transition: 0.3s;
-							.more {
-								opacity: 1;
-							}
-						}
-						.info {
-							position: absolute;
-							display: flex;
-							flex-direction: column;
-							top: 35px;
-							left: 10px;
-							right: 10px;
-							strong {
-								color: #f64747;
-								font-family: $font;
-								font-size: 25px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								text-transform: capitalize;
-							}
-							span {
-								color: #f66767;
-								font-family: $font;
-								font-size: 20px;
-								font-style: normal;
-								font-weight: 500;
-								line-height: 28px;
-								text-transform: capitalize;
-							}
-						}
-						.more {
-							position: absolute;
-							left: 10px;
-							right: 10px;
-							bottom: 41px;
-							display: flex;
-							flex-direction: row;
-							align-items: center;
-							opacity: 0;
-							span {
-								padding: 0px 5px;
-								border-radius: 5px;
-								background: #fffdfdc4;
-								color: #9c67f6;
-								font-family: $font;
-								font-size: 16px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
-								text-align: justify;
-								cursor: pointer;
-							}
-						}
-					}
-				}
-			}
-		}
-		.community-board {
-			position: relative;
-			padding: 124px 0px 61px;
-			width: 100%;
-			height: 860px;
-			display: flex;
-			flex-direction: row;
-			.container {
-				flex-direction: column;
-				align-items: center;
-				.community-main {
-					width: 100%;
-					margin-top: 60px;
-					display: flex;
-					flex-direction: row;
-					justify-content: space-between;
-					.center-line {
-						height: 90%;
-						align-self: end;
-					}
-					.content-top {
-						margin-bottom: 26px;
-						width: 100%;
-						height: 30px;
-						display: flex;
-						flex-direction: row;
-						justify-content: flex-end;
-						align-items: center;
-						span {
-							font-family: $font;
-							font-style: normal;
-							font-weight: 500;
-							font-size: 16px;
-							line-height: 36px;
-							color: #616161;
-							cursor: pointer;
-						}
-						img {
-							margin-left: 10px;
-							width: 12px;
-							height: 12px;
-						}
-					}
-					.community-left {
-						width: 642px;
-						height: auto;
-						display: flex;
-						flex-direction: column;
-						.card-wrap {
-							display: flex;
-							flex-direction: row;
-							flex-wrap: wrap;
-							.vertical-card {
-								margin-right: 12px;
-								margin-bottom: 18px;
-								width: 202px;
-								display: flex;
-								flex-direction: column;
-								cursor: pointer;
-								.community-img {
-									width: 100%;
-									height: 141px;
-									background-size: cover;
-									background-repeat: round;
-									border-radius: 5px;
-									div {
-										width: 32px;
-										height: 32px;
-										display: flex;
-										justify-content: center;
-										align-items: center;
-										background: #f54d56;
-										border-radius: 5px 0px;
-										font-family: $font;
-										font-style: normal;
-										font-weight: 400;
-										font-size: 19px;
-										line-height: 36px;
-										letter-spacing: -0.015em;
-										color: #bdbdbd;
-									}
-								}
-								strong {
-									margin-top: 10px;
-									font-family: $font;
-									font-style: normal;
-									font-weight: 700;
-									font-size: 18px;
-									line-height: 36px;
-									letter-spacing: 0.105em;
-									color: #000000;
-								}
-								span {
-									font-family: $font;
-									font-style: normal;
-									font-weight: 400;
-									font-size: 16px;
-									line-height: 19px;
-									letter-spacing: -0.015em;
-									color: #d3d3d3;
-								}
-							}
-						}
-					}
-					.community-right {
-						width: 590px;
-						height: auto;
-						display: flex;
-						flex-direction: column;
-						.horizontal-card {
-							display: flex;
-							flex-direction: row;
-							cursor: pointer;
-							margin-bottom: 34px;
-							img {
-								width: 180px;
-								height: 111px;
-								border-radius: 7px;
-							}
-							div {
-								margin-left: 25px;
-								display: flex;
-								flex-direction: column;
-								strong {
-									margin-top: 15px;
-									font-family: $font;
-									font-style: normal;
-									font-weight: 500;
-									font-size: 13px;
-									letter-spacing: 0.105em;
-									color: #212121;
-								}
-								span {
-									font-family: $font;
-									font-style: normal;
-									font-weight: 500;
-									font-size: 13px;
-									line-height: 36px;
-									letter-spacing: 0.105em;
-									color: #bdbdbd;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+// =================================================================
+// ELITE FITNESS — HOMEPAGE  |  Light Sports + Neon Theme
+// Primary Neon : #c8f700 (lime)   Secondary Neon : #00c8e8 (cyan)
+// =================================================================
+
+// ---------- tokens ----------
+$bg          : #f2f2f7;
+$bg-alt      : #ffffff;
+$card        : #ffffff;
+$card-h      : #fafff0;
+$neon        : #c8f700;
+$neon-dark   : #8fb200;
+$neon-bg     : rgba(200,247,0,.12);
+$neon-glow   : rgba(200,247,0,.35);
+$cyan        : #00a8c8;
+$cyan-bg     : rgba(0,168,200,.1);
+$cyan-border : rgba(0,168,200,.3);
+$red         : #e53935;
+$dark        : #0d0d1a;
+$dark2       : #2a2a3a;
+$g1          : #4a4a5a;
+$g2          : #8888a0;
+$g3          : #d0d0e0;
+$g4          : #ebebf2;
+$border      : #e4e4ef;
+$border-h    : #c8f700;
+$r           : 12px;
+$r-sm        : 8px;
+$r-lg        : 20px;
+
+// ---------- mixins ----------
+@mixin label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: $neon-dark;
+}
+
+@mixin h2 {
+  font-size: 34px;
+  font-weight: 900;
+  color: $dark;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+@mixin card-base {
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $r;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  transition: border-color .25s, box-shadow .25s, transform .2s;
+  &:hover {
+    border-color: $neon;
+    box-shadow: 0 4px 20px $neon-glow;
+    transform: translateY(-2px);
+  }
+}
+
+@mixin neon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border: 1.5px solid $neon;
+  border-radius: $r-sm;
+  color: $neon-dark;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: $neon-bg;
+  cursor: pointer;
+  transition: background .2s, color .2s, box-shadow .2s;
+  &:hover {
+    background: $neon;
+    color: $dark;
+    box-shadow: 0 0 14px $neon-glow;
+  }
+}
+
+@mixin icon-btn {
+  width: 28px !important;
+  height: 28px !important;
+  background: $g4 !important;
+  border: 1px solid $border !important;
+  border-radius: 6px !important;
+  color: $g2 !important;
+  transition: all .2s !important;
+  svg { font-size: 13px !important; }
+  &:hover {
+    border-color: $neon !important;
+    color: $neon-dark !important;
+    background: $neon-bg !important;
+  }
+  &.liked, &.following {
+    border-color: $red !important;
+    color: $red !important;
+    background: rgba(229,57,53,.08) !important;
+  }
+}
+
+// ---------- page shell ----------
+.home-page {
+  background: $bg;
+  min-height: 100vh;
+}
+
+// =================================================================
+//  SECTION HEADER  (shared .info-box)
+// =================================================================
+.info-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 32px;
+
+  .left {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .section-label { @include label; }
+  .section-title { @include h2; }
+  .section-sub {
+    font-size: 14px;
+    color: $g2;
+    margin-top: 4px;
+  }
+
+  .right {
+    .more-box { @include neon-btn; }
+  }
+
+  .pagination-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    svg {
+      color: $g2;
+      cursor: pointer;
+      font-size: 20px;
+      transition: color .2s;
+      &:hover { color: $neon-dark; }
+    }
+    .swiper-clothes-pagination,
+    .swiper-equip-pagination {
+      display: flex;
+      gap: 6px;
+      .swiper-pagination-bullet {
+        width: 6px; height: 6px;
+        background: $g3;
+        border-radius: 50%;
+        &-active { background: $neon-dark; width: 18px; border-radius: 3px; }
+      }
+    }
+  }
+}
+
+// =================================================================
+//  1. TREND PRODUCTS  —  "Fuel Your Gains"
+// =================================================================
+.trend-products {
+  padding: 80px 0;
+  background: $bg-alt;
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+  .divider-line {
+    height: 2px;
+    background: linear-gradient(90deg, $neon 0%, transparent 80%);
+    margin-bottom: 28px;
+    border-radius: 2px;
+  }
+
+  .product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .empty-list {
+    padding: 40px;
+    text-align: center;
+    color: $g2;
+    font-size: 14px;
+  }
+}
+
+.trend-product-card {
+  @include card-base;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+
+  .rank-number {
+    width: 36px;
+    flex-shrink: 0;
+    .rank-text {
+      font-size: 22px;
+      font-weight: 900;
+      color: $neon-dark;
+      line-height: 1;
+      font-feature-settings: "tnum";
+    }
+  }
+
+  .product-thumb {
+    width: 64px;
+    height: 64px;
+    border-radius: $r-sm;
+    background-size: cover;
+    background-position: center;
+    background-color: $g4;
+    flex-shrink: 0;
+    border: 1px solid $border;
+  }
+
+  .product-info {
+    flex: 1;
+    min-width: 0;
+
+    .product-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: $dark;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &:hover { color: $neon-dark; }
+    }
+
+    .product-brand {
+      font-size: 12px;
+      color: $g2;
+      margin-top: 2px;
+    }
+
+    .macro-chip {
+      background: $neon-bg !important;
+      color: $neon-dark !important;
+      border: 1px solid rgba(200,247,0,.4) !important;
+      font-size: 10px !important;
+      height: 20px !important;
+      .MuiChip-label { padding: 0 8px !important; }
+      .MuiChip-icon { color: $neon-dark !important; }
+
+      &.protein {
+        background: $cyan-bg !important;
+        color: $cyan !important;
+        border-color: $cyan-border !important;
+        .MuiChip-icon { color: $cyan !important; }
+      }
+      &.benefit {
+        background: rgba(255,107,0,.08) !important;
+        color: #d45f00 !important;
+        border-color: rgba(255,107,0,.25) !important;
+      }
+    }
+  }
+
+  .product-actions {
+    flex-shrink: 0;
+
+    .product-price {
+      font-size: 16px;
+      font-weight: 800;
+      color: $neon-dark;
+      text-align: right;
+    }
+
+    .action-btn { @include icon-btn; }
+    .count-text { font-size: 11px; color: $g2; min-width: 18px; }
+  }
+}
+
+// =================================================================
+//  2. TOP TRAINERS  —  "Elite Coaches"
+// =================================================================
+.top-trainers {
+  padding: 80px 0;
+  background: $bg;
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+  .trainers-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .trainer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.top-trainer-card {
+  @include card-base;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+
+  .trainer-photo-wrap {
+    position: relative;
+    height: 240px;
+    flex-shrink: 0;
+    cursor: pointer;
+
+    .trainer-photo {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center top;
+      background-color: $g4;
+      transition: transform .4s ease;
+    }
+
+    .trainer-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: $neon;
+      border-radius: 5px;
+      padding: 3px 10px;
+      p {
+        font-size: 10px;
+        font-weight: 900;
+        color: $dark;
+        letter-spacing: 1.5px;
+      }
+    }
+
+    &:hover .trainer-photo { transform: scale(1.04); }
+  }
+
+  .trainer-body {
+    padding: 14px 16px 0;
+
+    .trainer-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: $dark;
+      &:hover { color: $neon-dark; }
+    }
+
+    .trainer-type {
+      font-size: 11px;
+      color: $cyan;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .trainer-stats {
+      gap: 0;
+      border-top: 1px solid $border;
+      margin-top: 12px;
+      padding-top: 12px;
+
+      .stat-item {
+        flex: 1;
+        text-align: center;
+        .stat-num { font-size: 16px; font-weight: 800; color: $dark; line-height: 1; }
+        .stat-lbl { font-size: 10px; color: $g2; text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
+      }
+      .stat-divider {
+        width: 1px;
+        background: $border;
+        align-self: stretch;
+      }
+    }
+  }
+
+  .trainer-actions {
+    padding: 12px 16px;
+    border-top: 1px solid $border;
+    margin-top: 12px;
+
+    .follow-btn, .like-btn, .view-btn { @include icon-btn; }
+    .count-text { font-size: 11px; color: $g2; min-width: 16px; }
+
+    .comment-toggle-btn {
+      @include icon-btn;
+      gap: 3px;
+      width: auto !important;
+      padding: 0 8px !important;
+      .comment-count { font-size: 11px; }
+      &.active { border-color: $cyan !important; color: $cyan !important; background: $cyan-bg !important; }
+    }
+  }
+
+  .comment-panel {
+    padding: 0 16px 14px;
+    border-top: 1px solid $border;
+    padding-top: 12px;
+  }
+}
+
+// =================================================================
+//  3. POPULAR PROPERTIES  —  "Gym Spaces"
+// =================================================================
+.popular-properties {
+  padding: 80px 0;
+  background: $bg-alt;
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+  .card-box {
+    position: relative;
+    .popular-property-swiper {
+      overflow: visible;
+      .popular-property-slide { width: 280px !important; }
+    }
+  }
+
+  .pagination-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 24px;
+    svg {
+      color: $g2;
+      cursor: pointer;
+      font-size: 22px;
+      transition: color .2s;
+      &:hover { color: $neon-dark; }
+    }
+    .swiper-popular-pagination {
+      display: flex; gap: 6px;
+      .swiper-pagination-bullet {
+        width: 6px; height: 6px; background: $g3; border-radius: 50%;
+        &-active { background: $neon-dark; width: 18px; border-radius: 3px; }
+      }
+    }
+  }
+}
+
+.popular-property-card {
+  @include card-base;
+  overflow: hidden;
+  cursor: pointer;
+
+  .prop-image-wrap {
+    position: relative;
+    height: 180px;
+    .prop-image {
+      width: 100%; height: 100%;
+      background-size: cover; background-position: center;
+      background-color: $g4;
+    }
+    .top-badge {
+      position: absolute; top: 10px; left: 10px;
+      background: $neon; border-radius: 6px;
+      padding: 3px 8px;
+      display: flex; align-items: center; gap: 4px;
+      img { width: 12px; filter: brightness(0); }
+      p { font-size: 10px; font-weight: 900; color: $dark; letter-spacing: 1px; }
+    }
+    .price-tag {
+      position: absolute; bottom: 10px; right: 10px;
+      background: rgba(255,255,255,.9);
+      border: 1.5px solid $neon;
+      border-radius: $r-sm;
+      padding: 4px 10px;
+      backdrop-filter: blur(6px);
+      p { font-size: 14px; font-weight: 800; color: $neon-dark; }
+    }
+  }
+
+  .prop-body {
+    padding: 14px;
+
+    .prop-title {
+      font-size: 14px; font-weight: 700; color: $dark;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      &:hover { color: $neon-dark; }
+    }
+    .prop-address { font-size: 12px; color: $g2; margin-top: 2px; }
+
+    .prop-specs {
+      margin-top: 10px;
+      .spec-item {
+        p { font-size: 12px; color: $g1; }
+        svg { color: $cyan; }
+      }
+    }
+
+    .prop-divider { border-color: $border; margin: 10px 0; }
+
+    .prop-footer {
+      .prop-type-badge {
+        background: $cyan-bg;
+        border: 1px solid $cyan-border;
+        border-radius: 5px; padding: 2px 8px;
+        p { font-size: 10px; font-weight: 700; color: $cyan; letter-spacing: 1px; text-transform: uppercase; }
+      }
+      .action-icon { @include icon-btn; }
+      .action-count { font-size: 11px; color: $g2; min-width: 18px; }
+      .comment-icon {
+        @include icon-btn;
+        width: auto !important;
+        padding: 0 6px !important;
+        &.active { border-color: $cyan !important; color: $cyan !important; }
+      }
+    }
+
+    .comment-section { margin-top: 10px; padding-top: 10px; border-top: 1px solid $border; }
+  }
+}
+
+// =================================================================
+//  4. TOP AGENTS  —  "Meet The Agents"
+// =================================================================
+.top-agents {
+  padding: 80px 0;
+  background: $bg-alt;
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+  .agents-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .agents-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.top-agent-card {
+  @include card-base;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+
+  .agent-photo-wrap {
+    position: relative;
+    height: 240px;
+    flex-shrink: 0;
+    cursor: pointer;
+    overflow: hidden;
+
+    .agent-photo {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center top;
+      background-color: $g4;
+      transition: transform .4s ease;
+    }
+
+    .agent-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: $cyan;
+      border-radius: 5px;
+      padding: 3px 10px;
+      p {
+        font-size: 10px;
+        font-weight: 900;
+        color: #fff;
+        letter-spacing: 1.5px;
+      }
+    }
+
+    &:hover .agent-photo { transform: scale(1.04); }
+  }
+
+  .agent-body {
+    padding: 14px 16px 0;
+    flex: 1;
+
+    .agent-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: $dark;
+      &:hover { color: $cyan; }
+    }
+
+    .agent-desc {
+      font-size: 12px;
+      color: $g2;
+      margin-top: 4px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .agent-stat {
+      p { font-size: 12px; color: $g1; }
+      svg { color: $neon-dark; font-size: 13px !important; }
+    }
+  }
+
+  .agent-actions {
+    padding: 12px 16px;
+    border-top: 1px solid $border;
+    margin-top: 12px;
+
+    .follow-btn, .like-btn, .view-btn { @include icon-btn; }
+    .action-count { font-size: 11px; color: $g2; min-width: 18px; }
+
+    .comment-toggle {
+      @include icon-btn;
+      width: auto !important;
+      padding: 0 8px !important;
+      gap: 3px;
+      .comment-cnt { font-size: 11px; }
+      &.active { border-color: $cyan !important; color: $cyan !important; background: $cyan-bg !important; }
+    }
+  }
+
+  .comment-panel {
+    padding: 12px 16px 14px;
+    border-top: 1px solid $border;
+  }
+}
+
+// =================================================================
+//  5. TOP CLOTHES  —  "Athletic Wear"
+// =================================================================
+.top-clothes {
+  padding: 80px 0;
+  background: $bg-alt;
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+  .card-box {
+    .top-clothes-swiper { overflow: visible; }
+    .top-clothes-slide { width: 240px !important; }
+  }
+}
+
+.top-clothes-card {
+  @include card-base;
+  overflow: hidden;
+  cursor: pointer;
+
+  .clothes-image-wrap {
+    position: relative;
+    height: 220px;
+    .clothes-image {
+      width: 100%; height: 100%;
+      background-size: cover; background-position: center;
+      background-color: $g4;
+    }
+    .price-pill {
+      position: absolute; bottom: 10px; left: 10px;
+      background: $neon; border-radius: 20px;
+      padding: 3px 12px;
+      p { font-size: 13px; font-weight: 800; color: $dark; }
+    }
+    .bestseller-pill {
+      position: absolute; top: 10px; right: 10px;
+      background: rgba(229,57,53,.1);
+      border: 1px solid rgba(229,57,53,.35);
+      border-radius: 5px; padding: 2px 8px;
+      p { font-size: 9px; font-weight: 700; color: $red; letter-spacing: 1px; text-transform: uppercase; }
+    }
+  }
+
+  .clothes-body {
+    padding: 12px 14px;
+
+    .clothes-name {
+      font-size: 14px; font-weight: 700; color: $dark;
+      &:hover { color: $neon-dark; }
+    }
+    .clothes-brand { font-size: 11px; color: $g2; margin-top: 2px; }
+
+    .meta-pill {
+      background: $g4 !important;
+      border: 1px solid $border !important;
+      color: $g1 !important;
+      font-size: 10px !important; height: 18px !important;
+      .MuiChip-label { padding: 0 6px !important; }
+      &.gender {
+        background: $cyan-bg !important;
+        border-color: $cyan-border !important;
+        color: $cyan !important;
+      }
+    }
+
+    .color-dot-wrap {
+      display: flex; align-items: center; gap: 5px;
+      .color-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid $border; }
+      .color-label { font-size: 11px; color: $g2; }
+    }
+    .material-chip {
+      background: $neon-bg !important;
+      border: 1px solid rgba(200,247,0,.4) !important;
+      color: $neon-dark !important; font-size: 10px !important; height: 18px !important;
+      .MuiChip-label { padding: 0 6px !important; }
+    }
+
+    .clothes-footer {
+      .stock-info {
+        p { font-size: 11px; color: $g2; }
+        svg { color: $neon-dark; font-size: 13px !important; }
+      }
+      .action-btn { @include icon-btn; }
+      .count { font-size: 11px; color: $g2; min-width: 16px; }
+      .comment-btn {
+        width: auto !important; padding: 0 6px !important;
+        &.active { border-color: $cyan !important; color: $cyan !important; }
+      }
+    }
+
+    .comment-section { margin-top: 10px; padding-top: 10px; border-top: 1px solid $border; }
+  }
+}
+
+// =================================================================
+//  6. TOP SALES MANAGERS  —  "Our Sales Team"
+// =================================================================
+.top-sales-managers {
+  padding: 80px 0;
+  background: $bg;
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+  .managers-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .managers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.top-sales-manager-card {
+  @include card-base;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+
+  .manager-photo-wrap {
+    position: relative;
+    height: 240px;
+    flex-shrink: 0;
+    overflow: hidden;
+    cursor: pointer;
+
+    .manager-photo {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center top;
+      background-color: $g4;
+      transition: transform .4s ease;
+    }
+
+    .manager-role-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: $neon;
+      border-radius: 5px;
+      padding: 3px 10px;
+      p {
+        font-size: 10px;
+        font-weight: 900;
+        color: $dark;
+        letter-spacing: 1.5px;
+      }
+    }
+
+    &:hover .manager-photo { transform: scale(1.04); }
+  }
+
+  .manager-body {
+    padding: 14px 16px 0;
+    flex: 1;
+
+    .manager-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: $dark;
+      cursor: pointer;
+      &:hover { color: $neon-dark; }
+    }
+
+    .sales-badge {
+      background: $neon-bg;
+      border: 1px solid rgba(200,247,0,.4);
+      border-radius: 5px;
+      padding: 2px 8px;
+      p { font-size: 9px; font-weight: 800; color: $neon-dark; letter-spacing: 1px; text-transform: uppercase; }
+    }
+
+    .manager-desc {
+      font-size: 12px;
+      color: $g2;
+      margin-top: 4px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .sales-stat {
+      p { font-size: 11px; color: $g1; }
+      svg { color: $neon-dark; font-size: 12px !important; }
+    }
+  }
+
+  .manager-actions {
+    padding: 12px 16px;
+    border-top: 1px solid $border;
+    margin-top: 12px;
+
+    .follow-btn, .like-btn, .view-btn { @include icon-btn; }
+    .sm-count { font-size: 11px; color: $g2; min-width: 18px; }
+
+    .comment-toggle {
+      @include icon-btn;
+      width: auto !important;
+      padding: 0 8px !important;
+      gap: 3px;
+      .comment-count { font-size: 11px; }
+      &.active { border-color: $cyan !important; color: $cyan !important; background: $cyan-bg !important; }
+    }
+  }
+
+  .comment-panel {
+    padding: 12px 16px 14px;
+    border-top: 1px solid $border;
+  }
+}
+
+// =================================================================
+//  7. TOP EQUIPMENTS  —  "Beast Machines"
+// =================================================================
+.top-equipments {
+  padding: 80px 0;
+  background: $bg-alt;
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+  .card-box {
+    .top-equipment-swiper { overflow: visible; }
+    .top-equipment-slide { width: 250px !important; }
+  }
+}
+
+.top-equipment-card {
+  @include card-base;
+  overflow: hidden;
+  cursor: pointer;
+
+  .equipment-image-wrap {
+    position: relative; height: 200px;
+    .equipment-image {
+      width: 100%; height: 100%;
+      background-size: cover; background-position: center;
+      background-color: $g4;
+    }
+    .bestseller-tag {
+      position: absolute; top: 10px; left: 10px;
+      background: $neon; border-radius: 5px; padding: 2px 10px;
+      p { font-size: 9px; font-weight: 900; color: $dark; letter-spacing: 1px; text-transform: uppercase; }
+    }
+  }
+
+  .equipment-body {
+    padding: 14px;
+
+    .equipment-name {
+      font-size: 14px; font-weight: 700; color: $dark;
+      &:hover { color: $neon-dark; }
+    }
+    .equipment-brand { font-size: 11px; color: $g2; margin-top: 2px; }
+
+    .equip-chip {
+      font-size: 10px !important; height: 19px !important;
+      .MuiChip-label { padding: 0 7px !important; }
+      .MuiChip-icon { font-size: 11px !important; }
+      &.category {
+        background: $neon-bg !important;
+        border: 1px solid rgba(200,247,0,.4) !important;
+        color: $neon-dark !important;
+      }
+      &.capacity {
+        background: $cyan-bg !important;
+        border: 1px solid $cyan-border !important;
+        color: $cyan !important;
+        .MuiChip-icon { color: $cyan !important; }
+      }
+      &.location {
+        background: $g4 !important;
+        border: 1px solid $border !important;
+        color: $g1 !important;
+        .MuiChip-icon { color: $g2 !important; }
+      }
+    }
+
+    .equipment-footer {
+      .equipment-price { font-size: 16px; font-weight: 800; color: $neon-dark; line-height: 1; }
+      .equipment-stock { font-size: 11px; color: $g2; margin-top: 2px; }
+      .equip-action-btn { @include icon-btn; }
+      .equip-count { font-size: 11px; color: $g2; min-width: 18px; }
+      .comment-btn {
+        width: auto !important; padding: 0 6px !important;
+        &.active { border-color: $cyan !important; color: $cyan !important; }
+      }
+    }
+
+    .comment-section { margin-top: 10px; padding-top: 10px; border-top: 1px solid $border; }
+  }
+}
+
+// =================================================================
+//  8. ADVERTISEMENT
+// =================================================================
+.advertisement {
+  padding: 80px 0;
+  background: $bg;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 480px; height: 480px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,247,0,.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+
+  .ad-inner {
+    gap: 60px;
+    align-items: center;
+  }
+
+  .ad-left {
+    flex: 1;
+
+    .ad-eyebrow-wrap {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
+      .ad-eyebrow-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: $neon;
+        border: 1px solid $neon-dark;
+      }
+      .ad-eyebrow { @include label; }
+    }
+
+    .ad-title {
+      font-size: 48px; font-weight: 900;
+      color: $dark; line-height: 1.05;
+      letter-spacing: -1px;
+    }
+
+    .ad-sub {
+      font-size: 15px; color: $g2;
+      line-height: 1.7; margin-top: 16px;
+      max-width: 420px;
+    }
+
+    .ad-btn-primary {
+      background: $neon; border-radius: $r-sm;
+      padding: 12px 28px; cursor: pointer;
+      transition: box-shadow .2s, transform .2s;
+      p { font-size: 14px; font-weight: 800; color: $dark; letter-spacing: .5px; }
+      &:hover {
+        box-shadow: 0 4px 20px $neon-glow;
+        transform: translateY(-1px);
+      }
+    }
+
+    .ad-btn-play {
+      display: flex; align-items: center; gap: 6px;
+      cursor: pointer; padding: 10px 0;
+      svg { color: $cyan; }
+      p { font-size: 14px; color: $g1; font-weight: 600; }
+      &:hover p { color: $cyan; }
+    }
+
+    .ad-stats-row {
+      padding-top: 32px;
+      border-top: 2px solid $neon;
+
+      .ad-stat-block {
+        display: flex; flex-direction: column; gap: 2px;
+        .ad-stat-divider { width: 20px; height: 3px; background: $neon; margin-bottom: 6px; border-radius: 2px; }
+        .ad-stat-num { font-size: 28px; font-weight: 900; color: $dark; line-height: 1; }
+        .ad-stat-label { font-size: 11px; color: $g2; text-transform: uppercase; letter-spacing: 1.5px; }
+      }
+    }
+  }
+
+  .ad-right {
+    flex-shrink: 0;
+    width: 420px;
+
+    .ad-video-wrap, .ad-poster-wrap {
+      position: relative;
+      width: 100%; height: 340px;
+      border-radius: $r-lg;
+      overflow: hidden;
+      border: 2px solid $neon;
+      box-shadow: 0 8px 32px $neon-glow;
+    }
+
+    .ad-video-close {
+      position: absolute; top: 10px; right: 10px; z-index: 10;
+      background: rgba(255,255,255,.85) !important;
+      color: $dark !important;
+    }
+
+    .ad-poster-bg {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #f0f0f6 0%, #e8e8f0 100%);
+    }
+
+    .ad-poster-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px;
+
+      .ad-play-circle {
+        width: 72px; height: 72px; border-radius: 50%;
+        border: 3px solid $neon;
+        background: $neon-bg;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer;
+        transition: transform .2s, box-shadow .2s;
+        svg { color: $neon-dark; font-size: 36px !important; }
+        &:hover {
+          transform: scale(1.08);
+          box-shadow: 0 0 24px $neon-glow;
+        }
+      }
+
+      .ad-poster-label { font-size: 13px; color: $g2; letter-spacing: 1.5px; text-transform: uppercase; }
+    }
+  }
+
+  // Mobile
+  .ad-content-mobile {
+    padding: 32px 0;
+    .ad-eyebrow { @include label; margin-bottom: 12px; }
+    .ad-title { font-size: 32px; font-weight: 900; color: $dark; line-height: 1.1; }
+    .ad-sub { font-size: 14px; color: $g2; margin-top: 12px; line-height: 1.6; }
+    .ad-cta-btn {
+      display: inline-block; margin-top: 24px;
+      background: $neon; border-radius: $r-sm; padding: 12px 24px;
+      p { font-size: 14px; font-weight: 800; color: $dark; }
+    }
+  }
+}
+
+// =================================================================
+//  9. COMMUNITY BOARDS  —  "Fitness Community"
+// =================================================================
+.community-board {
+  padding: 80px 0;
+  background: $bg-alt;
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+  h1 {
+    font-size: 34px !important;
+    font-weight: 900 !important;
+    color: $dark !important;
+    letter-spacing: -0.5px !important;
+    margin-bottom: 32px !important;
+    &::before {
+      content: '— ';
+      color: $neon-dark;
+    }
+  }
+
+  .community-main {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  .community-left, .community-right {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .content-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid $neon;
+
+    span, a span {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: $neon-dark;
+    }
+
+    img {
+      width: 18px;
+      opacity: 0.6;
+      transition: opacity .2s;
+      &:hover { opacity: 1; }
+    }
+  }
+
+  .card-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &.vertical { gap: 10px; }
+  }
+}
+
+.vertical-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $r-sm;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s;
+
+  &:hover {
+    border-color: $neon;
+    box-shadow: 0 2px 12px $neon-glow;
+  }
+
+  .community-img {
+    width: 52px; height: 52px;
+    border-radius: 6px;
+    background-size: cover; background-position: center;
+    background-color: $g4;
+    flex-shrink: 0;
+    position: relative;
+    div {
+      position: absolute; bottom: 2px; right: 4px;
+      font-size: 11px; font-weight: 900; color: $neon-dark;
+    }
+  }
+
+  strong {
+    font-size: 13px; font-weight: 600; color: $dark;
+    overflow: hidden; text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    flex: 1;
+  }
+
+  span {
+    font-size: 10px; color: $cyan;
+    text-transform: uppercase; letter-spacing: 1px;
+    display: block; margin-top: 3px;
+  }
+}
+
+.horizontal-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $r-sm;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s;
+
+  &:hover {
+    border-color: $neon;
+    box-shadow: 0 2px 12px $neon-glow;
+  }
+
+  img {
+    width: 60px; height: 52px;
+    object-fit: cover; border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  div {
+    flex: 1; min-width: 0;
+    strong {
+      font-size: 13px; font-weight: 600; color: $dark;
+      overflow: hidden; text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    span { font-size: 11px; color: $g2; display: block; margin-top: 4px; }
+  }
 }

@@ -1,15 +1,18 @@
 import { NextPage } from 'next';
 import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import withLayoutMain from '../libs/components/layout/LayoutHome';
-import CommunityBoards from '../libs/components/homepage/CommunityBoards';
+import { Stack } from '@mui/material';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+import TrendProducts from '../libs/components/homepage/TrendProducts';
+import TopTrainers from '../libs/components/homepage/TopTrainers';
 import PopularProperties from '../libs/components/homepage/PopularProperties';
 import TopAgents from '../libs/components/homepage/TopAgents';
-import Events from '../libs/components/homepage/Events';
-import TrendProperties from '../libs/components/homepage/TrendProperties';
-import TopProperties from '../libs/components/homepage/TopProperties';
-import { Stack } from '@mui/material';
+import TopClothes from '../libs/components/homepage/TopClothes';
+import TopSalesManagers from '../libs/components/homepage/TopSalesManagers';
+import TopEquipments from '../libs/components/homepage/TopEquipments';
 import Advertisement from '../libs/components/homepage/Advertisement';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import CommunityBoards from '../libs/components/homepage/CommunityBoards';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -23,22 +26,28 @@ const Home: NextPage = () => {
 	if (device === 'mobile') {
 		return (
 			<Stack className={'home-page'}>
-				<TrendProperties />
+				<TrendProducts />
+				<TopTrainers />
 				<PopularProperties />
-				<Advertisement />
-				<TopProperties />
 				<TopAgents />
+				<TopClothes />
+				<TopSalesManagers />
+				<TopEquipments />
+				<Advertisement />
 			</Stack>
 		);
 	} else {
 		return (
 			<Stack className={'home-page'}>
-				<TrendProperties />
+				<TrendProducts />
+				<TopTrainers />
 				<PopularProperties />
-				<Advertisement />
-				<TopProperties />
 				<TopAgents />
-				<Events />
+				<TopClothes />
+				<TopSalesManagers />
+				<TopEquipments />
+				<TopSalesManagers />
+				<Advertisement />
 				<CommunityBoards />
 			</Stack>
 		);

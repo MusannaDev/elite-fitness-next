@@ -1,40 +1,44 @@
 import React, { useState } from 'react';
 import { Stack, Box, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import TopAgentCard from './TopAgentCard';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Navigation } from 'swiper';
+import WestIcon from '@mui/icons-material/West';
+import EastIcon from '@mui/icons-material/East';
+import TopTrainerCard from './TopTrainerCard';
 import { Member } from '../../types/member/member';
 import { AgentsInquiry } from '../../types/member/member.input';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_AGENTS } from '../../../apollo/user/query';
+import { GET_TRAINERS } from '../../../apollo/user/query';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../../apollo/user/mutation';
 import { T } from '../../types/common';
 import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import Link from 'next/link';
 
-interface TopAgentsProps {
+interface TopTrainersProps {
 	initialInput: AgentsInquiry;
 }
 
-const TopAgents = (props: TopAgentsProps) => {
+const TopTrainers = (props: TopTrainersProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
-	const [topAgents, setTopAgents] = useState<Member[]>([]);
+	const [topTrainers, setTopTrainers] = useState<Member[]>([]);
 
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
 	const [subscribe] = useMutation(SUBSCRIBE);
 	const [unsubscribe] = useMutation(UNSUBSCRIBE);
 
-	const { refetch } = useQuery(GET_AGENTS, {
+	const { refetch } = useQuery(GET_TRAINERS, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setTopAgents(data?.getAgents?.list);
+			setTopTrainers(data?.getTrainers?.list);
 		},
 	});
 
-	const likeAgentHandler = async (user: T, id: string) => {
+	const likeTrainerHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
@@ -46,11 +50,11 @@ const TopAgents = (props: TopAgentsProps) => {
 		}
 	};
 
-	const followAgentHandler = async (user: T, id: string) => {
+	const followTrainerHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
-			const isFollowing = topAgents.find((a) => a._id === id)?.meFollowed?.[0]?.myFollowing;
+			const isFollowing = topTrainers.find((t) => t._id === id)?.meFollowed?.[0]?.myFollowing;
 			if (isFollowing) {
 				await unsubscribe({ variables: { input: id } });
 			} else {
@@ -65,19 +69,19 @@ const TopAgents = (props: TopAgentsProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<Stack className="top-agents">
+			<Stack className="top-trainers">
 				<Stack className="container">
 					<Stack className="info-box">
-						<Typography className="section-label">FITNESS EXPERTS</Typography>
-						<Typography className="section-title">Meet The Agents</Typography>
+						<Typography className="section-label">Expert Staff</Typography>
+						<Typography className="section-title">Top Trainers</Typography>
 					</Stack>
-					<Stack className="agents-list">
-						{topAgents.map((agent) => (
-							<TopAgentCard
-								key={agent._id}
-								agent={agent}
-								likeAgentHandler={likeAgentHandler}
-								followAgentHandler={followAgentHandler}
+					<Stack className="trainer-list">
+						{topTrainers.map((trainer) => (
+							<TopTrainerCard
+								key={trainer._id}
+								trainer={trainer}
+								likeTrainerHandler={likeTrainerHandler}
+								followTrainerHandler={followTrainerHandler}
 							/>
 						))}
 					</Stack>
@@ -87,40 +91,40 @@ const TopAgents = (props: TopAgentsProps) => {
 	}
 
 	return (
-		<Stack className="top-agents">
+		<Stack className="top-trainers">
 			<Stack className="container">
 				<Stack className="info-box">
 					<Box className="left">
-						<Typography className="section-label">— FITNESS EXPERTS</Typography>
-						<Typography className="section-title">Meet The Agents</Typography>
-						<Typography className="section-sub">Connecting athletes with the right services</Typography>
+						<Typography className="section-label">— CERTIFIED PROS</Typography>
+						<Typography className="section-title">Elite Coaches</Typography>
+						<Typography className="section-sub">Train with the best — results guaranteed</Typography>
 					</Box>
 					<Box className="right">
-						<Link href="/member?memberType=AGENT">
+						<Link href="/member?memberType=TRAINER">
 							<Box className="more-box">
-								<Typography>All Agents</Typography>
+								<Typography>All Coaches</Typography>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</Box>
 						</Link>
 					</Box>
 				</Stack>
 
-				<Stack className="agents-strip">
-					{topAgents.map((agent) => (
-						<TopAgentCard
-							key={agent._id}
-							agent={agent}
-							likeAgentHandler={likeAgentHandler}
-							followAgentHandler={followAgentHandler}
+				<Box className="trainers-strip">
+					{topTrainers.map((trainer) => (
+						<TopTrainerCard
+							key={trainer._id}
+							trainer={trainer}
+							likeTrainerHandler={likeTrainerHandler}
+							followTrainerHandler={followTrainerHandler}
 						/>
 					))}
-				</Stack>
+				</Box>
 			</Stack>
 		</Stack>
 	);
 };
 
-TopAgents.defaultProps = {
+TopTrainers.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 6,
@@ -130,4 +134,4 @@ TopAgents.defaultProps = {
 	},
 };
 
-export default TopAgents;
+export default TopTrainers;

@@ -1,222 +1,479 @@
+// ============================================================
+// CS Center — Vertical Timeline Design
+// Font: DM Serif Display (headings) + DM Sans (body)
+// Aesthetic: Refined editorial · warm neutrals · ink accents
+// ============================================================
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+$font-serif: 'DM Serif Display', Georgia, serif;
+$font-sans: 'DM Sans', system-ui, sans-serif;
+
+// Palette
+$ink:       #1a1a18;
+$ink-60:    rgba(26, 26, 24, 0.6);
+$ink-20:    rgba(26, 26, 24, 0.12);
+$ink-08:    rgba(26, 26, 24, 0.06);
+$accent:    #C85A3A;       // warm terracotta
+$accent-bg: #FDF4F1;       // blush tint
+$event-bg:  #FEF6EC;       // warm amber tint
+$event-dot: #D4893A;       // amber
+$notice-dot:#3A7AC8;       // slate blue
+$line:      rgba(26,26,24,0.1);
+
 #pc-wrap {
   .cs-page {
-    position: relative;
-    padding: 60px 0px 60px;
-    width: 100%;
-    height: auto;
+    padding: 80px 0 100px;
+    font-family: $font-sans;
+
     .container {
-      display: flex;
-      flex-direction: column;
-      .cs-main-info {
-        display: flex;
-        flex-direction: column;
-        .info {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          span {
-            color: #000;
-            font-family: $font;
-            font-size: 35px;
-            font-style: normal;
-            font-weight: 700;
-            line-height: normal;
-            letter-spacing: 0.525px;
-          }
-          p {
-            color: #757575;
-            font-family: $font;
-            font-size: 16px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
-          }
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+
+      // ──────────────────────────────────
+      // HERO HEADER
+      // ──────────────────────────────────
+      .cs-hero {
+        text-align: center;
+        margin-bottom: 64px;
+
+        .hero-eyebrow {
+          display: inline-block;
+          font-family: $font-sans;
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 2.5px;
+          text-transform: uppercase;
+          color: $accent;
+          margin-bottom: 16px;
+          padding: 4px 14px;
+          border: 1px solid rgba($accent, 0.3);
+          border-radius: 2px;
         }
-        .btns {
-          margin-top: 50px;
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          :first-child {
-            border-radius: 4px 0 0 4px;
-          }
-          :last-child {
-            border-radius: 0 4px 4px 0;
-          }
-          div {
-            width: 204px;
-            height: 46px;
+
+        .hero-title {
+          font-family: $font-serif;
+          font-size: 52px;
+          font-weight: 400;
+          font-style: italic;
+          color: $ink;
+          line-height: 1.1;
+          margin: 0 0 14px;
+          letter-spacing: -0.5px;
+        }
+
+        .hero-sub {
+          font-size: 16px;
+          font-weight: 300;
+          color: $ink-60;
+          margin: 0 0 40px;
+          line-height: 1.6;
+        }
+
+        // Tab switcher
+        .cs-tab-switcher {
+          display: inline-flex;
+          gap: 0;
+          border: 1px solid $ink-20;
+          border-radius: 40px;
+          padding: 4px;
+          background: #fff;
+
+          .tab-pill {
             display: flex;
-            justify-content: center;
             align-items: center;
-            border: 1px solid #EEE;
-            cursor: pointer;
-            color: #BDBDBD;
-            font-family: $font;
+            gap: 8px;
+            padding: 9px 28px;
+            border-radius: 36px;
+            border: none;
+            background: transparent;
+            font-family: $font-sans;
             font-size: 14px;
-            font-style: normal;
-            font-weight: 700;
-            line-height: normal;
-            letter-spacing: 0.42px;
+            font-weight: 500;
+            color: $ink-60;
+            cursor: pointer;
+            transition: all 0.25s ease;
+
+            .tab-dot {
+              width: 6px;
+              height: 6px;
+              border-radius: 50%;
+              background: currentColor;
+              opacity: 0.4;
+              transition: opacity 0.2s;
+            }
+
+            &:hover {
+              color: $ink;
+            }
+
             &.active {
-              border: 1px solid #725CE8;
-              background: #EB6753;
-              color: #FFF;
+              background: $ink;
+              color: #fff;
+
+              .tab-dot {
+                background: $accent;
+                opacity: 1;
+              }
             }
           }
         }
       }
-      .cs-content {
-        margin-top: 25px;
-        display: flex;
-        flex-direction: column;
-        .title {
-          margin-bottom: 25px;
-          color: #000;
-          font-family: $font;
-          font-size: 27px;
-          font-style: normal;
-          font-weight: 700;
-          line-height: normal;
-          letter-spacing: 0.54px;
-        }
-        .pagination {
-          margin-top: 50px;
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-        }
-        .notice-content {
-          .main {
-            border: 1px solid #EEE;
-            .top {
-              padding: 25px 33px;
-              display: flex;
-              flex-direction: row;
-              justify-content: space-between;
-              span {
-                color: #000;
-                font-family: $font;
-                font-size: 14px;
-                font-style: normal;
-                font-weight: 400;
-                line-height: normal;
-                text-transform: capitalize;
-              }
-            }
-            .bottom {
-              display: flex;
-              flex-direction: column;
-              .notice-card {
-                padding: 20px 14px 20px 30px;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                border: 1px solid #EEE;
-                &.event {
-                  background: #F6D79A;
-                }
-                div {
-                  padding: 6px 9px;
-                  border-radius: 12px;
-                  border: 1px solid #EB6753;
-                  color: #EB6753;
-                  font-family: $font;
-                  font-size: 12px;
-                  font-style: normal;
-                  font-weight: 400;
-                }
-                .notice-number {
-                  margin-left: 18px;
-                  width: 39px;
-                  color: #BDBDBD;
-                  font-family: $font;
-                  font-size: 14px;
-                  font-style: normal;
-                  font-weight: 400;
-                  line-height: normal;
-                }
-                .notice-title {
-                  width: 1060px;
-                  color: #000;
-                  font-family: $font;
-                  font-size: 16px;
-                  font-style: normal;
-                  font-weight: 400;
-                  line-height: normal;
-                }
-                .notice-date {
-                  color: #BDBDBD;
-                  font-family: $font;
-                  font-size: 14px;
-                  font-style: normal;
-                  font-weight: 400;
-                  line-height: normal;
-                }
-              }
-            }
 
-          }
+      // ──────────────────────────────────
+      // CS BODY
+      // ──────────────────────────────────
+      .cs-body {
+        position: relative;
+      }
 
-        }
-        .faq-content {
-          margin-top: 25px;
+      // ──────────────────────────────────
+      // NOTICE — VERTICAL TIMELINE
+      // ──────────────────────────────────
+      .timeline-notice {
+        .timeline-track {
+          position: relative;
           display: flex;
           flex-direction: column;
-          .categories {
+        }
+
+        .timeline-entry {
+          display: grid;
+          grid-template-columns: 130px 32px 1fr;
+          gap: 0 0;
+          min-height: 80px;
+          animation: fadeSlideIn 0.4s ease both;
+
+          @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateX(-12px); }
+            to   { opacity: 1; transform: translateX(0); }
+          }
+
+          // ── Left: date
+          .entry-date {
             display: flex;
-            flex-direction: row;
-            justify-content: center;
-            div {
-              width: 14%;
-              height: 40px;
+            align-items: flex-start;
+            justify-content: flex-end;
+            padding: 20px 20px 0 0;
+
+            .date-text {
+              font-size: 11px;
+              font-weight: 500;
+              letter-spacing: 0.5px;
+              color: $ink-60;
+              text-align: right;
+              line-height: 1.4;
+              white-space: nowrap;
+            }
+          }
+
+          // ── Center: spine
+          .entry-spine {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .spine-dot {
+              position: relative;
+              margin-top: 22px;
+              width: 14px;
+              height: 14px;
+              border-radius: 50%;
+              background: $notice-dot;
+              border: 2.5px solid #fff;
+              box-shadow: 0 0 0 1.5px $notice-dot;
+              z-index: 2;
+              flex-shrink: 0;
+
+              .dot-pulse {
+                position: absolute;
+                inset: -5px;
+                border-radius: 50%;
+                border: 1.5px solid $event-dot;
+                animation: pulse 2s ease-in-out infinite;
+
+                @keyframes pulse {
+                  0%, 100% { opacity: 0.6; transform: scale(1); }
+                  50%       { opacity: 0;   transform: scale(1.6); }
+                }
+              }
+            }
+
+            .spine-line {
+              flex: 1;
+              width: 1px;
+              background: $line;
+              margin: 4px 0;
+              min-height: 24px;
+            }
+          }
+
+          // ── Right: content card
+          .entry-content {
+            margin: 10px 0 16px 16px;
+            padding: 16px 20px;
+            border-radius: 8px;
+            border: 1px solid $ink-20;
+            background: #fff;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+
+            &:hover {
+              border-color: rgba($ink, 0.2);
+              box-shadow: 0 4px 20px rgba($ink, 0.06);
+            }
+
+            .content-header {
               display: flex;
-              justify-content: center;
               align-items: center;
-              color: #BDBDBD;
-              text-align: center;
-              font-family: $font;
+              justify-content: space-between;
+              margin-bottom: 8px;
+            }
+
+            .type-badge {
+              font-size: 10px;
+              font-weight: 600;
+              letter-spacing: 1.5px;
+              text-transform: uppercase;
+              padding: 3px 9px;
+              border-radius: 2px;
+              background: $ink-08;
+              color: $ink-60;
+            }
+
+            .expand-icon {
+              font-size: 18px;
+              color: $ink-60;
+              line-height: 1;
+              transition: color 0.2s;
+            }
+
+            .content-title {
+              font-family: $font-sans;
               font-size: 15px;
-              font-style: normal;
-              font-weight: 400;
-              line-height: normal;
-              letter-spacing: -0.225px;
-              cursor: pointer;
-              &.active {
-                border-bottom: 1px solid #EB6753;
-                color: #EB6753;
+              font-weight: 500;
+              color: $ink;
+              line-height: 1.5;
+              margin: 0;
+            }
+
+            .content-body {
+              margin: 12px 0 0;
+              font-size: 14px;
+              font-weight: 300;
+              color: $ink-60;
+              line-height: 1.7;
+              padding-top: 12px;
+              border-top: 1px solid $ink-08;
+              animation: expandIn 0.2s ease;
+
+              @keyframes expandIn {
+                from { opacity: 0; transform: translateY(-4px); }
+                to   { opacity: 1; transform: translateY(0); }
               }
             }
           }
-          .wrap {
-            margin-top: 50px;
-            .MuiAccordionDetails-root {
-              padding: 30px 20px;
-              background: #FAFAFA;
+
+          // ── EVENT variant
+          &.is-event {
+            .spine-dot {
+              background: $event-dot;
+              box-shadow: 0 0 0 1.5px $event-dot;
             }
-            .badge {
-              margin: 0 24px;
-              display: inline-block;
-              padding: 4px 10px;
-              border: 1px solid #725CE8;
-              border-radius: 7px;
-              color: #725CE8;
-            }
-            .question {
-              .badge {
-                background: #e92C28;
-                color: #fff;
+
+            .entry-content {
+              background: $event-bg;
+              border-color: rgba($event-dot, 0.2);
+
+              .type-badge {
+                background: rgba($event-dot, 0.12);
+                color: darken($event-dot, 10%);
+              }
+
+              &:hover {
+                border-color: rgba($event-dot, 0.4);
               }
             }
-            .answer {
-              margin-left: 80px;
+          }
+
+          // ── Expanded state
+          &.is-expanded {
+            .entry-content {
+              border-color: rgba($ink, 0.2);
+              box-shadow: 0 8px 32px rgba($ink, 0.08);
+
+              .expand-icon {
+                color: $accent;
+              }
+            }
+
+            &.is-event .entry-content {
+              border-color: rgba($event-dot, 0.5);
+            }
+          }
+        }
+
+        .timeline-pagination {
+          margin-top: 48px;
+          display: flex;
+          justify-content: center;
+        }
+      }
+
+      // ──────────────────────────────────
+      // FAQ — REFINED ACCORDION
+      // ──────────────────────────────────
+      .faq-timeline {
+        gap: 0;
+
+        // Category strip
+        .faq-categories {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+          margin-bottom: 40px;
+          padding-bottom: 24px;
+          border-bottom: 1px solid $ink-20;
+
+          .faq-cat-btn {
+            padding: 7px 18px;
+            border-radius: 40px;
+            border: 1px solid $ink-20;
+            background: transparent;
+            font-family: $font-sans;
+            font-size: 13px;
+            font-weight: 400;
+            color: $ink-60;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+              border-color: rgba($ink, 0.25);
+              color: $ink;
+            }
+
+            &.active {
+              background: $ink;
+              border-color: $ink;
+              color: #fff;
+            }
+          }
+        }
+
+        // Accordion list
+        .faq-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+
+          .faq-item {
+            border-bottom: 1px solid $ink-20;
+            animation: fadeSlideIn 0.3s ease both;
+
+            @keyframes fadeSlideIn {
+              from { opacity: 0; transform: translateY(8px); }
+              to   { opacity: 1; transform: translateY(0); }
+            }
+
+            &:first-child {
+              border-top: 1px solid $ink-20;
+            }
+
+            .faq-question {
+              width: 100%;
               display: flex;
-              white-space: nowrap;
               align-items: center;
-              flex-direction: row;
-              .badge {
-                color: #EB6753;
-                border: 1px solid #EB6753;
+              gap: 16px;
+              padding: 20px 4px;
+              background: transparent;
+              border: none;
+              cursor: pointer;
+              text-align: left;
+              transition: background 0.15s;
+
+              &:hover {
+                .faq-q-text {
+                  color: $ink;
+                }
+              }
+
+              .faq-q-badge {
+                flex-shrink: 0;
+                width: 28px;
+                height: 28px;
+                border-radius: 4px;
+                background: $accent;
+                color: #fff;
+                font-family: $font-serif;
+                font-size: 15px;
+                font-style: italic;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+
+              .faq-q-text {
+                flex: 1;
+                font-size: 15px;
+                font-weight: 400;
+                color: rgba($ink, 0.8);
+                line-height: 1.5;
+                transition: color 0.2s;
+              }
+
+              .faq-chevron {
+                flex-shrink: 0;
+                color: $ink-60;
+                transition: transform 0.25s ease;
+
+                &.rotated {
+                  transform: rotate(180deg);
+                  color: $accent;
+                }
+              }
+            }
+
+            .faq-answer {
+              display: flex;
+              gap: 16px;
+              padding: 4px 4px 24px;
+              animation: answerIn 0.2s ease;
+
+              @keyframes answerIn {
+                from { opacity: 0; transform: translateY(-6px); }
+                to   { opacity: 1; transform: translateY(0); }
+              }
+
+              .faq-a-badge {
+                flex-shrink: 0;
+                width: 28px;
+                height: 28px;
+                border-radius: 4px;
+                border: 1px solid rgba($notice-dot, 0.4);
+                color: $notice-dot;
+                font-family: $font-serif;
+                font-size: 15px;
+                font-style: italic;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+
+              .faq-a-text {
+                flex: 1;
+                font-size: 14px;
+                font-weight: 300;
+                color: $ink-60;
+                line-height: 1.75;
+                padding-top: 4px;
+              }
+            }
+
+            &.is-open {
+              .faq-q-text {
+                color: $ink;
+                font-weight: 500;
               }
             }
           }

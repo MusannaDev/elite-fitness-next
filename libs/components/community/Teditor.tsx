@@ -10,25 +10,22 @@ import { T } from '../../types/common';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { useMutation } from '@apollo/client';
 import { CREATE_BOARD_ARTICLE } from '../../../apollo/user/mutation';
-import { sweetErrorHandling, sweetTopSmallSuccessAlert, sweetTopSuccessAlert } from '../../sweetAlert';
+import { sweetErrorHandling, sweetTopSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
-import { Category } from '@mui/icons-material';
-
 
 const TuiEditor = () => {
-	const editorRef = useRef<Editor>(null),
-		token = getJwtToken(),
-		router = useRouter();
+	const editorRef = useRef<Editor>(null);
+	const token = getJwtToken();
+	const router = useRouter();
 	const [articleCategory, setArticleCategory] = useState<BoardArticleCategory>(BoardArticleCategory.FREE);
 
 	/** APOLLO REQUESTS **/
-	const [ createBoardArticle ] = useMutation(CREATE_BOARD_ARTICLE);
- 
+	const [createBoardArticle] = useMutation(CREATE_BOARD_ARTICLE);
+
 	const memoizedValues = useMemo(() => {
 		const articleTitle = '',
 			articleContent = '',
 			articleImage = '';
-
 		return { articleTitle, articleContent, articleImage };
 	}, []);
 
@@ -40,20 +37,12 @@ const TuiEditor = () => {
 				'operations',
 				JSON.stringify({
 					query: `mutation ImageUploader($file: Upload!, $target: String!) {
-						imageUploader(file: $file, target: $target) 
-				  }`,
-					variables: {
-						file: null,
-						target: 'article',
-					},
+						imageUploader(file: $file, target: $target)
+					}`,
+					variables: { file: null, target: 'article' },
 				}),
 			);
-			formData.append(
-				'map',
-				JSON.stringify({
-					'0': ['variables.file'],
-				}),
-			);
+			formData.append('map', JSON.stringify({ '0': ['variables.file'] }));
 			formData.append('0', image);
 
 			const response = await axios.post(`${process.env.REACT_APP_API_GRAPHQL_URL}`, formData, {
@@ -65,9 +54,7 @@ const TuiEditor = () => {
 			});
 
 			const responseImage = response.data.data.imageUploader;
-			console.log('=responseImage: ', responseImage);
 			memoizedValues.articleImage = responseImage;
-
 			return `${REACT_APP_API_URL}/${responseImage}`;
 		} catch (err) {
 			console.log('Error, uploadImage:', err);
@@ -79,118 +66,123 @@ const TuiEditor = () => {
 	};
 
 	const articleTitleHandler = (e: T) => {
-		console.log(e.target.value);
 		memoizedValues.articleTitle = e.target.value;
 	};
 
 	const handleRegisterButton = async () => {
-		try{
+		try {
 			const editor = editorRef.current;
 			const articleContent = editor?.getInstance().getHTML() as string;
 			memoizedValues.articleContent = articleContent;
 
-			if(memoizedValues.articleContent === '' && memoizedValues.articleTitle === '') {
+			if (!memoizedValues.articleContent || !memoizedValues.articleTitle) {
 				throw new Error(Message.INSERT_ALL_INPUTS);
 			}
 
 			await createBoardArticle({
-				variables: {
-					input: { ...memoizedValues, articleCategory }
-				}
+				variables: { input: { ...memoizedValues, articleCategory } },
 			});
 
-			await sweetTopSuccessAlert("Article created succesfully", 700);
-			await router.push({
-				pathname: '/mypage',
-				query: {
-					category: 'myArticles'
-				}
-			});
-
-		} catch(err) {
-			console.log("ERROR:", err);
+			await sweetTopSuccessAlert('Article created successfully', 700);
+			await router.push({ pathname: '/mypage', query: { category: 'myArticles' } });
+		} catch (err) {
+			console.log('ERROR:', err);
 			sweetErrorHandling(err);
 		}
 	};
 
-	const doDisabledCheck = () => {
-		if (memoizedValues.articleContent === '' || memoizedValues.articleTitle === '') {
-			return true;
-		}
-	};
-
 	return (
-		<Stack>
-			<Stack direction="row" style={{ margin: '40px' }} justifyContent="space-evenly">
-				<Box component={'div'} className={'form_row'} style={{ width: '300px' }}>
-					<Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
-						Category
-					</Typography>
-					<FormControl sx={{ width: '100%', background: 'white' }}>
+		<div id="tui-editor-wrap">
+			{/* Header */}
+			<div className="editor-header">
+				<h2 className="editor-title">
+					Write an <em>Article</em>
+				</h2>
+				<p className="editor-sub">Share your thoughts with the EliteFitness community</p>
+			</div>
+
+			{/* Meta fields */}
+			<div className="editor-meta-row">
+				<div className="editor-field">
+					<label className="field-label">Category</label>
+					<FormControl sx={{ width: '100%' }}>
 						<Select
 							value={articleCategory}
 							onChange={changeCategoryHandler}
 							displayEmpty
-							inputProps={{ 'aria-label': 'Without label' }}
+							inputProps={{ 'aria-label': 'category' }}
+							sx={{
+								fontFamily: 'Inter, sans-serif',
+								fontSize: '13px',
+								borderRadius: '9px',
+								background: '#fff',
+								'& .MuiOutlinedInput-notchedOutline': { borderColor: '#ede8e0' },
+								'&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#ff1744' },
+								'&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#ff1744' },
+							}}
 						>
-							<MenuItem value={BoardArticleCategory.FREE}>
-								<span>Free</span>
-							</MenuItem>
+							<MenuItem value={BoardArticleCategory.FREE}>Free Board</MenuItem>
 							<MenuItem value={BoardArticleCategory.HUMOR}>Humor</MenuItem>
 							<MenuItem value={BoardArticleCategory.NEWS}>News</MenuItem>
 							<MenuItem value={BoardArticleCategory.RECOMMEND}>Recommendation</MenuItem>
 						</Select>
 					</FormControl>
-				</Box>
-				<Box component={'div'} style={{ width: '300px', flexDirection: 'column' }}>
-					<Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
-						Title
-					</Typography>
+				</div>
+
+				<div className="editor-field">
+					<label className="field-label">Title</label>
 					<TextField
 						onChange={articleTitleHandler}
-						id="filled-basic"
-						label="Type Title"
-						style={{ width: '300px', background: 'white' }}
+						placeholder="Enter your article title"
+						fullWidth
+						sx={{
+							'& .MuiOutlinedInput-root': {
+								fontFamily: 'Inter, sans-serif',
+								fontSize: '13px',
+								borderRadius: '9px',
+								background: '#fff',
+								'& fieldset': { borderColor: '#ede8e0' },
+								'&:hover fieldset': { borderColor: '#ff1744' },
+								'&.Mui-focused fieldset': { borderColor: '#ff1744' },
+							},
+						}}
 					/>
-				</Box>
-			</Stack>
+				</div>
+			</div>
 
-			<Editor
-				initialValue={'Type here'}
-				placeholder={'Type here'}
-				previewStyle={'vertical'}
-				height={'640px'}
-				// @ts-ignore
-				initialEditType={'WYSIWYG'}
-				toolbarItems={[
-					['heading', 'bold', 'italic', 'strike'],
-					['image', 'table', 'link'],
-					['ul', 'ol', 'task'],
-				]}
-				ref={editorRef}
-				hooks={{
-					addImageBlobHook: async (image: any, callback: any) => {
-						const uploadedImageURL = await uploadImage(image);
-						callback(uploadedImageURL);
-						return false;
-					},
-				}}
-				events={{
-					load: function (param: any) {},
-				}}
-			/>
+			{/* Toast Editor */}
+			<div className="editor-body">
+				<Editor
+					initialValue="Write your article here..."
+					placeholder="Write your article here..."
+					previewStyle="vertical"
+					height="520px"
+					// @ts-ignore
+					initialEditType="WYSIWYG"
+					toolbarItems={[
+						['heading', 'bold', 'italic', 'strike'],
+						['image', 'table', 'link'],
+						['ul', 'ol', 'task'],
+					]}
+					ref={editorRef}
+					hooks={{
+						addImageBlobHook: async (image: any, callback: any) => {
+							const uploadedImageURL = await uploadImage(image);
+							callback(uploadedImageURL);
+							return false;
+						},
+					}}
+					events={{ load: function (param: any) {} }}
+				/>
+			</div>
 
-			<Stack direction="row" justifyContent="center">
-				<Button
-					variant="contained"
-					color="primary"
-					style={{ margin: '30px', width: '250px', height: '45px' }}
-					onClick={handleRegisterButton}
-				>
-					Register
-				</Button>
-			</Stack>
-		</Stack>
+			{/* Submit */}
+			<div className="editor-footer">
+				<button className="register-btn" onClick={handleRegisterButton}>
+					Publish Article
+				</button>
+			</div>
+		</div>
 	);
 };
 

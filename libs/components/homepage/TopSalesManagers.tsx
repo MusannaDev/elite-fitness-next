@@ -1,40 +1,40 @@
 import React, { useState } from 'react';
 import { Stack, Box, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import TopAgentCard from './TopAgentCard';
+import TopSalesManagerCard from './TopSalesManagerCard';
 import { Member } from '../../types/member/member';
-import { AgentsInquiry } from '../../types/member/member.input';
+import { MembersInquiry } from '../../types/member/member.input';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_AGENTS } from '../../../apollo/user/query';
+import { GET_SALES_MANAGERS } from '../../../apollo/user/query';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../../apollo/user/mutation';
 import { T } from '../../types/common';
 import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import Link from 'next/link';
 
-interface TopAgentsProps {
-	initialInput: AgentsInquiry;
+interface TopSalesManagersProps {
+	initialInput: MembersInquiry;
 }
 
-const TopAgents = (props: TopAgentsProps) => {
+const TopSalesManagers = (props: TopSalesManagersProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
-	const [topAgents, setTopAgents] = useState<Member[]>([]);
+	const [managers, setManagers] = useState<Member[]>([]);
 
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
 	const [subscribe] = useMutation(SUBSCRIBE);
 	const [unsubscribe] = useMutation(UNSUBSCRIBE);
 
-	const { refetch } = useQuery(GET_AGENTS, {
+	const { refetch } = useQuery(GET_SALES_MANAGERS, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setTopAgents(data?.getAgents?.list);
+			setManagers(data?.getSalesManagers?.list);
 		},
 	});
 
-	const likeAgentHandler = async (user: T, id: string) => {
+	const likeManagerHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
@@ -46,11 +46,11 @@ const TopAgents = (props: TopAgentsProps) => {
 		}
 	};
 
-	const followAgentHandler = async (user: T, id: string) => {
+	const followManagerHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
-			const isFollowing = topAgents.find((a) => a._id === id)?.meFollowed?.[0]?.myFollowing;
+			const isFollowing = managers.find((m) => m._id === id)?.meFollowed?.[0]?.myFollowing;
 			if (isFollowing) {
 				await unsubscribe({ variables: { input: id } });
 			} else {
@@ -65,19 +65,19 @@ const TopAgents = (props: TopAgentsProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<Stack className="top-agents">
+			<Stack className="top-sales-managers">
 				<Stack className="container">
 					<Stack className="info-box">
-						<Typography className="section-label">FITNESS EXPERTS</Typography>
-						<Typography className="section-title">Meet The Agents</Typography>
+						<Typography className="section-label">SALES PROS</Typography>
+						<Typography className="section-title">Our Sales Team</Typography>
 					</Stack>
-					<Stack className="agents-list">
-						{topAgents.map((agent) => (
-							<TopAgentCard
-								key={agent._id}
-								agent={agent}
-								likeAgentHandler={likeAgentHandler}
-								followAgentHandler={followAgentHandler}
+					<Stack className="managers-list">
+						{managers.map((m) => (
+							<TopSalesManagerCard
+								key={m._id}
+								manager={m}
+								likeManagerHandler={likeManagerHandler}
+								followManagerHandler={followManagerHandler}
 							/>
 						))}
 					</Stack>
@@ -87,31 +87,31 @@ const TopAgents = (props: TopAgentsProps) => {
 	}
 
 	return (
-		<Stack className="top-agents">
+		<Stack className="top-sales-managers">
 			<Stack className="container">
 				<Stack className="info-box">
 					<Box className="left">
-						<Typography className="section-label">— FITNESS EXPERTS</Typography>
-						<Typography className="section-title">Meet The Agents</Typography>
-						<Typography className="section-sub">Connecting athletes with the right services</Typography>
+						<Typography className="section-label">— SALES PROS</Typography>
+						<Typography className="section-title">Our Sales Team</Typography>
+						<Typography className="section-sub">Your go-to gear advisors</Typography>
 					</Box>
 					<Box className="right">
-						<Link href="/member?memberType=AGENT">
+						<Link href="/member?memberType=SALES_MANAGER">
 							<Box className="more-box">
-								<Typography>All Agents</Typography>
+								<Typography>All Managers</Typography>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</Box>
 						</Link>
 					</Box>
 				</Stack>
 
-				<Stack className="agents-strip">
-					{topAgents.map((agent) => (
-						<TopAgentCard
-							key={agent._id}
-							agent={agent}
-							likeAgentHandler={likeAgentHandler}
-							followAgentHandler={followAgentHandler}
+				<Stack className="managers-strip">
+					{managers.map((m) => (
+						<TopSalesManagerCard
+							key={m._id}
+							manager={m}
+							likeManagerHandler={likeManagerHandler}
+							followManagerHandler={followManagerHandler}
 						/>
 					))}
 				</Stack>
@@ -120,7 +120,7 @@ const TopAgents = (props: TopAgentsProps) => {
 	);
 };
 
-TopAgents.defaultProps = {
+TopSalesManagers.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 6,
@@ -130,4 +130,4 @@ TopAgents.defaultProps = {
 	},
 };
 
-export default TopAgents;
+export default TopSalesManagers;
