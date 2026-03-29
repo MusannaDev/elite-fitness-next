@@ -82,19 +82,18 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 		<Stack className="popular-properties">
 			<Stack className="container">
 				<Stack className="info-box">
-					<Box className="left">
+					<Stack className="info-row-top">
 						<Typography className="section-label">— MOST POPULAR</Typography>
-						<Typography className="section-title">Gym Spaces</Typography>
-						<Typography className="section-sub">Top viewed training locations</Typography>
-					</Box>
-					<Box className="right">
 						<Link href="/property">
 							<Box className="more-box">
 								<Typography>All Locations</Typography>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</Box>
 						</Link>
-					</Box>
+					</Stack>
+					<Box className="info-divider" />
+					<Typography className="section-title">Gym Spaces</Typography>
+					<Typography className="section-sub">Top viewed training locations</Typography>
 				</Stack>
 
 				<Stack className="card-box">

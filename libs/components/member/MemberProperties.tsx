@@ -9,7 +9,7 @@ import { T } from '../../types/common';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
-import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
+import FitnessCenterOutlinedIcon from '@mui/icons-material/FitnessCenterOutlined';
 import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
 import ViewListRoundedIcon from '@mui/icons-material/ViewListRounded';
 
@@ -61,11 +61,11 @@ const MemberProperties: NextPage = ({ initialInput, ...props }: any) => {
 				{/* HEADER */}
 				<Stack className="mp-header">
 					<Stack className="mp-header-left">
-						<HomeWorkOutlinedIcon className="mp-header-icon" />
+						<FitnessCenterOutlinedIcon className="mp-header-icon" />
 						<Box>
-							<Typography className="mp-main-title">Listed Properties</Typography>
+							<Typography className="mp-main-title">Gym Lists</Typography>
 							<Typography className="mp-sub-title">
-								{total > 0 ? `${total} properties available` : 'No listings yet'}
+								{total > 0 ? `${total} gyms available` : 'No gyms listed yet'}
 							</Typography>
 						</Box>
 					</Stack>
@@ -107,10 +107,10 @@ const MemberProperties: NextPage = ({ initialInput, ...props }: any) => {
 					{agentProperties?.length === 0 && (
 						<Stack className="mp-empty-state">
 							<Box className="mp-empty-icon-wrap">
-								<HomeWorkOutlinedIcon className="mp-empty-icon" />
+								<FitnessCenterOutlinedIcon className="mp-empty-icon" />
 							</Box>
-							<Typography className="mp-empty-title">No Properties Listed</Typography>
-							<Typography className="mp-empty-desc">This agent hasn't listed any properties yet.</Typography>
+							<Typography className="mp-empty-title">No Gyms Listed</Typography>
+							<Typography className="mp-empty-desc">This agent hasn't listed any gyms yet.</Typography>
 						</Stack>
 					)}
 

@@ -10,6 +10,7 @@ import { LIKE_TARGET_PRODUCT } from '../../../apollo/user/mutation';
 import { T } from '../../types/common';
 import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
+import Link from 'next/link';
 
 interface TrendProductsProps {
 	initialInput: ProductsInquiry;
@@ -72,29 +73,36 @@ const TrendProducts = (props: TrendProductsProps) => {
 		<Stack className="trend-products">
 			<Stack className="container">
 				<Stack className="info-box">
-					<Box className="left">
-						<Typography className="section-label">— HOT PICKS</Typography>
-						<Typography className="section-title">Fuel Your Gains</Typography>
-						<Typography className="section-sub">Based on weekly purchases & ratings</Typography>
-					</Box>
+					<Stack className="info-row-top">
+						<Typography className="section-label">— TOP PICKS</Typography>
+						<Link href="/product">
+							<Box className="more-box">
+								<Typography>All Products</Typography>
+								<img src="/img/icons/rightup.svg" alt="" />
+							</Box>
+						</Link>
+					</Stack>
+					<Box className="info-divider" />
+					<Typography className="section-title">Fuel Your Gains</Typography>
+					<Typography className="section-sub">Based on weekly purchases & ratings</Typography>
 				</Stack>
-				<Box className="divider-line" />
-				<Stack className="product-list">
-					{trendProducts.length === 0 ? (
-						<Box className="empty-list">
-							<Typography>No trending products yet</Typography>
-						</Box>
-					) : (
-						trendProducts.map((product, index) => (
+
+				{trendProducts.length === 0 ? (
+					<Box className="empty-list">
+						<Typography>No trending products yet</Typography>
+					</Box>
+				) : (
+					<Box className="product-grid">
+						{trendProducts.map((product, index) => (
 							<TrendProductCard
 								key={product._id}
 								product={product}
 								likeProductHandler={likeProductHandler}
 								rank={index + 1}
 							/>
-						))
-					)}
-				</Stack>
+						))}
+					</Box>
+				)}
 			</Stack>
 		</Stack>
 	);
@@ -104,7 +112,7 @@ TrendProducts.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 6,
-		sort: 'productLikes',
+		sort: 'productViews',
 		direction: 'DESC',
 		search: {},
 	},

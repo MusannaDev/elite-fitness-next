@@ -36,90 +36,92 @@ const TopTrainerCard = (props: TopTrainerCardProps) => {
 
 	return (
 		<Stack className="top-trainer-card">
-			{/* Large photo */}
-			<Box className="trainer-photo-wrap" onClick={() => pushDetailHandler(trainer._id)}>
-				<Box className="trainer-photo" style={{ backgroundImage: `url(${trainerImage})` }} />
-				<Box className="trainer-badge">
-					<Typography>PRO</Typography>
+			{/* Horizontal: photo LEFT — info RIGHT */}
+			<Box className="tr-card-main">
+				<Box className="tr-photo-side" onClick={() => pushDetailHandler(trainer._id)}>
+					<Box className="tr-photo" style={{ backgroundImage: `url(${trainerImage})` }} />
+					<Box className="tr-badge"><Typography>PRO</Typography></Box>
 				</Box>
-			</Box>
 
-			{/* Info */}
-			<Box className="trainer-body">
-				<Typography className="trainer-name" onClick={() => pushDetailHandler(trainer._id)}>
-					{trainer.memberNick}
-				</Typography>
-				<Typography className="trainer-type">Certified Trainer</Typography>
+				<Stack className="tr-info-side">
+					<Box>
+						<Typography className="tr-name" onClick={() => pushDetailHandler(trainer._id)}>
+							{trainer.memberNick}
+						</Typography>
+						<Typography className="tr-role">Certified Trainer</Typography>
+					</Box>
 
-				<Stack className="trainer-stats" direction="row" mt="12px">
-					<Box className="stat-item">
-						<Typography className="stat-num">{trainer.memberFollowers ?? 0}</Typography>
-						<Typography className="stat-lbl">Followers</Typography>
-					</Box>
-					<Box className="stat-divider" />
-					<Box className="stat-item">
-						<Typography className="stat-num">{trainer.memberProducts ?? 0}</Typography>
-						<Typography className="stat-lbl">Programs</Typography>
-					</Box>
-					<Box className="stat-divider" />
-					<Box className="stat-item">
-						<Typography className="stat-num">{trainer.memberPoints ?? 0}</Typography>
-						<Typography className="stat-lbl">Points</Typography>
-					</Box>
+					{trainer.memberDesc && (
+						<Typography className="tr-desc">{trainer.memberDesc}</Typography>
+					)}
+
+					<Stack className="tr-stats">
+						<Box className="tr-stat">
+							<Typography className="tr-stat-num">{trainer.memberFollowers ?? 0}</Typography>
+							<Typography className="tr-stat-lbl">Followers</Typography>
+						</Box>
+						<Box className="tr-stat">
+							<Typography className="tr-stat-num">{trainer.memberProducts ?? 0}</Typography>
+							<Typography className="tr-stat-lbl">Programs</Typography>
+						</Box>
+						<Box className="tr-stat">
+							<Typography className="tr-stat-num">{trainer.memberPoints ?? 0}</Typography>
+							<Typography className="tr-stat-lbl">Points</Typography>
+						</Box>
+					</Stack>
+
+					{/* All action icons in a single row */}
+					<Stack className="tr-actions" direction="row" alignItems="center" gap="4px">
+						<IconButton
+							size="small"
+							className={`tr-btn ${trainer?.meFollowed?.[0]?.myFollowing ? 'following' : ''}`}
+							onClick={() => followTrainerHandler(user, trainer._id)}
+						>
+							{trainer?.meFollowed?.[0]?.myFollowing ? (
+								<PersonRemoveIcon style={{ fontSize: 14 }} />
+							) : (
+								<PersonAddIcon style={{ fontSize: 14 }} />
+							)}
+						</IconButton>
+						<IconButton
+							size="small"
+							className={`tr-btn ${trainer?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
+							onClick={() => likeTrainerHandler(user, trainer._id)}
+						>
+							<FavoriteIcon style={{ fontSize: 14 }} />
+						</IconButton>
+						<Typography className="tr-count">{trainer.memberLikes}</Typography>
+						<IconButton size="small" className="tr-btn">
+							<RemoveRedEyeIcon style={{ fontSize: 14 }} />
+						</IconButton>
+						<Typography className="tr-count">{trainer.memberViews}</Typography>
+						<IconButton
+							size="small"
+							className={`tr-btn tr-comment-btn ${commentOpen ? 'active' : ''}`}
+							onClick={() => setCommentOpen(!commentOpen)}
+						>
+							<ChatBubbleOutlineIcon style={{ fontSize: 14 }} />
+							<Typography className="tr-count">{trainer.memberComments ?? 0}</Typography>
+							<KeyboardArrowUpIcon
+								style={{
+									fontSize: 12,
+									transform: commentOpen ? 'rotate(0deg)' : 'rotate(180deg)',
+									transition: 'transform 0.25s',
+								}}
+							/>
+						</IconButton>
+					</Stack>
 				</Stack>
 			</Box>
 
-			{/* Actions */}
-			<Stack className="trainer-actions" direction="row" alignItems="center" justifyContent="space-between">
-				<Stack direction="row" alignItems="center" gap="4px">
-					<IconButton
-						size="small"
-						className={`follow-btn ${trainer?.meFollowed?.[0]?.myFollowing ? 'following' : ''}`}
-						onClick={() => followTrainerHandler(user, trainer._id)}
-					>
-						{trainer?.meFollowed?.[0]?.myFollowing ? (
-							<PersonRemoveIcon style={{ fontSize: 14 }} />
-						) : (
-							<PersonAddIcon style={{ fontSize: 14 }} />
-						)}
-					</IconButton>
-					<IconButton
-						size="small"
-						className={`like-btn ${trainer?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
-						onClick={() => likeTrainerHandler(user, trainer._id)}
-					>
-						<FavoriteIcon style={{ fontSize: 14 }} />
-					</IconButton>
-					<Typography className="count-text">{trainer.memberLikes}</Typography>
-					<IconButton size="small" className="view-btn">
-						<RemoveRedEyeIcon style={{ fontSize: 14 }} />
-					</IconButton>
-					<Typography className="count-text">{trainer.memberViews}</Typography>
-				</Stack>
-
-				<IconButton
-					size="small"
-					className={`comment-toggle-btn ${commentOpen ? 'active' : ''}`}
-					onClick={() => setCommentOpen(!commentOpen)}
-				>
-					<ChatBubbleOutlineIcon style={{ fontSize: 14 }} />
-					<Typography className="comment-count">{trainer.memberComments ?? 0}</Typography>
-					<KeyboardArrowUpIcon
-						style={{
-							fontSize: 12,
-							transform: commentOpen ? 'rotate(0deg)' : 'rotate(180deg)',
-							transition: 'transform 0.25s',
-						}}
+			<Collapse in={commentOpen}>
+				<Box className="tr-comment-panel">
+					<MemberComments
+						commentGroup={CommentGroup.MEMBER}
+						commentRefId={trainer._id}
+						memberId={user?._id}
 					/>
-				</IconButton>
-			</Stack>
-
-			<Collapse in={commentOpen} className="comment-panel">
-				<MemberComments
-					commentGroup={CommentGroup.MEMBER}
-					commentRefId={trainer._id}
-					memberId={user?._id}
-				/>
+				</Box>
 			</Collapse>
 		</Stack>
 	);

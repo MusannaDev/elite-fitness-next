@@ -38,40 +38,46 @@ const TopAgentCard = (props: TopAgentCardProps) => {
 
 	return (
 		<Stack className="top-agent-card">
-			{/* Large photo */}
-			<Box className="agent-photo-wrap" onClick={() => pushDetailHandler(agent._id)}>
-				<Box className="agent-photo" style={{ backgroundImage: `url(${agentImage})` }} />
-				<Box className="agent-badge">
-					<Typography>AGENT</Typography>
-				</Box>
-			</Box>
-
-			{/* Info */}
-			<Box className="agent-body">
-				<Stack direction="row" alignItems="center" gap="8px" mb="2px">
+			{/* Circular avatar + name + rank */}
+			<Box className="agent-card-header">
+				<Box
+					className="agent-avatar"
+					style={{ backgroundImage: `url(${agentImage})` }}
+					onClick={() => pushDetailHandler(agent._id)}
+				/>
+				<Box className="agent-info-col">
 					<Typography className="agent-name" onClick={() => pushDetailHandler(agent._id)}>
 						{agent.memberNick}
 					</Typography>
-				</Stack>
-
-				{agent.memberDesc && (
-					<Typography className="agent-desc">{agent.memberDesc}</Typography>
-				)}
-
-				<Stack direction="row" gap="16px" mt="10px">
-					<Stack direction="row" alignItems="center" gap="4px" className="agent-stat">
-						<HomeWorkIcon style={{ fontSize: 13 }} />
-						<Typography>{agent.memberProperties ?? 0} listings</Typography>
-					</Stack>
-					<Stack direction="row" alignItems="center" gap="4px" className="agent-stat">
-						<EmojiEventsIcon style={{ fontSize: 13 }} />
-						<Typography>Rank #{agent.memberRank ?? '-'}</Typography>
-					</Stack>
-				</Stack>
+					<Typography className="agent-role">FITNESS AGENT</Typography>
+				</Box>
+				<Box className="agent-rank-pill">
+					<Typography>#{agent.memberRank ?? '-'}</Typography>
+				</Box>
 			</Box>
 
-			{/* Actions */}
-			<Stack className="agent-actions" direction="row" alignItems="center" justifyContent="space-between">
+			{agent.memberDesc && (
+				<Typography className="agent-desc">{agent.memberDesc}</Typography>
+			)}
+
+			<Stack className="agent-chips" direction="row" flexWrap="wrap">
+				<Stack direction="row" alignItems="center" gap="4px" className="a-chip">
+					<HomeWorkIcon style={{ fontSize: 12 }} />
+					<Typography>{agent.memberProperties ?? 0} listings</Typography>
+				</Stack>
+				<Stack direction="row" alignItems="center" gap="4px" className="a-chip a-chip-cyan">
+					<RemoveRedEyeIcon style={{ fontSize: 12 }} />
+					<Typography>{agent.memberViews ?? 0} views</Typography>
+				</Stack>
+				<Stack direction="row" alignItems="center" gap="4px" className="a-chip">
+					<EmojiEventsIcon style={{ fontSize: 12 }} />
+					<Typography>{agent.memberPoints ?? 0} pts</Typography>
+				</Stack>
+			</Stack>
+
+			<Box className="agent-divider" />
+
+			<Box className="agent-actions">
 				<Stack direction="row" alignItems="center" gap="4px">
 					<IconButton
 						size="small"
@@ -84,7 +90,6 @@ const TopAgentCard = (props: TopAgentCardProps) => {
 							<PersonAddIcon style={{ fontSize: 14 }} />
 						)}
 					</IconButton>
-
 					<IconButton
 						size="small"
 						className={`like-btn ${agent?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
@@ -93,11 +98,6 @@ const TopAgentCard = (props: TopAgentCardProps) => {
 						<FavoriteIcon style={{ fontSize: 14 }} />
 					</IconButton>
 					<Typography className="action-count">{agent.memberLikes}</Typography>
-
-					<IconButton size="small" className="view-btn">
-						<RemoveRedEyeIcon style={{ fontSize: 14 }} />
-					</IconButton>
-					<Typography className="action-count">{agent.memberViews}</Typography>
 				</Stack>
 
 				<IconButton
@@ -115,9 +115,9 @@ const TopAgentCard = (props: TopAgentCardProps) => {
 						}}
 					/>
 				</IconButton>
-			</Stack>
+			</Box>
 
-			<Collapse in={commentOpen} style={{ width: '100%' }}>
+			<Collapse in={commentOpen}>
 				<Box className="comment-panel">
 					<MemberComments
 						commentGroup={CommentGroup.MEMBER}

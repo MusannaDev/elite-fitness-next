@@ -32,10 +32,8 @@ const PopularPropertyCard = (props: PopularPropertyCardProps) => {
 
 	return (
 		<Stack className="popular-property-card">
-			<Box
-				className="prop-image-wrap"
-				onClick={() => pushDetailHandler(property._id)}
-			>
+			{/* Large portrait image with gradient overlay */}
+			<Box className="prop-image-wrap" onClick={() => pushDetailHandler(property._id)}>
 				<Box
 					className="prop-image"
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages?.[0]})` }}
@@ -46,21 +44,23 @@ const PopularPropertyCard = (props: PopularPropertyCardProps) => {
 						<Typography>TOP</Typography>
 					</Box>
 				)}
+				{/* Price overlaid on image */}
 				<Box className="price-tag">
 					<Typography>${property.propertyPrice.toLocaleString()}</Typography>
 				</Box>
+				{/* Title + address overlaid on gradient */}
+				<Box className="prop-title-overlay">
+					<Typography component="p">{property.propertyTitle}</Typography>
+					<Typography component="span">{property.propertyAddress}</Typography>
+				</Box>
 			</Box>
 
+			{/* Specs + actions below */}
 			<Box className="prop-body">
-				<Typography className="prop-title" onClick={() => pushDetailHandler(property._id)}>
-					{property.propertyTitle}
-				</Typography>
-				<Typography className="prop-address">{property.propertyAddress}</Typography>
-
-				<Stack direction="row" className="prop-specs" gap="16px">
+				<Stack direction="row" className="prop-specs" gap="14px">
 					<Stack direction="row" alignItems="center" gap="4px" className="spec-item">
 						<BedIcon style={{ fontSize: 14 }} />
-						<Typography>{property.propertyBaths} bed</Typography>
+						<Typography>{property.propertyBaths} bath</Typography>
 					</Stack>
 					<Stack direction="row" alignItems="center" gap="4px" className="spec-item">
 						<MeetingRoomIcon style={{ fontSize: 14 }} />

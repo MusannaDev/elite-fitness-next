@@ -94,19 +94,18 @@ const TopTrainers = (props: TopTrainersProps) => {
 		<Stack className="top-trainers">
 			<Stack className="container">
 				<Stack className="info-box">
-					<Box className="left">
+					<Stack className="info-row-top">
 						<Typography className="section-label">— CERTIFIED PROS</Typography>
-						<Typography className="section-title">Elite Coaches</Typography>
-						<Typography className="section-sub">Train with the best — results guaranteed</Typography>
-					</Box>
-					<Box className="right">
 						<Link href="/member?memberType=TRAINER">
 							<Box className="more-box">
 								<Typography>All Coaches</Typography>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</Box>
 						</Link>
-					</Box>
+					</Stack>
+					<Box className="info-divider" />
+					<Typography className="section-title">Elite Coaches</Typography>
+					<Typography className="section-sub">Train with the best — results guaranteed</Typography>
 				</Stack>
 
 				<Box className="trainers-strip">

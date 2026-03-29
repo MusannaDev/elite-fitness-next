@@ -22,7 +22,7 @@ const Footer = () => {
 				{/* BRAND COL */}
 				<Box component={'div'} className={'footer-brand'}>
 					<div className={'brand-logo'}>
-						<img src="/img/logo/elite-logo.png" alt="EliteFit" />
+						<img src="/img/logo/elite.webp" alt="EliteFit" />
 						<div className={'brand-name'}>
 							<strong>ELITE</strong><em>FIT</em>
 						</div>

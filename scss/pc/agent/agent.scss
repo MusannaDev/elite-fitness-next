@@ -391,10 +391,19 @@
 			}
 
 			&.following {
-				color: #fff;
+				color: #ff1744;
 				font-weight: 600;
-				border: none;
+				border: 1.5px solid rgba(255, 23, 68, 0.38);
 				letter-spacing: 0.2px;
+				background: rgba(255, 23, 68, 0.10);
+				box-shadow: 0 0 10px rgba(255, 23, 68, 0.16), 0 2px 8px rgba(255, 23, 68, 0.10);
+
+				&:hover {
+					background: #ff1744;
+					color: #fff;
+					border-color: #ff1744;
+					box-shadow: 0 0 18px rgba(255, 23, 68, 0.50), 0 4px 14px rgba(255, 23, 68, 0.30);
+				}
 			}
 
 			&:active {
@@ -465,11 +474,11 @@
 			}
 
 			&.following {
-				border-color: #ede9fe;
-				background: #f5f3ff;
+				border-color: rgba(255, 23, 68, 0.3);
+				background: rgba(255, 23, 68, 0.06);
 
-				svg { color: #7c3aed; }
-				.icon-count { color: #7c3aed; }
+				svg { color: #ff1744; }
+				.icon-count { color: #ff1744; }
 			}
 		}
 	}

@@ -206,19 +206,18 @@
 
 
 // ============================================================
-// Sales Manager Card — Organic Blob + Glassmorphism
+// Sales Manager Card
 // ============================================================
 .sm-blob-card {
 	position: relative;
 	width: 100%;
 	aspect-ratio: 2/3;
 	cursor: pointer;
-	border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
-	overflow: visible;
-	transition: border-radius 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
+	border-radius: 5px;
+	overflow: hidden;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
 
 	&:hover {
-		border-radius: 45% 55% 40% 60% / 55% 45% 60% 40%;
 		transform: translateY(-6px) scale(1.02);
 		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
 	}
@@ -231,7 +230,6 @@
 		background-repeat: no-repeat;
 		transition: transform 0.4s ease;
 		border-radius: inherit;
-		overflow: hidden;
 	}
 
 	&:hover .sm-blob-bg {
@@ -241,8 +239,6 @@
 	.sm-blob-overlay {
 		position: absolute;
 		inset: 0;
-		border-radius: inherit;
-		overflow: hidden;
 		background: linear-gradient(
 			to bottom,
 			rgba(0, 0, 0, 0.04) 0%,
@@ -391,35 +387,22 @@
 		}
 
 		&.following {
-			background: linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #3b82f6 100%);
+			background: rgba(255, 23, 68, 0.20);
 			color: #fff;
-			border: none;
+			border: 1px solid rgba(255, 60, 80, 0.50);
 			box-shadow:
-				0 0 12px rgba(168, 85, 247, 0.75),
-				0 0 30px rgba(99, 102, 241, 0.45),
-				inset 0 1px 0 rgba(255, 255, 255, 0.2);
-			text-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
-
-			&::before {
-				content: '';
-				position: absolute;
-				inset: 0;
-				background: linear-gradient(135deg, #c084fc 0%, #818cf8 50%, #60a5fa 100%);
-				opacity: 0;
-				transition: opacity 0.25s;
-				border-radius: 10px;
-			}
+				0 0 10px rgba(255, 23, 68, 0.30),
+				0 0 22px rgba(255, 23, 68, 0.15);
+			text-shadow: none;
 
 			&:hover {
 				transform: scale(1.03);
+				background: #ff1744;
+				border-color: #ff1744;
 				box-shadow:
-					0 0 20px rgba(168, 85, 247, 0.9),
-					0 0 45px rgba(99, 102, 241, 0.55),
-					inset 0 1px 0 rgba(255, 255, 255, 0.25);
-
-				&::before {
-					opacity: 1;
-				}
+					0 0 20px rgba(255, 23, 68, 0.60),
+					0 0 40px rgba(255, 23, 68, 0.35),
+					inset 0 1px 0 rgba(255, 255, 255, 0.20);
 			}
 
 			svg, span {

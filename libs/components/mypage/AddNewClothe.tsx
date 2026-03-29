@@ -19,7 +19,7 @@ import { userVar } from '../../../apollo/store';
 import { GET_CLOTHE } from '../../../apollo/user/query';
 import { CREATE_CLOTHE, UPDATE_CLOTHE } from '../../../apollo/user/mutation';
 
-const AddNewClothe = ({ initialValues, ...props }: any) => {
+const AddNewClothe = ({ initialValues }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const inputRef = useRef<any>(null);
@@ -39,11 +39,10 @@ const AddNewClothe = ({ initialValues, ...props }: any) => {
 	const {
 		loading: getClotheLoading,
 		data: getClotheData,
-		error: getClotheError,
-		refetch: getClotheRefetch,
 	} = useQuery(GET_CLOTHE, {
 		fetchPolicy: 'network-only',
 		variables: { input: router.query.clotheId },
+		skip: !router.query.clotheId,
 	});
 
 	/** LIFECYCLE **/
@@ -85,7 +84,7 @@ const AddNewClothe = ({ initialValues, ...props }: any) => {
 				  }`,
 					variables: {
 						files: [null, null, null, null, null],
-						target: 'clothe',
+						target: 'clothes',
 					},
 				}),
 			);

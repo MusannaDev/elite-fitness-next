@@ -1,6 +1,6 @@
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography } from '@mui/material';
+import { Box, Pagination, Stack, Typography } from '@mui/material';
 import ClotheCard from '../../libs/components/clothes/ClothesCard';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
@@ -9,7 +9,6 @@ import { useRouter } from 'next/router';
 import { ClotheInquiry } from '../../libs/types/clothes/clothes.input';
 import { Clothe } from '../../libs/types/clothes/clothes';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_CLOTHES } from '../../apollo/user/query';
@@ -32,8 +31,6 @@ const ClotheList: NextPage = ({ initialInput, ...props }: any) => {
 	const [clothes, setClothes] = useState<Clothe[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
-	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-	const [sortingOpen, setSortingOpen] = useState(false);
 	const [filterSortName, setFilterSortName] = useState('New');
 
 	// likedMap: { [clotheId]: { liked: boolean, count: number } }
@@ -142,18 +139,8 @@ const ClotheList: NextPage = ({ initialInput, ...props }: any) => {
 		}
 	};
 
-	const sortingClickHandler = (e: MouseEvent<HTMLElement>) => {
-		setAnchorEl(e.currentTarget);
-		setSortingOpen(true);
-	};
-
-	const sortingCloseHandler = () => {
-		setSortingOpen(false);
-		setAnchorEl(null);
-	};
-
-	const sortingHandler = (e: React.MouseEvent<HTMLLIElement>) => {
-		switch (e.currentTarget.id) {
+	const sortingHandler = (id: string) => {
+		switch (id) {
 			case 'new':
 				setSearchFilter({ ...searchFilter, sort: 'createdAt', direction: Direction.DESC });
 				setFilterSortName('New');
@@ -167,8 +154,6 @@ const ClotheList: NextPage = ({ initialInput, ...props }: any) => {
 				setFilterSortName('Highest Price');
 				break;
 		}
-		setSortingOpen(false);
-		setAnchorEl(null);
 	};
 
 	if (device === 'mobile') {
@@ -178,16 +163,28 @@ const ClotheList: NextPage = ({ initialInput, ...props }: any) => {
 			<div id="clothe-list-page" style={{ position: 'relative' }}>
 				<div className="container">
 					<Box component={'div'} className={'right'}>
-						<span>Sort by</span>
-						<div>
-							<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
-								{filterSortName}
-							</Button>
-							<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
-								<MenuItem onClick={sortingHandler} id={'new'} disableRipple>New</MenuItem>
-								<MenuItem onClick={sortingHandler} id={'lowest'} disableRipple>Lowest Price</MenuItem>
-								<MenuItem onClick={sortingHandler} id={'highest'} disableRipple>Highest Price</MenuItem>
-							</Menu>
+						<div className={'sort-rail'}>
+							<span className={'sort-rail__label'}>Sort</span>
+							<div className={'sort-rail__options'}>
+								<button
+									className={`sort-rail__pill${filterSortName === 'New' ? ' active' : ''}`}
+									onClick={() => sortingHandler('new')}
+								>
+									New
+								</button>
+								<button
+									className={`sort-rail__pill${filterSortName === 'Lowest Price' ? ' active' : ''}`}
+									onClick={() => sortingHandler('lowest')}
+								>
+									Low Price
+								</button>
+								<button
+									className={`sort-rail__pill${filterSortName === 'Highest Price' ? ' active' : ''}`}
+									onClick={() => sortingHandler('highest')}
+								>
+									High Price
+								</button>
+							</div>
 						</div>
 					</Box>
 					<Stack className={'clothe-page'}>

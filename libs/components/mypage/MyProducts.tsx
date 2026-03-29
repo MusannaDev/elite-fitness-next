@@ -17,7 +17,7 @@ import { sweetConfirmAlert, sweetErrorHandling } from '../../sweetAlert';
 const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const [searchFilter, setSearchFilter] = useState<TrainerProductsInquiry>(initialInput);
-	const [agentProducts, setAgentProducts] = useState<Product[]>([]);
+	const [trainerProducts, setTrainerProducts] = useState<Product[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
@@ -26,17 +26,17 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 	const [updateProduct] = useMutation(UPDATE_PRODUCT);
 
 	const {
-		loading: getAgentProductsLoading,
-		data: getAgentProductsData,
-		error: getAgentProductsError,
-		refetch: getAgentProductsRefetch,
+		loading: getTrainerProductsLoading,
+		data: getTrainerProductsData,
+		error: getTrainerProductsError,
+		refetch: getTrainerProductsRefetch,
 	} = useQuery(GET_TRAINER_PRODUCTS, {
 		fetchPolicy: 'network-only',
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setAgentProducts(data?.getAgentProducts?.list);
-			setTotal(data?.getAgentProducts?.metaCounter[0]?.total ?? 0);
+			setTrainerProducts(data?.getTrainerProducts?.list);
+			setTotal(data?.getTrainerProducts?.metaCounter[0]?.total ?? 0);
 		},
 	});
 
@@ -60,7 +60,7 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 						},
 					},
 				});
-				await getAgentProductsRefetch({ input: searchFilter });
+				await getTrainerProductsRefetch({ input: searchFilter });
 			}
 		} catch (err: any) {
 			await sweetErrorHandling(err);
@@ -78,7 +78,7 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 						},
 					},
 				});
-				await getAgentProductsRefetch({ input: searchFilter });
+				await getTrainerProductsRefetch({ input: searchFilter });
 			}
 		} catch (err: any) {
 			await sweetErrorHandling(err);
@@ -126,13 +126,13 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 							)}
 						</Stack>
 
-						{agentProducts?.length === 0 ? (
+						{trainerProducts?.length === 0 ? (
 							<div className={'no-data'}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
 								<p>No Products found!</p>
 							</div>
 						) : (
-							agentProducts.map((product: Product) => {
+							trainerProducts?.map((product: Product) => {
 								return (
 									<ProductCard
 										product={product}
@@ -144,7 +144,7 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 							})
 						)}
 
-						{agentProducts.length !== 0 && (
+						{trainerProducts.length !== 0 && (
 							<Stack className="pagination-config">
 								<Stack className="pagination-box">
 									<Pagination

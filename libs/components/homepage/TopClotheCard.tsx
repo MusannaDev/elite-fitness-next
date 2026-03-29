@@ -4,7 +4,6 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import CheckroomIcon from '@mui/icons-material/Checkroom';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
@@ -30,64 +29,58 @@ const TopClothesCard = (props: TopClothesCardProps) => {
 
 	return (
 		<Stack className="top-clothes-card">
-			<Box className="clothes-image-wrap" onClick={() => pushDetailHandler(clothe._id)}>
+			{/* Lookbook image — fills top 75% */}
+			<Box className="clothes-img-wrap" onClick={() => pushDetailHandler(clothe._id)}>
 				<Box
-					className="clothes-image"
-					style={{
-						backgroundImage: `url(${REACT_APP_API_URL}/${clothe?.clotheImages?.[0]})`,
-					}}
+					className="clothes-img"
+					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${clothe?.clotheImages?.[0]})` }}
 				/>
-				<Box className="price-pill">
-					<Typography>${clothe.clothePrice}</Typography>
+
+				{/* Hover overlay showing size / gender / material */}
+				<Box className="clothes-hover-overlay">
+					{clothe.clotheSize && (
+						<Chip className="overlay-chip" label={clothe.clotheSize} size="small" />
+					)}
+					{clothe.clotheGender && (
+						<Chip className="overlay-chip" label={clothe.clotheGender} size="small" />
+					)}
+					{clothe.clotheMaterial && (
+						<Chip className="overlay-chip" label={clothe.clotheMaterial} size="small" />
+					)}
 				</Box>
+
 				{clothe.isBestseller && (
-					<Box className="bestseller-pill">
-						<Typography>Bestseller</Typography>
-					</Box>
+					<Box className="clothes-bestseller"><Typography>BESTSELLER</Typography></Box>
+				)}
+
+				{clothe.clotheColor && (
+					<Box className="clothes-color-dot" style={{ background: clothe.clotheColor.toLowerCase() }} />
 				)}
 			</Box>
 
-			<Box className="clothes-body">
-				<Stack direction="row" justifyContent="space-between" alignItems="flex-start">
-					<Box>
-						<Typography className="clothes-name" onClick={() => pushDetailHandler(clothe._id)}>
+			{/* Minimal info strip */}
+			<Box className="clothes-info-strip">
+				<Stack direction="row" alignItems="flex-start" justifyContent="space-between">
+					<Box flex={1} minWidth={0} mr="8px">
+						<Typography className="clothes-strip-name" onClick={() => pushDetailHandler(clothe._id)}>
 							{clothe.clotheName}
 						</Typography>
-						<Typography className="clothes-brand">{clothe.clotheBrand}</Typography>
+						<Typography className="clothes-strip-brand">{clothe.clotheBrand}</Typography>
 					</Box>
-					<Stack direction="row" className="clothes-meta-tags" gap="4px" flexWrap="wrap" maxWidth="100px">
-						<Chip className="meta-pill" label={clothe.clotheSize} size="small" />
-						<Chip className="meta-pill gender" label={clothe.clotheGender} size="small" />
-					</Stack>
+					<Typography className="clothes-strip-price">${clothe.clothePrice}</Typography>
 				</Stack>
 
-				<Stack direction="row" gap="6px" mt="10px" flexWrap="wrap">
-					{clothe.clotheColor && (
-						<Box className="color-dot-wrap">
-							<Box className="color-dot" style={{ background: clothe.clotheColor.toLowerCase() }} />
-							<Typography className="color-label">{clothe.clotheColor}</Typography>
-						</Box>
-					)}
-					{clothe.clotheMaterial && (
-						<Chip className="material-chip" label={clothe.clotheMaterial} size="small" />
-					)}
-				</Stack>
-
-				<Stack direction="row" className="clothes-footer" justifyContent="space-between" alignItems="center" mt="12px">
-					<Stack direction="row" alignItems="center" gap="4px" className="stock-info">
-						<CheckroomIcon style={{ fontSize: 13 }} />
-						<Typography>{clothe.clotheLeftCount} left</Typography>
-					</Stack>
-
-					<Stack direction="row" alignItems="center" gap="4px">
-						<IconButton size="small" className="action-btn">
+				<Stack direction="row" alignItems="center" justifyContent="space-between" mt="8px">
+					<Typography className="clothes-strip-stock">{clothe.clotheLeftCount} left</Typography>
+					<Stack direction="row" alignItems="center" gap="3px">
+						<IconButton size="small" className="clothes-action-btn">
 							<RemoveRedEyeIcon style={{ fontSize: 13 }} />
 						</IconButton>
-						<Typography className="count">{clothe.clotheViews}</Typography>
+						<Typography className="clothes-count">{clothe.clotheViews}</Typography>
 
 						<IconButton
 							size="small"
-							className={`action-btn ${clothe?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
+							className={`clothes-action-btn ${clothe?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
 							onClick={() => likeHandler(user, clothe._id)}
 						>
 							<FavoriteIcon
@@ -97,11 +90,11 @@ const TopClothesCard = (props: TopClothesCardProps) => {
 								}}
 							/>
 						</IconButton>
-						<Typography className="count">{clothe.clotheLikes}</Typography>
+						<Typography className="clothes-count">{clothe.clotheLikes}</Typography>
 
 						<IconButton
 							size="small"
-							className={`action-btn comment-btn ${commentOpen ? 'active' : ''}`}
+							className={`clothes-action-btn comment-btn ${commentOpen ? 'active' : ''}`}
 							onClick={() => setCommentOpen(!commentOpen)}
 						>
 							<ChatBubbleOutlineIcon style={{ fontSize: 13 }} />
@@ -117,7 +110,7 @@ const TopClothesCard = (props: TopClothesCardProps) => {
 				</Stack>
 
 				<Collapse in={commentOpen}>
-					<Box className="comment-section">
+					<Box className="clothes-comment-section">
 						<ClotheComments
 							commentGroup={CommentGroup.CLOTHES}
 							commentRefId={clothe._id}

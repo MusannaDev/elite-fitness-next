@@ -6,6 +6,7 @@ import {
 	EquipmentCategory,
 	EquipmentMaterial,
 	EquipmentWeightCapacity,
+	EquipmentWeightCapacityLabel,
 	EquipmentLocation,
 } from '../../enums/equipment.enum';
 import { REACT_APP_API_URL } from '../../config';
@@ -18,7 +19,7 @@ import { userVar } from '../../../apollo/store';
 import { GET_EQUIPMENT } from '../../../apollo/user/query';
 import { CREATE_EQUIPMENT, UPDATE_EQUIPMENT } from '../../../apollo/user/mutation';
 
-const AddNewEquipment = ({ initialValues, ...props }: any) => {
+const AddNewEquipment = ({ initialValues }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const inputRef = useRef<any>(null);
@@ -37,11 +38,10 @@ const AddNewEquipment = ({ initialValues, ...props }: any) => {
 	const {
 		loading: getEquipmentLoading,
 		data: getEquipmentData,
-		error: getEquipmentError,
-		refetch: getEquipmentRefetch,
 	} = useQuery(GET_EQUIPMENT, {
 		fetchPolicy: 'network-only',
 		variables: { input: router.query.equipmentId },
+		skip: !router.query.equipmentId,
 	});
 
 	/** LIFECYCLE **/
@@ -57,8 +57,8 @@ const AddNewEquipment = ({ initialValues, ...props }: any) => {
 				equipmentMaterial: data.equipmentMaterial || '',
 				equipmentLocation: data.equipmentLocation || '',
 				equipmentLeftCount: data.equipmentLeftCount || 0,
-				equipmentWeightCapacity: data.equipmentWeightCapacity || '',
-				equipmentWeight: data.equipmentWeight || 0,
+				equipmentWeightCapacity: data.equipmentWeightCapacity || undefined,
+				equipmentWeight: data.equipmentWeight ?? 0,
 				equipmentDesc: data.equipmentDesc || '',
 				equipmentImages: data.equipmentImages || [],
 				isBestseller: data.isBestseller || false,
@@ -293,7 +293,7 @@ const AddNewEquipment = ({ initialValues, ...props }: any) => {
 										</option>
 										{equipmentWeightCapacity.map((wc: any) => (
 											<option value={wc} key={wc}>
-												{wc}
+												{EquipmentWeightCapacityLabel[wc as EquipmentWeightCapacity] || wc}
 											</option>
 										))}
 									</select>
@@ -450,7 +450,7 @@ AddNewEquipment.defaultProps = {
 		equipmentMaterial: '',
 		equipmentLocation: '',
 		equipmentLeftCount: 0,
-		equipmentWeightCapacity: '',
+		equipmentWeightCapacity: undefined,
 		equipmentWeight: 0,
 		equipmentImages: [],
 		equipmentDesc: '',

@@ -90,19 +90,18 @@ const TopSalesManagers = (props: TopSalesManagersProps) => {
 		<Stack className="top-sales-managers">
 			<Stack className="container">
 				<Stack className="info-box">
-					<Box className="left">
+					<Stack className="info-row-top">
 						<Typography className="section-label">— SALES PROS</Typography>
-						<Typography className="section-title">Our Sales Team</Typography>
-						<Typography className="section-sub">Your go-to gear advisors</Typography>
-					</Box>
-					<Box className="right">
 						<Link href="/member?memberType=SALES_MANAGER">
 							<Box className="more-box">
 								<Typography>All Managers</Typography>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</Box>
 						</Link>
-					</Box>
+					</Stack>
+					<Box className="info-divider" />
+					<Typography className="section-title">Our Sales Team</Typography>
+					<Typography className="section-sub">Your go-to gear advisors</Typography>
 				</Stack>
 
 				<Stack className="managers-strip">

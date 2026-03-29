@@ -30,36 +30,65 @@ $f-sans:     'DM Sans', 'Inter', sans-serif;
 				position: absolute;
 				right: 0;
 				top: 3%;
-				display: flex;
-				flex-direction: row;
-				align-items: center;
 				z-index: 2;
 
-				span {
-					color: $f-mid;
-					font-family: $f-sans;
-					font-size: 13px;
-					font-weight: 500;
-				}
+				.sort-rail {
+					display: flex;
+					align-items: center;
+					gap: 10px;
+					background: rgba(255, 255, 255, 0.72);
+					backdrop-filter: blur(12px);
+					-webkit-backdrop-filter: blur(12px);
+					border: 1px solid rgba(43, 180, 122, 0.22);
+					border-radius: 100px;
+					padding: 5px 8px 5px 14px;
+					box-shadow: 0 2px 16px rgba(26, 31, 54, 0.07);
 
-				button {
-					margin-left: 10px;
-					color: $f-text;
-					font-family: $f-sans;
-					font-size: 14px;
-					font-style: normal;
-					font-weight: 600;
-					line-height: 26px;
-					border: 1px solid $f-low;
-					padding: 4px 16px;
-					border-radius: 8px;
-					background: $f-surface;
-					transition: all 0.2s;
+					&__label {
+						font-family: $f-mono;
+						font-size: 10px;
+						font-weight: 700;
+						letter-spacing: 1.2px;
+						text-transform: uppercase;
+						color: $f-light;
+						white-space: nowrap;
+						padding-right: 4px;
+						border-right: 1px solid rgba(43, 180, 122, 0.25);
+					}
 
-					&:hover {
-						background: $f-neon-dim;
-						border-color: $f-neon;
-						color: $f-neon;
+					&__options {
+						display: flex;
+						align-items: center;
+						gap: 3px;
+					}
+
+					&__pill {
+						display: inline-flex;
+						align-items: center;
+						padding: 5px 14px;
+						border-radius: 100px;
+						border: 1px solid transparent;
+						background: transparent;
+						font-family: $f-sans;
+						font-size: 12px;
+						font-weight: 600;
+						color: $f-mid;
+						cursor: pointer;
+						transition: all 0.2s ease;
+						white-space: nowrap;
+
+						&:hover {
+							background: $f-neon-dim;
+							color: $f-neon;
+							border-color: rgba(43, 180, 122, 0.30);
+						}
+
+						&.active {
+							background: $f-neon;
+							color: #ffffff;
+							border-color: $f-neon;
+							box-shadow: 0 2px 10px rgba(43, 180, 122, 0.35);
+						}
 					}
 				}
 			}

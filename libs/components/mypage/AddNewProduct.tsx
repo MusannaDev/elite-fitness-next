@@ -5,6 +5,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import {
 	ProductCategory,
 	ProductWeight,
+	ProductWeightLabel,
 	ProductFlavor,
 	ProductBenefits,
 } from '../../enums/product.enum';
@@ -18,7 +19,7 @@ import { userVar } from '../../../apollo/store';
 import { GET_PRODUCT } from '../../../apollo/user/query';
 import { CREATE_PRODUCT, UPDATE_PRODUCT } from '../../../apollo/user/mutation';
 
-const AddNewProduct = ({ initialValues, ...props }: any) => {
+const AddNewProduct = ({ initialValues }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const inputRef = useRef<any>(null);
@@ -37,11 +38,10 @@ const AddNewProduct = ({ initialValues, ...props }: any) => {
 	const {
 		loading: getProductLoading,
 		data: getProductData,
-		error: getProductError,
-		refetch: getProductRefetch,
 	} = useQuery(GET_PRODUCT, {
 		fetchPolicy: 'network-only',
 		variables: { input: router.query.productId },
+		skip: !router.query.productId,
 	});
 
 	/** LIFECYCLE **/
@@ -276,7 +276,7 @@ const AddNewProduct = ({ initialValues, ...props }: any) => {
 										</option>
 										{productWeight.map((w: any) => (
 											<option value={w} key={w}>
-												{w}
+												{ProductWeightLabel[w as ProductWeight] || w}
 											</option>
 										))}
 									</select>

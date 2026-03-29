@@ -90,19 +90,18 @@ const TopAgents = (props: TopAgentsProps) => {
 		<Stack className="top-agents">
 			<Stack className="container">
 				<Stack className="info-box">
-					<Box className="left">
+					<Stack className="info-row-top">
 						<Typography className="section-label">— FITNESS EXPERTS</Typography>
-						<Typography className="section-title">Meet The Agents</Typography>
-						<Typography className="section-sub">Connecting athletes with the right services</Typography>
-					</Box>
-					<Box className="right">
 						<Link href="/member?memberType=AGENT">
 							<Box className="more-box">
 								<Typography>All Agents</Typography>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</Box>
 						</Link>
-					</Box>
+					</Stack>
+					<Box className="info-divider" />
+					<Typography className="section-title">Meet The Agents</Typography>
+					<Typography className="section-sub">Connecting athletes with the right services</Typography>
 				</Stack>
 
 				<Stack className="agents-strip">

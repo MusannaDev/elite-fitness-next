@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { Stack, Box, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper';
-import WestIcon from '@mui/icons-material/West';
-import EastIcon from '@mui/icons-material/East';
+import { Autoplay } from 'swiper';
 import TopClothesCard from './TopClotheCard';
 import { Clothe } from '../../types/clothes/clothes';
 import { ClotheInquiry } from '../../types/clothes/clothes.input';
@@ -50,6 +48,9 @@ const TopClothes = (props: TopClothesProps) => {
 
 	if (!topClothes) return null;
 
+	// 1 → 1 col (full width), 2-3 → exact count cols, 4-6 → 3 cols (max 2 rows)
+	const colCount = topClothes.length <= 3 ? topClothes.length || 1 : 3;
+
 	if (device === 'mobile') {
 		return (
 			<Stack className="top-clothes">
@@ -82,39 +83,29 @@ const TopClothes = (props: TopClothesProps) => {
 		<Stack className="top-clothes">
 			<Stack className="container">
 				<Stack className="info-box">
-					<Box className="left">
+					<Stack className="info-row-top">
 						<Typography className="section-label">— SPORT FASHION</Typography>
-						<Typography className="section-title">Athletic Wear</Typography>
-						<Typography className="section-sub">Premium activewear for every session</Typography>
-					</Box>
-					<Box className="right">
-						<Box className="pagination-box">
-							<WestIcon className="swiper-clothes-prev" />
-							<Box className="swiper-clothes-pagination" />
-							<EastIcon className="swiper-clothes-next" />
-						</Box>
-					</Box>
+						<Link href="/clothes">
+							<Box className="more-box">
+								<Typography>All Clothes</Typography>
+								<img src="/img/icons/rightup.svg" alt="" />
+							</Box>
+						</Link>
+					</Stack>
+					<Box className="info-divider" />
+					<Typography className="section-title">Athletic Wear</Typography>
+					<Typography className="section-sub">Premium activewear for every session</Typography>
 				</Stack>
 
-				<Stack className="card-box">
-					<Swiper
-						className="top-clothes-swiper"
-						slidesPerView={'auto'}
-						spaceBetween={16}
-						modules={[Autoplay, Navigation, Pagination]}
-						navigation={{
-							nextEl: '.swiper-clothes-next',
-							prevEl: '.swiper-clothes-prev',
-						}}
-						pagination={{ el: '.swiper-clothes-pagination' }}
-					>
-						{topClothes.map((clothe) => (
-							<SwiperSlide key={clothe._id} className="top-clothes-slide">
-								<TopClothesCard clothe={clothe} likeHandler={likeHandler} />
-							</SwiperSlide>
-						))}
-					</Swiper>
-				</Stack>
+				{/* Dynamic grid — no swiper */}
+				<Box
+					className="clothes-grid"
+					style={{ gridTemplateColumns: `repeat(${colCount}, 1fr)` }}
+				>
+					{topClothes.map((clothe) => (
+						<TopClothesCard key={clothe._id} clothe={clothe} likeHandler={likeHandler} />
+					))}
+				</Box>
 			</Stack>
 		</Stack>
 	);
@@ -123,7 +114,7 @@ const TopClothes = (props: TopClothesProps) => {
 TopClothes.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 8,
+		limit: 6,
 		sort: 'clotheRank',
 		direction: 'DESC',
 		search: {},

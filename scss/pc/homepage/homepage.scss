@@ -111,27 +111,39 @@ $r-lg        : 20px;
 // =================================================================
 .info-box {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 32px;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 36px;
 
-  .left {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  // ── Top row: label left · CTA right ──────────────────────────
+  .info-row-top {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
   }
 
   .section-label { @include label; }
-  .section-title { @include h2; }
+
+  // ── Full-width gradient divider ───────────────────────────────
+  .info-divider {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, $neon-dark 0%, $neon 40%, transparent 100%);
+    margin-bottom: 18px;
+    border-radius: 2px;
+  }
+
+  // ── Title & sub below the line ────────────────────────────────
+  .section-title { @include h2; margin-bottom: 6px; }
   .section-sub {
     font-size: 14px;
     color: $g2;
-    margin-top: 4px;
   }
 
-  .right {
-    .more-box { @include neon-btn; }
-  }
+  // ── CTA button ────────────────────────────────────────────────
+  .more-box { @include neon-btn; }
 
   .pagination-box {
     display: flex;
@@ -159,255 +171,272 @@ $r-lg        : 20px;
 }
 
 // =================================================================
-//  1. TREND PRODUCTS  —  "Fuel Your Gains"
+//  1. TREND PRODUCTS — Apple Badge Cards — LIGHT GRID
 // =================================================================
 .trend-products {
   padding: 80px 0;
-  background: $bg-alt;
+  background: #f5f5f7;
 
   .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
 
-  .divider-line {
-    height: 2px;
-    background: linear-gradient(90deg, $neon 0%, transparent 80%);
-    margin-bottom: 28px;
-    border-radius: 2px;
+  .info-box {
+    .section-label { color: #6e6e73 !important; letter-spacing: 2px; }
+    .info-divider { background: linear-gradient(to right, #1d1d1f 0%, #3a3a3c 40%, transparent 100%) !important; }
+    .section-title { color: #1d1d1f !important; }
+    .section-sub { color: #86868b !important; }
+    .more-box {
+      background: #1d1d1f !important; border-color: #1d1d1f !important;
+      color: #fff !important;
+      img { filter: invert(1); }
+      &:hover { background: #3a3a3c !important; box-shadow: 0 4px 18px rgba(0,0,0,.18) !important; }
+    }
   }
 
-  .product-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
   }
 
   .empty-list {
-    padding: 40px;
-    text-align: center;
-    color: $g2;
-    font-size: 14px;
+    padding: 40px; text-align: center;
+    color: #86868b; font-size: 14px;
   }
 }
 
 .trend-product-card {
-  @include card-base;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
   cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  transition: transform .3s cubic-bezier(.25,.8,.25,1), box-shadow .3s ease;
 
-  .rank-number {
-    width: 36px;
-    flex-shrink: 0;
-    .rank-text {
-      font-size: 22px;
-      font-weight: 900;
-      color: $neon-dark;
-      line-height: 1;
-      font-feature-settings: "tnum";
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 40px rgba(0,0,0,.13);
+  }
+
+  // Top image area — light gray bg like Apple product shots
+  .card-image-area {
+    height: 210px;
+    background: #f5f5f7;
+    position: relative;
+    overflow: hidden;
+
+    .product-img {
+      width: 100%; height: 100%;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: #f5f5f7;
+      transition: transform .4s ease;
+    }
+    &:hover .product-img { transform: scale(1.05); }
+
+    // Category pill — top left — Apple blue
+    .category-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(0,113,227,.1);
+      border-radius: 20px;
+      padding: 4px 10px;
+      p {
+        font-size: 9px; font-weight: 700;
+        color: #0071e3;
+        letter-spacing: 0.7px; text-transform: uppercase;
+        margin: 0;
+      }
+    }
+
+    // Rank circle — top right
+    .rank-badge {
+      position: absolute; top: 12px; right: 12px;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: #1d1d1f;
+      display: flex; align-items: center; justify-content: center;
+      p {
+        font-size: 10px; font-weight: 800;
+        color: #fff; margin: 0; line-height: 1;
+      }
     }
   }
 
-  .product-thumb {
-    width: 64px;
-    height: 64px;
-    border-radius: $r-sm;
-    background-size: cover;
-    background-position: center;
-    background-color: $g4;
-    flex-shrink: 0;
-    border: 1px solid $border;
-  }
-
-  .product-info {
-    flex: 1;
-    min-width: 0;
+  // Text content
+  .card-body {
+    padding: 16px;
 
     .product-name {
-      font-size: 15px;
-      font-weight: 700;
-      color: $dark;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      &:hover { color: $neon-dark; }
+      font-size: 14px; font-weight: 600; color: #1d1d1f;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      &:hover { color: #0071e3; }
     }
+    .product-brand { font-size: 11px; color: #86868b; margin-top: 3px; }
 
-    .product-brand {
-      font-size: 12px;
-      color: $g2;
-      margin-top: 2px;
-    }
+    .macro-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
 
-    .macro-chip {
-      background: $neon-bg !important;
-      color: $neon-dark !important;
-      border: 1px solid rgba(200,247,0,.4) !important;
-      font-size: 10px !important;
-      height: 20px !important;
-      .MuiChip-label { padding: 0 8px !important; }
-      .MuiChip-icon { color: $neon-dark !important; }
-
+    // Apple-style pill chips
+    .macro-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: #f5f5f7;
+      border-radius: 20px;
+      padding: 4px 9px;
+      span { font-size: 10px; font-weight: 500; color: #1d1d1f; }
+      svg { color: #6e6e73; flex-shrink: 0; }
       &.protein {
-        background: $cyan-bg !important;
-        color: $cyan !important;
-        border-color: $cyan-border !important;
-        .MuiChip-icon { color: $cyan !important; }
+        background: rgba(0,113,227,.08);
+        span { color: #0071e3; }
       }
-      &.benefit {
-        background: rgba(255,107,0,.08) !important;
-        color: #d45f00 !important;
-        border-color: rgba(255,107,0,.25) !important;
+      &.weight {
+        background: rgba(142,142,147,.12);
+        span { color: #3a3a3c; }
       }
     }
-  }
 
-  .product-actions {
-    flex-shrink: 0;
+    // Price + actions row
+    .card-footer {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid #f0f0f3;
 
-    .product-price {
-      font-size: 16px;
-      font-weight: 800;
-      color: $neon-dark;
-      text-align: right;
+      .product-price {
+        font-size: 17px; font-weight: 700; color: #0071e3;
+        letter-spacing: -0.3px;
+      }
+
+      .ap-btn {
+        width: 26px !important; height: 26px !important;
+        background: #f5f5f7 !important;
+        border: none !important;
+        border-radius: 8px !important;
+        color: #86868b !important;
+        transition: all .2s !important;
+        svg { font-size: 13px !important; }
+        &:hover {
+          background: #e8e8ed !important;
+          color: #1d1d1f !important;
+        }
+        &.liked {
+          background: rgba(239,68,68,.08) !important;
+          color: #ef4444 !important;
+        }
+      }
+      .ap-count { font-size: 11px; color: #86868b; min-width: 16px; }
     }
-
-    .action-btn { @include icon-btn; }
-    .count-text { font-size: 11px; color: $g2; min-width: 18px; }
   }
 }
 
 // =================================================================
-//  2. TOP TRAINERS  —  "Elite Coaches"
+//  2. TOP TRAINERS — "Elite Coaches" — HORIZONTAL ROSTER 2-COL
 // =================================================================
 .top-trainers {
   padding: 80px 0;
-  background: $bg;
+  background: $bg-alt;
 
   .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
 
   .trainers-strip {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 
-  .trainer-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
+  .trainer-list { display: flex; flex-direction: column; gap: 12px; }
 }
 
 .top-trainer-card {
-  @include card-base;
-  display: flex;
-  flex-direction: column;
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $r;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
   overflow: hidden;
   cursor: pointer;
+  transition: border-color .25s, box-shadow .25s, transform .2s;
 
-  .trainer-photo-wrap {
-    position: relative;
-    height: 240px;
-    flex-shrink: 0;
-    cursor: pointer;
-
-    .trainer-photo {
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center top;
-      background-color: $g4;
-      transition: transform .4s ease;
-    }
-
-    .trainer-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: $neon;
-      border-radius: 5px;
-      padding: 3px 10px;
-      p {
-        font-size: 10px;
-        font-weight: 900;
-        color: $dark;
-        letter-spacing: 1.5px;
-      }
-    }
-
-    &:hover .trainer-photo { transform: scale(1.04); }
+  &:hover {
+    border-color: $neon;
+    box-shadow: 0 4px 20px $neon-glow;
+    transform: translateY(-2px);
+    .tr-photo { transform: scale(1.04); }
   }
 
-  .trainer-body {
-    padding: 14px 16px 0;
+  .tr-card-main {
+    display: flex; flex-direction: row; min-height: 210px;
+  }
 
-    .trainer-name {
-      font-size: 16px;
-      font-weight: 700;
-      color: $dark;
+  .tr-photo-side {
+    width: 44%; flex-shrink: 0;
+    position: relative; overflow: hidden; cursor: pointer;
+    align-self: stretch;
+
+    .tr-photo {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center top;
+      background-color: $g4; transition: transform .4s ease;
+    }
+
+    .tr-badge {
+      position: absolute; bottom: 12px; left: 12px;
+      background: $neon; border-radius: 5px; padding: 3px 10px;
+      p { font-size: 10px; font-weight: 900; color: $dark; letter-spacing: 1.5px; }
+    }
+  }
+
+  .tr-info-side {
+    flex: 1; padding: 16px;
+    display: flex; flex-direction: column; gap: 8px;
+    border-left: 3px solid $neon;
+
+    .tr-name {
+      font-size: 16px; font-weight: 700; color: $dark; cursor: pointer;
       &:hover { color: $neon-dark; }
     }
-
-    .trainer-type {
-      font-size: 11px;
-      color: $cyan;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-top: 3px;
+    .tr-role {
+      font-size: 9px; color: $cyan;
+      letter-spacing: 2.5px; text-transform: uppercase; margin-top: -4px;
+    }
+    .tr-desc {
+      font-size: 12px; color: $g2; line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
     }
 
-    .trainer-stats {
-      gap: 0;
-      border-top: 1px solid $border;
-      margin-top: 12px;
-      padding-top: 12px;
+    .tr-stats {
+      display: flex; gap: 0;
+      border-top: 1px solid $border; padding-top: 10px; margin-top: auto;
 
-      .stat-item {
-        flex: 1;
-        text-align: center;
-        .stat-num { font-size: 16px; font-weight: 800; color: $dark; line-height: 1; }
-        .stat-lbl { font-size: 10px; color: $g2; text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
-      }
-      .stat-divider {
-        width: 1px;
-        background: $border;
-        align-self: stretch;
+      .tr-stat {
+        flex: 1; text-align: center;
+        .tr-stat-num { font-size: 15px; font-weight: 800; color: $dark; line-height: 1; }
+        .tr-stat-lbl { font-size: 9px; color: $g2; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+        & + .tr-stat { border-left: 1px solid $border; }
       }
     }
-  }
 
-  .trainer-actions {
-    padding: 12px 16px;
-    border-top: 1px solid $border;
-    margin-top: 12px;
+    .tr-actions {
+      border-top: 1px solid $border; padding-top: 10px;
+      display: flex; flex-direction: row; align-items: center; flex-wrap: wrap;
 
-    .follow-btn, .like-btn, .view-btn { @include icon-btn; }
-    .count-text { font-size: 11px; color: $g2; min-width: 16px; }
-
-    .comment-toggle-btn {
-      @include icon-btn;
-      gap: 3px;
-      width: auto !important;
-      padding: 0 8px !important;
-      .comment-count { font-size: 11px; }
-      &.active { border-color: $cyan !important; color: $cyan !important; background: $cyan-bg !important; }
+      .tr-btn {
+        @include icon-btn;
+        &.tr-comment-btn {
+          width: auto !important; padding: 0 8px !important; gap: 3px;
+          p { font-size: 11px; }
+          &.active { border-color: $cyan !important; color: $cyan !important; background: $cyan-bg !important; }
+        }
+      }
+      .tr-count { font-size: 11px; color: $g2; min-width: 16px; }
     }
   }
 
-  .comment-panel {
-    padding: 0 16px 14px;
-    border-top: 1px solid $border;
-    padding-top: 12px;
-  }
+  .tr-comment-panel { padding: 12px 16px; border-top: 1px solid $border; }
 }
 
 // =================================================================
-//  3. POPULAR PROPERTIES  —  "Gym Spaces"
+//  3. POPULAR PROPERTIES — "Gym Spaces" — PORTRAIT IMAGE-DOMINANT
 // =================================================================
 .popular-properties {
   padding: 80px 0;
-  background: $bg-alt;
+  background: $bg;
 
   .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
 
@@ -415,23 +444,14 @@ $r-lg        : 20px;
     position: relative;
     .popular-property-swiper {
       overflow: visible;
-      .popular-property-slide { width: 280px !important; }
+      .popular-property-slide { width: 300px !important; }
     }
   }
 
   .pagination-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    margin-top: 24px;
-    svg {
-      color: $g2;
-      cursor: pointer;
-      font-size: 22px;
-      transition: color .2s;
-      &:hover { color: $neon-dark; }
-    }
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; margin-top: 28px;
+    svg { color: $g2; cursor: pointer; font-size: 22px; transition: color .2s; &:hover { color: $neon-dark; } }
     .swiper-popular-pagination {
       display: flex; gap: 6px;
       .swiper-pagination-bullet {
@@ -443,49 +463,64 @@ $r-lg        : 20px;
 }
 
 .popular-property-card {
-  @include card-base;
+  background: $card;
+  border-radius: $r-lg;
   overflow: hidden;
   cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,.08);
+  transition: box-shadow .25s, transform .2s;
+
+  &:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,.16);
+    transform: translateY(-4px);
+    .prop-image { transform: scale(1.05); }
+  }
 
   .prop-image-wrap {
-    position: relative;
-    height: 180px;
+    position: relative; height: 260px; overflow: hidden;
+
     .prop-image {
       width: 100%; height: 100%;
       background-size: cover; background-position: center;
-      background-color: $g4;
+      background-color: $g4; transition: transform .5s ease;
     }
+
+    &::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, rgba(13,13,26,.78) 100%);
+    }
+
     .top-badge {
-      position: absolute; top: 10px; left: 10px;
-      background: $neon; border-radius: 6px;
-      padding: 3px 8px;
+      position: absolute; top: 14px; left: 14px; z-index: 2;
+      background: $neon; border-radius: 6px; padding: 4px 10px;
       display: flex; align-items: center; gap: 4px;
       img { width: 12px; filter: brightness(0); }
       p { font-size: 10px; font-weight: 900; color: $dark; letter-spacing: 1px; }
     }
+
     .price-tag {
-      position: absolute; bottom: 10px; right: 10px;
-      background: rgba(255,255,255,.9);
-      border: 1.5px solid $neon;
-      border-radius: $r-sm;
-      padding: 4px 10px;
-      backdrop-filter: blur(6px);
-      p { font-size: 14px; font-weight: 800; color: $neon-dark; }
+      position: absolute; bottom: 14px; right: 14px; z-index: 2;
+      background: $neon; border-radius: $r-sm; padding: 5px 12px;
+      p { font-size: 16px; font-weight: 900; color: $dark; line-height: 1; }
+    }
+
+    .prop-title-overlay {
+      position: absolute; bottom: 14px; left: 14px; z-index: 2; max-width: 58%;
+      p { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.35;
+        display: -webkit-box; 
+        -webkit-line-clamp: 2;
+       -webkit-box-orient: vertical; 
+       overflow: hidden; 
+      }
+      span { font-size: 11px; color: rgba(255,255,255,.6); display: block; margin-top: 2px; }
     }
   }
 
   .prop-body {
     padding: 14px;
 
-    .prop-title {
-      font-size: 14px; font-weight: 700; color: $dark;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      &:hover { color: $neon-dark; }
-    }
-    .prop-address { font-size: 12px; color: $g2; margin-top: 2px; }
-
     .prop-specs {
-      margin-top: 10px;
       .spec-item {
         p { font-size: 12px; color: $g1; }
         svg { color: $cyan; }
@@ -496,17 +531,13 @@ $r-lg        : 20px;
 
     .prop-footer {
       .prop-type-badge {
-        background: $cyan-bg;
-        border: 1px solid $cyan-border;
-        border-radius: 5px; padding: 2px 8px;
+        background: $cyan-bg; border: 1px solid $cyan-border; border-radius: 5px; padding: 2px 8px;
         p { font-size: 10px; font-weight: 700; color: $cyan; letter-spacing: 1px; text-transform: uppercase; }
       }
       .action-icon { @include icon-btn; }
       .action-count { font-size: 11px; color: $g2; min-width: 18px; }
       .comment-icon {
-        @include icon-btn;
-        width: auto !important;
-        padding: 0 6px !important;
+        @include icon-btn; width: auto !important; padding: 0 6px !important;
         &.active { border-color: $cyan !important; color: $cyan !important; }
       }
     }
@@ -516,418 +547,401 @@ $r-lg        : 20px;
 }
 
 // =================================================================
-//  4. TOP AGENTS  —  "Meet The Agents"
+//  4. TOP AGENTS — "Meet The Agents" — COMPACT DIRECTORY 3-COL
 // =================================================================
 .top-agents {
   padding: 80px 0;
-  background: $bg-alt;
+  background: $bg;
 
   .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
 
   .agents-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 16px;
   }
 
-  .agents-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
+  .agents-list { display: flex; flex-direction: column; gap: 12px; }
 }
 
 .top-agent-card {
-  @include card-base;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  background: $card;
+  border: 1px solid $border;
+  border-left: 3px solid $cyan;
+  border-radius: $r;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  display: flex; flex-direction: column; gap: 12px;
   cursor: pointer;
+  transition: box-shadow .25s, transform .2s;
 
-  .agent-photo-wrap {
-    position: relative;
-    height: 240px;
-    flex-shrink: 0;
-    cursor: pointer;
-    overflow: hidden;
-
-    .agent-photo {
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center top;
-      background-color: $g4;
-      transition: transform .4s ease;
-    }
-
-    .agent-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: $cyan;
-      border-radius: 5px;
-      padding: 3px 10px;
-      p {
-        font-size: 10px;
-        font-weight: 900;
-        color: #fff;
-        letter-spacing: 1.5px;
-      }
-    }
-
-    &:hover .agent-photo { transform: scale(1.04); }
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0,168,200,.18);
+    transform: translateY(-2px);
+    .agent-avatar { border-color: $cyan; }
   }
 
-  .agent-body {
-    padding: 14px 16px 0;
-    flex: 1;
+  .agent-card-header {
+    display: flex; align-items: center; gap: 12px;
+
+    .agent-avatar {
+      width: 60px; height: 60px; border-radius: 50%;
+      background-size: cover; background-position: center;
+      background-color: $g4; flex-shrink: 0;
+      border: 2px solid $cyan-border; cursor: pointer;
+      transition: border-color .25s;
+    }
+
+    .agent-info-col { flex: 1; min-width: 0; }
 
     .agent-name {
-      font-size: 16px;
-      font-weight: 700;
-      color: $dark;
+      font-size: 15px; font-weight: 700; color: $dark; cursor: pointer;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       &:hover { color: $cyan; }
     }
+    .agent-role { font-size: 9px; color: $cyan; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
 
-    .agent-desc {
-      font-size: 12px;
-      color: $g2;
-      margin-top: 4px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .agent-stat {
-      p { font-size: 12px; color: $g1; }
-      svg { color: $neon-dark; font-size: 13px !important; }
+    .agent-rank-pill {
+      flex-shrink: 0; background: $cyan-bg; border: 1px solid $cyan-border;
+      border-radius: 8px; padding: 4px 9px;
+      p { font-size: 12px; font-weight: 800; color: $cyan; line-height: 1; }
     }
   }
 
+  .agent-desc {
+    font-size: 12px; color: $g2; line-height: 1.5;
+    display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+  }
+
+  .agent-chips {
+    display: flex; flex-wrap: wrap; gap: 6px;
+
+    .a-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: $neon-bg; border: 1px solid rgba(200,247,0,.3);
+      border-radius: 20px; padding: 3px 10px;
+      p { font-size: 11px; color: $neon-dark; }
+      svg { color: $neon-dark; font-size: 12px !important; }
+
+      &.a-chip-cyan {
+        background: $cyan-bg; border-color: $cyan-border;
+        p { color: $cyan; } svg { color: $cyan; }
+      }
+    }
+  }
+
+  .agent-divider { height: 1px; background: $border; }
+
   .agent-actions {
-    padding: 12px 16px;
-    border-top: 1px solid $border;
-    margin-top: 12px;
+    display: flex; align-items: center; justify-content: space-between;
 
-    .follow-btn, .like-btn, .view-btn { @include icon-btn; }
+    .follow-btn, .like-btn { @include icon-btn; }
     .action-count { font-size: 11px; color: $g2; min-width: 18px; }
-
     .comment-toggle {
-      @include icon-btn;
-      width: auto !important;
-      padding: 0 8px !important;
-      gap: 3px;
-      .comment-cnt { font-size: 11px; }
+      @include icon-btn; width: auto !important; padding: 0 8px !important; gap: 3px;
+      p { font-size: 11px; }
       &.active { border-color: $cyan !important; color: $cyan !important; background: $cyan-bg !important; }
     }
   }
 
-  .comment-panel {
-    padding: 12px 16px 14px;
-    border-top: 1px solid $border;
-  }
+  .comment-panel { padding-top: 10px; border-top: 1px solid $border; }
 }
 
 // =================================================================
-//  5. TOP CLOTHES  —  "Athletic Wear"
+//  5. TOP CLOTHES — "Athletic Wear" —  PORTRAIT
 // =================================================================
 .top-clothes {
   padding: 80px 0;
-  background: $bg-alt;
+  background: #f6f6fc;
 
   .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
 
   .card-box {
     .top-clothes-swiper { overflow: visible; }
-    .top-clothes-slide { width: 240px !important; }
+    .top-clothes-slide { width: 220px !important; }
+  }
+
+  .clothes-grid {
+    display: grid;
+    gap: 20px;
   }
 }
 
 .top-clothes-card {
-  @include card-base;
+  background: $card;
+  border-radius: $r-lg;
   overflow: hidden;
   cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0,0,0,.07);
+  transition: box-shadow .25s, transform .2s;
 
-  .clothes-image-wrap {
-    position: relative;
-    height: 220px;
-    .clothes-image {
+  &:hover {
+    box-shadow: 0 8px 28px rgba(0,0,0,.14);
+    transform: translateY(-4px);
+    .clothes-img { transform: scale(1.06); }
+    .clothes-hover-overlay { opacity: 1; }
+  }
+
+  .clothes-img-wrap {
+    position: relative; height: 280px; overflow: hidden;
+
+    .clothes-img {
       width: 100%; height: 100%;
       background-size: cover; background-position: center;
-      background-color: $g4;
+      background-color: $g4; transition: transform .5s ease;
     }
-    .price-pill {
-      position: absolute; bottom: 10px; left: 10px;
-      background: $neon; border-radius: 20px;
-      padding: 3px 12px;
-      p { font-size: 13px; font-weight: 800; color: $dark; }
+
+    .clothes-hover-overlay {
+      position: absolute; inset: 0;
+      background: rgba(13,13,26,.55);
+      opacity: 0; transition: opacity .3s;
+      display: flex; align-items: flex-end;
+      padding: 14px; gap: 6px; flex-wrap: wrap;
+
+      .overlay-chip {
+        background: rgba(255,255,255,.15) !important;
+        border: 1px solid rgba(255,255,255,.3) !important;
+        color: #fff !important; font-size: 10px !important; height: 20px !important;
+        backdrop-filter: blur(4px);
+        .MuiChip-label { padding: 0 8px !important; }
+      }
     }
-    .bestseller-pill {
-      position: absolute; top: 10px; right: 10px;
-      background: rgba(229,57,53,.1);
-      border: 1px solid rgba(229,57,53,.35);
-      border-radius: 5px; padding: 2px 8px;
-      p { font-size: 9px; font-weight: 700; color: $red; letter-spacing: 1px; text-transform: uppercase; }
+
+    .clothes-bestseller {
+      position: absolute; top: 12px; left: 12px;
+      background: $red; border-radius: 4px; padding: 3px 9px;
+      p { font-size: 9px; font-weight: 900; color: #fff; letter-spacing: 1.5px; text-transform: uppercase; }
+    }
+
+    .clothes-color-dot {
+      position: absolute; top: 12px; right: 12px;
+      width: 14px; height: 14px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.7);
+      box-shadow: 0 2px 6px rgba(0,0,0,.3);
     }
   }
 
-  .clothes-body {
+  .clothes-info-strip {
     padding: 12px 14px;
+    border-top: 2px solid $neon;
 
-    .clothes-name {
+    .clothes-strip-name {
       font-size: 14px; font-weight: 700; color: $dark;
-      &:hover { color: $neon-dark; }
-    }
-    .clothes-brand { font-size: 11px; color: $g2; margin-top: 2px; }
-
-    .meta-pill {
-      background: $g4 !important;
-      border: 1px solid $border !important;
-      color: $g1 !important;
-      font-size: 10px !important; height: 18px !important;
-      .MuiChip-label { padding: 0 6px !important; }
-      &.gender {
-        background: $cyan-bg !important;
-        border-color: $cyan-border !important;
-        color: $cyan !important;
-      }
-    }
-
-    .color-dot-wrap {
-      display: flex; align-items: center; gap: 5px;
-      .color-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid $border; }
-      .color-label { font-size: 11px; color: $g2; }
-    }
-    .material-chip {
-      background: $neon-bg !important;
-      border: 1px solid rgba(200,247,0,.4) !important;
-      color: $neon-dark !important; font-size: 10px !important; height: 18px !important;
-      .MuiChip-label { padding: 0 6px !important; }
-    }
-
-    .clothes-footer {
-      .stock-info {
-        p { font-size: 11px; color: $g2; }
-        svg { color: $neon-dark; font-size: 13px !important; }
-      }
-      .action-btn { @include icon-btn; }
-      .count { font-size: 11px; color: $g2; min-width: 16px; }
-      .comment-btn {
-        width: auto !important; padding: 0 6px !important;
-        &.active { border-color: $cyan !important; color: $cyan !important; }
-      }
-    }
-
-    .comment-section { margin-top: 10px; padding-top: 10px; border-top: 1px solid $border; }
-  }
-}
-
-// =================================================================
-//  6. TOP SALES MANAGERS  —  "Our Sales Team"
-// =================================================================
-.top-sales-managers {
-  padding: 80px 0;
-  background: $bg;
-
-  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
-
-  .managers-strip {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  .managers-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-}
-
-.top-sales-manager-card {
-  @include card-base;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  cursor: pointer;
-
-  .manager-photo-wrap {
-    position: relative;
-    height: 240px;
-    flex-shrink: 0;
-    overflow: hidden;
-    cursor: pointer;
-
-    .manager-photo {
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center top;
-      background-color: $g4;
-      transition: transform .4s ease;
-    }
-
-    .manager-role-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: $neon;
-      border-radius: 5px;
-      padding: 3px 10px;
-      p {
-        font-size: 10px;
-        font-weight: 900;
-        color: $dark;
-        letter-spacing: 1.5px;
-      }
-    }
-
-    &:hover .manager-photo { transform: scale(1.04); }
-  }
-
-  .manager-body {
-    padding: 14px 16px 0;
-    flex: 1;
-
-    .manager-name {
-      font-size: 16px;
-      font-weight: 700;
-      color: $dark;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       cursor: pointer;
       &:hover { color: $neon-dark; }
     }
+    .clothes-strip-brand { font-size: 11px; color: $g2; margin-top: 1px; }
+    .clothes-strip-price { font-size: 15px; font-weight: 900; color: $neon-dark; }
+    .clothes-strip-stock { font-size: 11px; color: $g2; }
 
-    .sales-badge {
-      background: $neon-bg;
-      border: 1px solid rgba(200,247,0,.4);
-      border-radius: 5px;
-      padding: 2px 8px;
-      p { font-size: 9px; font-weight: 800; color: $neon-dark; letter-spacing: 1px; text-transform: uppercase; }
+    .clothes-action-btn { @include icon-btn; }
+    .clothes-count { font-size: 11px; color: $g2; min-width: 16px; }
+    .comment-btn {
+      width: auto !important; padding: 0 6px !important;
+      &.active { border-color: $cyan !important; color: $cyan !important; }
     }
 
-    .manager-desc {
-      font-size: 12px;
-      color: $g2;
-      margin-top: 4px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .sales-stat {
-      p { font-size: 11px; color: $g1; }
-      svg { color: $neon-dark; font-size: 12px !important; }
-    }
-  }
-
-  .manager-actions {
-    padding: 12px 16px;
-    border-top: 1px solid $border;
-    margin-top: 12px;
-
-    .follow-btn, .like-btn, .view-btn { @include icon-btn; }
-    .sm-count { font-size: 11px; color: $g2; min-width: 18px; }
-
-    .comment-toggle {
-      @include icon-btn;
-      width: auto !important;
-      padding: 0 8px !important;
-      gap: 3px;
-      .comment-count { font-size: 11px; }
-      &.active { border-color: $cyan !important; color: $cyan !important; background: $cyan-bg !important; }
-    }
-  }
-
-  .comment-panel {
-    padding: 12px 16px 14px;
-    border-top: 1px solid $border;
+    .clothes-comment-section { margin-top: 10px; padding-top: 10px; border-top: 1px solid $border; }
   }
 }
 
 // =================================================================
-//  7. TOP EQUIPMENTS  —  "Beast Machines"
+//  6. TOP SALES MANAGERS — "Our Sales Team" — LEADERBOARD ROWS
 // =================================================================
-.top-equipments {
+.top-sales-managers {
   padding: 80px 0;
   background: $bg-alt;
 
   .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
 
+  .managers-strip { display: flex; flex-direction: column; gap: 10px; }
+  .managers-list  { display: flex; flex-direction: column; gap: 10px; }
+}
+
+.top-sales-manager-card {
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $r;
+  padding: 14px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+  cursor: pointer;
+  transition: border-color .25s, box-shadow .25s, transform .2s;
+
+  &:hover {
+    border-color: $neon; box-shadow: 0 4px 20px $neon-glow; transform: translateX(4px);
+    .sm-avatar { border-color: $neon; }
+  }
+
+  .sm-main-row {
+    display: flex; align-items: center; gap: 16px;
+  }
+
+  .sm-rank {
+    width: 38px; flex-shrink: 0;
+    .sm-rank-num { font-size: 26px; font-weight: 900; color: $neon-dark; line-height: 1; font-feature-settings: "tnum"; }
+  }
+
+  .sm-avatar {
+    width: 54px; height: 54px; border-radius: 50%;
+    background-size: cover; background-position: center;
+    background-color: $g4; flex-shrink: 0;
+    border: 2px solid $border; cursor: pointer;
+    transition: border-color .2s;
+  }
+
+  .sm-info {
+    flex: 1; min-width: 0;
+
+    .sm-name-row { display: flex; align-items: center; gap: 6px; }
+
+    .sm-name {
+      font-size: 15px; font-weight: 700; color: $dark; cursor: pointer;
+      &:hover { color: $neon-dark; }
+    }
+
+    .sm-role-badge {
+      display: inline-flex;
+      background: $neon-bg; border: 1px solid rgba(200,247,0,.35);
+      border-radius: 4px; padding: 1px 7px;
+      p { font-size: 9px; font-weight: 800; color: $neon-dark; letter-spacing: 1px; text-transform: uppercase; }
+    }
+
+    .sm-desc {
+      font-size: 12px; color: $g2; margin-top: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+  }
+
+  .sm-stats {
+    display: flex; gap: 18px; flex-shrink: 0;
+
+    .sm-stat {
+      display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 44px;
+      svg { color: $g2; font-size: 14px !important; }
+      .sm-stat-num { font-size: 14px; font-weight: 800; color: $dark; line-height: 1; }
+      .sm-stat-lbl { font-size: 9px; color: $g2; text-transform: uppercase; letter-spacing: 1px; }
+    }
+  }
+
+  .sm-actions {
+    display: flex; align-items: center; gap: 4px; flex-shrink: 0;
+
+    .sm-follow-btn, .sm-like-btn, .sm-view-btn { @include icon-btn; }
+    .sm-count { font-size: 11px; color: $g2; min-width: 16px; }
+    .sm-comment-btn {
+      @include icon-btn; width: auto !important; padding: 0 8px !important; gap: 3px;
+      p { font-size: 11px; }
+      &.active { border-color: $cyan !important; color: $cyan !important; background: $cyan-bg !important; }
+    }
+  }
+
+  .sm-comment-panel { margin-top: 12px; padding-top: 12px; border-top: 1px solid $border; }
+}
+
+// =================================================================
+//  7. TOP EQUIPMENTS — "Beast Machines" — HORIZONTAL SPEC SHEET
+// =================================================================
+.top-equipments {
+  padding: 80px 0;
+  background: $bg;
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
   .card-box {
     .top-equipment-swiper { overflow: visible; }
-    .top-equipment-slide { width: 250px !important; }
+    .top-equipment-slide { width: 380px !important; }
+  }
+
+  .equipment-grid {
+    display: grid;
+    gap: 20px;
   }
 }
 
 .top-equipment-card {
-  @include card-base;
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $r;
   overflow: hidden;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  transition: border-color .25s, box-shadow .25s, transform .2s;
 
-  .equipment-image-wrap {
-    position: relative; height: 200px;
-    .equipment-image {
-      width: 100%; height: 100%;
+  &:hover {
+    border-color: $neon; box-shadow: 0 4px 20px $neon-glow; transform: translateY(-2px);
+    .equip-image { transform: scale(1.04); }
+  }
+
+  .equip-main-row { display: flex; flex-direction: row; min-height: 230px; }
+
+  .equip-image-side {
+    width: 42%; flex-shrink: 0;
+    position: relative; overflow: hidden; cursor: pointer;
+    align-self: stretch;
+
+    .equip-image {
+      position: absolute; inset: 0;
       background-size: cover; background-position: center;
-      background-color: $g4;
+      background-color: $g4; transition: transform .4s ease;
     }
-    .bestseller-tag {
+
+    .equip-bestseller {
       position: absolute; top: 10px; left: 10px;
-      background: $neon; border-radius: 5px; padding: 2px 10px;
+      background: $neon; border-radius: 5px; padding: 2px 8px;
       p { font-size: 9px; font-weight: 900; color: $dark; letter-spacing: 1px; text-transform: uppercase; }
     }
   }
 
-  .equipment-body {
-    padding: 14px;
+  .equip-spec-side {
+    flex: 1; padding: 14px;
+    display: flex; flex-direction: column; gap: 6px;
 
-    .equipment-name {
-      font-size: 14px; font-weight: 700; color: $dark;
+    .equip-name {
+      font-size: 14px; font-weight: 700; color: $dark; cursor: pointer;
+      display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
       &:hover { color: $neon-dark; }
     }
-    .equipment-brand { font-size: 11px; color: $g2; margin-top: 2px; }
+    .equip-brand { font-size: 11px; color: $g2; margin-top: -2px; }
 
-    .equip-chip {
-      font-size: 10px !important; height: 19px !important;
-      .MuiChip-label { padding: 0 7px !important; }
-      .MuiChip-icon { font-size: 11px !important; }
-      &.category {
-        background: $neon-bg !important;
-        border: 1px solid rgba(200,247,0,.4) !important;
-        color: $neon-dark !important;
-      }
-      &.capacity {
-        background: $cyan-bg !important;
-        border: 1px solid $cyan-border !important;
-        color: $cyan !important;
-        .MuiChip-icon { color: $cyan !important; }
-      }
-      &.location {
-        background: $g4 !important;
-        border: 1px solid $border !important;
-        color: $g1 !important;
-        .MuiChip-icon { color: $g2 !important; }
+    .equip-specs-list {
+      display: flex; flex-direction: column; gap: 5px; flex: 1;
+
+      .spec-row {
+        display: flex; align-items: center; gap: 8px;
+        padding: 4px 8px; background: $g4; border-radius: 6px;
+
+        svg { color: $neon-dark; font-size: 13px !important; flex-shrink: 0; }
+        .spec-label { font-size: 10px; color: $g2; text-transform: uppercase; letter-spacing: 0.5px; width: 54px; flex-shrink: 0; }
+        .spec-val { font-size: 11px; font-weight: 600; color: $dark; }
       }
     }
 
-    .equipment-footer {
-      .equipment-price { font-size: 16px; font-weight: 800; color: $neon-dark; line-height: 1; }
-      .equipment-stock { font-size: 11px; color: $g2; margin-top: 2px; }
-      .equip-action-btn { @include icon-btn; }
-      .equip-count { font-size: 11px; color: $g2; min-width: 18px; }
+    .equip-footer {
+      border-top: 1px solid $border; padding-top: 10px;
+      display: flex; align-items: center; justify-content: space-between;
+
+      .equip-price { font-size: 16px; font-weight: 900; color: $neon-dark; line-height: 1; }
+      .equip-stock { font-size: 10px; color: $g2; margin-top: 2px; }
+
+      .equip-btn { @include icon-btn; }
+      .equip-count { font-size: 11px; color: $g2; min-width: 16px; }
       .comment-btn {
         width: auto !important; padding: 0 6px !important;
         &.active { border-color: $cyan !important; color: $cyan !important; }
       }
     }
-
-    .comment-section { margin-top: 10px; padding-top: 10px; border-top: 1px solid $border; }
   }
+
+  .equip-comment-section { padding: 12px 16px; border-top: 1px solid $border; }
 }
+
+// =================================================================
+//  8. ADVERTISEMENT  ←  (kept — section number renumbered)
+// =================================================================
+.advertisement-placeholder { display: none; } // spacer
 
 // =================================================================
 //  8. ADVERTISEMENT
@@ -1026,7 +1040,10 @@ $r-lg        : 20px;
     }
 
     .ad-video-close {
-      position: absolute; top: 10px; right: 10px; z-index: 10;
+      position: absolute; 
+      top: 10px;
+      right: 10px;
+      z-index: 10;
       background: rgba(255,255,255,.85) !important;
       color: $dark !important;
     }
@@ -1042,10 +1059,13 @@ $r-lg        : 20px;
       align-items: center; justify-content: center; gap: 12px;
 
       .ad-play-circle {
-        width: 72px; height: 72px; border-radius: 50%;
+        width: 72px; 
+        height: 72px; 
+        border-radius: 50%;
         border: 3px solid $neon;
         background: $neon-bg;
-        display: flex; align-items: center; justify-content: center;
+        display: flex; 
+        align-items: center; justify-content: center;
         cursor: pointer;
         transition: transform .2s, box-shadow .2s;
         svg { color: $neon-dark; font-size: 36px !important; }
@@ -1078,146 +1098,392 @@ $r-lg        : 20px;
 // =================================================================
 .community-board {
   padding: 80px 0;
-  background: $bg-alt;
+  background: $bg;
+  position: relative;
+  overflow: hidden;
 
-  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
-
-  h1 {
-    font-size: 34px !important;
-    font-weight: 900 !important;
-    color: $dark !important;
-    letter-spacing: -0.5px !important;
-    margin-bottom: 32px !important;
-    &::before {
-      content: '— ';
-      color: $neon-dark;
-    }
+  // Subtle grid texture background
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(200,247,0,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,247,0,.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
   }
 
-  .community-main {
-    display: flex;
-    gap: 32px;
-    align-items: flex-start;
-  }
-
-  .community-left, .community-right {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .content-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid $neon;
-
-    span, a span {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: $neon-dark;
-    }
-
-    img {
-      width: 18px;
-      opacity: 0.6;
-      transition: opacity .2s;
-      &:hover { opacity: 1; }
-    }
-  }
-
-  .card-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-
-    &.vertical { gap: 10px; }
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
   }
 }
 
-.vertical-card {
+// ── Header ─────────────────────────────────────────────────────────
+.cb-header {
+  padding-bottom: 4px;
+}
+
+.cb-eyebrow {
+  @include label;
+  display: block;
+}
+
+.cb-title {
+  font-size: 34px !important;
+  font-weight: 900 !important;
+  color: $dark !important;
+  letter-spacing: -0.5px !important;
+  line-height: 1.1 !important;
+
+  &::before {
+    content: '— ';
+    color: $neon-dark;
+  }
+}
+
+.cb-view-all {
+  @include neon-btn;
+  text-decoration: none;
+
+  span { transition: transform .2s; display: inline-block; }
+  &:hover span { transform: translateX(4px); }
+}
+
+// ── Tab Bar ─────────────────────────────────────────────────────────
+.cb-tab-bar {
+  background: $bg-alt;
+  border: 1px solid $border;
+  border-radius: $r;
+  padding: 6px;
+  display: inline-flex;
+  gap: 4px;
+}
+
+.cb-tab {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px;
-  background: $card;
-  border: 1px solid $border;
+  gap: 7px;
+  padding: 9px 20px;
   border-radius: $r-sm;
-  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  border: 1.5px solid transparent;
+  background: transparent;
   cursor: pointer;
-  transition: border-color .2s, box-shadow .2s;
+  transition: all .2s;
+
+  .cb-tab-icon { font-size: 16px; line-height: 1; }
+  .cb-tab-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: $g2;
+    transition: color .2s;
+  }
+
+  &:hover {
+    background: $neon-bg;
+    border-color: rgba(200,247,0,.4);
+    .cb-tab-label { color: $neon-dark; }
+  }
+
+  &.active {
+    background: $neon;
+    border-color: $neon;
+    box-shadow: 0 0 14px $neon-glow;
+    .cb-tab-label { color: $dark; }
+  }
+}
+
+// ── Featured area ───────────────────────────────────────────────────
+.cb-featured {
+  flex-shrink: 0;
+  width: 420px;
+}
+
+.cb-featured-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: $r-lg;
+  overflow: hidden;
+  border: 1.5px solid $border;
+  background: $card;
+  cursor: pointer;
+  transition: border-color .25s, box-shadow .25s, transform .2s;
+  height: 100%;
 
   &:hover {
     border-color: $neon;
-    box-shadow: 0 2px 12px $neon-glow;
+    box-shadow: 0 6px 28px $neon-glow;
+    transform: translateY(-2px);
+
+    .cb-feat-img { transform: scale(1.03); }
   }
 
-  .community-img {
-    width: 52px; height: 52px;
-    border-radius: 6px;
-    background-size: cover; background-position: center;
+  .cb-feat-img {
+    height: 280px;
+    background-size: cover;
+    background-position: center;
+    background-color: $g4;
+    position: relative;
+    flex-shrink: 0;
+    transition: transform .4s ease;
+
+    .cb-feat-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 30%,
+        rgba(13,13,26,.7) 100%
+      );
+    }
+
+    .cb-feat-rank {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      font-size: 36px;
+      font-weight: 900;
+      color: $neon;
+      line-height: 1;
+      text-shadow: 0 0 20px $neon-glow;
+      font-feature-settings: "tnum";
+    }
+
+    .cb-feat-cat {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      background: $neon;
+      color: $dark;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 5px;
+
+      &.cyan {
+        background: $cyan;
+        color: #fff;
+      }
+    }
+  }
+
+  .cb-feat-body {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+
+    .cb-feat-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: $dark;
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .cb-feat-date {
+      font-size: 11px;
+      color: $g2;
+    }
+
+    .cb-feat-stats {
+      span {
+        font-size: 11px;
+        color: $g2;
+      }
+    }
+  }
+}
+
+// ── Grid cards ──────────────────────────────────────────────────────
+.cb-grid {
+  flex: 1;
+  min-width: 0;
+}
+
+.cb-grid-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $r;
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s, transform .15s;
+
+  &:hover {
+    border-color: $neon;
+    box-shadow: 0 3px 14px $neon-glow;
+    transform: translateX(3px);
+
+    .cb-grid-thumb { transform: scale(1.05); }
+  }
+
+  .cb-grid-thumb {
+    width: 72px;
+    height: 64px;
+    border-radius: $r-sm;
+    background-size: cover;
+    background-position: center;
     background-color: $g4;
     flex-shrink: 0;
     position: relative;
-    div {
-      position: absolute; bottom: 2px; right: 4px;
-      font-size: 11px; font-weight: 900; color: $neon-dark;
+    overflow: hidden;
+    transition: transform .3s ease;
+
+    .cb-grid-rank {
+      position: absolute;
+      top: 4px;
+      left: 6px;
+      font-size: 13px;
+      font-weight: 900;
+      color: $neon;
+      line-height: 1;
+      text-shadow: 0 0 8px rgba(0,0,0,.6);
     }
   }
 
-  strong {
-    font-size: 13px; font-weight: 600; color: $dark;
-    overflow: hidden; text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
+  .cb-grid-body {
     flex: 1;
-  }
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 
-  span {
-    font-size: 10px; color: $cyan;
-    text-transform: uppercase; letter-spacing: 1px;
-    display: block; margin-top: 3px;
-  }
-}
+    .cb-grid-cat {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: $neon-dark;
 
-.horizontal-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px;
-  background: $card;
-  border: 1px solid $border;
-  border-radius: $r-sm;
-  box-shadow: 0 1px 4px rgba(0,0,0,.05);
-  cursor: pointer;
-  transition: border-color .2s, box-shadow .2s;
+      &.cyan { color: $cyan; }
+    }
 
-  &:hover {
-    border-color: $neon;
-    box-shadow: 0 2px 12px $neon-glow;
-  }
-
-  img {
-    width: 60px; height: 52px;
-    object-fit: cover; border-radius: 6px;
-    flex-shrink: 0;
-  }
-
-  div {
-    flex: 1; min-width: 0;
-    strong {
-      font-size: 13px; font-weight: 600; color: $dark;
-      overflow: hidden; text-overflow: ellipsis;
+    .cb-grid-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: $dark;
+      line-height: 1.4;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       line-clamp: 2;
       -webkit-box-orient: vertical;
+      overflow: hidden;
     }
-    span { font-size: 11px; color: $g2; display: block; margin-top: 4px; }
+
+    .cb-grid-footer {
+      margin-top: 2px;
+    }
+
+    .cb-grid-date {
+      font-size: 10px;
+      color: $g2;
+    }
+
+    .cb-grid-stats {
+      span { font-size: 10px; color: $g2; }
+    }
+  }
+}
+
+// ── Mobile ──────────────────────────────────────────────────────────
+.cb-mobile-list {
+  padding-bottom: 8px;
+}
+
+.cb-tabs-mobile {
+  margin-top: 16px;
+
+  .cb-tab-mobile {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
+    border-radius: $r-sm;
+    border: 1.5px solid $border;
+    background: $card;
+    font-size: 12px;
+    font-weight: 700;
+    color: $g2;
+    cursor: pointer;
+    transition: all .2s;
+
+    &.active {
+      background: $neon;
+      border-color: $neon;
+      color: $dark;
+    }
+  }
+}
+
+.cb-row-card {
+  padding: 10px;
+  background: $card;
+  border: 1px solid $border;
+  border-radius: $r-sm;
+  cursor: pointer;
+  transition: border-color .2s;
+
+  &:hover { border-color: $neon; }
+
+  .cb-row-img {
+    width: 52px;
+    height: 52px;
+    border-radius: 6px;
+    background-size: cover;
+    background-position: center;
+    background-color: $g4;
+    flex-shrink: 0;
+    position: relative;
+
+    span {
+      position: absolute;
+      bottom: 2px;
+      right: 4px;
+      font-size: 11px;
+      font-weight: 900;
+      color: $neon;
+    }
+  }
+
+  .cb-row-info {
+    flex: 1;
+    min-width: 0;
+
+    strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: $dark;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    span {
+      display: block;
+      font-size: 10px;
+      color: $neon-dark;
+      margin-top: 3px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+
+      &.cyan { color: $cyan; }
+    }
   }
 }

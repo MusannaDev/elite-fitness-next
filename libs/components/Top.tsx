@@ -201,7 +201,7 @@ const Top = () => {
 						<Box component={'div'} className={'logo-box'}>
 							<Link href={'/'}>
 								<div className={'logo-wrapper'}>
-									<img src="/img/logo/elite-logo.png" alt="logo" />
+									<img src="/img/logo/elite.webp" alt="logo" />
 									<span className={'logo-text'}>ELITE<em>FIT</em></span>
 								</div>
 							</Link>

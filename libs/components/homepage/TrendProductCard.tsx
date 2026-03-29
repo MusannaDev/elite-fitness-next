@@ -1,8 +1,9 @@
 import React from 'react';
-import { Stack, Box, Typography, IconButton, Chip } from '@mui/material';
+import { Stack, Box, Typography, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+import ScaleIcon from '@mui/icons-material/Scale';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
@@ -25,64 +26,78 @@ const TrendProductCard = (props: TrendProductCardProps) => {
 	};
 
 	return (
-		<Stack className="trend-product-card" direction="row" alignItems="center">
-			<Box className="rank-number">
-				<Typography className="rank-text">{String(rank).padStart(2, '0')}</Typography>
+		<Stack className="trend-product-card">
+			{/* Image area — light bg, centered product shot */}
+			<Box className="card-image-area" onClick={() => pushDetailHandler(product._id)}>
+				<Box
+					className="product-img"
+					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${product?.productImages?.[0]})` }}
+				/>
+				{product.productCategory && (
+					<Box className="category-badge">
+						<Typography>{product.productCategory}</Typography>
+					</Box>
+				)}
+				<Box className="rank-badge">
+					<Typography>{rank}</Typography>
+				</Box>
 			</Box>
 
-			<Box
-				className="product-thumb"
-				onClick={() => pushDetailHandler(product._id)}
-				style={{
-					backgroundImage: `url(${REACT_APP_API_URL}/${product?.productImages?.[0]})`,
-				}}
-			/>
-
-			<Box className="product-info" flex={1}>
+			{/* Card body */}
+			<Box className="card-body">
 				<Typography className="product-name" onClick={() => pushDetailHandler(product._id)}>
 					{product.productName}
 				</Typography>
 				<Typography className="product-brand">
-					{product.productBrand} · {product.productWeight} · {product.productFlavor}
+					{product.productBrand}
+					{product.productFlavor ? ` · ${product.productFlavor}` : ''}
 				</Typography>
-				<Stack direction="row" gap="6px" mt="8px" flexWrap="wrap">
+
+				{/* Macro pills */}
+				<Stack direction="row" flexWrap="wrap" gap="6px" className="macro-row">
 					{product.productCalories && (
-						<Chip
-							className="macro-chip"
-							icon={<LocalFireDepartmentIcon style={{ fontSize: 11 }} />}
-							label={`${product.productCalories} kcal`}
-							size="small"
-						/>
+						<Box className="macro-pill">
+							<LocalFireDepartmentIcon style={{ fontSize: 10 }} />
+							<Typography component="span">{product.productCalories} kcal</Typography>
+						</Box>
 					)}
 					{product.productProteinPerServing && (
-						<Chip className="macro-chip protein" label={`${product.productProteinPerServing}g protein`} size="small" />
+						<Box className="macro-pill protein">
+							<Typography component="span">{product.productProteinPerServing}g protein</Typography>
+						</Box>
 					)}
-					{product.productBenefits && <Chip className="macro-chip benefit" label={product.productBenefits} size="small" />}
+					{product.productWeight && (
+						<Box className="macro-pill weight">
+							<ScaleIcon style={{ fontSize: 10 }} />
+							<Typography component="span">{product.productWeight}</Typography>
+						</Box>
+					)}
+				</Stack>
+
+				{/* Footer: price + actions */}
+				<Stack direction="row" alignItems="center" justifyContent="space-between" className="card-footer">
+					<Typography className="product-price">${product.productPrice}</Typography>
+					<Stack direction="row" alignItems="center" gap="4px">
+						<IconButton size="small" className="ap-btn">
+							<RemoveRedEyeIcon style={{ fontSize: 13 }} />
+						</IconButton>
+						<Typography className="ap-count">{product.productViews}</Typography>
+						<IconButton
+							size="small"
+							className={`ap-btn ${product?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
+							onClick={() => likeProductHandler(user, product._id)}
+						>
+							<FavoriteIcon
+								style={{
+									fontSize: 13,
+									color: product?.meLiked?.[0]?.myFavorite ? '#ef4444' : undefined,
+								}}
+							/>
+						</IconButton>
+						<Typography className="ap-count">{product.productLikes}</Typography>
+					</Stack>
 				</Stack>
 			</Box>
-
-			<Stack className="product-actions" alignItems="flex-end" gap="6px">
-				<Typography className="product-price">${product.productPrice}</Typography>
-				<Stack direction="row" alignItems="center" gap="4px">
-					<IconButton size="small" className="action-btn view-btn">
-						<RemoveRedEyeIcon style={{ fontSize: 14 }} />
-					</IconButton>
-					<Typography className="count-text">{product.productViews}</Typography>
-					<IconButton
-						size="small"
-						className="action-btn like-btn"
-						onClick={() => likeProductHandler(user, product._id)}
-					>
-						<FavoriteIcon
-							style={{
-								fontSize: 14,
-								color: product?.meLiked?.[0]?.myFavorite ? '#ef4444' : undefined,
-							}}
-						/>
-					</IconButton>
-					<Typography className="count-text">{product.productLikes}</Typography>
-				</Stack>
-			</Stack>
 		</Stack>
 	);
 };

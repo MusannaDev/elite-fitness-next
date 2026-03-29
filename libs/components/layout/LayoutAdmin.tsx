@@ -83,7 +83,7 @@ const withAdminLayout = (Component: ComponentType) => {
 								background: 'linear-gradient(135deg, #6366F1, #818CF8)',
 								display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
 							}}>
-								<img src="/img/logo/fitness-logo.png" alt="logo"
+								<img src="/img/logo/elite.webp" alt="logo"
 									style={{ width: 32, height: 32, objectFit: 'cover' }}
 									onError={(e: any) => {
 										e.target.style.display = 'none';

@@ -1,175 +1,530 @@
+// ================================================================
+//  Member Properties — Premium Listing Panel
+//  Aesthetic: Classic real-estate portal · warm-neutral palette
+// ================================================================
+
+$font:          'Nunito', 'Inter', sans-serif;
+
+// Palette
+$ink:           #1a1f36;
+$ink-mid:       #4a5068;
+$ink-muted:     #9298b0;
+$gold:          #c8a96e;
+$gold-light:    rgba(200, 169, 110, 0.12);
+$gold-border:   rgba(200, 169, 110, 0.28);
+$surface:       #f8f7f4;
+$surface-card:  #ffffff;
+$border:        #ecedf2;
+$border-light:  #f3f3f7;
+
+// Status
+$status-active: #10b981;
+$status-active-bg: rgba(16, 185, 129, 0.10);
+$status-sold:   #ef4444;
+$status-sold-bg: rgba(239, 68, 68, 0.10);
+$status-delete: #f59e0b;
+$status-delete-bg: rgba(245, 158, 11, 0.10);
+
+// Shadows
+$shadow-sm:   0 1px 4px rgba(26, 31, 54, 0.05);
+$shadow-md:   0 4px 20px rgba(26, 31, 54, 0.08);
+$shadow-lg:   0 8px 32px rgba(26, 31, 54, 0.12);
+$shadow-gold: 0 4px 20px rgba(200, 169, 110, 0.20);
+
+$radius-lg:   16px;
+$radius-md:   12px;
+$radius-sm:   8px;
+$radius-pill: 100px;
+$transition:  all 0.26s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ================================================================
+
 #pc-wrap {
-	#member-page {
-		#member-properties-page {
-			width: 100%;
-			.main-title-box {
-				width: auto;
-				height: auto;
-				flex-direction: row;
-				justify-content: space-between;
-				.right-box {
-					width: 315px;
-					.main-title {
-						color: #181a20;
-						font-family: $font;
-						font-size: 30px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-						letter-spacing: 0.6px;
-						text-transform: capitalize;
-					}
-				}
-			}
-			.properties-list-box {
-				margin-top: 85px;
-				.list-box {
-					.listing-title-box {
-						width: 100%;
-						height: auto;
-						flex-direction: row;
-						gap: 110px;
-						padding: 18px 15px 18px 33px;
-						border-radius: 12px;
-						background: #f6f6f6;
-						.title-text {
-							color: #181a20;
-							font-family: $font;
-							font-size: 15px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-						}
-						:first-child {
-							margin-right: 138px;
-						}
-					}
-					.property-card-box {
-						width: 100%;
-						height: auto;
-						flex-direction: row;
-						align-items: center;
-						margin-top: 30px;
-						padding-bottom: 30px;
-						border-bottom: 1px solid #ddd;
-						.image-box {
-							width: 115px;
-							height: 90px;
-							overflow: hidden;
-							margin-right: 25px;
-							padding-top: 1px;
-							cursor: pointer;
-							img {
-								width: 100%;
-								height: 100%;
-								object-fit: contain;
-								border-radius: 12px;
-							}
-						}
-						.information-box {
-							width: 210px;
-							height: auto;
-							padding: 5px 0px;
-							cursor: pointer;
-							.name {
-								margin-bottom: 8px;
-								color: #181a20;
-								font-family: $font;
-								font-size: 13px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-							}
-							.address {
-								margin-bottom: 13px;
-								color: #717171;
-								font-family: $font;
-								font-size: 11px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: normal;
-							}
-							.price {
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: normal;
-							}
-						}
-						.date-box {
-							width: 140px;
-							height: 100%;
-							align-items: center;
-							justify-content: center;
-							margin-right: 77px;
-							.date {
-								color: #181a20;
-								font-family: $font;
-								font-size: 12px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
-							}
-						}
-						.status-box {
-							width: 100px;
-							height: 100%;
-							align-items: center;
-							justify-content: center;
-							margin-right: 70px;
-							.coloured-box {
-								width: 93px;
-								height: 36px;
-								align-items: center;
-								justify-content: center;
-								border-radius: 60px;
-								.status {
-									font-family: $font;
-									font-size: 12px;
-									font-style: normal;
-									font-weight: 400;
-									line-height: 26px;
-								}
-							}
-						}
-						.views-box {
-							width: 35px;
-							height: 100%;
-							align-items: center;
-							justify-content: center;
-							margin-right: 75px;
-							.views {
-								color: #181a20;
-								font-family: $font;
-								font-size: 12px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
-							}
-						}
-					}
-					.pagination-config {
-						width: 100%;
-						height: auto;
-						justify-content: center;
-						align-items: center;
-						margin-top: 30px;
-						.total-result {
-							p {
-								color: #181a20;
-								text-align: center;
-								font-family: $font;
-								font-size: 14px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 26px;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+  #member-page,
+  #my-page {
+    #member-properties-page {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      animation: mpReveal 0.40s ease-out both;
+
+      @keyframes mpReveal {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      // ── Header ──────────────────────────────────────────────
+      .mp-header {
+        flex-direction: row !important;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 28px;
+        background: $surface-card;
+        border-radius: $radius-lg;
+        border: 1px solid $border;
+        box-shadow: $shadow-sm;
+        position: relative;
+        overflow: hidden;
+
+        // Decorative gold line top-left
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0;
+          width: 4px; height: 100%;
+          background: linear-gradient(to bottom, $gold, rgba($gold, 0.2));
+          border-radius: 0 2px 2px 0;
+        }
+
+        .mp-header-left {
+          flex-direction: row !important;
+          align-items: center;
+          gap: 16px;
+
+          .mp-header-icon {
+            font-size: 30px;
+            color: $gold;
+            filter: drop-shadow(0 2px 6px rgba(200, 169, 110, 0.35));
+          }
+
+          .mp-main-title {
+            font-family: $font;
+            font-size: 22px;
+            font-weight: 800;
+            color: $ink;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+          }
+
+          .mp-sub-title {
+            font-family: $font;
+            font-size: 13px;
+            color: $ink-muted;
+            font-weight: 400;
+            margin-top: 3px;
+          }
+        }
+
+        .mp-header-right {
+          flex-direction: row !important;
+          align-items: center;
+          gap: 12px;
+
+          .mp-total-chip {
+            background: $gold-light !important;
+            border: 1px solid $gold-border !important;
+            color: darken($gold, 12%) !important;
+            font-family: $font !important;
+            font-weight: 700 !important;
+            font-size: 12px !important;
+            height: 28px !important;
+            border-radius: $radius-pill !important;
+          }
+
+          .mp-view-toggle {
+            flex-direction: row !important;
+            align-items: center;
+            background: $surface;
+            border: 1px solid $border;
+            border-radius: $radius-sm;
+            padding: 3px;
+            gap: 2px;
+
+            .mp-toggle-btn {
+              width: 32px;
+              height: 30px;
+              border: none;
+              border-radius: 6px;
+              background: transparent;
+              color: $ink-muted;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: $transition;
+
+              &:hover {
+                color: $ink;
+                background: $border-light;
+              }
+
+              &.active {
+                background: $surface-card;
+                color: $gold;
+                box-shadow: $shadow-sm;
+              }
+            }
+          }
+        }
+      }
+
+      // ── Main container ──────────────────────────────────────
+      .mp-properties-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        background: $surface-card;
+        border-radius: $radius-lg;
+        border: 1px solid $border;
+        box-shadow: $shadow-sm;
+        overflow: hidden;
+
+        // ── Table header ──
+        .mp-table-header {
+          flex-direction: row !important;
+          align-items: center;
+          padding: 13px 24px;
+          background: $surface;
+          border-bottom: 1px solid $border;
+
+          .mp-col-title {
+            font-family: $font;
+            font-size: 11px;
+            font-weight: 700;
+            color: $ink-muted;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+
+            &.col-listing { flex: 1; min-width: 0; }
+            &.col-date    { width: 150px; text-align: center; }
+            &.col-status  { width: 110px; text-align: center; }
+            &.col-views   { width: 80px;  text-align: center; }
+          }
+        }
+
+        // ── Property list wrapper ──
+        .mp-list {
+          display: flex;
+          flex-direction: column;
+
+          // ── Grid mode ──
+          &.grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            padding: 16px;
+
+            .property-card-box {
+              flex-direction: column !important;
+              border-bottom: none !important;
+              border: 1px solid $border !important;
+              border-radius: $radius-md !important;
+              padding: 14px !important;
+              margin-top: 0 !important;
+              padding-bottom: 14px !important;
+              box-shadow: $shadow-sm;
+              transition: $transition;
+
+              &:hover {
+                border-color: $gold-border !important;
+                box-shadow: $shadow-gold !important;
+                transform: translateY(-2px);
+              }
+
+              .image-box {
+                width: 100% !important;
+                height: 140px !important;
+                margin-right: 0 !important;
+                margin-bottom: 12px;
+
+                img { border-radius: $radius-sm !important; }
+              }
+
+              .information-box {
+                width: 100% !important;
+                margin-bottom: 10px;
+              }
+
+              .date-box, .views-box {
+                width: auto !important;
+                margin-right: 0 !important;
+                flex-direction: row !important;
+                gap: 6px;
+              }
+
+              .status-box {
+                width: auto !important;
+                margin-right: 0 !important;
+              }
+            }
+          }
+        }
+
+        // ── Single property card ──
+        .property-card-box {
+          flex-direction: row !important;
+          align-items: center;
+          padding: 16px 24px;
+          border-bottom: 1px solid $border-light;
+          transition: $transition;
+          position: relative;
+
+          // Hover left indicator
+          &::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 20%; bottom: 20%;
+            width: 3px;
+            border-radius: 0 3px 3px 0;
+            background: $gold;
+            opacity: 0;
+            transition: opacity 0.22s;
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          &:hover {
+            background: rgba($gold, 0.025);
+            &::before { opacity: 1; }
+          }
+
+          // Image
+          .image-box {
+            width: 90px !important;
+            height: 68px !important;
+            flex-shrink: 0;
+            margin-right: 18px !important;
+            border-radius: $radius-sm;
+            overflow: hidden;
+            border: 1px solid $border;
+            transition: $transition;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover !important;
+              border-radius: $radius-sm;
+              transition: transform 0.4s ease;
+            }
+
+            &:hover img { transform: scale(1.06); }
+          }
+
+          // Info
+          .information-box {
+            flex: 1 !important;
+            width: auto !important;
+            min-width: 0;
+            margin-right: 16px;
+            padding: 0 !important;
+
+            .name {
+              font-family: $font;
+              font-size: 14px !important;
+              font-weight: 700 !important;
+              color: $ink !important;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              margin-bottom: 4px !important;
+              transition: color 0.2s;
+
+              &:hover { color: $gold !important; }
+            }
+
+            .address {
+              font-family: $font;
+              font-size: 12px !important;
+              color: $ink-muted !important;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              margin-bottom: 6px !important;
+            }
+
+            .price {
+              font-family: $font;
+              font-size: 15px !important;
+              font-weight: 400 !important;
+              color: $ink !important;
+
+              strong {
+                font-weight: 800;
+                color: $gold;
+                font-size: 15px;
+              }
+            }
+          }
+
+          // Date
+          .date-box {
+            width: 150px !important;
+            margin-right: 0 !important;
+            align-items: center;
+            justify-content: center;
+
+            .date {
+              font-family: $font;
+              font-size: 12px !important;
+              color: $ink-mid !important;
+              font-weight: 500;
+              text-align: center;
+              line-height: 1.4 !important;
+            }
+          }
+
+          // Status
+          .status-box {
+            width: 110px !important;
+            margin-right: 0 !important;
+            align-items: center;
+            justify-content: center;
+
+            .coloured-box {
+              width: auto !important;
+              height: auto !important;
+              padding: 5px 14px !important;
+              border-radius: $radius-pill !important;
+
+              .status {
+                font-family: $font !important;
+                font-size: 11px !important;
+                font-weight: 700 !important;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                line-height: 1 !important;
+              }
+            }
+
+            // Status color variants
+            &:has(.status) {
+              .coloured-box[sx*='E5F0FD'] {
+                background: $status-active-bg !important;
+                .status { color: $status-active !important; }
+              }
+            }
+          }
+
+          // Views
+          .views-box {
+            width: 80px !important;
+            margin-right: 0 !important;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+
+            .views {
+              font-family: $font;
+              font-size: 13px !important;
+              font-weight: 600 !important;
+              color: $ink-mid !important;
+              text-align: center;
+            }
+          }
+        }
+
+        // ── Empty state ──
+        .mp-empty-state {
+          flex-direction: column !important;
+          align-items: center;
+          justify-content: center;
+          padding: 80px 40px;
+          gap: 14px;
+
+          .mp-empty-icon-wrap {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: $gold-light;
+            border: 1px solid $gold-border;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 6px;
+
+            .mp-empty-icon {
+              font-size: 34px;
+              color: $gold;
+              opacity: 0.7;
+            }
+          }
+
+          .mp-empty-title {
+            font-family: $font;
+            font-size: 18px;
+            font-weight: 700;
+            color: $ink;
+            letter-spacing: -0.2px;
+          }
+
+          .mp-empty-desc {
+            font-family: $font;
+            font-size: 13px;
+            color: $ink-muted;
+            text-align: center;
+            max-width: 280px;
+            line-height: 1.6;
+          }
+        }
+
+        // ── Pagination ──
+        .mp-pagination-wrap {
+          flex-direction: row !important;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+          padding: 18px 24px;
+          border-top: 1px solid $border-light;
+          background: $surface;
+
+          .mp-pagination-label {
+            font-family: $font;
+            font-size: 12px;
+            color: $ink-muted;
+            font-weight: 500;
+          }
+
+          .MuiPaginationItem-root {
+            font-family: $font !important;
+            font-weight: 600 !important;
+            border-radius: $radius-sm !important;
+
+            &.Mui-selected {
+              background: $gold !important;
+              color: #fff !important;
+              box-shadow: $shadow-gold !important;
+            }
+          }
+        }
+      }
+
+      // ── Status badge override via inline sx prop ──
+      // ACTIVE
+      .coloured-box[style*="E5F0FD"],
+      .coloured-box[style*="#E5F0FD"] {
+        background: $status-active-bg !important;
+        border: 1px solid rgba($status-active, 0.22) !important;
+        .status { color: $status-active !important; }
+      }
+
+      // SOLD
+      .coloured-box[style*="FDE5E5"],
+      .coloured-box[style*="#FDE5E5"] {
+        background: $status-sold-bg !important;
+        border: 1px solid rgba($status-sold, 0.22) !important;
+        .status { color: $status-sold !important; }
+      }
+
+      // DELETED
+      .coloured-box[style*="FEF3C7"],
+      .coloured-box[style*="#FEF3C7"] {
+        background: $status-delete-bg !important;
+        border: 1px solid rgba($status-delete, 0.22) !important;
+        .status { color: $status-delete !important; }
+      }
+
+      // Default status (blue from PropertyCard)
+      .coloured-box {
+        background: $status-active-bg !important;
+        border: 1px solid rgba($status-active, 0.22) !important;
+
+        .status {
+          color: $status-active !important;
+        }
+      }
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Stack, Box, Typography } from '@mui/material';
 import Link from 'next/link';
@@ -11,6 +11,33 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { sweetMixinErrorAlert } from '../../sweetAlert';
+import { Messages } from '../../config';
+
+const LS_KEY = (userId: string) => `trainer_follows_${userId}`;
+
+const getLocalFollow = (userId: string, trainerId: string): boolean => {
+	if (!userId || !trainerId || typeof window === 'undefined') return false;
+	try {
+		const stored = JSON.parse(localStorage.getItem(LS_KEY(userId)) || '{}');
+		return stored[trainerId] === true;
+	} catch {
+		return false;
+	}
+};
+
+const setLocalFollow = (userId: string, trainerId: string, following: boolean) => {
+	if (!userId || !trainerId || typeof window === 'undefined') return;
+	try {
+		const stored = JSON.parse(localStorage.getItem(LS_KEY(userId)) || '{}');
+		if (following) {
+			stored[trainerId] = true;
+		} else {
+			delete stored[trainerId];
+		}
+		localStorage.setItem(LS_KEY(userId), JSON.stringify(stored));
+	} catch {}
+};
 
 interface TrainerCardProps {
 	trainer: any;
@@ -32,8 +59,10 @@ const TrainerCard = (props: TrainerCardProps) => {
 	);
 	const [localLikes, setLocalLikes] = useState<number>(trainer?.memberLikes || 0);
 	const [isFollowing, setIsFollowing] = useState<boolean>(
-		!!(trainer?.meFollowed && trainer?.meFollowed[0]?.myFollowing),
+		!!(trainer?.meFollowed && trainer?.meFollowed[0]?.myFollowing) ||
+		getLocalFollow(user?._id, trainer?._id),
 	);
+	const [localFollowers, setLocalFollowers] = useState<number>(trainer?.memberFollowers || 0);
 
 	/** Sync with server data after refetch **/
 	useEffect(() => {
@@ -42,10 +71,15 @@ const TrainerCard = (props: TrainerCardProps) => {
 		setLocalLikes(trainer?.memberLikes || 0);
 	}, [trainer?.meLiked, trainer?.memberLikes]);
 
+	const followInteracted = useRef(false);
+
 	useEffect(() => {
-		const serverFollowing = !!(trainer?.meFollowed && trainer?.meFollowed[0]?.myFollowing);
-		setIsFollowing(serverFollowing);
-	}, [trainer?.meFollowed]);
+		if (followInteracted.current) return;
+		const fromServer = !!(trainer?.meFollowed && trainer?.meFollowed[0]?.myFollowing);
+		const fromLocal = getLocalFollow(user?._id, trainer?._id);
+		setIsFollowing(fromServer || fromLocal);
+		setLocalFollowers(trainer?.memberFollowers || 0);
+	}, [trainer?.meFollowed, trainer?.memberFollowers, user?._id]);
 
 	const handleLikeClick = useCallback(
 		async (e: React.MouseEvent) => {
@@ -71,8 +105,15 @@ const TrainerCard = (props: TrainerCardProps) => {
 			e.preventDefault();
 			e.stopPropagation();
 
+			if (!user._id) {
+				sweetMixinErrorAlert(Messages.error2).then();
+				return;
+			}
+
+			followInteracted.current = true;
 			const wasFollowing = isFollowing;
 			setIsFollowing(!wasFollowing);
+			setLocalFollowers((prev) => (wasFollowing ? Math.max(0, prev - 1) : prev + 1));
 
 			try {
 				if (wasFollowing && unsubscribeHandler) {
@@ -80,11 +121,13 @@ const TrainerCard = (props: TrainerCardProps) => {
 				} else if (!wasFollowing && subscribeHandler) {
 					await subscribeHandler(trainer?._id);
 				}
+				setLocalFollow(user._id, trainer?._id, !wasFollowing);
 			} catch (err) {
 				setIsFollowing(wasFollowing);
+				setLocalFollowers((prev) => (wasFollowing ? prev + 1 : Math.max(0, prev - 1)));
 			}
 		},
-		[isFollowing, trainer?._id, subscribeHandler, unsubscribeHandler],
+		[isFollowing, trainer?._id, user, subscribeHandler, unsubscribeHandler],
 	);
 
 	if (device === 'mobile') {
@@ -149,6 +192,11 @@ const TrainerCard = (props: TrainerCardProps) => {
 							<FavoriteIcon />
 							<span>{localLikes}</span>
 						</div>
+						<div className={'stat-divider'} />
+						<div className={'stat-item'}>
+							<PersonAddAlt1Icon />
+							<span>{localFollowers}</span>
+						</div>
 					</Box>
 
 					{user?._id !== trainer?._id && (
@@ -159,7 +207,7 @@ const TrainerCard = (props: TrainerCardProps) => {
 							{isFollowing ? (
 								<>
 									<HowToRegIcon />
-									<span>Followed</span>
+									<span>Unfollow</span>
 								</>
 							) : (
 								<>

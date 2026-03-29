@@ -1,6 +1,6 @@
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography } from '@mui/material';
+import { Box, Pagination, Stack, Typography } from '@mui/material';
 import ProductCard from '../../libs/components/product/ProductCard';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
@@ -9,7 +9,6 @@ import { useRouter } from 'next/router';
 import { ProductsInquiry } from '../../libs/types/product/product.input';
 import { Product } from '../../libs/types/product/product';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_PRODUCTS } from '../../apollo/user/query';
@@ -32,8 +31,6 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 	const [products, setProducts] = useState<Product[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
-	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-	const [sortingOpen, setSortingOpen] = useState(false);
 	const [filterSortName, setFilterSortName] = useState('New');
 
 	/** APOLLO REQUESTS **/
@@ -103,18 +100,8 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 		}
 	};
 
-	const sortingClickHandler = (e: MouseEvent<HTMLElement>) => {
-		setAnchorEl(e.currentTarget);
-		setSortingOpen(true);
-	};
-
-	const sortingCloseHandler = () => {
-		setSortingOpen(false);
-		setAnchorEl(null);
-	};
-
-	const sortingHandler = (e: React.MouseEvent<HTMLLIElement>) => {
-		switch (e.currentTarget.id) {
+	const sortingHandler = (id: string) => {
+		switch (id) {
 			case 'new':
 				setSearchFilter({ ...searchFilter, sort: 'createdAt', direction: Direction.DESC });
 				setFilterSortName('New');
@@ -128,8 +115,6 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 				setFilterSortName('Highest Price');
 				break;
 		}
-		setSortingOpen(false);
-		setAnchorEl(null);
 	};
 
 	if (device === 'mobile') {
@@ -139,37 +124,28 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 			<div id="product-list-page" style={{ position: 'relative' }}>
 				<div className="container">
 					<Box component={'div'} className={'right'}>
-						<span>Sort by</span>
-						<div>
-							<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
-								{filterSortName}
-							</Button>
-							<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
-								<MenuItem
-									onClick={sortingHandler}
-									id={'new'}
-									disableRipple
-									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+						<div className={'sort-rail'}>
+							<span className={'sort-rail__label'}>Sort</span>
+							<div className={'sort-rail__options'}>
+								<button
+									className={`sort-rail__pill${filterSortName === 'New' ? ' active' : ''}`}
+									onClick={() => sortingHandler('new')}
 								>
 									New
-								</MenuItem>
-								<MenuItem
-									onClick={sortingHandler}
-									id={'lowest'}
-									disableRipple
-									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+								</button>
+								<button
+									className={`sort-rail__pill${filterSortName === 'Lowest Price' ? ' active' : ''}`}
+									onClick={() => sortingHandler('lowest')}
 								>
-									Lowest Price
-								</MenuItem>
-								<MenuItem
-									onClick={sortingHandler}
-									id={'highest'}
-									disableRipple
-									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+									Low Price
+								</button>
+								<button
+									className={`sort-rail__pill${filterSortName === 'Highest Price' ? ' active' : ''}`}
+									onClick={() => sortingHandler('highest')}
 								>
-									Highest Price
-								</MenuItem>
-							</Menu>
+									High Price
+								</button>
+							</div>
 						</div>
 					</Box>
 					<Stack className={'product-page'}>

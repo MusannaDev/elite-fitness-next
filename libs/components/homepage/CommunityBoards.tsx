@@ -9,76 +9,132 @@ import { useQuery } from '@apollo/client';
 import { T } from '../../types/common';
 import { BoardArticleCategory } from '../../enums/board-article.enum';
 
+const TABS = [
+	{ key: BoardArticleCategory.NEWS,      label: 'News',        icon: '📡' },
+	{ key: BoardArticleCategory.FREE,      label: 'Discussions', icon: '💬' },
+	{ key: BoardArticleCategory.RECOMMEND, label: 'Recommend',   icon: '⚡' },
+	{ key: BoardArticleCategory.HUMOR,     label: 'Humor',       icon: '🔥' },
+];
+
 const CommunityBoards = () => {
 	const device = useDeviceDetect();
-	const [searchCommunity] = useState({
-		page: 1,
-		sort: 'articleViews',
-		direction: 'DESC',
-	});
-	const [newsArticles, setNewsArticles] = useState<BoardArticle[]>([]);
-	const [freeArticles, setFreeArticles] = useState<BoardArticle[]>([]);
+	const [activeTab, setActiveTab] = useState<BoardArticleCategory>(BoardArticleCategory.NEWS);
+	const [searchCommunity] = useState({ page: 1, sort: 'articleViews', direction: 'DESC' });
 
-	/** APOLLO REQUESTS **/
-	useQuery(GET_BOARD_ARTICLES, {
-		fetchPolicy: 'network-only',
-		variables: { input: { ...searchCommunity, limit: 6, search: { articleCategory: BoardArticleCategory.NEWS } } },
-		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			setNewsArticles(data?.getBoardArticles?.list);
-		},
-	});
+	const [newsArticles,      setNewsArticles]      = useState<BoardArticle[]>([]);
+	const [freeArticles,      setFreeArticles]      = useState<BoardArticle[]>([]);
+	const [recommendArticles, setRecommendArticles] = useState<BoardArticle[]>([]);
+	const [humorArticles,     setHumorArticles]     = useState<BoardArticle[]>([]);
 
 	useQuery(GET_BOARD_ARTICLES, {
 		fetchPolicy: 'network-only',
-		variables: { input: { ...searchCommunity, limit: 3, search: { articleCategory: BoardArticleCategory.FREE } } },
+		variables: { input: { ...searchCommunity, limit: 7, search: { articleCategory: BoardArticleCategory.NEWS } } },
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			setFreeArticles(data?.getBoardArticles?.list);
-		},
+		onCompleted: (data: T) => setNewsArticles(data?.getBoardArticles?.list),
 	});
+	useQuery(GET_BOARD_ARTICLES, {
+		fetchPolicy: 'network-only',
+		variables: { input: { ...searchCommunity, limit: 7, search: { articleCategory: BoardArticleCategory.FREE } } },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => setFreeArticles(data?.getBoardArticles?.list),
+	});
+	useQuery(GET_BOARD_ARTICLES, {
+		fetchPolicy: 'network-only',
+		variables: { input: { ...searchCommunity, limit: 7, search: { articleCategory: BoardArticleCategory.RECOMMEND } } },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => setRecommendArticles(data?.getBoardArticles?.list),
+	});
+	useQuery(GET_BOARD_ARTICLES, {
+		fetchPolicy: 'network-only',
+		variables: { input: { ...searchCommunity, limit: 7, search: { articleCategory: BoardArticleCategory.HUMOR } } },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => setHumorArticles(data?.getBoardArticles?.list),
+	});
+
+	const articlesMap: Record<BoardArticleCategory, BoardArticle[]> = {
+		[BoardArticleCategory.NEWS]:      newsArticles,
+		[BoardArticleCategory.FREE]:      freeArticles,
+		[BoardArticleCategory.RECOMMEND]: recommendArticles,
+		[BoardArticleCategory.HUMOR]:     humorArticles,
+	};
+
+	const activeArticles = articlesMap[activeTab] ?? [];
+	const featured       = activeArticles[0];
+	const rest           = activeArticles.slice(1);
 
 	if (device === 'mobile') {
-		return <div>COMMUNITY BOARDS (MOBILE)</div>;
-	} else {
 		return (
 			<Stack className={'community-board'}>
 				<Stack className={'container'}>
-					<Stack>
-						<Typography variant={'h1'}>FITNESS COMMUNITY</Typography>
+					<Typography className={'cb-title'}>FITNESS COMMUNITY</Typography>
+					<Stack className={'cb-tabs-mobile'} direction="row" flexWrap="wrap" gap={'8px'}>
+						{TABS.map((t) => (
+							<button
+								key={t.key}
+								className={`cb-tab-mobile ${activeTab === t.key ? 'active' : ''}`}
+								onClick={() => setActiveTab(t.key)}
+							>
+								<span>{t.icon}</span> {t.label}
+							</button>
+						))}
 					</Stack>
-					<Stack className="community-main">
-						<Stack className={'community-left'}>
-							<Stack className={'content-top'}>
-								<Link href={'/community?articleCategory=NEWS'}>
-									<span>NEWS</span>
-								</Link>
-								<img src="/img/icons/arrowBig.svg" alt="" />
-							</Stack>
-							<Stack className={'card-wrap'}>
-								{newsArticles.map((article, index) => (
-									<CommunityCard vertical={true} article={article} index={index} key={article?._id} />
-								))}
-							</Stack>
-						</Stack>
-						<Stack className={'community-right'}>
-							<Stack className={'content-top'}>
-								<Link href={'/community?articleCategory=FREE'}>
-									<span>DISCUSSIONS</span>
-								</Link>
-								<img src="/img/icons/arrowBig.svg" alt="" />
-							</Stack>
-							<Stack className={'card-wrap vertical'}>
-								{freeArticles.map((article, index) => (
-									<CommunityCard vertical={false} article={article} index={index} key={article?._id} />
-								))}
-							</Stack>
-						</Stack>
+					<Stack className={'cb-mobile-list'} gap={'8px'} mt={'16px'}>
+						{activeArticles.map((article, idx) => (
+							<CommunityCard key={article._id} article={article} index={idx} variant="row" />
+						))}
 					</Stack>
 				</Stack>
 			</Stack>
 		);
 	}
+
+	return (
+		<Stack className={'community-board'}>
+			<Stack className={'container'}>
+				{/* Header */}
+				<Stack className={'cb-header'} direction="row" alignItems="flex-end" justifyContent="space-between" mb={'28px'}>
+					<Stack gap={'6px'}>
+						<span className={'cb-eyebrow'}>Community Hub</span>
+						<Typography className={'cb-title'}>FITNESS COMMUNITY</Typography>
+					</Stack>
+					<Link href={`/community?articleCategory=${activeTab}`} className={'cb-view-all'}>
+						View All <span>→</span>
+					</Link>
+				</Stack>
+
+				{/* Tab Bar */}
+				<Stack className={'cb-tab-bar'} direction="row" gap={'4px'} mb={'24px'}>
+					{TABS.map((t) => (
+						<button
+							key={t.key}
+							className={`cb-tab ${activeTab === t.key ? 'active' : ''}`}
+							onClick={() => setActiveTab(t.key)}
+						>
+							<span className={'cb-tab-icon'}>{t.icon}</span>
+							<span className={'cb-tab-label'}>{t.label}</span>
+						</button>
+					))}
+				</Stack>
+
+				{/* Content */}
+				<Stack direction="row" gap={'20px'} alignItems="flex-start">
+					{/* Featured */}
+					{featured && (
+						<div className={'cb-featured'}>
+							<CommunityCard article={featured} index={0} variant="featured" />
+						</div>
+					)}
+
+					{/* Grid */}
+					<Stack className={'cb-grid'} gap={'10px'} flex={1}>
+						{rest.map((article, idx) => (
+							<CommunityCard key={article._id} article={article} index={idx + 1} variant="grid" />
+						))}
+					</Stack>
+				</Stack>
+			</Stack>
+		</Stack>
+	);
 };
 
 export default CommunityBoards;

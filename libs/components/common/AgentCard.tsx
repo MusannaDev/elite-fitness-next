@@ -1,9 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Link from 'next/link';
-import { useReactiveVar } from '@apollo/client';
+import { useReactiveVar, useMutation } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { REACT_APP_API_URL } from '../../config';
+import { SUBSCRIBE, UNSUBSCRIBE } from '../../../apollo/user/mutation';
+import { sweetMixinErrorAlert } from '../../sweetAlert';
+import { Messages } from '../../config';
+
+const LS_KEY = (userId: string) => `agent_follows_${userId}`;
+
+const getLocalFollow = (userId: string, agentId: string): boolean => {
+	if (!userId || !agentId || typeof window === 'undefined') return false;
+	try {
+		const stored = JSON.parse(localStorage.getItem(LS_KEY(userId)) || '{}');
+		return stored[agentId] === true;
+	} catch {
+		return false;
+	}
+};
+
+const setLocalFollow = (userId: string, agentId: string, following: boolean) => {
+	if (!userId || !agentId || typeof window === 'undefined') return;
+	try {
+		const stored = JSON.parse(localStorage.getItem(LS_KEY(userId)) || '{}');
+		if (following) {
+			stored[agentId] = true;
+		} else {
+			delete stored[agentId];
+		}
+		localStorage.setItem(LS_KEY(userId), JSON.stringify(stored));
+	} catch {}
+};
 
 const HEX_COLORS = [
 	{ bg: '#7F77DD' },
@@ -20,12 +48,13 @@ const H = 326;
 interface AgentCardProps {
 	agent: any;
 	likeMemberHandler: any;
-	followMemberHandler: any;
+	followMemberHandler?: any;
 	colorIndex?: number;
+	refetch?: () => void;
 }
 
 const AgentCard = (props: AgentCardProps) => {
-	const { agent, likeMemberHandler, followMemberHandler, colorIndex = 0 } = props;
+	const { agent, likeMemberHandler, colorIndex = 0, refetch } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const color = HEX_COLORS[colorIndex % HEX_COLORS.length];
@@ -43,8 +72,56 @@ const AgentCard = (props: AgentCardProps) => {
 				.slice(0, 2)
 		: (agent?.memberNick || 'AG').slice(0, 2).toUpperCase();
 
-	const isFollowing = agent?.meFollowed && agent.meFollowed[0]?.myFollowing;
+	const serverFollowing = !!(agent?.meFollowed && agent.meFollowed[0]?.myFollowing);
+	const [isFollowing, setIsFollowing] = useState<boolean>(
+		serverFollowing || getLocalFollow(user?._id, agent?._id),
+	);
+	const [localFollowers, setLocalFollowers] = useState<number>(agent?.memberFollowers || 0);
 	const isLiked = agent?.meLiked && agent.meLiked[0]?.myFavorite;
+
+	const followInteracted = useRef(false);
+
+	useEffect(() => {
+		if (followInteracted.current) return;
+		const fromServer = !!(agent?.meFollowed && agent.meFollowed[0]?.myFollowing);
+		const fromLocal = getLocalFollow(user?._id, agent?._id);
+		setIsFollowing(fromServer || fromLocal);
+		setLocalFollowers(agent?.memberFollowers || 0);
+	}, [agent?.meFollowed, agent?.memberFollowers, user?._id]);
+
+	/** APOLLO **/
+	const [followMember] = useMutation(SUBSCRIBE);
+	const [unfollowMember] = useMutation(UNSUBSCRIBE);
+
+	const followHandler = useCallback(
+		async (e: React.MouseEvent) => {
+			e.preventDefault();
+			e.stopPropagation();
+			if (!user._id) {
+				sweetMixinErrorAlert(Messages.error2).then();
+				return;
+			}
+			followInteracted.current = true;
+			const wasFollowing = isFollowing;
+			setIsFollowing(!wasFollowing);
+			setLocalFollowers((prev) => (wasFollowing ? Math.max(0, prev - 1) : prev + 1));
+			try {
+				if (wasFollowing) {
+					await unfollowMember({ variables: { input: agent?._id } });
+				} else {
+					await followMember({ variables: { input: agent?._id } });
+				}
+				setLocalFollow(user._id, agent?._id, !wasFollowing);
+				if (refetch) refetch();
+			} catch (err: any) {
+				// rollback
+				setIsFollowing(wasFollowing);
+				setLocalFollowers((prev) => (wasFollowing ? prev + 1 : Math.max(0, prev - 1)));
+				sweetMixinErrorAlert(err.message).then();
+			}
+		},
+		[isFollowing, agent?._id, user, followMember, unfollowMember, refetch],
+	);
 
 	// default background: rasm bo'lsa rasm, bo'lmasa rang
 	const hexBg = imagePath
@@ -113,31 +190,23 @@ const AgentCard = (props: AgentCardProps) => {
 			</Link>
 
 			<div className="hex-actions" style={{ width: W }}>
-				<button
-					className={`follow-btn ${isFollowing ? 'following' : ''}`}
-					onClick={() => followMemberHandler(user, agent?._id)}
-					style={
-						isFollowing
-							? {
-									background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 50%, #4f46e5 100%)',
-									border: 'none',
-									color: '#fff',
-									boxShadow: '0 0 16px rgba(139, 92, 246, 0.55), 0 0 32px rgba(99, 102, 241, 0.3)',
-							  }
-							: { borderColor: color.bg }
-					}
-				>
-					{isFollowing ? (
-						<>
-							<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-								<path d="M2 8l4 4 8-8" />
-							</svg>
-							Followed · {agent?.memberFollowings ?? 0}
-						</>
-					) : (
-						<>+ Follow · {agent?.memberFollowings ?? 0}</>
-					)}
-				</button>
+				{user?._id !== agent?._id && (
+					<button
+						className={`follow-btn ${isFollowing ? 'following' : ''}`}
+						onClick={followHandler}
+					>
+						{isFollowing ? (
+							<>
+								<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+									<path d="M2 8l4 4 8-8" />
+								</svg>
+								Unfollow · {localFollowers}
+							</>
+						) : (
+							<>+ Follow · {localFollowers}</>
+						)}
+					</button>
+				)}
 
 				<button
 					className={`like-icon-btn ${isLiked ? 'liked' : ''}`}
@@ -150,12 +219,12 @@ const AgentCard = (props: AgentCardProps) => {
 				</button>
 
 				<button className={`follow-icon-btn ${isFollowing ? 'following' : ''}`}>
-					<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke={isFollowing ? '#7c3aed' : 'currentColor'} strokeWidth="1.5">
+					<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
 						<circle cx="6" cy="5" r="3" />
 						<path d="M1 13c0-2.8 2.2-5 5-5" strokeLinecap="round" />
 						<path d="M12 9v4M10 11h4" strokeLinecap="round" />
 					</svg>
-					<span className="icon-count">{agent?.memberFollowings ?? 0}</span>
+					<span className="icon-count">{localFollowers}</span>
 				</button>
 			</div>
 		</div>

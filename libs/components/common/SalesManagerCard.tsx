@@ -1,17 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Typography } from '@mui/material';
 import Link from 'next/link';
 import { REACT_APP_API_URL } from '../../config';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useMutation } from '@apollo/client';
 import { SUBSCRIBE, UNSUBSCRIBE } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { Messages } from '../../config';
+
+const LS_KEY = (userId: string) => `sm_follows_${userId}`;
+
+const getLocalFollow = (userId: string, smId: string): boolean => {
+	if (!userId || !smId || typeof window === 'undefined') return false;
+	try {
+		const stored = JSON.parse(localStorage.getItem(LS_KEY(userId)) || '{}');
+		return stored[smId] === true;
+	} catch {
+		return false;
+	}
+};
+
+const setLocalFollow = (userId: string, smId: string, following: boolean) => {
+	if (!userId || !smId || typeof window === 'undefined') return;
+	try {
+		const stored = JSON.parse(localStorage.getItem(LS_KEY(userId)) || '{}');
+		if (following) {
+			stored[smId] = true;
+		} else {
+			delete stored[smId];
+		}
+		localStorage.setItem(LS_KEY(userId), JSON.stringify(stored));
+	} catch {}
+};
 
 interface SalesManagerCardProps {
 	salesManager: any;
@@ -27,28 +52,54 @@ const SalesManagerCard = (props: SalesManagerCardProps) => {
 		? `${REACT_APP_API_URL}/${salesManager?.memberImage}`
 		: '/img/profile/defaultUser.svg';
 
-	const isFollowed: boolean = salesManager?.meFollowed && salesManager?.meFollowed[0]?.myFollowing;
+	const [isFollowed, setIsFollowed] = useState<boolean>(
+		!!(salesManager?.meFollowed && salesManager?.meFollowed[0]?.myFollowing) ||
+		getLocalFollow(user?._id, salesManager?._id),
+	);
+	const [localFollowers, setLocalFollowers] = useState<number>(salesManager?.memberFollowers || 0);
+	const followInteracted = useRef(false);
+
+	useEffect(() => {
+		if (followInteracted.current) return;
+		const fromServer = !!(salesManager?.meFollowed && salesManager?.meFollowed[0]?.myFollowing);
+		const fromLocal = getLocalFollow(user?._id, salesManager?._id);
+		setIsFollowed(fromServer || fromLocal);
+		setLocalFollowers(salesManager?.memberFollowers || 0);
+	}, [salesManager?.meFollowed, salesManager?.memberFollowers, user?._id]);
 
 	/** APOLLO **/
 	const [followMember] = useMutation(SUBSCRIBE);
 	const [unfollowMember] = useMutation(UNSUBSCRIBE);
 
 	/** HANDLERS **/
-	const followHandler = async (e: React.MouseEvent) => {
-		e.preventDefault();
-		try {
-			if (!user._id) throw new Error(Messages.error2);
-			if (isFollowed) {
-				await unfollowMember({ variables: { input: salesManager?._id } });
-			} else {
-				await followMember({ variables: { input: salesManager?._id } });
+	const followHandler = useCallback(
+		async (e: React.MouseEvent) => {
+			e.preventDefault();
+			e.stopPropagation();
+			if (!user._id) {
+				sweetMixinErrorAlert(Messages.error2).then();
+				return;
 			}
-			if (refetch) refetch();
-		} catch (err: any) {
-			console.log('ERROR, followHandler:', err.message);
-			sweetMixinErrorAlert(err.message).then();
-		}
-	};
+			followInteracted.current = true;
+			const wasFollowed = isFollowed;
+			setIsFollowed(!wasFollowed);
+			setLocalFollowers((prev) => (wasFollowed ? Math.max(0, prev - 1) : prev + 1));
+			try {
+				if (wasFollowed) {
+					await unfollowMember({ variables: { input: salesManager?._id } });
+				} else {
+					await followMember({ variables: { input: salesManager?._id } });
+				}
+				setLocalFollow(user._id, salesManager?._id, !wasFollowed);
+				if (refetch) refetch();
+			} catch (err: any) {
+				setIsFollowed(wasFollowed);
+				setLocalFollowers((prev) => (wasFollowed ? prev + 1 : Math.max(0, prev - 1)));
+				sweetMixinErrorAlert(err.message).then();
+			}
+		},
+		[isFollowed, salesManager?._id, user, followMember, unfollowMember, refetch],
+	);
 
 	if (device === 'mobile') {
 		return <div>SALES MANAGER CARD</div>;
@@ -62,7 +113,7 @@ const SalesManagerCard = (props: SalesManagerCardProps) => {
 				style={{ textDecoration: 'none' }}
 			>
 				<div className="sm-blob-card">
-					{/* Background image — full blob */}
+					{/* Background image */}
 					<div
 						className="sm-blob-bg"
 						style={{ backgroundImage: `url(${imagePath})` }}
@@ -70,11 +121,19 @@ const SalesManagerCard = (props: SalesManagerCardProps) => {
 					{/* Gradient overlay */}
 					<div className="sm-blob-overlay" />
 
-					{/* Top: views badge */}
+					{/* Top badges: views + likes + followers */}
 					<div className="sm-blob-badges">
 						<span className="sm-badge">
 							<RemoveRedEyeIcon style={{ fontSize: 11 }} />
 							{salesManager?.memberViews ?? 0}
+						</span>
+						<span className="sm-badge sm-badge-like">
+							<FavoriteIcon style={{ fontSize: 11, color: '#ff6b8a' }} />
+							{salesManager?.memberLikes ?? 0}
+						</span>
+						<span className="sm-badge sm-badge-followers">
+							<PersonAddAlt1Icon style={{ fontSize: 11 }} />
+							{localFollowers}
 						</span>
 					</div>
 
@@ -95,6 +154,7 @@ const SalesManagerCard = (props: SalesManagerCardProps) => {
 								className="sm-icon-btn"
 								onClick={(e) => {
 									e.preventDefault();
+									e.stopPropagation();
 									likeMemberHandler(user, salesManager?._id);
 								}}
 							>
@@ -105,27 +165,29 @@ const SalesManagerCard = (props: SalesManagerCardProps) => {
 								)}
 							</button>
 
-							{/* Follow */}
-							<button
-								className={`sm-follow-btn ${isFollowed ? 'following' : ''}`}
-								onClick={followHandler}
-							>
-								{isFollowed ? (
-									<>
-										<svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-											<path d="M3 8l3.5 3.5L13 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-										</svg>
-										Followed
-									</>
-								) : (
-									<>
-										<svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-											<path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-										</svg>
-										Follow
-									</>
-								)}
-							</button>
+							{/* Follow — hidden for own card */}
+							{user?._id !== salesManager?._id && (
+								<button
+									className={`sm-follow-btn ${isFollowed ? 'following' : ''}`}
+									onClick={followHandler}
+								>
+									{isFollowed ? (
+										<>
+											<svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+												<path d="M3 8l3.5 3.5L13 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+											</svg>
+											Unfollow
+										</>
+									) : (
+										<>
+											<svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+												<path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+											</svg>
+											Follow
+										</>
+									)}
+								</button>
+							)}
 						</div>
 					</div>
 				</div>

@@ -25,15 +25,19 @@ import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 
 const CATEGORY_COLORS: Record<EquipmentCategory, string> = {
-	[EquipmentCategory.FREE_WEIGHTS]: '#f97316',
-	[EquipmentCategory.MACHINES]:     '#3b82f6',
-	[EquipmentCategory.ACCESSORIES]:  '#a855f7',
+	[EquipmentCategory.MACHINES]:    '#3b82f6',
+	[EquipmentCategory.STRENGTH]:    '#f97316',
+	[EquipmentCategory.ACCESSORIES]: '#a855f7',
+	[EquipmentCategory.CARDIO]:      '#10b981',
+	[EquipmentCategory.OTHER]:       '#6b7280',
 };
 
 const CATEGORY_LABELS: Record<EquipmentCategory, string> = {
-	[EquipmentCategory.FREE_WEIGHTS]: 'Free Weights',
-	[EquipmentCategory.MACHINES]:     'Machines',
-	[EquipmentCategory.ACCESSORIES]:  'Accessories',
+	[EquipmentCategory.MACHINES]:    'Machines',
+	[EquipmentCategory.STRENGTH]:    'Strength',
+	[EquipmentCategory.ACCESSORIES]: 'Accessories',
+	[EquipmentCategory.CARDIO]:      'Cardio',
+	[EquipmentCategory.OTHER]:       'Other',
 };
 
 const STATUS_COLOR: Record<EquipmentStatus, string> = {

@@ -71,7 +71,7 @@ const PropertyCard = (props: PropertyCardType) => {
 					</Stack>
 					<Stack className="options">
 						<Stack className="option">
-							<img src="/img/icons/bed.svg" alt="" /> <Typography>{property.propertyBaths} bed</Typography>
+							<img src="/img/icons/bed.svg" alt="" /> <Typography>{property.propertyBaths} bath</Typography>
 						</Stack>
 						<Stack className="option">
 							<img src="/img/icons/room.svg" alt="" /> <Typography>{property.propertyRooms} room</Typography>

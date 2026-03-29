@@ -9,7 +9,6 @@ import { GET_MEMBER } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { useQuery } from '@apollo/client';
 import { MemberType } from '../../enums/member.enum';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import SupplementsIcon from '@mui/icons-material/MedicationLiquid';
 import FitnessCenterRoundedIcon from '@mui/icons-material/FitnessCenterRounded';
 import CheckroomRoundedIcon from '@mui/icons-material/CheckroomRounded';
@@ -119,8 +118,8 @@ const MemberMenu = (props: MemberMenuProps) => {
 						<ListItem disablePadding className={isActive('properties') ? 'mm-nav-item active' : 'mm-nav-item'}>
 							<Link href={navLink('properties')} scroll={false} style={{ width: '100%' }}>
 								<div className={'mm-nav-row'}>
-									<Box className={'mm-nav-icon-wrap'}><HomeRoundedIcon fontSize={'small'} /></Box>
-									<Typography className={'mm-nav-label'}>Properties</Typography>
+									<Box className={'mm-nav-icon-wrap'}><FitnessCenterRoundedIcon fontSize={'small'} /></Box>
+									<Typography className={'mm-nav-label'}>Gym Lists</Typography>
 									<Typography className={'mm-nav-count'}>{member?.memberProperties}</Typography>
 								</div>
 							</Link>
