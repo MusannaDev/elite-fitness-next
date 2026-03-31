@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTheme } from '../../libs/context/ThemeContext';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
@@ -50,6 +51,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const { query } = router;
+	const { isDark } = useTheme();
 
 	const articleId = query?.id as string;
 	const articleCategory = query?.articleCategory as string;
@@ -67,7 +69,6 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const [updatedCommentId, setUpdatedCommentId] = useState<string>('');
 	const [likeLoading, setLikeLoading] = useState<boolean>(false);
 	const [boardArticle, setBoardArticle] = useState<BoardArticle>();
-	const [isDark, setIsDark] = useState<boolean>(false);
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetBoardArticle] = useMutation(LIKE_TARGET_BOARD_ARTICLE);
@@ -239,10 +240,6 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 								>
 									+ Write
 								</Button>
-								<button className="toggle-btn" onClick={() => setIsDark(!isDark)}>
-									<span>{isDark ? '☀' : '🌙'}</span>
-									<span>{isDark ? 'Light' : 'Dark'}</span>
-								</button>
 							</div>
 						</div>
 

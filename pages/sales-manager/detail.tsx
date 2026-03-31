@@ -19,6 +19,8 @@ import { CREATE_COMMENT } from '../../apollo/user/mutation';
 import { GET_COMMENTS, GET_MEMBER } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 
+const isValidObjectId = (value?: string | null): boolean => /^[a-fA-F0-9]{24}$/.test(value ?? '');
+
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
 		...(await serverSideTranslations(locale, ['common'])),
@@ -39,6 +41,7 @@ const SalesManagerDetail: NextPage = ({ initialComment, ...props }: any) => {
 		commentContent: '',
 		commentRefId: '',
 	});
+	const hasValidCommentRefId = isValidObjectId(commentInquiry.search.commentRefId);
 
 	/** APOLLO REQUESTS **/
 	const [createComment] = useMutation(CREATE_COMMENT);
@@ -73,8 +76,8 @@ const SalesManagerDetail: NextPage = ({ initialComment, ...props }: any) => {
 		refetch: getCommentsRefetch,
 	} = useQuery(GET_COMMENTS, {
 		fetchPolicy: 'network-only',
-		variables: { input: initialComment },
-		skip: !commentInquiry.search.commentRefId,
+		variables: { input: commentInquiry },
+		skip: !hasValidCommentRefId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			if (data?.getComments?.list) setSalesManagerComments(data?.getComments?.list);
@@ -84,14 +87,16 @@ const SalesManagerDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	/** LIFECYCLE **/
 	useEffect(() => {
-		if (router.query.salesManagerId) setSalesManagerId(router.query.salesManagerId as string);
+		const rawSalesManagerId = Array.isArray(router.query.salesManagerId) ? router.query.salesManagerId[0] : router.query.salesManagerId;
+		if (isValidObjectId(rawSalesManagerId)) setSalesManagerId(rawSalesManagerId ?? null);
+		else setSalesManagerId(null);
 	}, [router]);
 
 	useEffect(() => {
-		if (commentInquiry.search.commentRefId) {
-			getCommentsRefetch({ variables: { input: commentInquiry } }).then();
+		if (hasValidCommentRefId) {
+			getCommentsRefetch({ input: commentInquiry }).then();
 		}
-	}, [commentInquiry]);
+	}, [commentInquiry, hasValidCommentRefId]);
 
 	/** HANDLERS **/
 	const redirectToMemberPageHandler = async (memberId: string) => {

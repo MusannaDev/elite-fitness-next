@@ -50,7 +50,7 @@ export const ClotheCard = (props: ClotheCardProps) => {
 	const pushClotheDetail = async (id: string) => {
 		if (memberPage)
 			await router.push({
-				pathname: '/clothe/detail',
+				pathname: '/clothes/detail',
 				query: { id: id },
 			});
 		else return;

@@ -24,6 +24,7 @@ import { CommentGroup } from '../../libs/enums/comment.enum';
 import { Pagination as MuiPagination } from '@mui/material';
 import Link from 'next/link';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -34,6 +35,7 @@ import { CREATE_COMMENT, LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation'
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { GET_COMMENTS } from '../../apollo/admin/query';
 
+const isValidObjectId = (value?: string | null): boolean => /^[a-fA-F0-9]{24}$/.test(value ?? '');
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -48,6 +50,9 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const user = useReactiveVar(userVar);
 	const [productId, setProductId] = useState<string | null>(null);
 	const [product, setProduct] = useState<Product | null>(null);
+	const [likedByMe, setLikedByMe] = useState<boolean>(false);
+	const [likesCount, setLikesCount] = useState<number>(0);
+	const [likeDirty, setLikeDirty] = useState<boolean>(false);
 	const [slideImage, setSlideImage] = useState<string>('');
 	const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
@@ -58,6 +63,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 		commentContent: '',
 		commentRefId: '',
 	});
+	const hasValidCommentRefId = isValidObjectId(commentInquiry.search.commentRefId);
 
 	/** APOLLO REQUESTS **/
 
@@ -112,8 +118,8 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 		refetch: getCommentsRefetch,
 	} = useQuery(GET_COMMENTS, {
 		fetchPolicy: 'cache-and-network',
-		variables: { input: initialComment },
-		skip: !commentInquiry.search.commentRefId,
+		variables: { input: commentInquiry },
+		skip: !hasValidCommentRefId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			if (data?.getComments?.list) setProductComments(data?.getComments?.list);
@@ -124,26 +130,36 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** LIFECYCLE **/
 
 	useEffect(() => {
-		if (router.query.id) {
-			setProductId(router.query.id as string);
+		const rawId = Array.isArray(router.query.id) ? router.query.id[0] : router.query.id;
+		if (isValidObjectId(rawId)) {
+			setProductId(rawId ?? null);
+			setLikeDirty(false);
 			setCommentInquiry({
 				...commentInquiry,
 				search: {
-					commentRefId: router.query.id as string,
+					commentRefId: rawId as string,
 				},
 			});
 			setInsertCommentData({
 				...insertCommentData,
-				commentRefId: router.query.id as string,
+				commentRefId: rawId as string,
 			});
+		} else {
+			setProductId(null);
 		}
 	}, [router]);
 
 	useEffect(() => {
-		if (commentInquiry.search.commentRefId) {
+		if (hasValidCommentRefId) {
 			getCommentsRefetch({ input: commentInquiry });
 		}
-	}, [commentInquiry]);
+	}, [commentInquiry, hasValidCommentRefId]);
+
+	useEffect(() => {
+		if (!product || likeDirty) return;
+		setLikedByMe(!!product?.meLiked?.[0]?.myFavorite);
+		setLikesCount(product?.productLikes ?? 0);
+	}, [product, likeDirty]);
 
 	/** HANDLERS **/
 	const changeImageHandler = (image: string) => {
@@ -151,33 +167,49 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 	};
 
 	const likeProductHandler = async (user: T, id: string) => {
+		const prevLiked = likedByMe;
+		const prevLikesCount = likesCount;
+		let mutationSucceeded = false;
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+			setLikeDirty(true);
+			const nextLiked = !likedByMe;
+			setLikedByMe(nextLiked);
+			setLikesCount((prev) => Math.max(0, prev + (nextLiked ? 1 : -1)));
 
 			await likeTargetProduct({
 				variables: {
 					input: id,
 				},
 			});
+			mutationSucceeded = true;
 
-			await getProductRefetch({ input: id });
-
-			await getProductsRefetch({
-				input: {
-					page: 1,
-					limit: 4,
-					sort: 'updatedAt',
-					direction: Direction.DESC,
-					search: {
-						categoryList: [product?.productCategory],
+			await Promise.allSettled([
+				getProductRefetch({ input: id }),
+				getProductsRefetch({
+					input: {
+						page: 1,
+						limit: 4,
+						sort: 'updatedAt',
+						direction: Direction.DESC,
+						search: {
+							categoryList: product?.productCategory ? [product?.productCategory] : [],
+						},
 					},
-				},
-			});
+				}),
+			]);
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('ERROR, likeProductHandler:', err.message);
+			if (mutationSucceeded) {
+				await sweetTopSmallSuccessAlert('success', 800);
+				return;
+			}
+			setLikedByMe(prevLiked);
+			setLikesCount(prevLikesCount);
+			setLikeDirty(false);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -190,8 +222,22 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const createCommentHandler = async () => {
 		try {
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+			const fallbackGroups = [insertCommentData.commentGroup, 'PRODUCT', 'PRODUCTS'];
+			let created = false;
+			let lastError: any = null;
 
-			await createComment({ variables: { input: insertCommentData } });
+			for (const group of fallbackGroups) {
+				if (created) break;
+				try {
+					await createComment({
+						variables: { input: { ...insertCommentData, commentGroup: group } },
+					});
+					created = true;
+				} catch (err: any) {
+					lastError = err;
+				}
+			}
+			if (!created && lastError) throw lastError;
 
 			setInsertCommentData({ ...insertCommentData, commentContent: '' });
 
@@ -260,25 +306,39 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 									)}
 								</Stack>
 								<Stack className={'right-box'}>
+									<Typography className={'title-main'}>{product?.productName}</Typography>
 									<Stack className="buttons">
 										<Stack className="button-box">
 											<RemoveRedEyeIcon fontSize="medium" />
 											<Typography>{product?.productViews}</Typography>
 										</Stack>
-										<Stack className="button-box">
-											{product?.meLiked && product?.meLiked[0]?.myFavorite ? (
-												<FavoriteIcon color="primary" fontSize={'medium'} />
+										<Stack className="button-box like-box">
+											{likedByMe ? (
+												<FavoriteIcon
+													className={'like-icon liked'}
+													fontSize={'medium'}
+													// @ts-ignore
+													onClick={() => likeProductHandler(user, product?._id)}
+												/>
 											) : (
 												<FavoriteBorderIcon
+													className={'like-icon'}
 													fontSize={'medium'}
 													// @ts-ignore
 													onClick={() => likeProductHandler(user, product?._id)}
 												/>
 											)}
-											<Typography>{product?.productLikes}</Typography>
+											<Typography>{likesCount}</Typography>
 										</Stack>
 									</Stack>
-									<Typography>${formatterStr(product?.productPrice)}</Typography>
+									<Stack className={'price-box'}>
+										<Typography className={'price-value'}>${formatterStr(product?.productPrice)}</Typography>
+									</Stack>
+								</Stack>
+								<Stack className={'add-cart-section'}>
+									<Button className={'add-cart-btn'} startIcon={<ShoppingCartOutlinedIcon />}>
+										Add to Cart
+									</Button>
 								</Stack>
 							</Stack>
 							<Stack className={'images'}>

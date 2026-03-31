@@ -24,6 +24,9 @@ import { CommentGroup } from '../../libs/enums/comment.enum';
 import { Pagination as MuiPagination } from '@mui/material';
 import Link from 'next/link';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import BathtubOutlinedIcon from '@mui/icons-material/BathtubOutlined';
+import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoomOutlined';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -34,6 +37,7 @@ import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { GET_COMMENTS } from '../../apollo/admin/query';
 
+const isValidObjectId = (value?: string | null): boolean => /^[a-fA-F0-9]{24}$/.test(value ?? '');
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -58,6 +62,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		commentContent: '',
 		commentRefId: '',
 	});
+	const hasValidCommentRefId = isValidObjectId(commentInquiry.search.commentRefId);
 
 	/** APOLLO REQUESTS **/
 
@@ -112,8 +117,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		refetch: getCommentsRefetch
 	} = useQuery(GET_COMMENTS, {
 		fetchPolicy: "cache-and-network",
-		variables: { input: initialComment },
-		skip: !commentInquiry.search.commentRefId,
+		variables: { input: commentInquiry },
+		skip: !hasValidCommentRefId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			if(data?.getComments?.list) setPropertyComments(data?.getComments?.list);
@@ -126,28 +131,31 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** LIFECYCLE **/
 
 	useEffect(() => {
-		if (router.query.id) {
-			setPropertyId(router.query.id as string);
+		const rawId = Array.isArray(router.query.id) ? router.query.id[0] : router.query.id;
+		if (isValidObjectId(rawId)) {
+			setPropertyId(rawId ?? null);
 			setCommentInquiry({
 				...commentInquiry,
 				search: {
-					commentRefId: router.query.id as string,
+					commentRefId: rawId as string,
 				},
 			});
 			setInsertCommentData({
 				...insertCommentData,
-				commentRefId: router.query.id as string,
+				commentRefId: rawId as string,
 			});
+		} else {
+			setPropertyId(null);
 		}
 	}, [router]);
 
 	useEffect(() => {
-		if(commentInquiry.search.commentRefId) {
+		if(hasValidCommentRefId) {
 			getCommentsRefetch({ input: commentInquiry });
 		}
 
 		
-	}, [commentInquiry]);
+	}, [commentInquiry, hasValidCommentRefId]);
 
 	/** HANDLERS **/
 	const changeImageHandler = (image: string) => {
@@ -155,6 +163,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	};
 
 	const likePropertyHandler = async (user: T, id: string) => {
+		let mutationSucceeded = false;
 		try {
 			if(!id) return;
 			if(!user._id) throw new Error(Message.NOT_AUTHENTICATED)
@@ -165,26 +174,31 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					input: id,
 				},
 			});
+			mutationSucceeded = true;
 
 
-			await getPropertyRefetch({ input: id })
-
-			// execute getPropertiesRefetch
-			await getPropertiesRefetch({ 
-				input: {
-					page: 1,
-					limit: 4,
-					sort: "updatedAt",
-					direction: Direction.DESC,
-					search: {
-						locationList: [property?.propertyLocation],
-				  }
-		    } 
-			})
+			await Promise.allSettled([
+				getPropertyRefetch({ input: id }),
+				getPropertiesRefetch({ 
+					input: {
+						page: 1,
+						limit: 4,
+						sort: "updatedAt",
+						direction: Direction.DESC,
+						search: {
+							locationList: property?.propertyLocation ? [property?.propertyLocation] : [],
+					  }
+			    } 
+				}),
+			]);
 
 			await sweetTopSmallSuccessAlert("success", 800)
 		} catch (err: any) {
 			console.log("ERROR, likePropertyHandler:", err.message);
+			if (mutationSucceeded) {
+				await sweetTopSmallSuccessAlert('success', 800);
+				return;
+			}
 			sweetMixinErrorAlert(err.message).then();
 		}
 	}
@@ -276,10 +290,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 									<Stack className={'bottom-box'}>
 										<Stack className="option">
-											<img src="/img/icons/bed.svg" alt="" /> <Typography>{property?.propertyBaths} bath</Typography>
+											<BathtubOutlinedIcon className={'bath-icon'} /> <Typography>{property?.propertyBaths} bath</Typography>
 										</Stack>
 										<Stack className="option">
-											<img src="/img/icons/room.svg" alt="" /> <Typography>{property?.propertyRooms} room</Typography>
+											<MeetingRoomOutlinedIcon className={'room-icon'} /> <Typography>{property?.propertyRooms} room</Typography>
 										</Stack>
 										<Stack className="option">
 											<img src="/img/icons/expand.svg" alt="" /> <Typography>{property?.propertySquare} m2</Typography>
@@ -287,16 +301,23 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 								</Stack>
 								<Stack className={'right-box'}>
+									<Typography className={'title-main'}>{property?.propertyTitle}</Typography>
 									<Stack className="buttons">
 										<Stack className="button-box">
 											<RemoveRedEyeIcon fontSize="medium" />
 											<Typography>{property?.propertyViews}</Typography>
 										</Stack>
-										<Stack className="button-box">
+										<Stack className="button-box like-box">
 											{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-												<FavoriteIcon color="primary" fontSize={'medium'} />
+												<FavoriteIcon
+													className={'like-icon liked'}
+													fontSize={'medium'}
+													// @ts-ignore
+													onClick={() => likePropertyHandler(user, property?._id)}
+												/>
 											) : (
 												<FavoriteBorderIcon
+													className={'like-icon'}
 													fontSize={'medium'}
 													// @ts-ignore
 													onClick={() => likePropertyHandler(user, property?._id)}
@@ -305,7 +326,14 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											<Typography>{property?.propertyLikes}</Typography>
 										</Stack>
 									</Stack>
-									<Typography>${formatterStr(property?.propertyPrice)}</Typography>
+									<Stack className={'price-box'}>
+										<Typography className={'price-value'}>${formatterStr(property?.propertyPrice)}</Typography>
+									</Stack>
+								</Stack>
+								<Stack className={'add-cart-section'}>
+									<Button className={'add-cart-btn'} startIcon={<ShoppingCartOutlinedIcon />}>
+										Add to Cart
+									</Button>
 								</Stack>
 							</Stack>
 							<Stack className={'images'}>
@@ -346,7 +374,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 									<Stack className={'option'}>
 										<Stack className={'svg-box'}>
-											<img src={'/img/icons/room.svg'} />
+											<MeetingRoomOutlinedIcon className={'room-option-icon'} />
 										</Stack>
 										<Stack className={'option-includes'}>
 											<Typography className={'title'}>Room</Typography>

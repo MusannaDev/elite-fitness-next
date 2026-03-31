@@ -112,7 +112,7 @@ const TopClothesCard = (props: TopClothesCardProps) => {
 				<Collapse in={commentOpen}>
 					<Box className="clothes-comment-section">
 						<ClotheComments
-							commentGroup={CommentGroup.CLOTHES}
+							commentGroup={CommentGroup.CLOTHE}
 							commentRefId={clothe._id}
 							memberId={user?._id}
 						/>

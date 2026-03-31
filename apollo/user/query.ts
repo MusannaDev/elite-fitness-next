@@ -751,6 +751,11 @@ export const GET_PRODUCT = gql`
         deletedAt
         createdAt
         updatedAt
+        meLiked {
+            memberId
+            likeRefId
+            myFavorite
+        }
     }
   }
 `
@@ -934,6 +939,11 @@ export const GET_CLOTHE = gql`
         deletedAt
         createdAt
         updatedAt
+        meLiked {
+            memberId
+            likeRefId
+            myFavorite
+        }
     }
   }
 `
@@ -1114,6 +1124,11 @@ export const GET_EQUIPMENT = gql`
         deletedAt
         createdAt
         updatedAt
+        meLiked {
+            memberId
+            likeRefId
+            myFavorite
+        }
     }
   }
 `
@@ -1260,6 +1275,37 @@ export const GET_SEEN_EQUIPMENTS = gql`
         }
         metaCounter {
             total
+        }
+    }
+  }
+`
+
+
+
+/**************************
+ *         ORDER        *
+ *************************/
+
+export const GET_MY_ORDERS = gql`
+  query GetMyOrders($input: OrderInquiry!) {
+    getMyOrders(input: $input) {
+        _id
+        orderTotal
+        orderDelivery
+        orderStatus
+        paymentMethod
+        memberId
+        createdAt
+        updatedAt
+        orderItems {
+            _id
+            itemQuantity
+            itemPrice
+            itemType
+            orderId
+            itemId
+            createdAt
+            updatedAt
         }
     }
   }

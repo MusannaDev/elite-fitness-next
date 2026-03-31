@@ -1,276 +1,246 @@
+// ─── Sales Manager Detail — Design Tokens ───────────────────────────────────
+$sm-accent:    #181a20;
+$sm-orange:    #ff6b35;
+$sm-accent-bg: rgba(255, 107, 53, 0.08);
+$sm-dark:      #0c0e14;
+$sm-bg:        #f8f8f8;
+$sm-surface:   #ffffff;
+$sm-text:      #181a20;
+$sm-text-mid:  #6b6b7a;
+$sm-text-dim:  #a8a8b0;
+$sm-line:      #ebebeb;
+$sm-serif:     'Cormorant Garamond', Georgia, serif;
+$sm-mono:      'JetBrains Mono', 'Fira Mono', monospace;
+$sm-sans:      'DM Sans', 'Inter', sans-serif;
+
 #pc-wrap {
-	.sales-manager-detail-page {
-		position: relative;
-		padding: 133px 0 75px;
-		width: 100%;
-		height: auto;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
+  .sales-manager-detail-page {
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background: $sm-bg;
+    padding: 0 0 80px;
+    font-family: $sm-sans;
 
-		.container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 1100px;
+      padding: 0 40px;
 
-			// ── Sales Manager Info ──────────────────────────────────────────────
-			.sales-manager-info {
-				margin-left: 58px;
-				width: 100%;
-				display: flex;
-				flex-direction: row;
-				align-items: center;
+      // ── Profile Hero ─────────────────────────────────────────────────────
+      .sales-manager-info {
+        width: 100%;
+        margin-left: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 32px;
+        padding: 48px 48px 40px;
+        margin-top: 40px;
+        background: $sm-surface;
+        border-top: 4px solid $sm-orange;
+        box-shadow: 0 4px 32px rgba($sm-dark, 0.06);
+        position: relative;
 
-				img {
-					margin-right: 32px;
-					width: 135px;
-					height: 135px;
-					border-radius: 50%;
-					cursor: pointer;
-					object-fit: cover;
-				}
+        &::after {
+          content: '';
+          position: absolute;
+          right: 48px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba($sm-orange, 0.12) 0%, transparent 70%);
+          pointer-events: none;
+        }
 
-				.info {
-					display: flex;
-					flex-direction: column;
-					cursor: pointer;
+        img {
+          width: 110px;
+          height: 110px;
+          border-radius: 0;
+          cursor: pointer;
+          object-fit: cover;
+          border: 3px solid rgba($sm-orange, 0.3);
+          flex-shrink: 0;
+          margin-right: 0;
+        }
 
-					strong {
-						color: #181a20;
-						font-family: $font;
-						font-size: 24px;
-						font-weight: 600;
-						line-height: normal;
-						text-transform: capitalize;
-					}
+        .info {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          cursor: pointer;
 
-					div {
-						margin-top: 13px;
-						display: flex;
-						flex-direction: row;
-						align-items: center;
+          strong {
+            font-family: $sm-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: $sm-dark;
+            text-transform: none;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+          }
 
-						img {
-							margin-right: 10px;
-							width: 16px;
-							height: 16px;
-						}
+          div {
+            margin-top: 6px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
 
-						span {
-							color: #181a20;
-							font-family: $font;
-							font-size: 20px;
-							font-weight: 400;
-							line-height: 28px;
-						}
-					}
-				}
-			}
+            img { width: 14px; height: 14px; border: none; flex-shrink: 0; }
 
-			// ── Review Box ─────────────────────────────────────────────────────
-			.review-box {
-				position: relative;
-				margin-top: 75px;
-				padding: 58px 19px;
-				width: 95%;
-				height: auto;
-				border-radius: 24px;
-				background: #f6f6f6;
+            span {
+              font-family: $sm-mono;
+              font-size: 13px;
+              font-weight: 500;
+              color: $sm-text-mid;
+              letter-spacing: 0.5px;
+            }
+          }
+        }
+      }
 
-				.main-intro {
-					display: flex;
-					flex-direction: column;
+      // ── Review section ───────────────────────────────────────────────────
+      .review-box {
+        position: relative;
+        margin-top: 40px;
+        padding: 40px 48px;
+        width: 100%;
+        border-radius: 0;
+        background: $sm-surface;
+        border-top: 3px solid rgba($sm-orange, 0.2);
+        box-shadow: none;
 
-					span {
-						color: #181a20;
-						font-family: $font;
-						font-size: 30px;
-						font-weight: 600;
-						line-height: normal;
-						letter-spacing: 0.6px;
-						text-transform: capitalize;
-					}
+        .main-intro {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          padding-bottom: 24px;
+          border-bottom: 1px solid $sm-line;
+          margin-bottom: 32px;
 
-					p {
-						color: #181a20;
-						font-family: $font;
-						font-size: 14px;
-						font-weight: 400;
-						line-height: 26px;
-					}
-				}
+          span {
+            font-family: $sm-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: $sm-dark;
+            letter-spacing: -0.5px;
+            text-transform: none;
+            line-height: 1.1;
+          }
 
-				.review-wrap {
-					padding: 29px 25px;
-					margin-top: 57px;
-					display: flex;
-					flex-direction: column;
-					border-radius: 12px;
-					background: #fff;
-					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+          p { font-family: $sm-mono; font-size: 11px; color: $sm-text-dim; letter-spacing: 0.5px; }
+        }
 
-					.title-box {
-						svg {
-							width: 10px;
-							height: 10px;
-						}
+        .review-wrap {
+          padding: 0;
+          margin-top: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+          border-radius: 0;
+          background: transparent;
+          box-shadow: none;
 
-						span {
-							margin-left: 8px;
-							color: #181a20;
-							font-family: $font;
-							font-size: 17px;
-							font-weight: 600;
-							line-height: normal;
-						}
-					}
+          .title-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid $sm-orange;
 
-					.review-card {
-						margin-top: 20px;
-						display: flex;
-						flex-direction: column;
-						padding-bottom: 10px;
-						border-bottom: 1px solid #c4c4c4;
+            svg { width: 10px; height: 10px; color: $sm-orange; }
+            span { font-family: $sm-mono; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: $sm-text-mid; }
+          }
 
-						.info {
-							display: flex;
-							flex-direction: row;
-							justify-content: space-between;
+          .review-card {
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 24px;
+            border-bottom: 1px solid $sm-line;
 
-							.left {
-								display: flex;
-								flex-direction: row;
+            .info {
+              flex-direction: row;
+              justify-content: space-between;
 
-								img {
-									width: 55px;
-									height: 59px;
-									border-radius: 50%;
-									object-fit: cover;
-								}
+              .left {
+                flex-direction: row;
+                align-items: center;
+                gap: 14px;
 
-								div {
-									margin-left: 8px;
-									display: flex;
-									flex-direction: column;
+                img { width: 44px; height: 44px; border-radius: 0; object-fit: cover; border: 2px solid rgba($sm-orange, 0.2); }
 
-									strong {
-										color: #181a20;
-										font-family: $font;
-										font-size: 15px;
-										font-weight: 600;
-										line-height: normal;
-									}
+                div {
+                  margin-left: 0;
+                  flex-direction: column;
+                  gap: 3px;
+                  strong { font-size: 14px; font-weight: 700; color: $sm-dark; }
+                  span { font-family: $sm-mono; font-size: 10px; color: $sm-text-dim; }
+                }
+              }
 
-									span {
-										margin-top: 4px;
-										color: #181a20;
-										font-family: $font;
-										font-size: 13px;
-										font-weight: 400;
-										line-height: normal;
-									}
-								}
-							}
+              .right { flex-direction: row; align-items: center; svg { color: $sm-orange; } }
+            }
 
-							.right {
-								display: flex;
-								flex-direction: row;
+            p {
+              margin-top: 14px;
+              font-size: 14px;
+              font-weight: 300;
+              color: $sm-text-mid;
+              line-height: 1.8;
+              padding-left: 16px;
+              border-left: 2px solid rgba($sm-orange, 0.3);
+            }
+          }
 
-								svg {
-									color: #edf023;
-								}
-							}
-						}
+          .pagination-box { display: flex; justify-content: center; margin-top: 12px; }
+        }
 
-						p {
-							margin-top: 10px;
-							color: #181a20;
-							font-family: $font;
-							font-size: 14px;
-							font-weight: 400;
-							line-height: 26px;
-						}
-					}
+        .leave-review-config {
+          margin-top: 40px;
+          border-radius: 0;
+          border: none;
+          border-top: 3px solid rgba($sm-orange, 0.15);
+          background: $sm-bg;
+          box-shadow: none;
+          padding: 32px 0 0;
 
-					.pagination-box {
-						margin-top: 15px;
-						width: 100%;
-						height: auto;
-						display: flex;
-						justify-content: center;
-					}
-				}
+          .main-title { font-family: $sm-mono; font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: $sm-text-mid; }
+          .review-title { margin-top: 20px; font-size: 13px; font-weight: 600; color: $sm-dark; }
 
-				.leave-review-config {
-					margin-top: 15px;
-					border-radius: 12px;
-					background: #fff;
-					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-					padding: 30px 38px;
+          textarea {
+            width: 100%; height: 120px; margin-top: 8px; padding: 16px;
+            border-radius: 0; border: 1px solid $sm-line; border-bottom: 2px solid rgba($sm-orange, 0.5);
+            background: $sm-surface; font-size: 14px; color: $sm-text; resize: none;
+            transition: border-bottom-color 0.2s;
+            &:focus { outline: none; border-bottom-color: $sm-orange; }
+          }
 
-					.main-title {
-						color: #181a20;
-						font-family: $font;
-						font-size: 17px;
-						font-weight: 600;
-						line-height: normal;
-					}
+          .submit-btn {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
 
-					.review-title {
-						margin-top: 20px;
-						color: #181a20;
-						font-family: $font;
-						font-size: 14px;
-						font-weight: 600;
-						line-height: normal;
-					}
+            button:disabled { background: #dfdfdf; }
 
-					textarea {
-						width: 100%;
-						height: 120px;
-						margin-top: 8px;
-						padding: 20px;
-						border-radius: 8px;
-						border: 1px solid #ddd;
-						color: #717171;
-						font-family: $font;
-						font-size: 14px;
-						font-weight: 400;
-						line-height: 26px;
-					}
-
-					.submit-btn {
-						width: 100%;
-						display: flex;
-						justify-content: flex-end;
-
-						button:disabled {
-							background: #dfdfdf;
-						}
-
-						.submit-review {
-							display: flex;
-							width: 256px;
-							margin-top: 30px;
-							padding: 16px 30px;
-							justify-content: center;
-							align-items: center;
-							gap: 10px;
-							border-radius: 12px;
-							border: 1px solid #c4c4c4;
-							cursor: pointer;
-
-							.title {
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-weight: 600;
-								line-height: normal;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+            .submit-review {
+              width: 220px; margin-top: 24px; padding: 14px 24px;
+              border-radius: 0; border: 2px solid $sm-dark; background: transparent;
+              cursor: pointer; transition: all 0.22s;
+              &:hover { background: $sm-orange; border-color: $sm-orange; .title { color: #fff; } }
+              .title { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: $sm-dark; }
+            }
+          }
+        }
+      }
+    }
+  }
 }

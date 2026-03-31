@@ -24,6 +24,10 @@ import { CommentGroup } from '../../libs/enums/comment.enum';
 import { Pagination as MuiPagination } from '@mui/material';
 import Link from 'next/link';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import PrecisionManufacturingOutlinedIcon from '@mui/icons-material/PrecisionManufacturingOutlined';
+import FitnessCenterOutlinedIcon from '@mui/icons-material/FitnessCenterOutlined';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -34,6 +38,7 @@ import { CREATE_COMMENT, LIKE_TARGET_EQUIPMENT } from '../../apollo/user/mutatio
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { GET_COMMENTS } from '../../apollo/admin/query';
 
+const isValidObjectId = (value?: string | null): boolean => /^[a-fA-F0-9]{24}$/.test(value ?? '');
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -48,6 +53,9 @@ const EquipmentDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const user = useReactiveVar(userVar);
 	const [equipmentId, setEquipmentId] = useState<string | null>(null);
 	const [equipment, setEquipment] = useState<Equipment | null>(null);
+	const [likedByMe, setLikedByMe] = useState<boolean>(false);
+	const [likesCount, setLikesCount] = useState<number>(0);
+	const [likeDirty, setLikeDirty] = useState<boolean>(false);
 	const [slideImage, setSlideImage] = useState<string>('');
 	const [destinationEquipments, setDestinationEquipments] = useState<Equipment[]>([]);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
@@ -58,6 +66,7 @@ const EquipmentDetail: NextPage = ({ initialComment, ...props }: any) => {
 		commentContent: '',
 		commentRefId: '',
 	});
+	const hasValidCommentRefId = isValidObjectId(commentInquiry.search.commentRefId);
 
 	/** APOLLO REQUESTS **/
 
@@ -112,8 +121,8 @@ const EquipmentDetail: NextPage = ({ initialComment, ...props }: any) => {
 		refetch: getCommentsRefetch,
 	} = useQuery(GET_COMMENTS, {
 		fetchPolicy: 'cache-and-network',
-		variables: { input: initialComment },
-		skip: !commentInquiry.search.commentRefId,
+		variables: { input: commentInquiry },
+		skip: !hasValidCommentRefId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			if (data?.getComments?.list) setEquipmentComments(data?.getComments?.list);
@@ -124,26 +133,36 @@ const EquipmentDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** LIFECYCLE **/
 
 	useEffect(() => {
-		if (router.query.id) {
-			setEquipmentId(router.query.id as string);
+		const rawId = Array.isArray(router.query.id) ? router.query.id[0] : router.query.id;
+		if (isValidObjectId(rawId)) {
+			setEquipmentId(rawId ?? null);
+			setLikeDirty(false);
 			setCommentInquiry({
 				...commentInquiry,
 				search: {
-					commentRefId: router.query.id as string,
+					commentRefId: rawId as string,
 				},
 			});
 			setInsertCommentData({
 				...insertCommentData,
-				commentRefId: router.query.id as string,
+				commentRefId: rawId as string,
 			});
+		} else {
+			setEquipmentId(null);
 		}
 	}, [router]);
 
 	useEffect(() => {
-		if (commentInquiry.search.commentRefId) {
+		if (hasValidCommentRefId) {
 			getCommentsRefetch({ input: commentInquiry });
 		}
-	}, [commentInquiry]);
+	}, [commentInquiry, hasValidCommentRefId]);
+
+	useEffect(() => {
+		if (!equipment || likeDirty) return;
+		setLikedByMe(!!equipment?.meLiked?.[0]?.myFavorite);
+		setLikesCount(equipment?.equipmentLikes ?? 0);
+	}, [equipment, likeDirty]);
 
 	/** HANDLERS **/
 	const changeImageHandler = (image: string) => {
@@ -151,33 +170,49 @@ const EquipmentDetail: NextPage = ({ initialComment, ...props }: any) => {
 	};
 
 	const likeEquipmentHandler = async (user: T, id: string) => {
+		const prevLiked = likedByMe;
+		const prevLikesCount = likesCount;
+		let mutationSucceeded = false;
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+			setLikeDirty(true);
+			const nextLiked = !likedByMe;
+			setLikedByMe(nextLiked);
+			setLikesCount((prev) => Math.max(0, prev + (nextLiked ? 1 : -1)));
 
 			await likeTargetEquipment({
 				variables: {
 					input: id,
 				},
 			});
+			mutationSucceeded = true;
 
-			await getEquipmentRefetch({ input: id });
-
-			await getEquipmentsRefetch({
-				input: {
-					page: 1,
-					limit: 4,
-					sort: 'updatedAt',
-					direction: Direction.DESC,
-					search: {
-						locationList: [equipment?.equipmentLocation],
+			await Promise.allSettled([
+				getEquipmentRefetch({ input: id }),
+				getEquipmentsRefetch({
+					input: {
+						page: 1,
+						limit: 4,
+						sort: 'updatedAt',
+						direction: Direction.DESC,
+						search: {
+							locationList: equipment?.equipmentLocation ? [equipment?.equipmentLocation] : [],
+						},
 					},
-				},
-			});
+				}),
+			]);
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('ERROR, likeEquipmentHandler:', err.message);
+			if (mutationSucceeded) {
+				await sweetTopSmallSuccessAlert('success', 800);
+				return;
+			}
+			setLikedByMe(prevLiked);
+			setLikesCount(prevLikesCount);
+			setLikeDirty(false);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -248,39 +283,53 @@ const EquipmentDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 									<Stack className={'bottom-box'}>
 										<Stack className="option">
-											<img src="/img/icons/material.svg" alt="" />
+											<PrecisionManufacturingOutlinedIcon className={'eq-meta-icon'} />
 											<Typography>{equipment?.equipmentMaterial}</Typography>
 										</Stack>
 										<Stack className="option">
-											<img src="/img/icons/weight.svg" alt="" />
+											<FitnessCenterOutlinedIcon className={'eq-meta-icon'} />
 											<Typography>{equipment?.equipmentWeight ? `${equipment.equipmentWeight} kg` : 'N/A'}</Typography>
 										</Stack>
 										<Stack className="option">
-											<img src="/img/icons/stock.svg" alt="" />
+											<Inventory2OutlinedIcon className={'eq-meta-icon'} />
 											<Typography>{equipment?.equipmentLeftCount} in stock</Typography>
 										</Stack>
 									</Stack>
 								</Stack>
 								<Stack className={'right-box'}>
+									<Typography className={'title-main'}>{equipment?.equipmentName}</Typography>
 									<Stack className="buttons">
 										<Stack className="button-box">
 											<RemoveRedEyeIcon fontSize="medium" />
 											<Typography>{equipment?.equipmentViews}</Typography>
 										</Stack>
-										<Stack className="button-box">
-											{equipment?.meLiked && equipment?.meLiked[0]?.myFavorite ? (
-												<FavoriteIcon color="primary" fontSize={'medium'} />
+										<Stack className="button-box like-box">
+											{likedByMe ? (
+												<FavoriteIcon
+													className={'like-icon liked'}
+													fontSize={'medium'}
+													// @ts-ignore
+													onClick={() => likeEquipmentHandler(user, equipment?._id)}
+												/>
 											) : (
 												<FavoriteBorderIcon
+													className={'like-icon'}
 													fontSize={'medium'}
 													// @ts-ignore
 													onClick={() => likeEquipmentHandler(user, equipment?._id)}
 												/>
 											)}
-											<Typography>{equipment?.equipmentLikes}</Typography>
+											<Typography>{likesCount}</Typography>
 										</Stack>
 									</Stack>
-									<Typography>${formatterStr(equipment?.equipmentPrice)}</Typography>
+									<Stack className={'price-box'}>
+										<Typography className={'price-value'}>${formatterStr(equipment?.equipmentPrice)}</Typography>
+									</Stack>
+								</Stack>
+								<Stack className={'add-cart-section'}>
+									<Button className={'add-cart-btn'} startIcon={<ShoppingCartOutlinedIcon />}>
+										Add to Cart
+									</Button>
 								</Stack>
 							</Stack>
 							<Stack className={'images'}>

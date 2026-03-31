@@ -9,6 +9,7 @@ import { useReactiveVar } from '@apollo/client';
 import { getJwtToken, updateUserInfo } from '../../auth';
 import Chat from '../Chat';
 import { useRouter } from 'next/router';
+import { useTheme } from '../../context/ThemeContext';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -48,7 +49,7 @@ const HeroSection = () => {
 					preload="auto"
 					onCanPlayThrough={() => setVideoLoaded(true)}
 				>
-					<source src="/video/Fitness_intro.mp4" type="video/mp4" />
+					<source src="/video/gym.mp4" type="video/mp4" />
 				</video>
 
 				{/* OVERLAY LAYERS */}
@@ -121,6 +122,7 @@ const withLayoutMain = (Component: any) => {
 		const device = useDeviceDetect();
 		const user = useReactiveVar(userVar);
 		const router = useRouter();
+		const { isDark } = useTheme();
 
 		// Faqat homepage da HeroSection ko'rsatish
 		const isHomePage = router.pathname === '/';
@@ -152,7 +154,7 @@ const withLayoutMain = (Component: any) => {
 						<title>EliteFit</title>
 						<meta name={'title'} content={`EliteFit`} />
 					</Head>
-					<div id="pc-wrap">
+					<div id="pc-wrap" className={isDark ? 'dark' : 'light'}>
 						<div id={'top'}><Top /></div>
 
 						{/* HeroSection faqat bosh sahifada */}

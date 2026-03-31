@@ -52,7 +52,7 @@ const ClotheCard = (props: ClotheCardType) => {
 			<Stack className="card-config">
 				{/* ── Image top ── */}
 				<Stack className="top">
-					<Link href={{ pathname: '/clothe/detail', query: { id: clothe?._id } }}>
+					<Link href={{ pathname: '/clothes/detail', query: { id: clothe?._id } }}>
 						<img src={imagePath} alt={clothe.clotheName} />
 					</Link>
 
@@ -109,7 +109,7 @@ const ClotheCard = (props: ClotheCardType) => {
 							<Typography>{clothe.clotheBrand}</Typography>
 						</Stack>
 						<Stack className="name">
-							<Link href={{ pathname: '/clothe/detail', query: { id: clothe?._id } }}>
+							<Link href={{ pathname: '/clothes/detail', query: { id: clothe?._id } }}>
 								<Typography>{clothe.clotheName}</Typography>
 							</Link>
 						</Stack>

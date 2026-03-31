@@ -8,17 +8,25 @@ export default function Document() {
 				<link rel="icon" type="image/png" href="/img/logo/elite.svg" />
 
 				{/* SEO */}
-				<meta name="keyword" content={'nestar, nestar.uz, devex mern, mern nestjs fullstack'} />
+				<meta name="keyword" content={'elitefit, elitefit.uz, adam mern, mern nestjs fullstack'} />
 				<meta
 					name={'description'}
 					content={
-						'Buy and sell properties anywhere anytime in South Korea. Best Properties at Best prices on elitefit.uz | ' +
-						'Покупайте и продавайте недвижимость в любой точке Южной Кореи в любое время. Лучшая недвижимость по лучшим ценам на nestar.uz | ' +
-						'대한민국 언제 어디서나 부동산을 사고팔 수 있습니다. Nestar.uz에서 최적의 가격으로 최고의 부동산을 만나보세요'
+						'Find the best fitness equipment, clothes, and gym memberships at EliteFit.uz | ' +
+						'Покупайте спортивное оборудование, одежду и абонементы в тренажерный зал на EliteFit.uz | ' +
+						'최고의 피트니스 장비, 운동복, 헬스장 멤버십을 EliteFit.uz에서 찾아보세요 | ' +
+						"En iyi fitness ekipmanları, spor kıyafetleri ve spor salonu üyeliklerini EliteFit.uz'de bulun | " +
+						'اعثر على أفضل معدات اللياقة البدنية والملابس الرياضية وعضويات الصالة الرياضية في EliteFit.uz | ' +
+						'EliteFit.uz da eng yaxshi fitnes jihozlar, sport kiyimlar va sport zal obunalarini toping'
 					}
 				/>
 			</Head>
 			<body>
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `(function(){var t=localStorage.getItem('elite-theme');document.documentElement.setAttribute('data-theme',t||'light');})()`,
+					}}
+				/>
 				<Main />
 				<NextScript />
 			</body>

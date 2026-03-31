@@ -69,8 +69,8 @@ export const ClothePanelList = ({ clothes, anchorEl, menuIconClickHandler, menuI
 									<TableCell className={'name'}>
 										{clothe.clotheStatus === ClotheStatus.ACTIVE ? (
 											<Stack direction={'row'} alignItems={'center'} gap={'8px'}>
-												<Link href={`/clothe/detail?id=${clothe._id}`}><Avatar src={img} variant="rounded" sx={{ width: 32, height: 32, borderRadius: '7px', border: '1.5px solid var(--glass-border)' }} /></Link>
-												<Link href={`/clothe/detail?id=${clothe._id}`}><Typography className={'row-title'}>{clothe.clotheName}</Typography></Link>
+												<Link href={`/clothes/detail?id=${clothe._id}`}><Avatar src={img} variant="rounded" sx={{ width: 32, height: 32, borderRadius: '7px', border: '1.5px solid var(--glass-border)' }} /></Link>
+												<Link href={`/clothes/detail?id=${clothe._id}`}><Typography className={'row-title'}>{clothe.clotheName}</Typography></Link>
 											</Stack>
 										) : (
 											<Stack direction={'row'} alignItems={'center'} gap={'8px'}>

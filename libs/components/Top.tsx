@@ -16,11 +16,15 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
+import { useTheme } from '../context/ThemeContext';
+import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 
 const Top = () => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const { t, i18n } = useTranslation('common');
+	const { isDark, toggleTheme } = useTheme();
 	const router = useRouter();
 	const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
 	const [lang, setLang] = useState<string | null>('en');
@@ -273,6 +277,10 @@ const Top = () => {
 
 						{/* USER BOX */}
 						<Box component={'div'} className={'user-box'}>
+							<button className={'theme-toggle-btn'} onClick={toggleTheme} aria-label="Toggle theme">
+								{isDark ? <WbSunnyOutlinedIcon /> : <DarkModeOutlinedIcon />}
+							</button>
+
 							{user?._id ? (
 								<>
 									<div
@@ -342,6 +350,18 @@ const Top = () => {
 									<MenuItem disableRipple onClick={langChoice} id="ru">
 										<img className="img-flag" src={'/img/flag/langru.png'} onClick={langChoice} id="ru" alt={'russiaFlag'} />
 										{t('Russian')}
+									</MenuItem>
+									<MenuItem disableRipple onClick={langChoice} id="tr">
+										<img className="img-flag" src={'/img/flag/langtr.png'} onClick={langChoice} id="tr" alt={'turkeyFlag'} />
+										{t('Turkish')}
+									</MenuItem>
+									<MenuItem disableRipple onClick={langChoice} id="ar">
+										<img className="img-flag" src={'/img/flag/langar.png'} onClick={langChoice} id="ar" alt={'arabicFlag'} />
+										{t('Arabic')}
+									</MenuItem>
+									<MenuItem disableRipple onClick={langChoice} id="uz">
+										<img className="img-flag" src={'/img/flag/languz.png'} onClick={langChoice} id="uz" alt={'uzbekFlag'} />
+										{t('Uzbek')}
 									</MenuItem>
 								</StyledMenu>
 							</div>

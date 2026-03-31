@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useTheme as useAppTheme } from '../../context/ThemeContext';
 import MenuList from '../admin/AdminMenuList';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -37,25 +38,18 @@ const withAdminLayout = (Component: ComponentType) => {
 		const [loading, setLoading] = useState(true);
 		const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 		const [title, setTitle] = useState('admin');
-		const [theme, setTheme] = useState<'light' | 'dark'>('light');
+		const { isDark, toggleTheme } = useAppTheme();
+		const theme = isDark ? 'dark' : 'light';
 
 		useEffect(() => {
 			const jwt = getJwtToken();
 			if (jwt) updateUserInfo(jwt);
-			const saved = typeof window !== 'undefined' ? localStorage.getItem('admin-theme') : null;
-			if (saved === 'dark') setTheme('dark');
 			setLoading(false);
 		}, []);
 
 		useEffect(() => {
 			if (!loading && user.memberType !== MemberType.ADMIN) router.push('/').then();
 		}, [loading, user, router]);
-
-		const toggleTheme = () => {
-			const next = theme === 'light' ? 'dark' : 'light';
-			setTheme(next);
-			if (typeof window !== 'undefined') localStorage.setItem('admin-theme', next);
-		};
 
 		const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget);
 		const handleCloseUserMenu = () => setAnchorElUser(null);
@@ -64,7 +58,7 @@ const withAdminLayout = (Component: ComponentType) => {
 		if (!user || user?.memberType !== MemberType.ADMIN) return null;
 
 		return (
-			<main id="pc-wrap" className="admin" data-theme={theme}>
+			<main id="pc-wrap" className={`admin ${theme}`}>
 				<Box component={'div'} sx={{ display: 'flex', minHeight: '100vh' }}>
 
 					{/* ── Dark Sidebar ───────────────────────────────────────── */}

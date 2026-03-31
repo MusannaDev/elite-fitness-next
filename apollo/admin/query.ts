@@ -315,5 +315,34 @@ export const GET_ALL_EQUIPMENTS_BY_ADMIN = gql`
         }
     }
   }
+`
 
+
+/**************************
+ *         ORDER        *
+ *************************/
+
+export const GET_ORDERS_BY_ADMIN = gql`
+  query GetMyOrders($input: OrderInquiry!) {
+    getMyOrders(input: $input) {
+        _id
+        orderTotal
+        orderDelivery
+        orderStatus
+        paymentMethod
+        memberId
+        createdAt
+        updatedAt
+        orderItems {
+            _id
+            itemQuantity
+            itemPrice
+            itemType
+            orderId
+            itemId
+            createdAt
+            updatedAt
+        }
+    }
+  }
 `

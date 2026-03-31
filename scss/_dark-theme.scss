@@ -1,0 +1,691 @@
+// ============================================================
+// THEME SYSTEM — Light & Dark
+// Selector: #pc-wrap.dark  /  #pc-wrap.light
+// This file is imported LAST in pc/main.scss to win cascade
+// ============================================================
+
+// ─────────────────────────────────────────────────────────────
+// THEME TOGGLE BUTTON — always visible (navbar transparent state)
+// ─────────────────────────────────────────────────────────────
+#pc-wrap {
+	#top .navbar .user-box .theme-toggle-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		border: 1.5px solid rgba(255, 255, 255, 0.25);
+		border-radius: 50%;
+		background: rgba(0, 0, 0, 0.35);
+		backdrop-filter: blur(8px);
+		cursor: pointer;
+		transition: all 0.2s ease;
+		flex-shrink: 0;
+
+		svg {
+			font-size: 17px;
+			color: rgba(255, 255, 255, 0.9);
+			transition: color 0.2s;
+		}
+
+		&:hover {
+			background: rgba(255, 69, 0, 0.3);
+			border-color: #ff4500;
+			transform: rotate(20deg) scale(1.05);
+			svg { color: #ffffff; }
+		}
+	}
+}
+
+// ─────────────────────────────────────────────────────────────
+// LIGHT MODE — navbar scrolled white, footer light
+// ─────────────────────────────────────────────────────────────
+#pc-wrap.light {
+	// Navbar scrolled → white
+	#top .navbar .navbar-main.scrolled {
+		background: rgba(255, 255, 255, 0.97) !important;
+		backdrop-filter: blur(20px);
+		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.07), 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+
+		.logo-text { color: #181a20 !important; em { color: #ff4500 !important; } }
+
+		.nav-link {
+			color: rgba(24, 26, 32, 0.72) !important;
+			&:hover { color: #181a20 !important; }
+		}
+
+		.mega-dropdown {
+			background: #ffffff !important;
+			border-color: rgba(0, 0, 0, 0.1) !important;
+			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1) !important;
+			a span {
+				color: rgba(24, 26, 32, 0.7) !important;
+				&:hover { color: #ff4500 !important; background: rgba(255,69,0,0.05) !important; }
+			}
+		}
+
+		.join-box {
+			border-color: #181a20 !important;
+			span { color: #181a20 !important; }
+			svg { color: #181a20 !important; }
+			&:hover { background: #181a20 !important; span, svg { color: #fff !important; } }
+		}
+
+		.notification-icon { color: rgba(24,26,32,0.5) !important; }
+
+		.btn-lang {
+			background: rgba(0,0,0,0.05) !important;
+			border-color: rgba(0,0,0,0.1) !important;
+		}
+
+		.theme-toggle-btn {
+			background: rgba(0,0,0,0.06) !important;
+			border-color: rgba(0,0,0,0.15) !important;
+			svg { color: rgba(24,26,32,0.7) !important; }
+			&:hover {
+				background: rgba(255,69,0,0.1) !important;
+				border-color: #ff4500 !important;
+				svg { color: #ff4500 !important; }
+			}
+		}
+	}
+
+	// Footer → light
+	#footer {
+		background: #f4f3f0 !important;
+		border-top: 1px solid #e0dcd8 !important;
+
+		.brand-name { color: #181a20 !important; em { color: #ff4500 !important; } }
+		.brand-tagline { color: #777 !important; }
+
+		.footer-contact {
+			.contact-label { color: #ff4500 !important; }
+			a { color: #333 !important; &:hover { color: #ff4500 !important; } }
+		}
+
+		.social-links a {
+			background: rgba(0,0,0,0.06) !important;
+			border-color: #d8d5d0 !important;
+			color: #555 !important;
+			&:hover {
+				color: #ff4500 !important;
+				border-color: rgba(255,69,0,0.4) !important;
+				background: rgba(255,69,0,0.08) !important;
+			}
+		}
+
+		.footer-col {
+			h4 { color: #ff4500 !important; border-bottom-color: rgba(255,69,0,0.2) !important; }
+			a, span { color: #666 !important; &:hover { color: #181a20 !important; } }
+		}
+
+		.newsletter-band {
+			background: rgba(255,69,0,0.05) !important;
+			border-color: rgba(255,69,0,0.15) !important;
+			.newsletter-label { color: #ff4500 !important; }
+			p { color: #333 !important; }
+			input {
+				background: rgba(0,0,0,0.04) !important;
+				border-color: rgba(0,0,0,0.12) !important;
+				color: #181a20 !important;
+				&::placeholder { color: #aaa !important; }
+			}
+		}
+
+		.footer-bottom {
+			border-top-color: #ddd !important;
+			span { color: #999 !important; }
+			.footer-bottom-links span { color: #777 !important; &:hover { color: #181a20 !important; } }
+		}
+	}
+}
+
+// ─────────────────────────────────────────────────────────────
+// DARK MODE — full page dark like community design
+// ─────────────────────────────────────────────────────────────
+
+// Dark tokens (matching community design language)
+$dk-bg:         #0d0d1a;
+$dk-bg-alt:     #0a0a14;
+$dk-surface:    rgba(255,255,255,0.04);
+$dk-surface2:   rgba(255,255,255,0.07);
+$dk-border:     rgba(255,255,255,0.08);
+$dk-border2:    rgba(255,255,255,0.13);
+$dk-text:       #f0f0f8;
+$dk-muted:      rgba(240,240,248,0.55);
+$dk-subtle:     rgba(240,240,248,0.32);
+$dk-neon:       #c8f700;
+$dk-neon-dim:   #8fb200;
+$dk-cyan:       #00c8e8;
+$dk-orange:     #ff4500;
+
+#pc-wrap.dark {
+
+	// ── Global ──────────────────────────────────────────────
+	background: linear-gradient(135deg, #0d0d1a 0%, #09091a 40%, #100a1f 100%) !important;
+
+	#main { background: transparent; }
+
+	// ── Navbar ──────────────────────────────────────────────
+	#top .navbar .navbar-main.scrolled {
+		background: rgba(8,8,24,0.94) !important;
+		backdrop-filter: blur(20px);
+		box-shadow: 0 1px 0 rgba(255,69,0,0.18), 0 4px 24px rgba(0,0,0,0.7) !important;
+
+		.theme-toggle-btn {
+			background: rgba(255,255,255,0.08) !important;
+			border-color: rgba(255,255,255,0.18) !important;
+			svg { color: rgba(255,255,255,0.8) !important; }
+			&:hover {
+				background: rgba(255,69,0,0.18) !important;
+				border-color: #ff4500 !important;
+				svg { color: #ff4500 !important; }
+			}
+		}
+	}
+
+	// ── Header basic banner ─────────────────────────────────
+	.header-basic {
+		box-shadow: inset 10px 40px 150px 60px rgba(8,8,24,0.95) !important;
+	}
+
+	// ── Footer — gradient matching community dark style ─────
+	#footer {
+		background: linear-gradient(180deg, #0a0814 0%, #07050f 60%, #05040c 100%) !important;
+		border-top: 1px solid rgba(80, 40, 140, 0.2) !important;
+		box-shadow: 0 -1px 0 rgba(120, 60, 200, 0.1) !important;
+	}
+
+	// ────────────────────────────────────────────────────────
+	// HOMEPAGE SECTIONS
+	// ────────────────────────────────────────────────────────
+	.home-page {
+		background: $dk-bg !important;
+	}
+
+	// Section headers shared (.info-box)
+	.info-box {
+		.section-label { color: $dk-neon-dim !important; }
+		.section-title { color: $dk-text !important; }
+		.section-sub   { color: $dk-muted !important; }
+		.info-divider  { background: linear-gradient(to right, $dk-neon-dim, $dk-neon, transparent) !important; }
+		.more-box {
+			background: rgba(200,247,0,0.1) !important;
+			border-color: rgba(200,247,0,0.4) !important;
+			color: $dk-neon !important;
+			&:hover { background: $dk-neon !important; color: #0d0d1a !important; }
+		}
+		svg { color: $dk-muted !important; &:hover { color: $dk-neon-dim !important; } }
+	}
+
+	// 1. Trend Products
+	.trend-products {
+		background: $dk-bg-alt !important;
+		.info-box .section-label { color: rgba(240,240,248,0.45) !important; letter-spacing: 2px; }
+		.info-box .section-title { color: $dk-text !important; }
+		.info-box .section-sub   { color: $dk-muted !important; }
+		.info-box .more-box { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.18) !important; color: $dk-text !important; }
+	}
+
+	.trend-product-card {
+		background: $dk-surface !important;
+		border: 1px solid $dk-border !important;
+		box-shadow: none !important;
+		&:hover { border-color: rgba(200,247,0,0.3) !important; box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important; }
+
+		.card-image-area {
+			background: rgba(255,255,255,0.03) !important;
+			.product-img { background-color: rgba(255,255,255,0.03) !important; }
+			.category-badge { background: rgba(0,113,227,0.2) !important; }
+		}
+		.card-body {
+			.product-name  { color: $dk-text !important; &:hover { color: #6ab3ff !important; } }
+			.product-brand { color: $dk-muted !important; }
+			.macro-pill    { background: rgba(255,255,255,0.07) !important; span { color: $dk-muted !important; } svg { color: $dk-subtle !important; } }
+			.macro-pill.protein { background: rgba(0,113,227,0.15) !important; span { color: #6ab3ff !important; } }
+			.macro-pill.weight  { background: rgba(255,255,255,0.08) !important; span { color: $dk-muted !important; } }
+			.card-footer {
+				border-top-color: $dk-border !important;
+				.product-price { color: #6ab3ff !important; }
+				.ap-btn { background: rgba(255,255,255,0.07) !important; color: $dk-muted !important; &:hover { background: rgba(255,255,255,0.14) !important; color: $dk-text !important; } }
+				.ap-count { color: $dk-subtle !important; }
+			}
+		}
+	}
+
+	// 2. Top Trainers
+	.top-trainers { background: $dk-bg !important; }
+
+	.top-trainer-card {
+		background: $dk-surface !important;
+		border: 1px solid $dk-border !important;
+		box-shadow: none !important;
+		&:hover { border-color: rgba(200,247,0,0.3) !important; box-shadow: 0 6px 28px rgba(0,0,0,0.5) !important; }
+
+		.tr-photo-side .tr-photo { background-color: rgba(255,255,255,0.05) !important; }
+		.tr-photo-side .tr-badge { background: $dk-neon !important; p { color: #0d0d1a !important; } }
+
+		.tr-info-side {
+			border-left-color: rgba(200,247,0,0.4) !important;
+			.tr-name  { color: $dk-text !important; &:hover { color: $dk-neon !important; } }
+			.tr-role  { color: $dk-cyan !important; }
+			.tr-desc  { color: $dk-muted !important; }
+			.tr-stats { border-top-color: $dk-border !important; .tr-stat + .tr-stat { border-left-color: $dk-border !important; } }
+			.tr-stat-num { color: $dk-text !important; }
+			.tr-stat-lbl { color: $dk-subtle !important; }
+			.tr-actions  { border-top-color: $dk-border !important; }
+			.tr-btn { background: rgba(255,255,255,0.06) !important; border-color: $dk-border !important; color: $dk-muted !important; &:hover { border-color: $dk-neon !important; color: $dk-neon !important; background: rgba(200,247,0,0.08) !important; } }
+			.tr-count { color: $dk-subtle !important; }
+		}
+		.tr-comment-panel { border-top-color: $dk-border !important; }
+	}
+
+	// 3. Popular Properties
+	.popular-properties { background: $dk-bg-alt !important; }
+
+	.popular-property-card {
+		background: $dk-surface !important;
+		border: 1px solid $dk-border !important;
+		box-shadow: none !important;
+		&:hover { border-color: rgba(200,247,0,0.3) !important; }
+		.prop-name  { color: $dk-text !important; }
+		.prop-price { color: $dk-neon !important; }
+		.prop-meta  { color: $dk-muted !important; }
+		.prop-tags span { background: rgba(255,255,255,0.07) !important; color: $dk-muted !important; border-color: $dk-border !important; }
+		.prop-divider { background: $dk-border !important; }
+		.prop-btn { background: rgba(255,255,255,0.06) !important; border-color: $dk-border !important; color: $dk-muted !important; &:hover { border-color: $dk-neon !important; color: $dk-neon !important; } }
+		.prop-count { color: $dk-subtle !important; }
+	}
+
+	// 4. Top Agents
+	.top-agents { background: $dk-bg !important; }
+
+	.top-agent-card {
+		background: $dk-surface !important;
+		border: 1px solid $dk-border !important;
+		border-left-color: rgba(0,200,232,0.4) !important;
+		box-shadow: none !important;
+		&:hover { box-shadow: 0 6px 28px rgba(0,0,0,0.5) !important; .agent-avatar { border-color: $dk-cyan !important; } }
+
+		.agent-avatar { background-color: rgba(255,255,255,0.05) !important; border-color: rgba(0,200,232,0.3) !important; }
+		.agent-name   { color: $dk-text !important; &:hover { color: $dk-cyan !important; } }
+		.agent-role   { color: $dk-cyan !important; }
+		.agent-rank-pill { background: rgba(0,200,232,0.1) !important; border-color: rgba(0,200,232,0.25) !important; p { color: $dk-cyan !important; } }
+		.agent-desc   { color: $dk-muted !important; }
+		.a-chip       { background: rgba(200,247,0,0.08) !important; border-color: rgba(200,247,0,0.2) !important; p { color: $dk-neon !important; } svg { color: $dk-neon !important; } }
+		.a-chip-cyan  { background: rgba(0,200,232,0.1) !important; border-color: rgba(0,200,232,0.25) !important; p { color: $dk-cyan !important; } svg { color: $dk-cyan !important; } }
+		.agent-divider { background: $dk-border !important; }
+		.follow-btn, .like-btn, .comment-toggle { background: rgba(255,255,255,0.06) !important; border-color: $dk-border !important; color: $dk-muted !important; &:hover { border-color: $dk-neon !important; color: $dk-neon !important; background: rgba(200,247,0,0.08) !important; } }
+		.action-count { color: $dk-subtle !important; }
+		.comment-toggle.active { border-color: $dk-cyan !important; color: $dk-cyan !important; background: rgba(0,200,232,0.08) !important; }
+		.comment-panel { border-top-color: $dk-border !important; }
+	}
+
+	// 5. Top Clothes
+	.top-clothes { background: $dk-bg-alt !important; }
+
+	.top-clothes-card {
+		background: $dk-surface !important;
+		box-shadow: none !important;
+		&:hover { box-shadow: 0 10px 36px rgba(0,0,0,0.55) !important; }
+
+		.clothes-img-wrap .clothes-img { background-color: rgba(255,255,255,0.05) !important; }
+		.clothes-info-strip {
+			border-top-color: rgba(200,247,0,0.35) !important;
+			.clothes-strip-name  { color: $dk-text !important; &:hover { color: $dk-neon !important; } }
+			.clothes-strip-brand { color: $dk-muted !important; }
+			.clothes-strip-price { color: $dk-neon !important; }
+			.clothes-strip-stock { color: $dk-subtle !important; }
+			.clothes-action-btn  { background: rgba(255,255,255,0.06) !important; border-color: $dk-border !important; color: $dk-muted !important; &:hover { border-color: $dk-neon !important; color: $dk-neon !important; background: rgba(200,247,0,0.08) !important; } }
+			.clothes-count       { color: $dk-subtle !important; }
+			.clothes-comment-section { border-top-color: $dk-border !important; }
+		}
+	}
+
+	// 6. Top Sales Managers
+	.top-sales-managers { background: $dk-bg !important; }
+
+	.top-sales-manager-card {
+		background: $dk-surface !important;
+		border: 1px solid $dk-border !important;
+		box-shadow: none !important;
+		&:hover { border-color: rgba(200,247,0,0.3) !important; }
+		.sm-name    { color: $dk-text !important; &:hover { color: $dk-neon !important; } }
+		.sm-role    { color: $dk-muted !important; }
+		.sm-desc    { color: $dk-muted !important; }
+		.sm-divider { background: $dk-border !important; }
+		.sm-btn     { background: rgba(255,255,255,0.06) !important; border-color: $dk-border !important; color: $dk-muted !important; &:hover { border-color: $dk-neon !important; color: $dk-neon !important; background: rgba(200,247,0,0.08) !important; } }
+		.sm-count   { color: $dk-subtle !important; }
+		.sm-stat-num { color: $dk-text !important; }
+		.sm-stat-lbl { color: $dk-subtle !important; }
+		.sm-comment-panel { border-top-color: $dk-border !important; }
+	}
+
+	// 7. Top Equipments
+	.top-equipments { background: $dk-bg-alt !important; }
+
+	.top-equipment-card {
+		background: $dk-surface !important;
+		border: 1px solid $dk-border !important;
+		box-shadow: none !important;
+		&:hover { border-color: rgba(200,247,0,0.3) !important; }
+
+		.equip-image-side {
+			.equip-image { background-color: rgba(255,255,255,0.05) !important; }
+			.equip-bestseller { background: $dk-neon !important; p { color: #0d0d1a !important; } }
+		}
+		.equip-spec-side {
+			.equip-name  { color: $dk-text !important; &:hover { color: $dk-neon !important; } }
+			.equip-brand { color: $dk-muted !important; }
+			.spec-row    { background: rgba(255,255,255,0.05) !important; .spec-label { color: $dk-subtle !important; } .spec-val { color: $dk-text !important; } svg { color: $dk-neon-dim !important; } }
+			.equip-footer {
+				border-top-color: $dk-border !important;
+				.equip-price { color: $dk-neon !important; }
+				.equip-stock { color: $dk-subtle !important; }
+				.equip-btn   { background: rgba(255,255,255,0.06) !important; border-color: $dk-border !important; color: $dk-muted !important; &:hover { border-color: $dk-neon !important; color: $dk-neon !important; background: rgba(200,247,0,0.08) !important; } }
+				.equip-count { color: $dk-subtle !important; }
+			}
+		}
+		.equip-comment-section { border-top-color: $dk-border !important; }
+	}
+
+	// 8. Advertisement
+	.advertisement {
+		background: $dk-bg !important;
+		.ad-title   { color: $dk-text !important; }
+		.ad-eyebrow { color: $dk-neon-dim !important; }
+		.ad-sub     { color: $dk-muted !important; }
+	}
+
+	// 9. Community Boards section on homepage
+	.community-boards {
+		background: $dk-bg-alt !important;
+		.section-title, h2, h3 { color: $dk-text !important; }
+		.section-sub, p { color: $dk-muted !important; }
+	}
+
+	// ────────────────────────────────────────────────────────
+	// LIST PAGES
+	// ────────────────────────────────────────────────────────
+	#property-list-page,
+	#product-list-page,
+	#equipment-list-page,
+	#clothe-list-page {
+		background: $dk-bg !important;
+
+		.sort-rail {
+			background: rgba(13,13,26,0.9) !important;
+			border-color: $dk-border2 !important;
+			backdrop-filter: blur(12px);
+			&__label { color: $dk-muted !important; }
+			&__pill  { color: $dk-muted !important; background: transparent; &.active { background: rgba(255,255,255,0.1) !important; color: $dk-text !important; } &:hover:not(.active) { background: rgba(255,255,255,0.06) !important; } }
+		}
+
+		.left-col, .filter-col, .sidebar-filter {
+			background: rgba(255,255,255,0.03) !important;
+			border-color: $dk-border !important;
+			.filter-label, .sidebar-label, label { color: $dk-muted !important; }
+		}
+
+		p, span, h1, h2, h3, h4 { color: inherit; }
+	}
+
+	.agent-list-page,
+	.trainer-list-page,
+	.sales-manager-list-page {
+		background: $dk-bg !important;
+		.page-title, .hero-title  { color: $dk-text !important; }
+		.page-sub, .hero-subtitle, .page-subtitle { color: $dk-muted !important; }
+		.search-input, .search-box input {
+			background: rgba(255,255,255,0.05) !important;
+			border-color: $dk-border2 !important;
+			color: $dk-text !important;
+			&::placeholder { color: $dk-subtle !important; }
+		}
+		.sidebar-filter {
+			background: rgba(255,255,255,0.03) !important;
+			border-color: $dk-border !important;
+		}
+	}
+
+	// ────────────────────────────────────────────────────────
+	// CARDS (general.scss)
+	// ────────────────────────────────────────────────────────
+	.property-big-card-box .info {
+		background: rgba(255,255,255,0.04) !important;
+		border-color: $dk-border !important;
+		.title { color: $dk-text !important; }
+		.desc  { color: $dk-muted !important; }
+		.options span { color: rgba(240,240,248,0.65) !important; }
+		.bott { p { color: $dk-muted !important; } span { color: $dk-subtle !important; } }
+	}
+
+	.product-big-card-box {
+		background: rgba(255,255,255,0.04) !important;
+		box-shadow: none !important;
+		.info {
+			.title { color: $dk-text !important; }
+			.desc  { color: $dk-muted !important; }
+			.options span { color: $dk-muted !important; }
+			.bott div:first-child { p { color: $dk-muted !important; } span { color: $dk-subtle !important; } }
+			.view-cnt { color: $dk-subtle !important; }
+		}
+	}
+
+	.clothes-big-card-box {
+		background: rgba(255,255,255,0.04) !important;
+		box-shadow: none !important;
+		.info {
+			.title { color: $dk-text !important; }
+			.desc  { color: $dk-muted !important; }
+			.options > div span { color: $dk-muted !important; }
+			.bott > div:first-child {
+				p   { background: rgba(255,255,255,0.07) !important; color: $dk-text !important; }
+				span { color: $dk-subtle !important; }
+			}
+		}
+	}
+
+	.equipment-big-card {
+		background: rgba(255,255,255,0.04) !important;
+		box-shadow: none !important;
+		.card-info {
+			.name-brand { .name p { color: $dk-text !important; } .brand p { color: $dk-muted !important; } }
+			.options .option p { color: $dk-muted !important; }
+			.divider { background: $dk-border !important; }
+			.type-buttons {
+				.type .category-tag { background: rgba(255,255,255,0.07) !important; color: $dk-text !important; }
+				.type .location-tag { color: $dk-muted !important; }
+				.buttons .button-box { svg { color: $dk-muted !important; } p { color: $dk-muted !important; } }
+			}
+		}
+	}
+
+	.agent-general-card .agent-desc .agent-info   { strong { color: $dk-text !important; } span { color: $dk-muted !important; } }
+	.trainer-general-card .trainer-desc .trainer-info { strong { color: $dk-text !important; } span { color: $dk-muted !important; } }
+	.sales-manager-card .sales-manager-desc .sales-manager-info { strong { color: $dk-text !important; } span { color: $dk-muted !important; } }
+	.community-general-card-config .desc-box {
+		.title { color: $dk-muted !important; }
+		.desc  { color: $dk-text !important; }
+		.date-box { background: rgba(255,255,255,0.06) !important; box-shadow: none !important; .month, .day { color: $dk-text !important; } }
+	}
+
+	// ────────────────────────────────────────────────────────
+	// DETAIL PAGES
+	// ────────────────────────────────────────────────────────
+	#property-detail-page,
+	#product-detail-page,
+	#equipment-detail-page,
+	#clothe-detail-page {
+		background: $dk-bg !important;
+		color: $dk-text !important;
+
+		.left-box, .right-box, .detail-section,
+		.review-section, .comment-section, .info-block {
+			background: rgba(255,255,255,0.04) !important;
+			border-color: $dk-border !important;
+		}
+		h1, h2, h3, h4, strong { color: $dk-text !important; }
+		p, span { color: $dk-muted; }
+		textarea, input[type="text"] {
+			background: rgba(255,255,255,0.05) !important;
+			border-color: $dk-border2 !important;
+			color: $dk-text !important;
+		}
+	}
+
+	.agent-detail-page,
+	.trainer-detail-page,
+	.sales-manager-detail-page {
+		background: $dk-bg !important;
+		color: $dk-text !important;
+		h1, h2, h3, strong { color: $dk-text !important; }
+		p, span { color: $dk-muted; }
+		textarea { background: rgba(255,255,255,0.05) !important; border-color: $dk-border2 !important; color: $dk-text !important; }
+	}
+
+	// ────────────────────────────────────────────────────────
+	// MY PAGE
+	// ────────────────────────────────────────────────────────
+	#my-page {
+		background: $dk-bg !important;
+
+		.icon-sidebar {
+			background: rgba(255,255,255,0.04) !important;
+			border-color: $dk-border !important;
+			box-shadow: none !important;
+			.nav-btn       { color: $dk-muted !important; &:hover { background: rgba(255,255,255,0.06) !important; color: $dk-text !important; } &.active { background: rgba(108,92,231,0.15) !important; color: #a78bfa !important; } }
+			.nav-divider   { background: $dk-border !important; }
+		}
+
+		.content-card, .about-card, .info-card,
+		.panel-card, .form-section, .stats-card,
+		.settings-card, .profile-card {
+			background: rgba(255,255,255,0.04) !important;
+			border-color: $dk-border !important;
+			box-shadow: none !important;
+			color: $dk-text !important;
+		}
+
+		.section-label, .card-label, .field-label { color: $dk-muted !important; }
+		.card-title, .section-title, h1, h2, h3, h4 { color: $dk-text !important; }
+
+		input, textarea, select {
+			background: rgba(255,255,255,0.05) !important;
+			border-color: $dk-border2 !important;
+			color: $dk-text !important;
+			&::placeholder { color: $dk-subtle !important; }
+		}
+	}
+
+	// ────────────────────────────────────────────────────────
+	// MEMBER PAGE
+	// ────────────────────────────────────────────────────────
+	#member-page {
+		background: $dk-bg !important;
+
+		.back-frame {
+			background: rgba(255,255,255,0.03) !important;
+			border-color: $dk-border !important;
+			box-shadow: none !important;
+		}
+		.left-config {
+			background: rgba(255,255,255,0.04) !important;
+			border-color: $dk-border !important;
+			box-shadow: none !important;
+		}
+		.main-config { background: transparent !important; }
+
+		h1, h2, h3, strong { color: $dk-text !important; }
+		p, span { color: $dk-muted; }
+	}
+
+	// ────────────────────────────────────────────────────────
+	// CS PAGE
+	// ────────────────────────────────────────────────────────
+	.cs-page {
+		background: $dk-bg !important;
+
+		.hero-title  { color: $dk-text !important; }
+		.hero-sub    { color: $dk-muted !important; }
+
+		.cs-tab-switcher {
+			background: rgba(255,255,255,0.05) !important;
+			border-color: $dk-border2 !important;
+			.tab-pill {
+				color: $dk-muted !important;
+				&:hover  { color: $dk-text !important; }
+				&.active { background: rgba(255,255,255,0.1) !important; color: $dk-text !important; }
+				.tab-dot { background: currentColor; }
+			}
+		}
+
+		.faq-item, .faq-block, .accordion-item,
+		.notice-block, .event-block, .timeline-item {
+			border-color: $dk-border !important;
+			background: transparent;
+			.question, .accordion-header, .faq-q,
+			.notice-title, .event-title, .item-title { color: $dk-text !important; }
+			.answer, .accordion-body, .faq-a,
+			.notice-body, .event-body, .item-body { color: $dk-muted !important; }
+			.item-date, .notice-date { color: $dk-subtle !important; }
+		}
+
+		h1, h2, h3 { color: $dk-text !important; }
+		p { color: $dk-muted; }
+	}
+
+	// ────────────────────────────────────────────────────────
+	// MUI OVERRIDES
+	// ────────────────────────────────────────────────────────
+	.MuiPaper-root:not(.MuiAlert-root) {
+		background: #131325 !important;
+		color: $dk-text !important;
+	}
+	.MuiMenu-paper, .MuiPopover-paper {
+		background: #131325 !important;
+		border: 1px solid $dk-border2 !important;
+	}
+	.MuiMenuItem-root {
+		color: $dk-text !important;
+		&:hover    { background: rgba(255,255,255,0.07) !important; }
+		&.Mui-selected { background: rgba(255,255,255,0.1) !important; }
+	}
+	.MuiOutlinedInput-root {
+		background: rgba(255,255,255,0.05) !important;
+		color: $dk-text !important;
+		.MuiOutlinedInput-notchedOutline { border-color: $dk-border2 !important; }
+		&:hover .MuiOutlinedInput-notchedOutline { border-color: rgba(255,255,255,0.3) !important; }
+		input, textarea { color: $dk-text !important; &::placeholder { color: $dk-subtle !important; } }
+	}
+	.MuiInputLabel-root { color: $dk-muted !important; &.Mui-focused { color: $dk-orange !important; } }
+	.MuiSelect-select, .MuiSelect-icon { color: $dk-text !important; }
+	.MuiFormHelperText-root { color: $dk-subtle !important; }
+
+	.MuiTableHead-root .MuiTableCell-root { background: rgba(255,255,255,0.03) !important; color: $dk-muted !important; border-color: $dk-border !important; }
+	.MuiTableBody-root .MuiTableCell-root { color: $dk-text !important; border-color: $dk-border !important; }
+	.MuiTableRow-root:hover { background: rgba(255,255,255,0.03) !important; }
+
+	.MuiTab-root { color: $dk-muted !important; &.Mui-selected { color: $dk-text !important; } }
+	.MuiTabs-indicator { background: $dk-orange !important; }
+
+	.MuiPaginationItem-root {
+		color: $dk-muted !important;
+		border-color: $dk-border2 !important;
+		&.Mui-selected { background: $dk-orange !important; border-color: $dk-orange !important; color: #fff !important; }
+		&:hover { background: rgba(255,255,255,0.07) !important; }
+	}
+	.MuiChip-root { background: rgba(255,255,255,0.07) !important; color: $dk-text !important; border-color: $dk-border2 !important; }
+	.MuiDivider-root { border-color: $dk-border !important; }
+	.MuiCheckbox-root:not(.Mui-checked) .MuiSvgIcon-root { color: rgba(255,255,255,0.25) !important; }
+	.MuiTypography-root { color: inherit; }
+
+	// ────────────────────────────────────────────────────────
+	// SCROLLBAR
+	// ────────────────────────────────────────────────────────
+	* {
+		scrollbar-color: rgba(255,255,255,0.15) transparent;
+		&::-webkit-scrollbar-track { background: transparent; }
+		&::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
+	}
+}

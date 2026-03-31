@@ -22,6 +22,8 @@ import { CREATE_COMMENT, LIKE_TARGET_MEMBER, LIKE_TARGET_PROPERTY } from '../../
 import { GET_AGENTS, GET_COMMENTS, GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 
+const isValidObjectId = (value?: string | null): boolean => /^[a-fA-F0-9]{24}$/.test(value ?? '');
+
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
 		...(await serverSideTranslations(locale, ['common'])),
@@ -45,6 +47,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		commentContent: '',
 		commentRefId: '',
 	});
+	const hasValidCommentRefId = isValidObjectId(commentInquiry.search.commentRefId);
 
 	/** APOLLO REQUESTS **/
 
@@ -105,8 +108,8 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		refetch: getCommentsRefetch
 	} = useQuery(GET_COMMENTS, {
 		fetchPolicy: "network-only",
-		variables: { input: initialComment },
-		skip: !commentInquiry.search.commentRefId,
+		variables: { input: commentInquiry },
+		skip: !hasValidCommentRefId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			if(data?.getComments?.list) setAgentComments(data?.getComments?.list);
@@ -116,7 +119,9 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 	/** LIFECYCLE **/
 	useEffect(() => {
-		if (router.query.agentId) setAgentId(router.query.agentId as string);
+		const rawAgentId = Array.isArray(router.query.agentId) ? router.query.agentId[0] : router.query.agentId;
+		if (isValidObjectId(rawAgentId)) setAgentId(rawAgentId ?? null);
+		else setAgentId(null);
 	}, [router]);
 
 	useEffect(() => {
@@ -125,10 +130,10 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		}
 	}, [searchFilter]);
 	useEffect(() => {
-		if(commentInquiry.search.commentRefId) {
-			getCommentsRefetch({ variables: { input: commentInquiry } }).then();
+		if (hasValidCommentRefId) {
+			getCommentsRefetch({ input: commentInquiry }).then();
 		}
-	}, [commentInquiry]);
+	}, [commentInquiry, hasValidCommentRefId]);
 
 	/** HANDLERS **/
 

@@ -93,8 +93,8 @@ const ClotheList: NextPage = ({ initialInput, ...props }: any) => {
 	const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
 		searchFilter.page = value;
 		await router.push(
-			`/clothe?input=${JSON.stringify(searchFilter)}`,
-			`/clothe?input=${JSON.stringify(searchFilter)}`,
+			`/clothes?input=${JSON.stringify(searchFilter)}`,
+			`/clothes?input=${JSON.stringify(searchFilter)}`,
 			{ scroll: false },
 		);
 		setCurrentPage(value);

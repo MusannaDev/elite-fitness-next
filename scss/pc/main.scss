@@ -255,6 +255,32 @@ body {
 					align-items: center;
 					gap: 16px;
 
+					.theme-toggle-btn {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						width: 36px;
+						height: 36px;
+						border: none;
+						border-radius: 50%;
+						background: rgba(255, 255, 255, 0.08);
+						cursor: pointer;
+						transition: background 0.2s, transform 0.2s;
+						flex-shrink: 0;
+
+						svg {
+							font-size: 18px;
+							color: rgba($white, 0.75);
+							transition: color 0.2s;
+						}
+
+						&:hover {
+							background: rgba(255, 69, 0, 0.15);
+							transform: rotate(15deg);
+							svg { color: $orange; }
+						}
+					}
+
 					.join-box {
 						display: flex;
 						align-items: center;
@@ -1232,3 +1258,8 @@ body {
 		box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
 	}
 }
+
+// ============================================================
+// THEME OVERRIDES — must be last to win the cascade
+// ============================================================
+@import '/scss/dark-theme.scss';

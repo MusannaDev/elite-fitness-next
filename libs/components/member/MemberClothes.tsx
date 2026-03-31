@@ -327,7 +327,7 @@ const MemberClothes: NextPage = ({ initialInput, ...props }: any) => {
 							const colorHex  = COLOR_HEX[cl.clotheColor]        ?? '#9ca3af';
 
 							return (
-								<Stack key={cl._id} className="mcl-row" onClick={() => router.push(`/clothe?id=${cl._id}`)}>
+								<Stack key={cl._id} className="mcl-row" onClick={() => router.push(`/clothes/detail?id=${cl._id}`)}>
 
 									{/* ① clotheName · clotheBrand */}
 									<Stack className="mcl-cell th-item">

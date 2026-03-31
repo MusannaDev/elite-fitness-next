@@ -618,3 +618,58 @@ export const LIKE_TARGET_EQUIPMENT = gql`
   }
 
 `
+
+/**************************
+ *         ORDER        *
+ *************************/
+
+export const CREATE_ORDER = gql`
+  mutation CreateOrder($input: OrderInput!) {
+    createOrder(input: $input) {
+			_id
+			orderTotal
+			orderDelivery
+			orderStatus
+			paymentMethod
+			memberId
+			createdAt
+			updatedAt
+			orderItems {
+				_id
+				itemQuantity
+				itemPrice
+				itemType
+				orderId
+				itemId
+				createdAt
+				updatedAt
+			}
+    }
+  }
+`
+
+export const UPDATE_ORDER = gql`
+  mutation UpdateOrder($input: OrderUpdate!) {
+    updateOrder(input: $input) {
+        _id
+        orderTotal
+        orderDelivery
+        orderStatus
+        paymentMethod
+        memberId
+        createdAt
+        updatedAt
+        orderItems {
+            _id
+            itemQuantity
+            itemPrice
+            itemType
+            orderId
+            itemId
+            createdAt
+            updatedAt
+        }
+    }
+  }
+
+`

@@ -421,3 +421,34 @@ export const REMOVE_EQUIPMENT_BY_ADMIN = gql`
     }
   }
 `
+
+
+/**************************
+ *         ORDER        *
+ *************************/
+
+export const UPDATE_ORDER_BY_ADMIN = gql`
+  mutation UpdateOrderByAdmin($input: OrderUpdate!) {
+    updateOrderByAdmin(input: $input) {
+        _id
+        orderTotal
+        orderDelivery
+        orderStatus
+        paymentMethod
+        memberId
+        createdAt
+        updatedAt
+        orderItems {
+            _id
+            itemQuantity
+            itemPrice
+            itemType
+            orderId
+            itemId
+            createdAt
+            updatedAt
+        }
+    }
+  }
+
+`

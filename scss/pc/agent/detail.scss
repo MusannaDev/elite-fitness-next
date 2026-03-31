@@ -1,518 +1,454 @@
+// ─── Agent Detail — Design Tokens ───────────────────────────────────────────
+$ag-accent:    #7f77dd;
+$ag-accent-bg: rgba(127, 119, 221, 0.08);
+$ag-dark:      #1a1a2e;
+$ag-bg:        #f8f7fc;
+$ag-surface:   #ffffff;
+$ag-text:      #1a1a2e;
+$ag-text-mid:  #666680;
+$ag-text-dim:  #a8a8c0;
+$ag-line:      #ebebf5;
+$ag-serif:     'Cormorant Garamond', Georgia, serif;
+$ag-mono:      'JetBrains Mono', 'Fira Mono', monospace;
+$ag-sans:      'DM Sans', 'Inter', sans-serif;
+
 #pc-wrap {
-	.agent-detail-page {
-		position: relative;
-		padding: 133px 0 75px;
-		width: 100%;
-		height: auto;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
+  .agent-detail-page {
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background: $ag-bg;
+    padding: 0 0 80px;
+    font-family: $ag-sans;
 
-		.container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 1100px;
+      padding: 0 40px;
 
-			.agent-info {
-				margin-left: 58px;
-				width: 100%;
-				display: flex;
-				flex-direction: row;
-				align-items: center;
+      // ── Profile Hero Banner ──────────────────────────────────────────────
+      .agent-info {
+        width: 100%;
+        margin-left: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 32px;
+        padding: 48px 48px 40px;
+        margin-top: 40px;
+        background: $ag-surface;
+        border-top: 4px solid $ag-accent;
+        box-shadow: 0 4px 32px rgba($ag-dark, 0.06);
+        position: relative;
 
-				img {
-					margin-right: 32px;
-					width: 135px;
-					height: 135px;
-					border-radius: 50%;
-					cursor: pointer;
-					object-fit: cover;
-				}
+        // Decorative accent element
+        &::after {
+          content: '';
+          position: absolute;
+          right: 48px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba($ag-accent, 0.15) 0%, transparent 70%);
+          pointer-events: none;
+        }
 
-				.info {
-					display: flex;
-					flex-direction: column;
+        img {
+          width: 110px;
+          height: 110px;
+          border-radius: 0;
+          cursor: pointer;
+          object-fit: cover;
+          border: 3px solid rgba($ag-accent, 0.3);
+          flex-shrink: 0;
+          margin-right: 0;
+        }
 
-					strong {
-						color: #181a20;
-						font-family: $font;
-						font-size: 24px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-						text-transform: capitalize;
-						cursor: pointer;
-					}
+        .info {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          cursor: pointer;
 
-					div {
-						margin-top: 13px;
-						display: flex;
-						flex-direction: row;
-						align-items: center;
+          strong {
+            font-family: $ag-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: $ag-dark;
+            text-transform: none;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+          }
 
-						img {
-							margin-right: 10px;
-							width: 16px;
-							height: 16px;
-						}
+          div {
+            margin-top: 6px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
 
-						span {
-							color: #181a20;
-							font-family: $font;
-							font-size: 20px;
-							font-style: normal;
-							font-weight: 400;
-							line-height: 28px;
-						}
-					}
-				}
-			}
+            img {
+              width: 14px;
+              height: 14px;
+              border: none;
+              flex-shrink: 0;
+            }
 
-			.agent-home-list {
-				position: relative;
-				width: 100%;
-				margin-top: 33px;
-				padding: 0px 0 46px;
-				display: flex;
-				flex-direction: column;
-				border-radius: 12px;
-				background: #fff;
-				box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+            span {
+              font-family: $ag-mono;
+              font-size: 13px;
+              font-weight: 500;
+              color: $ag-text-mid;
+              letter-spacing: 0.5px;
+            }
+          }
+        }
+      }
 
-				.card-wrap {
-					position: relative;
-					margin-top: 35px;
-					width: 100%;
-					height: auto;
-					display: flex;
-					flex-direction: row;
-					flex-wrap: wrap;
+      // ── Listings section ─────────────────────────────────────────────────
+      .agent-home-list {
+        position: relative;
+        width: 100%;
+        margin-top: 40px;
+        padding: 0 0 48px;
+        display: flex;
+        flex-direction: column;
+        border-radius: 0;
+        background: $ag-surface;
+        box-shadow: none;
+        border-top: 3px solid rgba($ag-accent, 0.25);
 
-					.wrap-main {
-						margin-right: 0px;
-						margin-left: 5px;
-						display: flex;
-						flex-direction: row;
-						flex-wrap: wrap;
-					}
+        // Section header
+        &::before {
+          content: 'Listings';
+          display: block;
+          font-family: $ag-mono;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 2.5px;
+          text-transform: uppercase;
+          color: $ag-text-dim;
+          padding: 28px 0 20px;
+          border-bottom: 1px solid $ag-line;
+          margin-bottom: 28px;
+        }
 
-					.agent-card {
-						position: relative;
-						margin-right: 27px;
-						margin-bottom: 34px;
-						display: flex;
-						flex-direction: column;
+        .card-wrap {
+          position: relative;
+          width: 100%;
+          height: auto;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 20px;
+          padding: 0 0 0 0;
 
-						.agent-img {
-							border-radius: 12px;
-							width: 233px;
-							height: 273px;
-							background-size: cover;
-							cursor: pointer;
+          .wrap-main {
+            margin: 0;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+          }
 
-							div {
-								position: absolute;
-								padding: 12px;
-								top: 12px;
-								left: 12px;
-								border-radius: 6px;
-								background: #eb6753;
-								color: #fff;
-								font-family: $font;
-								font-size: 12px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-							}
-						}
+          .agent-card {
+            position: relative;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.22s;
 
-						.agent-info {
-							margin-top: 23px;
-							display: flex;
-							flex-direction: column;
+            &:hover { border-color: $ag-accent; }
 
-							strong {
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								cursor: pointer;
-							}
+            .agent-img {
+              border-radius: 0;
+              width: 230px;
+              height: 270px;
+              background-size: cover;
+              overflow: hidden;
 
-							span {
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 28px;
-							}
-						}
-					}
-				}
+              div {
+                position: absolute;
+                padding: 6px 12px;
+                top: 12px;
+                left: 12px;
+                border-radius: 0;
+                background: $ag-accent;
+                color: #fff;
+                font-family: $ag-mono;
+                font-size: 10px;
+                font-weight: 700;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+              }
+            }
 
-				.pagination {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
+            .agent-info {
+              margin: 0;
+              padding: 14px 0 0;
+              display: flex;
+              flex-direction: column;
+              gap: 4px;
+              background: transparent;
+              box-shadow: none;
+              border: none;
 
-					span {
-						margin-top: 20px;
-						color: #181a20;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 400;
-						line-height: 26px;
-					}
-				}
-			}
+              &::after { display: none; }
 
-			.review-box {
-				position: relative;
-				margin-top: 75px;
-				padding: 58px 19px;
-				width: 95%;
-				height: auto;
-				border-radius: 24px;
-				background: #f6f6f6;
+              strong {
+                font-family: $ag-sans;
+                font-size: 14px;
+                font-weight: 700;
+                color: $ag-dark;
+                cursor: pointer;
+              }
 
-				.main-intro {
-					display: flex;
-					flex-direction: column;
+              span {
+                font-family: $ag-mono;
+                font-size: 11px;
+                font-weight: 500;
+                color: $ag-text-mid;
+                letter-spacing: 0.3px;
+              }
 
-					span {
-						color: #181a20;
-						font-family: $font;
-						font-size: 30px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-						letter-spacing: 0.6px;
-						text-transform: capitalize;
-					}
+              img {
+                width: auto;
+                height: auto;
+                border: none;
+              }
+            }
+          }
+        }
 
-					p {
-						color: #181a20;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 400;
-						line-height: 26px;
-					}
-				}
+        .pagination {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-top: 32px;
 
-				.review-wrap {
-					padding: 29px 25px;
-					margin-top: 57px;
-					display: flex;
-					flex-direction: column;
-					border-radius: 12px;
-					background: #fff;
-					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+          span {
+            margin-top: 12px;
+            font-family: $ag-mono;
+            font-size: 11px;
+            color: $ag-text-mid;
+            letter-spacing: 0.5px;
+          }
+        }
+      }
 
-					.title-box {
-						svg {
-							width: 10px;
-							height: 10px;
-						}
+      // ── Review section ───────────────────────────────────────────────────
+      .review-box {
+        position: relative;
+        margin-top: 40px;
+        padding: 40px 48px;
+        width: 100%;
+        border-radius: 0;
+        background: $ag-surface;
+        border-top: 3px solid rgba($ag-accent, 0.2);
+        box-shadow: none;
 
-						span {
-							margin-left: 8px;
-							color: #181a20;
-							font-family: $font;
-							font-size: 17px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-						}
-					}
+        .main-intro {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          padding-bottom: 24px;
+          border-bottom: 1px solid $ag-line;
+          margin-bottom: 32px;
 
-					// ── Review Card — Bubble style ──────────────────────────
-					.review-card {
-						margin-top: 20px;
-						display: flex;
-						flex-direction: row;
-						gap: 12px;
-						padding-bottom: 16px;
-						position: relative;
+          span {
+            font-family: $ag-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: $ag-dark;
+            letter-spacing: -0.5px;
+            text-transform: none;
+            line-height: 1.1;
+          }
 
-						&:not(:last-of-type) {
-							border-bottom: 1px solid #f0eef8;
-						}
+          p {
+            font-family: $ag-mono;
+            font-size: 11px;
+            font-weight: 500;
+            color: $ag-text-dim;
+            letter-spacing: 0.5px;
+            line-height: 1;
+          }
+        }
 
-						&:last-of-type {
-							.review-avatar-line {
-								display: none;
-							}
-						}
+        .review-wrap {
+          padding: 0;
+          margin-top: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+          border-radius: 0;
+          background: transparent;
+          box-shadow: none;
 
-						// Left column: avatar + vertical line
-						.review-avatar-col {
-							display: flex;
-							flex-direction: column;
-							align-items: center;
-							flex-shrink: 0;
+          .title-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid $ag-accent;
 
-							.review-avatar-img {
-								width: 38px;
-								height: 38px;
-								border-radius: 10px;
-								object-fit: cover;
-								flex-shrink: 0;
-								border: 2px solid #f0f0f0;
-							}
+            svg { width: 10px; height: 10px; color: $ag-accent; }
 
-							.review-avatar-initials {
-								width: 38px;
-								height: 38px;
-								border-radius: 10px;
-								background: #eeedfe;
-								display: flex;
-								align-items: center;
-								justify-content: center;
-								font-size: 13px;
-								font-weight: 600;
-								color: #534ab7;
-								flex-shrink: 0;
-							}
+            span {
+              font-family: $ag-mono;
+              font-size: 10px;
+              font-weight: 700;
+              letter-spacing: 2px;
+              text-transform: uppercase;
+              color: $ag-text-mid;
+            }
+          }
 
-							.review-avatar-line {
-								width: 1.5px;
-								flex: 1;
-								background: #f0eef8;
-								margin-top: 8px;
-								min-height: 20px;
-							}
-						}
+          .review-card {
+            display: flex;
+            flex-direction: row;
+            gap: 18px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid $ag-line;
 
-						// Right column: bubble
-						.review-bubble-col {
-							flex: 1;
-							min-width: 0;
+            .review-avatar-col {
+              flex-shrink: 0;
 
-							.review-bubble {
-								background: #fafaff;
-								border: 1.5px solid #f0eef8;
-								border-radius: 4px 14px 14px 14px;
-								padding: 12px 16px;
-								transition: background 0.18s;
+              .review-avatar-img {
+                width: 44px;
+                height: 44px;
+                border-radius: 0;
+                object-fit: cover;
+                border: 2px solid rgba($ag-accent, 0.2);
+              }
 
-								&:hover {
-									background: #f4f3ff;
-								}
+              .review-avatar-initials {
+                width: 44px;
+                height: 44px;
+                border-radius: 0;
+                background: $ag-accent-bg;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                font-weight: 700;
+                color: $ag-accent;
+              }
 
-								// Header: nick + verified badge + date
-								.review-bubble-header {
-									display: flex;
-									justify-content: space-between;
-									align-items: flex-start;
-									margin-bottom: 8px;
-									flex-wrap: wrap;
-									gap: 4px;
+              .review-avatar-line {
+                width: 1px;
+                flex: 1;
+                background: $ag-line;
+                margin: 8px auto 0;
+              }
+            }
 
-									.review-user-info {
-										display: flex;
-										align-items: center;
-										gap: 8px;
-										flex-wrap: wrap;
+            .info {
+              flex-direction: row;
+              justify-content: space-between;
+              flex: 1;
 
-										.review-nick {
-											color: #181a20;
-											font-family: $font;
-											font-size: 13px;
-											font-weight: 600;
-											line-height: normal;
-										}
+              .left {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 0;
 
-										.review-verified {
-											display: flex;
-											align-items: center;
-											gap: 4px;
-											font-family: $font;
-											font-size: 11px;
-											color: #534ab7;
-											background: #f0eeff;
-											padding: 2px 7px;
-											border-radius: 20px;
-											font-weight: 500;
+                div {
+                  margin-left: 0;
+                  flex-direction: column;
+                  gap: 2px;
 
-											svg {
-												flex-shrink: 0;
-											}
-										}
-									}
+                  strong { font-size: 14px; font-weight: 700; color: $ag-dark; }
+                  span { font-family: $ag-mono; font-size: 10px; color: $ag-text-dim; letter-spacing: 0.3px; }
+                }
+              }
+            }
 
-									.review-author-date {
-										color: #b0b0b0;
-										font-family: $font;
-										font-size: 11px;
-										font-weight: 400;
-										line-height: normal;
-										white-space: nowrap;
-									}
-								}
+            p {
+              margin-top: 10px;
+              font-size: 14px;
+              font-weight: 300;
+              color: $ag-text-mid;
+              line-height: 1.8;
+              padding-left: 16px;
+              border-left: 2px solid rgba($ag-accent, 0.3);
+            }
+          }
 
-								// Comment text
-								.review-content {
-									font-family: $font;
-									font-size: 14px;
-									font-style: normal;
-									font-weight: 400;
-									color: #2a2a2a;
-									line-height: 1.65;
-									margin: 0 0 10px;
-								}
+          .pagination-box { display: flex; justify-content: center; margin-top: 12px; }
+        }
 
-								// Footer: like + reply
-								.review-bubble-footer {
-									display: flex;
-									align-items: center;
-									gap: 12px;
-									border-top: 1px solid #ebebeb;
-									padding-top: 8px;
+        // Leave review form
+        .leave-review-config {
+          margin-top: 40px;
+          border-radius: 0;
+          border: none;
+          border-top: 3px solid rgba($ag-accent, 0.15);
+          background: $ag-bg;
+          box-shadow: none;
+          padding: 32px 0 0;
 
-									.review-like-btn {
-										display: flex;
-										align-items: center;
-										gap: 4px;
-										font-family: $font;
-										font-size: 12px;
-										color: #b0b0b0;
-										background: none;
-										border: none;
-										cursor: pointer;
-										padding: 0;
-										transition: color 0.15s;
+          .main-title {
+            font-family: $ag-mono;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: $ag-text-mid;
+          }
 
-										span {
-											font-weight: 500;
-										}
+          .review-title { margin-top: 20px; font-size: 13px; font-weight: 600; color: $ag-dark; }
 
-										&:hover:not(.liked) {
-											color: #d4537e;
-										}
+          textarea {
+            width: 100%;
+            height: 120px;
+            margin-top: 8px;
+            padding: 16px;
+            border-radius: 0;
+            border: 1px solid $ag-line;
+            border-bottom: 2px solid rgba($ag-accent, 0.5);
+            background: $ag-surface;
+            font-size: 14px;
+            color: $ag-text;
+            resize: none;
+            transition: border-bottom-color 0.2s;
+            &:focus { outline: none; border-bottom-color: $ag-accent; }
+          }
 
-										&.liked {
-											color: #d4537e;
-										}
+          .submit-btn {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
 
-										&:active {
-											transform: scale(0.92);
-										}
-									}
+            button:disabled { background: #dfdfdf; }
 
-									.review-reply-btn {
-										display: flex;
-										align-items: center;
-										gap: 5px;
-										border: 1px solid #e8e8e8;
-										background: transparent;
-										border-radius: 8px;
-										padding: 6px 12px;
-										font-family: $font;
-										font-size: 12px;
-										color: #6b6b6b;
-										cursor: pointer;
-										transition: background 0.18s, border-color 0.18s, color 0.18s;
+            .submit-review {
+              width: 220px;
+              margin-top: 24px;
+              padding: 14px 24px;
+              border-radius: 0;
+              border: 2px solid $ag-dark;
+              background: transparent;
+              cursor: pointer;
+              transition: all 0.22s;
 
-										&:hover {
-											background: #eef0ff;
-											border-color: #c7caff;
-											color: #534ab7;
-										}
-									}
-								}
-							}
-						}
-					}
-					// ── end .review-card ───────────────────────────────────
+              &:hover { background: $ag-accent; border-color: $ag-accent; .title { color: #fff; } }
 
-					.pagination-box {
-						margin-top: 15px;
-						width: 100%;
-						height: auto;
-						display: flex;
-						justify-content: center;
-					}
-				}
-
-				.leave-review-config {
-					margin-top: 15px;
-					border-radius: 12px;
-					background: #fff;
-					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-					padding: 30px 38px;
-
-					.main-title {
-						color: #181a20;
-						font-family: $font;
-						font-size: 17px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-					}
-
-					.review-title {
-						margin-top: 20px;
-						color: #181a20;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 600;
-						line-height: normal;
-					}
-
-					textarea {
-						width: 100%;
-						height: 120px;
-						margin-top: 8px;
-						padding: 20px;
-						border-radius: 8px;
-						border: 1px solid #ddd;
-						color: #717171;
-						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 400;
-						line-height: 26px;
-					}
-
-					.submit-btn {
-						width: 100%;
-						display: flex;
-						justify-content: flex-end;
-
-						button:disabled {
-							background: #dfdfdf;
-						}
-
-						.submit-review {
-							display: flex;
-							width: 256px;
-							margin-top: 30px;
-							padding: 16px 30px;
-							justify-content: center;
-							align-items: center;
-							gap: 10px;
-							border-radius: 12px;
-							border: 1px solid #c4c4c4;
-							cursor: pointer;
-
-							.title {
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+              .title { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: $ag-dark; }
+            }
+          }
+        }
+      }
+    }
+  }
 }

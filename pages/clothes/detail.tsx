@@ -24,6 +24,7 @@ import { CommentGroup } from '../../libs/enums/comment.enum';
 import { Pagination as MuiPagination } from '@mui/material';
 import Link from 'next/link';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -34,6 +35,7 @@ import { CREATE_COMMENT, LIKE_TARGET_CLOTHE } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { GET_COMMENTS } from '../../apollo/admin/query';
 
+const isValidObjectId = (value?: string | null): boolean => /^[a-fA-F0-9]{24}$/.test(value ?? '');
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -48,16 +50,20 @@ const ClotheDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const user = useReactiveVar(userVar);
 	const [clotheId, setClotheId] = useState<string | null>(null);
 	const [clothe, setClothe] = useState<Clothe | null>(null);
+	const [likedByMe, setLikedByMe] = useState<boolean>(false);
+	const [likesCount, setLikesCount] = useState<number>(0);
+	const [likeDirty, setLikeDirty] = useState<boolean>(false);
 	const [slideImage, setSlideImage] = useState<string>('');
 	const [similarClothes, setSimilarClothes] = useState<Clothe[]>([]);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [clotheComments, setClotheComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
-		commentGroup: CommentGroup.CLOTHES,
+		commentGroup: CommentGroup.CLOTHE,
 		commentContent: '',
 		commentRefId: '',
 	});
+	const hasValidCommentRefId = isValidObjectId(commentInquiry.search.commentRefId);
 
 	/** APOLLO REQUESTS **/
 
@@ -112,8 +118,8 @@ const ClotheDetail: NextPage = ({ initialComment, ...props }: any) => {
 		refetch: getCommentsRefetch,
 	} = useQuery(GET_COMMENTS, {
 		fetchPolicy: 'cache-and-network',
-		variables: { input: initialComment },
-		skip: !commentInquiry.search.commentRefId,
+		variables: { input: commentInquiry },
+		skip: !hasValidCommentRefId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			if (data?.getComments?.list) setClotheComments(data?.getComments?.list);
@@ -124,26 +130,36 @@ const ClotheDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** LIFECYCLE **/
 
 	useEffect(() => {
-		if (router.query.id) {
-			setClotheId(router.query.id as string);
+		const rawId = Array.isArray(router.query.id) ? router.query.id[0] : router.query.id;
+		if (isValidObjectId(rawId)) {
+			setClotheId(rawId ?? null);
+			setLikeDirty(false);
 			setCommentInquiry({
 				...commentInquiry,
 				search: {
-					commentRefId: router.query.id as string,
+					commentRefId: rawId as string,
 				},
 			});
 			setInsertCommentData({
 				...insertCommentData,
-				commentRefId: router.query.id as string,
+				commentRefId: rawId as string,
 			});
+		} else {
+			setClotheId(null);
 		}
 	}, [router]);
 
 	useEffect(() => {
-		if (commentInquiry.search.commentRefId) {
+		if (hasValidCommentRefId) {
 			getCommentsRefetch({ input: commentInquiry });
 		}
-	}, [commentInquiry]);
+	}, [commentInquiry, hasValidCommentRefId]);
+
+	useEffect(() => {
+		if (!clothe || likeDirty) return;
+		setLikedByMe(!!clothe?.meLiked?.[0]?.myFavorite);
+		setLikesCount(clothe?.clotheLikes ?? 0);
+	}, [clothe, likeDirty]);
 
 	/** HANDLERS **/
 	const changeImageHandler = (image: string) => {
@@ -151,33 +167,49 @@ const ClotheDetail: NextPage = ({ initialComment, ...props }: any) => {
 	};
 
 	const likeClotheHandler = async (user: T, id: string) => {
+		const prevLiked = likedByMe;
+		const prevLikesCount = likesCount;
+		let mutationSucceeded = false;
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+			setLikeDirty(true);
+			const nextLiked = !likedByMe;
+			setLikedByMe(nextLiked);
+			setLikesCount((prev) => Math.max(0, prev + (nextLiked ? 1 : -1)));
 
 			await likeTargetClothe({
 				variables: {
 					input: id,
 				},
 			});
+			mutationSucceeded = true;
 
-			await getClotheRefetch({ input: id });
-
-			await getClothesRefetch({
-				input: {
-					page: 1,
-					limit: 4,
-					sort: 'updatedAt',
-					direction: Direction.DESC,
-					search: {
-						categoryList: [clothe?.clotheCategory],
+			await Promise.allSettled([
+				getClotheRefetch({ input: id }),
+				getClothesRefetch({
+					input: {
+						page: 1,
+						limit: 4,
+						sort: 'updatedAt',
+						direction: Direction.DESC,
+						search: {
+							categoryList: clothe?.clotheCategory ? [clothe?.clotheCategory] : [],
+						},
 					},
-				},
-			});
+				}),
+			]);
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('ERROR, likeClotheHandler:', err.message);
+			if (mutationSucceeded) {
+				await sweetTopSmallSuccessAlert('success', 800);
+				return;
+			}
+			setLikedByMe(prevLiked);
+			setLikesCount(prevLikesCount);
+			setLikeDirty(false);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -261,25 +293,39 @@ const ClotheDetail: NextPage = ({ initialComment, ...props }: any) => {
 									)}
 								</Stack>
 								<Stack className={'right-box'}>
+									<Typography className={'title-main'}>{clothe?.clotheName}</Typography>
 									<Stack className="buttons">
 										<Stack className="button-box">
 											<RemoveRedEyeIcon fontSize="medium" />
 											<Typography>{clothe?.clotheViews}</Typography>
 										</Stack>
-										<Stack className="button-box">
-											{clothe?.meLiked && clothe?.meLiked[0]?.myFavorite ? (
-												<FavoriteIcon color="primary" fontSize={'medium'} />
+										<Stack className="button-box like-box">
+											{likedByMe ? (
+												<FavoriteIcon
+													className={'like-icon liked'}
+													fontSize={'medium'}
+													// @ts-ignore
+													onClick={() => likeClotheHandler(user, clothe?._id)}
+												/>
 											) : (
 												<FavoriteBorderIcon
+													className={'like-icon'}
 													fontSize={'medium'}
 													// @ts-ignore
 													onClick={() => likeClotheHandler(user, clothe?._id)}
 												/>
 											)}
-											<Typography>{clothe?.clotheLikes}</Typography>
+											<Typography>{likesCount}</Typography>
 										</Stack>
 									</Stack>
-									<Typography>${formatterStr(clothe?.clothePrice)}</Typography>
+									<Stack className={'price-box'}>
+										<Typography className={'price-value'}>${formatterStr(clothe?.clothePrice)}</Typography>
+									</Stack>
+								</Stack>
+								<Stack className={'add-cart-section'}>
+									<Button className={'add-cart-btn'} startIcon={<ShoppingCartOutlinedIcon />}>
+										Add to Cart
+									</Button>
 								</Stack>
 							</Stack>
 							<Stack className={'images'}>

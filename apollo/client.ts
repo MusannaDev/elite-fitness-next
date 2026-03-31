@@ -97,7 +97,12 @@ function createIsomorphicLink() {
 			if (graphQLErrors) {
 				graphQLErrors.map(({ message, locations, path, extensions }) => {
 					console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
-					if(!message.includes('input')) sweetErrorAlert(message);
+					const normalized = (message ?? '').toLowerCase();
+					const isNoisyBadRequest =
+						normalized.includes('bad request exception') ||
+						normalized.includes('invalid commentrefid') ||
+						normalized.includes('input must be a 24 character hex string');
+					if (!message.includes('input') && !isNoisyBadRequest) sweetErrorAlert(message);
 				});
 			}
 			if (networkError) console.log(`[Network error]: ${networkError}`);

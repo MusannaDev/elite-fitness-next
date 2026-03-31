@@ -21,6 +21,8 @@ import { GET_MEMBER } from '../../apollo/user/query';
 import { Messages } from '../../libs/config';
 import { MemberType } from '../../libs/enums/member.enum';
 
+const isValidObjectId = (value?: string | null): boolean => /^[a-fA-F0-9]{24}$/.test(value ?? '');
+
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
 		...(await serverSideTranslations(locale, ['common'])),
@@ -40,7 +42,8 @@ const MemberPage: NextPage = () => {
 	const device   = useDeviceDetect();
 	const router   = useRouter();
 	const category: string | undefined = router.query?.category as string | undefined;
-	const memberId: string | undefined = router.query?.memberId as string | undefined;
+	const rawMemberId = Array.isArray(router.query?.memberId) ? router.query.memberId[0] : router.query?.memberId;
+	const memberId: string | undefined = isValidObjectId(rawMemberId) ? rawMemberId : undefined;
 	const user = useReactiveVar(userVar);
 
 	// Track whether we already redirected so we don't redirect twice
