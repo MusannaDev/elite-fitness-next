@@ -1000,3 +1000,216 @@ $p-sans:      'DM Sans', 'Inter', sans-serif;
     opacity: 0.95 !important;
   }
 }
+
+/* ===== Product Detail: Classic Gradient Glass Effect ===== */
+
+/* ── Light Theme ─────────────────────────────────────────────────────────── */
+[data-theme="light"] #pc-wrap #product-detail-page {
+  background: #ffffff !important;
+
+  .product-info-config .info .left-box {
+    background: rgba(255, 255, 255, 0.72) !important;
+    backdrop-filter: blur(18px) saturate(1.8) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(1.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.88) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+    color: #1e1e2a !important;
+  }
+
+  .product-info-config .info .right-box {
+    background: rgba(255, 255, 255, 0.72) !important;
+    backdrop-filter: blur(18px) saturate(1.8) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(1.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.88) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07) !important;
+    p { color: #1e1e2a !important; }
+  }
+
+  .product-info-config .info .add-cart-section {
+    background: rgba(255, 255, 255, 0.62) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.82) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05) !important;
+    .add-cart-btn {
+      background: #2bb47a !important;
+      color: #fff !important;
+      border-color: #2bb47a !important;
+    }
+  }
+
+  .product-info-config .info .price-box {
+    background: rgba(255, 255, 255, 0.65) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.85) !important;
+    border-radius: 12px !important;
+    .price-value { color: #1e1e2a !important; }
+  }
+
+  .product-info-config .info .top-box > .MuiTypography-root,
+  .product-info-config .info .top-box > .details-box,
+  .product-info-config .info .top-box > .date,
+  .product-info-config .info .top-box > svg {
+    background: rgba(255, 255, 255, 0.55) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    color: #1e1e2a !important;
+  }
+
+  .product-desc-config .left-config .prop-desc-config,
+  .product-desc-config .left-config .reviews-config,
+  .product-desc-config .left-config .leave-review-config {
+    background: rgba(255, 255, 255, 0.65) !important;
+    backdrop-filter: blur(20px) saturate(1.5) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(1.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.85) !important;
+    border-top: 3px solid #2bb47a !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+    padding: 26px 28px !important;
+    .top .title, .bottom .title { color: #52525e !important; }
+    .top .desc { color: #1e1e2a !important; }
+    .info .title { color: #52525e !important; }
+    .info .data { color: #1e1e2a !important; }
+  }
+
+  .product-desc-config .right-config {
+    background: rgba(255, 255, 255, 0.72) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.85) !important;
+    border-top: 3px solid #2bb47a !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07) !important;
+    .info-box .main-title,
+    .info-box .sub-title,
+    .info-box .name,
+    .info-box .number,
+    .info-box .listings { color: #1e1e2a !important; }
+    input, textarea {
+      background: rgba(255, 255, 255, 0.8) !important;
+      border-color: rgba(0, 0, 0, 0.1) !important;
+      color: #1e1e2a !important;
+    }
+  }
+
+  .product-info-config,
+  .product-desc-config,
+  .similar-products-config {
+    svg { color: #52525e !important; }
+    svg path { fill: currentColor !important; stroke: currentColor !important; }
+    img[src*='/img/icons/'] { filter: none !important; opacity: 1 !important; }
+  }
+
+  .product-info-config .info .title-main { color: #1e1e2a !important; }
+}
+
+/* ── Dark Theme ──────────────────────────────────────────────────────────── */
+[data-theme="dark"] #pc-wrap #product-detail-page {
+  background: linear-gradient(135deg, #0a0d14 0%, #121620 50%, #0d1018 100%) !important;
+
+  .product-info-config .info .left-box,
+  .product-info-config .info .right-box {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+    backdrop-filter: blur(20px) saturate(1.3) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(1.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+  }
+
+  .product-info-config .info .add-cart-section {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.09) !important;
+    border-radius: 12px !important;
+  }
+
+  .product-info-config .info .price-box {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 12px !important;
+  }
+
+  .product-desc-config .left-config .prop-desc-config,
+  .product-desc-config .left-config .reviews-config,
+  .product-desc-config .left-config .leave-review-config {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+    backdrop-filter: blur(24px) saturate(1.2) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(1.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-top: 3px solid rgba(43, 180, 122, 0.6) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+  }
+
+  .product-desc-config .right-config {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-top: 3px solid rgba(43, 180, 122, 0.6) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45) !important;
+    .info-box .main-title,
+    .info-box .sub-title,
+    .info-box .name,
+    .info-box .number,
+    .info-box .listings { color: #f0f0f8 !important; }
+    input, textarea {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      color: #f0f0f8 !important;
+      &::placeholder { color: rgba(240, 240, 248, 0.35) !important; }
+    }
+  }
+
+  /* ── Text, Icon & Input overrides for dark theme ── */
+  color: #f0f0f8 !important;
+
+  .product-info-config .info .title-main { color: #f0f0f8 !important; }
+  .product-info-config .info .left-box {
+    p, span, .MuiTypography-root { color: #c0c0d8 !important; }
+  }
+  .product-info-config .info .right-box {
+    p, span, .MuiTypography-root { color: #c0c0d8 !important; }
+    .price-value { color: #ffffff !important; }
+  }
+  .product-info-config .info .price-box .price-value { color: #ffffff !important; }
+  .product-info-config .info .in-stock  { color: #4ade80 !important; }
+  .product-info-config .info .out-of-stock { color: #f87171 !important; }
+  .product-info-config .info .top-box {
+    .MuiTypography-root, .brand, .category, .city, .date, .detail-item { color: #9090b0 !important; }
+    svg path { fill: #9090b0 !important; }
+  }
+
+  .product-desc-config .left-config .prop-desc-config,
+  .product-desc-config .left-config .reviews-config,
+  .product-desc-config .left-config .leave-review-config {
+    .top .title, .bottom .title { color: #8888a0 !important; }
+    .top .desc { color: #d0d0e8 !important; }
+    .info .title { color: #8888a0 !important; }
+    .info .data  { color: #d0d0e8 !important; }
+    p, span, .MuiTypography-root { color: #c0c0d8 !important; }
+    textarea, input {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      color: #f0f0f8 !important;
+      &::placeholder { color: rgba(240, 240, 248, 0.35) !important; }
+    }
+  }
+
+  .product-info-config,
+  .product-desc-config,
+  .similar-products-config {
+    svg { color: #8888a0 !important; }
+    svg path { fill: currentColor !important; }
+    img[src*='/img/icons/'] { filter: brightness(0) invert(1) !important; opacity: 0.6 !important; }
+  }
+}

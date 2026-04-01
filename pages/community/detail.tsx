@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useTheme } from '../../libs/context/ThemeContext';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
@@ -51,7 +50,6 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const { query } = router;
-	const { isDark } = useTheme();
 
 	const articleId = query?.id as string;
 	const articleCategory = query?.articleCategory as string;
@@ -205,7 +203,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 		return <div>COMMUNITY DETAIL PAGE MOBILE</div>;
 	} else {
 		return (
-			<div id="community-detail-page" className={isDark ? 'dark' : 'light'}>
+			<div id="community-detail-page" className="light">
 				{/* Aurora blobs — dark only */}
 				<div className="detail-blobs">
 					<div className="blob blob1" />
@@ -395,8 +393,8 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 												<Stack
 													sx={{
 														width: '100%',
-														background: isDark ? '#1a1a2e' : '#fff',
-														border: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid #ede8e0',
+														background: '#fff',
+														border: '1px solid #ede8e0',
 														padding: '24px',
 														gap: '16px',
 														borderRadius: '16px',
@@ -407,7 +405,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 														sx={{
 															fontFamily: 'Fraunces, serif',
 															fontWeight: 300,
-															color: isDark ? '#fff' : '#1a1a1a',
+															color: '#1a1a1a',
 														}}
 													>
 														Update comment
@@ -422,27 +420,27 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 														}}
 														type="text"
 														style={{
-															border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1px solid #ede8e0',
+															border: '1px solid #ede8e0',
 															outline: 'none',
 															height: '46px',
 															padding: '0 14px',
 															borderRadius: '9px',
 															fontFamily: 'Inter, sans-serif',
 															fontSize: '13px',
-															color: isDark ? '#fff' : '#1a1a1a',
-															background: isDark ? 'rgba(255,255,255,0.06)' : '#fff',
+															color: '#1a1a1a',
+															background: '#fff',
 														}}
 													/>
 													<Stack flexDirection="row" justifyContent="space-between" alignItems="center">
-														<Typography sx={{ fontSize: 12, color: isDark ? 'rgba(255,255,255,0.3)' : '#bbb' }}>
+														<Typography sx={{ fontSize: 12, color: '#bbb' }}>
 															{updatedCommentWordsCnt}/100
 														</Typography>
 														<Stack flexDirection="row" gap="8px">
 															<Button
 																variant="outlined"
 																sx={{
-																	borderColor: isDark ? 'rgba(255,255,255,0.15)' : '#ede8e0',
-																	color: isDark ? 'rgba(255,255,255,0.5)' : '#888',
+																	borderColor: '#ede8e0',
+																	color: '#888',
 																	textTransform: 'none',
 																	borderRadius: '8px',
 																	fontSize: '12px',

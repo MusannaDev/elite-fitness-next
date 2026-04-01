@@ -68,6 +68,9 @@
 
 @import '/scss/pc/member/memberEquipments.scss';
 
+@import '/scss/pc/order/order';
+@import '/scss/pc/order/detail.scss';
+
 
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;1,700&family=Barlow+Condensed:wght@300;400;600;700&display=swap');
 
@@ -1259,7 +1262,5 @@ body {
 	}
 }
 
-// ============================================================
-// THEME OVERRIDES — must be last to win the cascade
-// ============================================================
-@import '/scss/dark-theme.scss';
+// Glass card effects (light theme)
+@import '/scss/pc/_glass-cards.scss';

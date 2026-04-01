@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useTheme } from '../../libs/context/ThemeContext';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { Button, Pagination } from '@mui/material';
@@ -39,7 +38,6 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	const [searchCommunity, setSearchCommunity] = useState<BoardArticlesInquiry>(initialInput);
 	const [boardArticles, setBoardArticles] = useState<BoardArticle[]>([]);
 	const [totalCount, setTotalCount] = useState<number>(0);
-	const { isDark } = useTheme();
 	const user = useReactiveVar(userVar);
 
 	if (articleCategory) initialInput.search.articleCategory = articleCategory;
@@ -102,7 +100,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 		return <h1>COMMUNITY PAGE MOBILE</h1>;
 	} else {
 		return (
-			<div id="community-list-page" className={isDark ? 'dark' : 'light'}>
+			<div id="community-list-page" className="light">
 				<div className="community-blobs">
 					<div className="blob blob1" />
 					<div className="blob blob2" />

@@ -559,21 +559,20 @@ $f-sans:     'DM Sans', 'Inter', sans-serif;
 					gap: 109px;
 
 					.list-config {
-						display: flex;
+						display: grid;
+						grid-template-columns: repeat(3, 1fr);
 						width: 100%;
 						height: auto;
-						flex-direction: row;
-						flex-wrap: wrap;
 						gap: 24px;
 
 						// ─── PRODUCT CARD ───────────────────────────────────────────
 						.card-config {
-							width: 340px;
-							height: 480px;
+							width: 100%;
+							height: 450px;
 							margin-bottom: 7px;
 							border-radius: 28px 28px 16px 16px;
 							background: #141a24;
-							border: 1px solid $f-low;
+							border: 0.2px solid $f-neon;
 							box-shadow:
 								0 2px 12px rgba(0, 0, 0, 0.06),
 								0 0 0 1px rgba(0, 0, 0, 0.03);
@@ -613,6 +612,7 @@ $f-sans:     'DM Sans', 'Inter', sans-serif;
 								height: 100%;
 								overflow: hidden;
 								z-index: 1;
+								background: #ffffff;
 								transition: height 0.4s cubic-bezier(.4, 0, .2, 1);
 								flex-shrink: 0;
 
@@ -664,7 +664,7 @@ $f-sans:     'DM Sans', 'Inter', sans-serif;
 									align-items: center;
 									padding: 5px 14px;
 									border-radius: 14px;
-									background: linear-gradient(135deg, #ff6b35, #ff8f5e);
+									background: linear-gradient(135deg, #2bb47a, #1a9e8f);
 									color: #fff;
 									font-family: $f-sans;
 									font-size: 11px;
@@ -694,7 +694,8 @@ $f-sans:     'DM Sans', 'Inter', sans-serif;
 								opacity: 0;
 								transform: translateY(16px);
 								transition: all 0.4s cubic-bezier(.16, 1, .3, 1);
-								background: rgba(28, 52, 22, 0.85);
+								background: rgba(8, 24, 16, 0.97);
+									border-top: 1px solid rgba(43, 180, 122, 0.40);
 								backdrop-filter: blur(12px);
 								-webkit-backdrop-filter: blur(12px);
 
@@ -993,3 +994,4 @@ $f-sans:     'DM Sans', 'Inter', sans-serif;
 		}
 	}
 }
+

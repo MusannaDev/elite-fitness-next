@@ -8,7 +8,6 @@ import { Stack } from '@mui/material';
 import { getJwtToken, updateUserInfo } from '../../auth';
 import Chat from '../Chat';
 import { useTranslation } from 'next-i18next';
-import { useTheme } from '../../context/ThemeContext';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -18,7 +17,6 @@ const withLayoutBasic = (Component: any) => {
 		const router = useRouter();
 		const { t } = useTranslation('common');
 		const device = useDeviceDetect();
-		const { isDark } = useTheme();
 		const [authHeader, setAuthHeader] = useState<boolean>(false);
 
 		const memoizedValues = useMemo(() => {
@@ -94,6 +92,16 @@ const withLayoutBasic = (Component: any) => {
 					desc = 'Home / For Rent';
 					bgImage = '/img/banner/header2.svg';
 					break;
+				case '/order':
+					title = 'Orders';
+					desc = 'Track and manage your orders';
+					bgImage = '/img/banner/header2.svg';
+					break;
+				case '/order/detail':
+					title = 'Order Detail';
+					desc = 'Track and manage your order';
+					bgImage = '/img/banner/header2.svg';
+					break;
 				case '/cs':
 					title = 'CS';
 					desc = 'We are glad to see you again!';
@@ -154,7 +162,7 @@ const withLayoutBasic = (Component: any) => {
 						<title>EliteFit</title>
 						<meta name={'title'} content={`EliteFit`} />
 					</Head>
-					<Stack id="pc-wrap" className={isDark ? 'dark' : 'light'}>
+					<Stack id="pc-wrap" className="light">
 						<Stack id={'top'}>
 							<Top />
 						</Stack>

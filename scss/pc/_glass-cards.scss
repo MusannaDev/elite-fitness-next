@@ -1,0 +1,230 @@
+// ============================================================
+// GLASS CARDS  — Elite Fitness
+// Light-mode glass morphism for all card types
+// Applied via #pc-wrap context (all layouts use className="light")
+// ============================================================
+
+// ── Shared glass mixins ─────────────────────────────────────
+$glass-bg:        rgba(255, 255, 255, 0.75);
+$glass-bg-lite:   rgba(255, 255, 255, 0.60);
+$glass-border:    rgba(255, 255, 255, 0.90);
+$glass-blur:      blur(20px) saturate(1.8);
+$glass-blur-sm:   blur(14px) saturate(1.6);
+$glass-shadow:    0 8px 32px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 1);
+$glass-shadow-sm: 0 4px 18px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 1);
+
+// ── Universal card shadow — subtle depth, works on all bg types
+$card-shadow:     0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+$card-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.13), 0 2px 8px rgba(0, 0, 0, 0.06);
+
+#pc-wrap {
+
+  // ──────────────────────────────────────────────────────────
+  // PAGE / SECTION CONTAINER BACKGROUNDS — white gradient
+  // ──────────────────────────────────────────────────────────
+  #property-list-page,
+  #product-list-page,
+  #equipment-list-page,
+  #clothe-list-page {
+    background: linear-gradient(160deg, #ffffff 0%, #f5f3fe 55%, #ede8ff 100%) !important;
+  }
+
+  .agent-list-page,
+  .trainer-list-page,
+  .sales-manager-list-page {
+    background: linear-gradient(160deg, #ffffff 0%, #f5f3fe 55%, #ede8ff 100%) !important;
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // 1. PROPERTY BIG CARD  (general.scss)
+  //    Card = image (top) + .info (bottom)
+  // ──────────────────────────────────────────────────────────
+  .property-big-card-box {
+    box-shadow: $card-shadow !important;
+    transition: box-shadow 0.3s ease, transform 0.3s ease !important;
+    &:hover { box-shadow: $card-shadow-hover !important; }
+
+    .info {
+      background: $glass-bg !important;
+      backdrop-filter: $glass-blur !important;
+      -webkit-backdrop-filter: $glass-blur !important;
+      border: 1px solid $glass-border !important;
+      border-top: none !important;
+      border-radius: 0 0 12px 12px !important;
+      box-shadow: $glass-shadow !important;
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // 2. PRODUCT BIG CARD  (general.scss)
+  // ──────────────────────────────────────────────────────────
+  .product-big-card-box {
+    background: $glass-bg !important;
+    backdrop-filter: $glass-blur !important;
+    -webkit-backdrop-filter: $glass-blur !important;
+    border: 1px solid $glass-border !important;
+    box-shadow: $card-shadow !important;
+    transition: box-shadow 0.3s ease, transform 0.3s ease !important;
+    &:hover { box-shadow: $card-shadow-hover !important; }
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // 3. CLOTHES BIG CARD  (general.scss)
+  // ──────────────────────────────────────────────────────────
+  .clothes-big-card-box {
+    background: $glass-bg !important;
+    backdrop-filter: $glass-blur !important;
+    -webkit-backdrop-filter: $glass-blur !important;
+    border: 1px solid rgba(255, 255, 255, 0.85) !important;
+    box-shadow: $card-shadow !important;
+    transition: box-shadow 0.3s ease, transform 0.3s ease !important;
+    &:hover { box-shadow: $card-shadow-hover !important; }
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // 4. EQUIPMENT BIG CARD  (general.scss)
+  // ──────────────────────────────────────────────────────────
+  .equipment-big-card {
+    background: $glass-bg !important;
+    backdrop-filter: $glass-blur !important;
+    -webkit-backdrop-filter: $glass-blur !important;
+    border: 1px solid rgba(255, 255, 255, 0.85) !important;
+    box-shadow: $card-shadow !important;
+    transition: box-shadow 0.3s ease, transform 0.3s ease !important;
+    &:hover { box-shadow: $card-shadow-hover !important; }
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // 5. COMMUNITY GENERAL CARD  (general.scss)
+  // ──────────────────────────────────────────────────────────
+  .community-general-card-config {
+    box-shadow: $card-shadow !important;
+    transition: box-shadow 0.3s ease, transform 0.3s ease !important;
+    &:hover { box-shadow: $card-shadow-hover !important; }
+
+    .desc-box {
+      background: $glass-bg !important;
+      backdrop-filter: $glass-blur-sm !important;
+      -webkit-backdrop-filter: $glass-blur-sm !important;
+      border: 1px solid rgba(255, 255, 255, 0.85) !important;
+      border-radius: 12px !important;
+      box-shadow: $glass-shadow-sm !important;
+      padding: 12px 16px !important;
+    }
+
+    .date-box {
+      background: rgba(255, 255, 255, 0.88) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+      border: 1px solid $glass-border !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06) !important;
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // 6. TRAINER GENERAL CARD  (general.scss / trainer.scss)
+  // ──────────────────────────────────────────────────────────
+  .trainer-general-card {
+    background: $glass-bg !important;
+    backdrop-filter: $glass-blur !important;
+    -webkit-backdrop-filter: $glass-blur !important;
+    border: 1px solid $glass-border !important;
+    box-shadow: $card-shadow !important;
+    transition: box-shadow 0.3s ease, transform 0.3s ease !important;
+    &:hover { box-shadow: $card-shadow-hover !important; }
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // 7. AGENT GENERAL CARD  (general.scss)
+  // ──────────────────────────────────────────────────────────
+  .agent-general-card {
+    box-shadow: $card-shadow !important;
+    transition: box-shadow 0.3s ease, transform 0.3s ease !important;
+    &:hover { box-shadow: $card-shadow-hover !important; }
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // 8. SALES MANAGER CARD  (general.scss)
+  // ──────────────────────────────────────────────────────────
+  .sales-manager-card {
+    box-shadow: $card-shadow !important;
+    transition: box-shadow 0.3s ease, transform 0.3s ease !important;
+    &:hover { box-shadow: $card-shadow-hover !important; }
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // 9. HOMEPAGE — TOP TRAINER CARD
+  // ──────────────────────────────────────────────────────────
+  .top-trainer-card {
+    box-shadow: $card-shadow !important;
+    transition: box-shadow 0.3s ease, transform 0.3s ease !important;
+    &:hover { box-shadow: $card-shadow-hover !important; }
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // 10. HOMEPAGE — TREND PRODUCT CARD (swiper)
+  // ──────────────────────────────────────────────────────────
+  .trend-product-card {
+    box-shadow: $card-shadow !important;
+    transition: box-shadow 0.3s ease !important;
+    &:hover { box-shadow: $card-shadow-hover !important; }
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // 11. PROPERTY LIST PAGE  — .card-config  (property.scss)
+  // ──────────────────────────────────────────────────────────
+  #property-list-page .card-config {
+    background: $glass-bg !important;
+    backdrop-filter: $glass-blur !important;
+    -webkit-backdrop-filter: $glass-blur !important;
+    border: 1px solid $glass-border !important;
+    box-shadow: $card-shadow !important;
+    transition: box-shadow 0.3s ease, transform 0.3s ease !important;
+    &:hover { box-shadow: $card-shadow-hover !important; }
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // 12. PRODUCT LIST PAGE  — .card-config  (product.scss)
+  // ──────────────────────────────────────────────────────────
+  #product-list-page .card-config {
+    box-shadow: $card-shadow !important;
+
+    .bottom {
+      background: rgba(8, 24, 16, 0.97) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+      border-top: 1px solid rgba(43, 180, 122, 0.40) !important;
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // 13. EQUIPMENT LIST PAGE  — .card-config  (equipment.scss)
+  //     clip-path prevents backdrop-filter on the whole card
+  // ──────────────────────────────────────────────────────────
+  #equipment-list-page .card-config {
+    filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.10)) !important;
+
+    .bottom {
+      background: rgba(13, 8, 28, 0.97) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+      border-top: 1px solid rgba(124, 58, 237, 0.30) !important;
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────
+  // 14. CLOTHES LIST PAGE  — .card-config  (clothes.scss)
+  // ──────────────────────────────────────────────────────────
+  #clothe-list-page .card-config {
+    box-shadow: $card-shadow !important;
+    transition: box-shadow 0.3s ease, transform 0.3s ease !important;
+    &:hover { box-shadow: $card-shadow-hover !important; }
+
+    .bottom {
+      background: rgba(17, 17, 17, 0.92) !important;
+      backdrop-filter: blur(14px) saturate(1.6) !important;
+      -webkit-backdrop-filter: blur(14px) saturate(1.6) !important;
+      border-top: 0.3px solid rgba(160, 200, 20, 0.25) !important;
+    }
+  }
+}

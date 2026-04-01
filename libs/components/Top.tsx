@@ -16,15 +16,12 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
-import { useTheme } from '../context/ThemeContext';
-import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
-import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import Basket from './Basket';
 
 const Top = () => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const { t, i18n } = useTranslation('common');
-	const { isDark, toggleTheme } = useTheme();
 	const router = useRouter();
 	const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
 	const [lang, setLang] = useState<string | null>('en');
@@ -193,7 +190,9 @@ const Top = () => {
 				<Link href={'/property'}><div>{t('Properties')}</div></Link>
 				<Link href={'/agent'}><div>{t('Agents')}</div></Link>
 				<Link href={'/community?articleCategory=FREE'}><div>{t('Community')}</div></Link>
+				{user?._id && <Link href={'/order'}><div>Orders</div></Link>}
 				<Link href={'/cs'}><div>{t('CS')}</div></Link>
+				<Basket />
 			</Stack>
 		);
 	} else {
@@ -265,9 +264,14 @@ const Top = () => {
 							</Link>
 
 							{user?._id && (
-								<Link href={'/mypage'}>
-									<div className={'nav-link'}>{t('My Page')}</div>
-								</Link>
+								<>
+									<Link href={'/mypage'}>
+										<div className={'nav-link'}>{t('My Page')}</div>
+									</Link>
+									<Link href={'/order'}>
+										<div className={'nav-link'}>Orders</div>
+									</Link>
+								</>
 							)}
 
 							<Link href={'/cs'}>
@@ -277,9 +281,7 @@ const Top = () => {
 
 						{/* USER BOX */}
 						<Box component={'div'} className={'user-box'}>
-							<button className={'theme-toggle-btn'} onClick={toggleTheme} aria-label="Toggle theme">
-								{isDark ? <WbSunnyOutlinedIcon /> : <DarkModeOutlinedIcon />}
-							</button>
+							<Basket />
 
 							{user?._id ? (
 								<>

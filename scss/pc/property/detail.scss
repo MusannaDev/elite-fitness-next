@@ -812,3 +812,241 @@ $pr-sans:      'DM Sans', 'Inter', sans-serif;
     flex-shrink: 0;
   }
 }
+
+/* ===== Property Detail: Classic Gradient Glass Effect ===== */
+
+/* ── Light Theme ─────────────────────────────────────────────────────────── */
+[data-theme="light"] #pc-wrap #property-detail-page {
+  background: #ffffff !important;
+
+  .property-info-config .info .left-box {
+    background: rgba(255, 255, 255, 0.72) !important;
+    backdrop-filter: blur(18px) saturate(1.8) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(1.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.88) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+    color: #1a1a1a !important;
+  }
+
+  .property-info-config .info .right-box {
+    background: rgba(255, 255, 255, 0.72) !important;
+    backdrop-filter: blur(18px) saturate(1.8) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(1.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.88) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07) !important;
+    p { color: #1a1a1a !important; }
+  }
+
+  .property-info-config .info .add-cart-section {
+    background: rgba(255, 255, 255, 0.62) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.82) !important;
+    border-radius: 12px !important;
+    .add-cart-btn {
+      background: #e8392a !important;
+      color: #fff !important;
+      border-color: #e8392a !important;
+    }
+  }
+
+  .property-info-config .info .price-box {
+    background: rgba(255, 255, 255, 0.65) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.85) !important;
+    border-radius: 12px !important;
+    .price-value { color: #1a1a1a !important; }
+  }
+
+  .property-info-config .info .top-box > .MuiTypography-root,
+  .property-info-config .info .top-box > .buy-rent-box,
+  .property-info-config .info .top-box > .date,
+  .property-info-config .info .top-box > svg {
+    background: rgba(255, 255, 255, 0.55) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    color: #1a1a1a !important;
+  }
+
+  .property-info-config .info .bottom-box .option {
+    background: rgba(255, 255, 255, 0.55) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    color: #1a1a1a !important;
+    svg, img { filter: none !important; opacity: 1 !important; color: #555560 !important; }
+    .bath-icon, .room-icon { color: #555560 !important; }
+  }
+
+  .property-desc-config .left-config .options-config,
+  .property-desc-config .left-config .prop-desc-config,
+  .property-desc-config .left-config .reviews-config,
+  .property-desc-config .left-config .leave-review-config,
+  .property-desc-config .left-config .floor-plans-config,
+  .property-desc-config .left-config .address-config {
+    background: rgba(255, 255, 255, 0.65) !important;
+    backdrop-filter: blur(20px) saturate(1.5) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(1.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.85) !important;
+    border-top: 3px solid #e8392a !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+    padding: 26px 28px !important;
+    .title { color: #555560 !important; }
+    .option-data { color: #1a1a1a !important; }
+    .top .desc { color: #1a1a1a !important; }
+    .info .data { color: #1a1a1a !important; }
+    .option .svg-box svg path { fill: #555560 !important; }
+    .option .svg-box img { filter: none !important; opacity: 1 !important; }
+    .room-option-icon { color: #555560 !important; }
+  }
+
+  .property-desc-config .right-config {
+    background: rgba(255, 255, 255, 0.72) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.85) !important;
+    border-top: 3px solid #e8392a !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07) !important;
+    .info-box .main-title,
+    .info-box .sub-title,
+    .info-box .name,
+    .info-box .number { color: #1a1a1a !important; }
+    input, textarea {
+      background: rgba(255, 255, 255, 0.8) !important;
+      border-color: rgba(0, 0, 0, 0.1) !important;
+      color: #1a1a1a !important;
+    }
+  }
+
+  .property-info-config,
+  .property-desc-config,
+  .similar-properties-config {
+    svg { color: #555560 !important; }
+    svg path { fill: currentColor !important; stroke: currentColor !important; }
+    img[src*='/img/icons/'] { filter: none !important; opacity: 1 !important; }
+  }
+
+  .property-info-config .info .title-main { color: #1a1a1a !important; }
+}
+
+/* ── Dark Theme ──────────────────────────────────────────────────────────── */
+[data-theme="dark"] #pc-wrap #property-detail-page {
+  background: linear-gradient(135deg, #130a08 0%, #1c100e 50%, #110c0a 100%) !important;
+
+  .property-info-config .info .left-box,
+  .property-info-config .info .right-box {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+    backdrop-filter: blur(20px) saturate(1.3) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(1.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+  }
+
+  .property-info-config .info .add-cart-section {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.09) !important;
+    border-radius: 12px !important;
+  }
+
+  .property-info-config .info .price-box {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 12px !important;
+  }
+
+  .property-desc-config .left-config .options-config,
+  .property-desc-config .left-config .prop-desc-config,
+  .property-desc-config .left-config .reviews-config,
+  .property-desc-config .left-config .leave-review-config,
+  .property-desc-config .left-config .floor-plans-config,
+  .property-desc-config .left-config .address-config {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+    backdrop-filter: blur(24px) saturate(1.2) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(1.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-top: 3px solid rgba(232, 57, 42, 0.6) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+  }
+
+  .property-desc-config .right-config {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-top: 3px solid rgba(232, 57, 42, 0.6) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45) !important;
+    .info-box .main-title,
+    .info-box .sub-title,
+    .info-box .name,
+    .info-box .number { color: #f0f0f8 !important; }
+    input, textarea {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      color: #f0f0f8 !important;
+      &::placeholder { color: rgba(240, 240, 248, 0.35) !important; }
+    }
+  }
+
+  /* ── Text, Icon & Input overrides for dark theme ── */
+  color: #f0f0f8 !important;
+
+  .property-info-config .info .title-main { color: #f0f0f8 !important; }
+  .property-info-config .info .left-box {
+    p, span, .MuiTypography-root { color: #c0c0d8 !important; }
+    .bath-icon, .room-icon { color: #9090b0 !important; }
+  }
+  .property-info-config .info .right-box {
+    p, span, .MuiTypography-root { color: #c0c0d8 !important; }
+    .price-value { color: #ffffff !important; }
+  }
+  .property-info-config .info .price-box .price-value { color: #ffffff !important; }
+  .property-info-config .info .top-box {
+    .MuiTypography-root, .city, .date { color: #9090b0 !important; }
+    svg path { fill: #9090b0 !important; }
+  }
+  .property-info-config .info .bottom-box .option {
+    color: #c0c0d8 !important;
+    p, span { color: #c0c0d8 !important; }
+    .bath-icon, .room-icon { color: #9090b0 !important; }
+    img { filter: brightness(0) invert(1) !important; opacity: 0.6 !important; }
+  }
+
+  .property-desc-config .left-config .options-config,
+  .property-desc-config .left-config .prop-desc-config,
+  .property-desc-config .left-config .reviews-config,
+  .property-desc-config .left-config .leave-review-config,
+  .property-desc-config .left-config .floor-plans-config,
+  .property-desc-config .left-config .address-config {
+    .title { color: #8888a0 !important; }
+    .option-data { color: #d0d0e8 !important; }
+    .top .desc  { color: #d0d0e8 !important; }
+    .info .data { color: #d0d0e8 !important; }
+    p, span, .MuiTypography-root { color: #c0c0d8 !important; }
+    .room-option-icon { color: #8888a0 !important; }
+    .option .svg-box svg path { fill: #8888a0 !important; }
+    .option .svg-box img { filter: brightness(0) invert(1) !important; opacity: 0.6 !important; }
+    textarea, input {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      color: #f0f0f8 !important;
+      &::placeholder { color: rgba(240, 240, 248, 0.35) !important; }
+    }
+  }
+
+  .property-info-config,
+  .property-desc-config,
+  .similar-properties-config {
+    svg { color: #8888a0 !important; }
+    svg path { fill: currentColor !important; }
+    img[src*='/img/icons/'] { filter: brightness(0) invert(1) !important; opacity: 0.6 !important; }
+  }
+}

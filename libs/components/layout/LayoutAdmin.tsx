@@ -1,7 +1,6 @@
 import type { ComponentType } from 'react';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useTheme as useAppTheme } from '../../context/ThemeContext';
 import MenuList from '../admin/AdminMenuList';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -18,18 +17,6 @@ import { MemberType } from '../../enums/member.enum';
 
 const SIDEBAR = 200;
 
-const SunIcon = () => (
-	<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-		<circle cx="10" cy="10" r="3.5" />
-		<path d="M10 2.5v2M10 15.5v2M3.52 3.52l1.41 1.41M15.07 15.07l1.41 1.41M2.5 10h2M15.5 10h2M3.52 16.48l1.41-1.41M15.07 4.93l1.41-1.41" />
-	</svg>
-);
-const MoonIcon = () => (
-	<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-		<path d="M17.39 11.39A7.5 7.5 0 1 1 8.61 2.61 5.5 5.5 0 0 0 17.39 11.39Z" />
-	</svg>
-);
-
 const withAdminLayout = (Component: ComponentType) => {
 	return (props: object) => {
 		const router = useRouter();
@@ -38,8 +25,7 @@ const withAdminLayout = (Component: ComponentType) => {
 		const [loading, setLoading] = useState(true);
 		const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 		const [title, setTitle] = useState('admin');
-		const { isDark, toggleTheme } = useAppTheme();
-		const theme = isDark ? 'dark' : 'light';
+		const theme = 'light';
 
 		useEffect(() => {
 			const jwt = getJwtToken();
@@ -117,9 +103,6 @@ const withAdminLayout = (Component: ComponentType) => {
 
 						{/* Inline topbar */}
 						<Stack direction="row" alignItems="center" justifyContent="flex-end" gap="8px" sx={{ mb: '20px' }}>
-							<Box component="button" className="theme-toggle" onClick={toggleTheme}>
-								{theme === 'light' ? <MoonIcon /> : <SunIcon />}
-							</Box>
 							<Box onClick={handleOpenUserMenu} sx={{
 								display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer',
 								background: 'var(--surface)', border: '1px solid var(--border)',

@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
-import { Stack, Box, Typography } from '@mui/material';
-import useDeviceDetect from '../../hooks/useDeviceDetect';
-import WestIcon from '@mui/icons-material/West';
-import EastIcon from '@mui/icons-material/East';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper';
-import PopularPropertyCard from './PopularPropertyCard';
-import { Property } from '../../types/property/property';
-import { PropertiesInquiry } from '../../types/property/property.input';
-import { useMutation, useQuery } from '@apollo/client';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Stack, Typography } from '@mui/material';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import BedIcon from '@mui/icons-material/Bed';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import SquareFootIcon from '@mui/icons-material/SquareFoot';
+import { useRouter } from 'next/router';
+import { useQuery, useMutation, useReactiveVar } from '@apollo/client';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
+import { userVar } from '../../../apollo/store';
 import { T } from '../../types/common';
+import { Property } from '../../types/property/property';
+import { PropertiesInquiry } from '../../types/property/property.input';
+import { REACT_APP_API_URL } from '../../config';
 import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import Link from 'next/link';
@@ -22,9 +25,10 @@ interface PopularPropertiesProps {
 
 const PopularProperties = (props: PopularPropertiesProps) => {
 	const { initialInput } = props;
-	const device = useDeviceDetect();
+	const router = useRouter();
+	const user = useReactiveVar(userVar);
 	const [popularProperties, setPopularProperties] = useState<Property[]>([]);
-
+	const [active, setActive] = useState<number>(0);
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
 
 	const { refetch: getPropertiesRefetch } = useQuery(GET_PROPERTIES, {
@@ -32,95 +36,133 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setPopularProperties(data?.getProperties?.list);
+			setPopularProperties(data?.getProperties?.list || []);
 		},
 	});
 
-	const likePropertyHandler = async (user: T, id: string) => {
+	const likePropertyHandler = async (id?: string) => {
 		try {
 			if (!id) return;
-			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
 			await likeTargetProperty({ variables: { input: id } });
 			await getPropertiesRefetch({ input: initialInput });
-			await sweetTopSmallSuccessAlert('success', 800);
+			await sweetTopSmallSuccessAlert('success', 700);
 		} catch (err: any) {
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
 
-	if (!popularProperties) return null;
+	const items = useMemo(() => popularProperties.slice(0, 6), [popularProperties]);
 
-	if (device === 'mobile') {
-		return (
-			<Stack className="popular-properties">
-				<Stack className="container">
-					<Stack className="info-box">
-						<Typography className="section-label">Most Viewed</Typography>
-						<Typography className="section-title">Popular Properties</Typography>
-					</Stack>
-					<Stack className="card-box">
-						<Swiper
-							className="popular-property-swiper"
-							slidesPerView={'auto'}
-							centeredSlides
-							spaceBetween={16}
-							modules={[Autoplay]}
-						>
-							{popularProperties.map((property) => (
-								<SwiperSlide key={property._id} className="popular-property-slide">
-									<PopularPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
-								</SwiperSlide>
-							))}
-						</Swiper>
-					</Stack>
-				</Stack>
-			</Stack>
-		);
-	}
+	useEffect(() => {
+		if (items.length === 0) return;
+		if (active > items.length - 1) setActive(0);
+	}, [active, items.length]);
+
+	const activeItem = items[active];
+	const activeImage = activeItem?.propertyImages?.[0]
+		? `${REACT_APP_API_URL}/${activeItem.propertyImages[0]}`
+		: '/img/home/property1.svg';
+
+	const goPropertyDetail = async (id?: string) => {
+		if (!id) return;
+		await router.push({ pathname: '/property/detail', query: { id } });
+	};
+
+	if (!items.length) return null;
 
 	return (
-		<Stack className="popular-properties">
+		<Stack className="popular-properties cinematic-mode">
+			<div className="cinematic-bg" style={{ backgroundImage: `url(${activeImage})` }} />
+
 			<Stack className="container">
 				<Stack className="info-box">
 					<Stack className="info-row-top">
 						<Typography className="section-label">— MOST POPULAR</Typography>
 						<Link href="/property">
-							<Box className="more-box">
+							<div className="more-box">
 								<Typography>All Locations</Typography>
 								<img src="/img/icons/rightup.svg" alt="" />
-							</Box>
+							</div>
 						</Link>
 					</Stack>
-					<Box className="info-divider" />
+					<div className="info-divider" />
 					<Typography className="section-title">Gym Spaces</Typography>
 					<Typography className="section-sub">Top viewed training locations</Typography>
 				</Stack>
 
-				<Stack className="card-box">
-					<Swiper
-						className="popular-property-swiper"
-						slidesPerView={'auto'}
-						spaceBetween={20}
-						modules={[Autoplay, Navigation, Pagination]}
-						navigation={{
-							nextEl: '.swiper-popular-next',
-							prevEl: '.swiper-popular-prev',
-						}}
-						pagination={{ el: '.swiper-popular-pagination' }}
-					>
-						{popularProperties.map((property) => (
-							<SwiperSlide key={property._id} className="popular-property-slide">
-								<PopularPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
-							</SwiperSlide>
-						))}
-					</Swiper>
-				</Stack>
+				<div className="carousel-shell">
+					<div className="image-accordion">
+						{items.map((item, index) => {
+							const imageUrl = item?.propertyImages?.[0]
+								? `${REACT_APP_API_URL}/${item.propertyImages[0]}`
+								: '/img/home/property1.svg';
+							const isActive = index === active;
 
-				<Stack className="pagination-box">
-					<WestIcon className="swiper-popular-prev" />
-					<Box className="swiper-popular-pagination" />
-					<EastIcon className="swiper-popular-next" />
-				</Stack>
+							return (
+								<div
+									key={item._id}
+									className={`accordion-item ${isActive ? 'active' : ''}`}
+									style={{ backgroundImage: `url(${imageUrl})` }}
+									onClick={() => setActive(index)}
+								>
+										<div className="item-content">
+											<div className="item-meta">
+												<div className="item-icon">
+													<CameraAltIcon />
+												</div>
+												<div>
+													<h3 onClick={() => goPropertyDetail(item._id)}>{item.propertyTitle}</h3>
+													<p>{item.propertyAddress}</p>
+												</div>
+											</div>
+											<div className="item-stats">
+												<div className="stat-chip">
+													<BedIcon />
+													<span>{item.propertyBaths} bath</span>
+												</div>
+												<div className="stat-chip">
+													<MeetingRoomIcon />
+													<span>{item.propertyRooms} rooms</span>
+												</div>
+												<div className="stat-chip">
+													<SquareFootIcon />
+													<span>{item.propertySquare} m²</span>
+												</div>
+											</div>
+											<div className="item-actions">
+												<div className="action-box">
+													<RemoveRedEyeIcon />
+													<span>{item.propertyViews}</span>
+												</div>
+												<button
+													className={`action-box like ${item?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
+													onClick={(e) => {
+														e.stopPropagation();
+														likePropertyHandler(item._id);
+													}}
+												>
+													<FavoriteIcon />
+													<span>{item.propertyLikes}</span>
+												</button>
+											</div>
+										</div>
+									</div>
+								);
+						})}
+					</div>
+				</div>
+
+				<div className="carousel-dots">
+					{items.map((item, index) => (
+						<button
+							key={item._id}
+							className={`dot ${index === active ? 'active' : ''}`}
+							onClick={() => setActive(index)}
+							aria-label={`Go to slide ${index + 1}`}
+						/>
+					))}
+				</div>
 			</Stack>
 		</Stack>
 	);

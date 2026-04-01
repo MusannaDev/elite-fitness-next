@@ -34,6 +34,8 @@ import { Direction, Message } from '../../libs/enums/common.enum';
 import { CREATE_COMMENT, LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { GET_COMMENTS } from '../../apollo/admin/query';
+import { OrderItemType } from '../../libs/enums/order.enum';
+import { addBasketItem } from '../../libs/utils/basket';
 
 const isValidObjectId = (value?: string | null): boolean => /^[a-fA-F0-9]{24}$/.test(value ?? '');
 SwiperCore.use([Autoplay, Navigation, Pagination]);
@@ -219,7 +221,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 		setCommentInquiry({ ...commentInquiry });
 	};
 
-	const createCommentHandler = async () => {
+		const createCommentHandler = async () => {
 		try {
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 			const fallbackGroups = [insertCommentData.commentGroup, 'PRODUCT', 'PRODUCTS'];
@@ -245,7 +247,24 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 		} catch (err: any) {
 			await sweetErrorHandling(err);
 		}
-	};
+		};
+
+		const addToCartHandler = async () => {
+			try {
+				if (!product?._id || !product?.productPrice) return;
+				addBasketItem({
+					_id: product._id,
+					name: product.productName,
+					image: product.productImages?.[0],
+					price: product.productPrice,
+					quantity: 1,
+					itemType: OrderItemType.PRODUCT,
+				});
+				await sweetTopSmallSuccessAlert('Added to cart', 700);
+			} catch (err: any) {
+				sweetMixinErrorAlert(err.message);
+			}
+		};
 
 	if (getProductLoading) {
 		return (
@@ -335,11 +354,11 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Typography className={'price-value'}>${formatterStr(product?.productPrice)}</Typography>
 									</Stack>
 								</Stack>
-								<Stack className={'add-cart-section'}>
-									<Button className={'add-cart-btn'} startIcon={<ShoppingCartOutlinedIcon />}>
-										Add to Cart
-									</Button>
-								</Stack>
+									<Stack className={'add-cart-section'}>
+										<Button className={'add-cart-btn'} startIcon={<ShoppingCartOutlinedIcon />} onClick={addToCartHandler}>
+											Add to Cart
+										</Button>
+									</Stack>
 							</Stack>
 							<Stack className={'images'}>
 								<Stack className={'main-image'}>

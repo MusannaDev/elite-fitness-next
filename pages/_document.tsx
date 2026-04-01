@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {
 	return (
-		<Html lang="en">
+		<Html lang="en" data-theme="light">
 			<Head>
 				<meta name="robots" content="index,follow" />
 				<link rel="icon" type="image/png" href="/img/logo/elite.svg" />
@@ -22,11 +22,6 @@ export default function Document() {
 				/>
 			</Head>
 			<body>
-				<script
-					dangerouslySetInnerHTML={{
-						__html: `(function(){var t=localStorage.getItem('elite-theme');document.documentElement.setAttribute('data-theme',t||'light');})()`,
-					}}
-				/>
 				<Main />
 				<NextScript />
 			</body>

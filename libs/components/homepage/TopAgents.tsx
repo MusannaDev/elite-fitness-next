@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
-import { Stack, Box, Typography } from '@mui/material';
-import useDeviceDetect from '../../hooks/useDeviceDetect';
-import TopAgentCard from './TopAgentCard';
+import React, { MouseEvent, useState } from 'react';
+import { Stack, Box, Typography, IconButton } from '@mui/material';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Parallax, Pagination, Navigation } from 'swiper';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import HomeWorkIcon from '@mui/icons-material/HomeWork';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import { useRouter } from 'next/router';
+import { useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
+import { userVar } from '../../../apollo/store';
+import { REACT_APP_API_URL } from '../../config';
 import { Member } from '../../types/member/member';
 import { AgentsInquiry } from '../../types/member/member.input';
-import { useMutation, useQuery } from '@apollo/client';
 import { GET_AGENTS } from '../../../apollo/user/query';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../../apollo/user/mutation';
 import { T } from '../../types/common';
 import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import Link from 'next/link';
+import useDeviceDetect from '../../hooks/useDeviceDetect';
 
 interface TopAgentsProps {
 	initialInput: AgentsInquiry;
@@ -19,6 +30,8 @@ interface TopAgentsProps {
 const TopAgents = (props: TopAgentsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
+	const router = useRouter();
+	const user = useReactiveVar(userVar);
 	const [topAgents, setTopAgents] = useState<Member[]>([]);
 
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
@@ -72,14 +85,21 @@ const TopAgents = (props: TopAgentsProps) => {
 						<Typography className="section-title">Meet The Agents</Typography>
 					</Stack>
 					<Stack className="agents-list">
-						{topAgents.map((agent) => (
-							<TopAgentCard
-								key={agent._id}
-								agent={agent}
-								likeAgentHandler={likeAgentHandler}
-								followAgentHandler={followAgentHandler}
-							/>
-						))}
+						{topAgents.map((agent) => {
+							const agentImage = agent?.memberImage
+								? `${REACT_APP_API_URL}/${agent.memberImage}`
+								: '/img/profile/defaultUser.svg';
+							return (
+								<Box key={agent._id} className="mobile-agent-card"
+									onClick={() => router.push({ pathname: '/member', query: { memberId: agent._id } })}>
+									<Box className="mobile-agent-img" style={{ backgroundImage: `url(${agentImage})` }} />
+									<Box className="mobile-agent-info">
+										<Typography className="mobile-agent-role">FITNESS AGENT</Typography>
+										<Typography className="mobile-agent-name">{agent.memberNick}</Typography>
+									</Box>
+								</Box>
+							);
+						})}
 					</Stack>
 				</Stack>
 			</Stack>
@@ -88,33 +108,111 @@ const TopAgents = (props: TopAgentsProps) => {
 
 	return (
 		<Stack className="top-agents">
-			<Stack className="container">
-				<Stack className="info-box">
-					<Stack className="info-row-top">
-						<Typography className="section-label">— FITNESS EXPERTS</Typography>
-						<Link href="/member?memberType=AGENT">
-							<Box className="more-box">
-								<Typography>All Agents</Typography>
-								<img src="/img/icons/rightup.svg" alt="" />
-							</Box>
-						</Link>
-					</Stack>
-					<Box className="info-divider" />
-					<Typography className="section-title">Meet The Agents</Typography>
-					<Typography className="section-sub">Connecting athletes with the right services</Typography>
-				</Stack>
+			<Swiper
+				speed={750}
+				parallax={true}
+				loop
+				pagination={{ clickable: true }}
+				navigation
+				modules={[Parallax, Pagination, Navigation]}
+				className="agents-swiper"
+			>
+				{topAgents.map((agent) => {
+					const agentImage = agent?.memberImage
+						? `${REACT_APP_API_URL}/${agent.memberImage}`
+						: '/img/profile/defaultUser.svg';
+					const isFollowing = agent?.meFollowed?.[0]?.myFollowing;
+					const isLiked = agent?.meLiked?.[0]?.myFavorite;
 
-				<Stack className="agents-strip">
-					{topAgents.map((agent) => (
-						<TopAgentCard
-							key={agent._id}
-							agent={agent}
-							likeAgentHandler={likeAgentHandler}
-							followAgentHandler={followAgentHandler}
-						/>
-					))}
-				</Stack>
-			</Stack>
+					return (
+						<SwiperSlide key={agent._id}>
+							<Box
+								className="agent-slide-bg"
+								style={{ backgroundImage: `url(${agentImage})` }}
+								data-swiper-parallax="1152"
+							/>
+
+							<Box className="agent-slide-overlay" />
+
+							<Box className="agent-slide-container">
+								<Typography className="agent-slide-role" data-swiper-parallax="-500">
+									FITNESS AGENT
+								</Typography>
+
+								<Typography
+									className="agent-slide-name"
+									data-swiper-parallax="-1000"
+									onClick={() => router.push({ pathname: '/member', query: { memberId: agent._id } })}
+								>
+									{agent.memberNick}
+								</Typography>
+
+								{agent.memberDesc && (
+									<Typography className="agent-slide-desc" data-swiper-parallax="-1500">
+										{agent.memberDesc}
+									</Typography>
+								)}
+
+								<Stack
+									className="agent-slide-stats"
+									direction="row"
+									gap="14px"
+									data-swiper-parallax="-800"
+								>
+									<Stack direction="row" alignItems="center" gap="5px" className="stat-chip">
+										<HomeWorkIcon style={{ fontSize: 13 }} />
+										<Typography>{agent.memberProperties ?? 0} listings</Typography>
+									</Stack>
+									<Stack direction="row" alignItems="center" gap="5px" className="stat-chip">
+										<RemoveRedEyeIcon style={{ fontSize: 13 }} />
+										<Typography>{agent.memberViews ?? 0} views</Typography>
+									</Stack>
+									<Stack direction="row" alignItems="center" gap="5px" className="stat-chip">
+										<EmojiEventsIcon style={{ fontSize: 13 }} />
+										<Typography>{agent.memberPoints ?? 0} pts</Typography>
+									</Stack>
+								</Stack>
+
+								<Stack
+									className="agent-slide-actions"
+									direction="row"
+									gap="10px"
+									alignItems="center"
+									data-swiper-parallax="-600"
+								>
+									<IconButton
+										className={`slide-action-btn ${isFollowing ? 'following' : ''}`}
+										onClick={(e: MouseEvent<HTMLButtonElement>) => {
+											e.stopPropagation();
+											followAgentHandler(user, agent._id);
+										}}
+									>
+										{isFollowing ? (
+											<PersonRemoveIcon style={{ fontSize: 16 }} />
+										) : (
+											<PersonAddIcon style={{ fontSize: 16 }} />
+										)}
+									</IconButton>
+									<IconButton
+										className={`slide-action-btn ${isLiked ? 'liked' : ''}`}
+										onClick={(e: MouseEvent<HTMLButtonElement>) => {
+											e.stopPropagation();
+											likeAgentHandler(user, agent._id);
+										}}
+									>
+										<FavoriteIcon style={{ fontSize: 16 }} />
+									</IconButton>
+									<Typography className="slide-like-count">{agent.memberLikes}</Typography>
+
+									<Link href={`/member?memberId=${agent._id}`}>
+										<Box className="slide-view-btn">View Profile</Box>
+									</Link>
+								</Stack>
+							</Box>
+						</SwiperSlide>
+					);
+				})}
+			</Swiper>
 		</Stack>
 	);
 };

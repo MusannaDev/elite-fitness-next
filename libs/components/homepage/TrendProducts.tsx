@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Stack, Box, Typography } from '@mui/material';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { EffectCoverflow, Pagination, Navigation } from 'swiper';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import TrendProductCard from './TrendProductCard';
 import { Product } from '../../types/product/product';
@@ -92,16 +94,35 @@ const TrendProducts = (props: TrendProductsProps) => {
 						<Typography>No trending products yet</Typography>
 					</Box>
 				) : (
-					<Box className="product-grid">
+					<Swiper
+						grabCursor
+						centeredSlides
+						slidesPerView={3}
+						speed={600}
+						effect="coverflow"
+						loop
+						pagination={{ clickable: true }}
+						navigation
+						coverflowEffect={{
+							rotate: 50,
+							stretch: 0,
+							depth: 100,
+							modifier: 1,
+							slideShadows: true,
+						}}
+						modules={[EffectCoverflow, Pagination, Navigation]}
+						className="trend-swiper"
+					>
 						{trendProducts.map((product, index) => (
-							<TrendProductCard
-								key={product._id}
-								product={product}
-								likeProductHandler={likeProductHandler}
-								rank={index + 1}
-							/>
+							<SwiperSlide key={product._id}>
+								<TrendProductCard
+									product={product}
+									likeProductHandler={likeProductHandler}
+									rank={index + 1}
+								/>
+							</SwiperSlide>
 						))}
-					</Box>
+					</Swiper>
 				)}
 			</Stack>
 		</Stack>
@@ -111,7 +132,7 @@ const TrendProducts = (props: TrendProductsProps) => {
 TrendProducts.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 6,
+		limit: 8,
 		sort: 'productViews',
 		direction: 'DESC',
 		search: {},

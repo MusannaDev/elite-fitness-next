@@ -26,13 +26,13 @@ const TrendProductCard = (props: TrendProductCardProps) => {
 	};
 
 	return (
-		<Stack className="trend-product-card">
-			{/* Image area — light bg, centered product shot */}
-			<Box className="card-image-area" onClick={() => pushDetailHandler(product._id)}>
-				<Box
-					className="product-img"
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${product?.productImages?.[0]})` }}
-				/>
+		<Stack
+			className="trend-product-card"
+			style={{ backgroundImage: `url(${REACT_APP_API_URL}/${product?.productImages?.[0]})` }}
+			onClick={() => pushDetailHandler(product._id)}
+		>
+			{/* Top badges — rank + category */}
+			<Box className="card-top-badges">
 				{product.productCategory && (
 					<Box className="category-badge">
 						<Typography>{product.productCategory}</Typography>
@@ -43,18 +43,16 @@ const TrendProductCard = (props: TrendProductCardProps) => {
 				</Box>
 			</Box>
 
-			{/* Card body */}
-			<Box className="card-body">
-				<Typography className="product-name" onClick={() => pushDetailHandler(product._id)}>
-					{product.productName}
-				</Typography>
+			{/* Overlay info — fades in on active slide */}
+			<Box className="card-content">
+				<Typography className="product-name">{product.productName}</Typography>
 				<Typography className="product-brand">
 					{product.productBrand}
 					{product.productFlavor ? ` · ${product.productFlavor}` : ''}
 				</Typography>
 
 				{/* Macro pills */}
-				<Stack direction="row" flexWrap="wrap" gap="6px" className="macro-row">
+				<Stack direction="row" flexWrap="wrap" gap="5px" className="macro-row">
 					{product.productCalories && (
 						<Box className="macro-pill">
 							<LocalFireDepartmentIcon style={{ fontSize: 10 }} />
@@ -78,14 +76,17 @@ const TrendProductCard = (props: TrendProductCardProps) => {
 				<Stack direction="row" alignItems="center" justifyContent="space-between" className="card-footer">
 					<Typography className="product-price">${product.productPrice}</Typography>
 					<Stack direction="row" alignItems="center" gap="4px">
-						<IconButton size="small" className="ap-btn">
+						<IconButton size="small" className="ap-btn" onClick={(e) => e.stopPropagation()}>
 							<RemoveRedEyeIcon style={{ fontSize: 13 }} />
 						</IconButton>
 						<Typography className="ap-count">{product.productViews}</Typography>
 						<IconButton
 							size="small"
 							className={`ap-btn ${product?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
-							onClick={() => likeProductHandler(user, product._id)}
+							onClick={(e) => {
+								e.stopPropagation();
+								likeProductHandler(user, product._id);
+							}}
 						>
 							<FavoriteIcon
 								style={{

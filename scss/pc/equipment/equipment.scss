@@ -750,7 +750,9 @@ $e-display:   'Syne', 'DM Sans', sans-serif;
               // ── BOTTOM — stub area (170px tall, starts at y=260) ──────────
               .bottom {
                 padding: 20px 18px 18px;
-                background: $e-blue;
+                background: rgba(13, 8, 28, 0.97);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
                 min-height: 170px;
 
                 .name-address {
@@ -893,3 +895,4 @@ $e-display:   'Syne', 'DM Sans', sans-serif;
     }
   }
 }
+

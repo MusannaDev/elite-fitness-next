@@ -9,7 +9,6 @@ import { getJwtToken, updateUserInfo } from '../../auth';
 import Chat from '../Chat';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { useTheme } from '../../context/ThemeContext';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -19,7 +18,6 @@ const withLayoutFull = (Component: any) => {
 		const router = useRouter();
 		const device = useDeviceDetect();
 		const user = useReactiveVar(userVar);
-		const { isDark } = useTheme();
 
 		/** LIFECYCLE **/
 		useEffect(() => {
@@ -58,7 +56,7 @@ const withLayoutFull = (Component: any) => {
 						<title>Elite-fitness</title>
 						<meta name={'title'} content={`Elite-fitness`} />
 					</Head>
-					<Stack id="pc-wrap" className={isDark ? 'dark' : 'light'}>
+					<Stack id="pc-wrap" className="light">
 						<Stack id={'top'}>
 							<Top />
 						</Stack>

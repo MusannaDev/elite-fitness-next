@@ -34,6 +34,8 @@ import { Direction, Message } from '../../libs/enums/common.enum';
 import { CREATE_COMMENT, LIKE_TARGET_CLOTHE } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { GET_COMMENTS } from '../../apollo/admin/query';
+import { OrderItemType } from '../../libs/enums/order.enum';
+import { addBasketItem } from '../../libs/utils/basket';
 
 const isValidObjectId = (value?: string | null): boolean => /^[a-fA-F0-9]{24}$/.test(value ?? '');
 SwiperCore.use([Autoplay, Navigation, Pagination]);
@@ -219,7 +221,7 @@ const ClotheDetail: NextPage = ({ initialComment, ...props }: any) => {
 		setCommentInquiry({ ...commentInquiry });
 	};
 
-	const createCommentHandler = async () => {
+		const createCommentHandler = async () => {
 		try {
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
@@ -231,7 +233,24 @@ const ClotheDetail: NextPage = ({ initialComment, ...props }: any) => {
 		} catch (err: any) {
 			await sweetErrorHandling(err);
 		}
-	};
+		};
+
+		const addToCartHandler = async () => {
+			try {
+				if (!clothe?._id || !clothe?.clothePrice) return;
+				addBasketItem({
+					_id: clothe._id,
+					name: clothe.clotheName,
+					image: clothe.clotheImages?.[0],
+					price: clothe.clothePrice,
+					quantity: 1,
+					itemType: OrderItemType.CLOTHES,
+				});
+				await sweetTopSmallSuccessAlert('Added to cart', 700);
+			} catch (err: any) {
+				sweetMixinErrorAlert(err.message);
+			}
+		};
 
 	if (getClotheLoading) {
 		return (
@@ -322,11 +341,11 @@ const ClotheDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Typography className={'price-value'}>${formatterStr(clothe?.clothePrice)}</Typography>
 									</Stack>
 								</Stack>
-								<Stack className={'add-cart-section'}>
-									<Button className={'add-cart-btn'} startIcon={<ShoppingCartOutlinedIcon />}>
-										Add to Cart
-									</Button>
-								</Stack>
+									<Stack className={'add-cart-section'}>
+										<Button className={'add-cart-btn'} startIcon={<ShoppingCartOutlinedIcon />} onClick={addToCartHandler}>
+											Add to Cart
+										</Button>
+									</Stack>
 							</Stack>
 							<Stack className={'images'}>
 								<Stack className={'main-image'}>
