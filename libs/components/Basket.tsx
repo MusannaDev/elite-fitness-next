@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Badge, Button, IconButton, Menu, Stack, Typography } from '@mui/material';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddIcon from '@mui/icons-material/Add';
@@ -11,7 +11,7 @@ import { CREATE_ORDER } from '../../apollo/user/mutation';
 import { userVar } from '../../apollo/store';
 import { REACT_APP_API_URL } from '../config';
 import { OrderInput } from '../types/order/order.input';
-import { PaymentMethod } from '../enums/order.enum';
+import { OrderStatus, PaymentMethod } from '../enums/order.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../sweetAlert';
 import { BasketItem } from '../types/order/cart';
 import {
@@ -23,6 +23,7 @@ import {
   readBasket,
   removeOneBasketItem,
 } from '../utils/basket';
+import { saveOrderItemSnapshots } from '../utils/orderSnapshot';
 
 const Basket = (): JSX.Element => {
   const router = useRouter();
@@ -37,8 +38,23 @@ const Basket = (): JSX.Element => {
     () => items.reduce((sum, item) => sum + item.quantity * item.price, 0),
     [items],
   );
-  const shippingCost = itemsPrice < 100 && itemsPrice > 0 ? 5 : 0;
-  const totalPrice = (itemsPrice + shippingCost).toFixed(1);
+  const discountRate = useMemo(
+    () => (itemsPrice > 500 ? 0.05 : 0),
+    [itemsPrice],
+  );
+  const discountAmount = useMemo(
+    () => Math.round(itemsPrice * discountRate * 100) / 100,
+    [itemsPrice, discountRate],
+  );
+  const discountedItemsPrice = useMemo(
+    () => Math.round((itemsPrice - discountAmount) * 100) / 100,
+    [itemsPrice, discountAmount],
+  );
+  const shippingCost = discountedItemsPrice < 100 && discountedItemsPrice > 0 ? 5 : 0;
+  const totalPrice = useMemo(
+    () => Math.round((discountedItemsPrice + shippingCost) * 100) / 100,
+    [discountedItemsPrice, shippingCost],
+  );
   const totalCount = useMemo(
     () => items.reduce((sum, item) => sum + item.quantity, 0),
     [items],
@@ -75,12 +91,13 @@ const Basket = (): JSX.Element => {
       const input: OrderInput = {
         paymentMethod: PaymentMethod.ONLINE,
         orderDelivery: shippingCost,
-        orderItems: basketToOrderItems(items),
+        orderItems: basketToOrderItems(items, discountRate),
       };
       await createOrder({ variables: { input } });
+      saveOrderItemSnapshots(items);
       clearAll();
-      await sweetTopSmallSuccessAlert('Order created', 800);
-      await router.push('/order');
+      await sweetTopSmallSuccessAlert('Purchase completed', 900);
+      await router.push(`/order?status=${OrderStatus.PENDING}`);
     } catch (err: any) {
       sweetMixinErrorAlert(err?.message || 'Failed to create order');
     }
@@ -101,10 +118,16 @@ const Basket = (): JSX.Element => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={(e) => setAnchorEl(e.currentTarget)}
-        sx={{ color: '#f2f2f2' }}
+        sx={{
+          color: '#ff4500',
+          '&:hover': {
+            backgroundColor: 'transparent',
+            color: '#ff4500',
+          },
+        }}
       >
-        <Badge badgeContent={totalCount} color="error">
-          <ShoppingCartIcon />
+        <Badge badgeContent={totalCount} color="error" max={99}>
+          <LocalMallOutlinedIcon sx={{ fontSize: 26, width: 26, height: 26, color: '#ff4500' }} />
         </Badge>
       </IconButton>
 
@@ -180,16 +203,27 @@ const Basket = (): JSX.Element => {
           {!!items.length && (
             <Stack gap={1}>
               <Typography fontSize={12} color="rgba(255,255,255,0.8)">
-                Total: ${totalPrice} ({itemsPrice} + {shippingCost})
+                Subtotal: ${itemsPrice.toFixed(2)}
+              </Typography>
+              {discountAmount > 0 && (
+                <Typography fontSize={12} color="#8ef0b4">
+                  Discount (5%): -${discountAmount.toFixed(2)}
+                </Typography>
+              )}
+              <Typography fontSize={12} color="rgba(255,255,255,0.8)">
+                Shipping: ${shippingCost.toFixed(2)}
+              </Typography>
+              <Typography fontSize={13} fontWeight={700} color="#fff">
+                Total: ${totalPrice.toFixed(2)}
               </Typography>
               <Button
                 onClick={proceedOrderHandler}
-                startIcon={<ShoppingCartIcon />}
+                startIcon={<LocalMallOutlinedIcon />}
                 variant="contained"
                 disabled={loading}
                 sx={{ background: '#ff4500', '&:hover': { background: '#d93d00' } }}
               >
-                Order
+                Purchase
               </Button>
             </Stack>
           )}

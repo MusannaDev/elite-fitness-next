@@ -4,12 +4,17 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Product } from '../../types/product/product';
 import Link from 'next/link';
 import { formatterStr } from '../../utils';
 import { REACT_APP_API_URL, topProductRank } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { addBasketItem } from '../../utils/basket';
+import { BasketItem } from '../../types/order/cart';
+import { OrderItemType } from '../../enums/order.enum';
+import { sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
 // ─── localStorage helpers for persistent likes ───────────────────────────────
 const LIKES_STORAGE_KEY = 'product_likes';
@@ -54,6 +59,19 @@ const ProductCard = (props: ProductCardType) => {
 	const { product, likeProductHandler, myFavorites, recentlyVisited } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
+
+	const addToCartHandler = () => {
+		const item: BasketItem = {
+			_id: product._id,
+			name: product.productName,
+			image: product.productImages?.[0],
+			price: product.productPrice,
+			quantity: 1,
+			itemType: OrderItemType.PRODUCT,
+		};
+		addBasketItem(item);
+		sweetTopSmallSuccessAlert('Added to cart!', 700);
+	};
 	const imagePath: string = product?.productImages[0]
 		? `${REACT_APP_API_URL}/${product?.productImages[0]}`
 		: '/img/banner/header1.svg';
@@ -215,7 +233,7 @@ const ProductCard = (props: ProductCardType) => {
 
 					<Stack className="price-row">
 						<Typography className="price-value">
-							Rs. {formatterStr(product?.productPrice)}
+							$ {formatterStr(product?.productPrice)}
 						</Typography>
 					</Stack>
 
@@ -241,6 +259,12 @@ const ProductCard = (props: ProductCardType) => {
 							<span className="card-tag">{product.productFlavor}</span>
 							<span className="card-tag">{product.productBenefits}</span>
 						</Stack>
+						{!recentlyVisited && (
+							<button className="cart-btn" onClick={addToCartHandler}>
+								<AddShoppingCartIcon />
+								<span>Add to Cart</span>
+							</button>
+						)}
 					</Stack>
 				</Stack>
 			</Stack>

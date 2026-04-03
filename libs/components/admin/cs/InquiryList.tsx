@@ -8,6 +8,7 @@ import {
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
+import { InquiryStatus } from '../../../enums/inquiry.enum';
 
 const headCells = [
 	{ id: 'category',       label: 'Category',   align: 'left' as const },
@@ -66,16 +67,16 @@ export const InquiryList = (props: InquiryPanelListType) => {
 												'&:hover': { opacity: 0.8 },
 											}}
 										>
-											PENDING
+											{InquiryStatus.PENDING}
 										</Button>
 										<Menu className={'menu-modal'} MenuListProps={{ 'aria-labelledby': 'fade-button' }}
 											anchorEl={anchorEl?.[index]} open={Boolean(anchorEl?.[index])}
 											onClose={handleMenuIconClose} TransitionComponent={Fade}>
 											<MenuItem onClick={() => generateMentorTypeHandle?.('id', 'mentor', 'originate')}>
-												<Typography variant={'subtitle1'} component={'span'}>RESOLVED</Typography>
+												<Typography variant={'subtitle1'} component={'span'}>{InquiryStatus.ANSWERED}</Typography>
 											</MenuItem>
 											<MenuItem onClick={() => generateMentorTypeHandle?.('id', 'user', 'remove')}>
-												<Typography variant={'subtitle1'} component={'span'}>CLOSED</Typography>
+												<Typography variant={'subtitle1'} component={'span'}>{InquiryStatus.CLOSED}</Typography>
 											</MenuItem>
 										</Menu>
 									</TableCell>

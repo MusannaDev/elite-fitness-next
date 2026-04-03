@@ -1,7 +1,7 @@
 import React, { MouseEvent, useState } from 'react';
 import { Stack, Box, Typography, IconButton } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Parallax, Pagination, Navigation } from 'swiper';
+import { EffectCoverflow, Pagination, Navigation } from 'swiper';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
@@ -79,28 +79,25 @@ const TopAgents = (props: TopAgentsProps) => {
 	if (device === 'mobile') {
 		return (
 			<Stack className="top-agents">
-				<Stack className="container">
-					<Stack className="info-box">
-						<Typography className="section-label">FITNESS EXPERTS</Typography>
-						<Typography className="section-title">Meet The Agents</Typography>
-					</Stack>
-					<Stack className="agents-list">
-						{topAgents.map((agent) => {
-							const agentImage = agent?.memberImage
-								? `${REACT_APP_API_URL}/${agent.memberImage}`
-								: '/img/profile/defaultUser.svg';
-							return (
-								<Box key={agent._id} className="mobile-agent-card"
-									onClick={() => router.push({ pathname: '/member', query: { memberId: agent._id } })}>
-									<Box className="mobile-agent-img" style={{ backgroundImage: `url(${agentImage})` }} />
-									<Box className="mobile-agent-info">
-										<Typography className="mobile-agent-role">FITNESS AGENT</Typography>
-										<Typography className="mobile-agent-name">{agent.memberNick}</Typography>
-									</Box>
+				<Stack className="agents-list">
+					{topAgents.map((agent) => {
+						const agentImage = agent?.memberImage
+							? `${REACT_APP_API_URL}/${agent.memberImage}`
+							: '/img/profile/defaultUser.svg';
+						return (
+							<Box
+								key={agent._id}
+								className="mobile-agent-card"
+								onClick={() => router.push({ pathname: '/member', query: { memberId: agent._id } })}
+							>
+								<Box className="mobile-agent-img" style={{ backgroundImage: `url(${agentImage})` }} />
+								<Box className="mobile-agent-info">
+									<Typography className="mobile-agent-role">FITNESS AGENT</Typography>
+									<Typography className="mobile-agent-name">{agent.memberNick}</Typography>
 								</Box>
-							);
-						})}
-					</Stack>
+							</Box>
+						);
+					})}
 				</Stack>
 			</Stack>
 		);
@@ -109,12 +106,16 @@ const TopAgents = (props: TopAgentsProps) => {
 	return (
 		<Stack className="top-agents">
 			<Swiper
-				speed={750}
-				parallax={true}
+				effect="coverflow"
+				grabCursor
+				centeredSlides
+				slidesPerView={3}
 				loop
+				speed={600}
+				coverflowEffect={{ rotate: 30, stretch: 0, depth: 120, modifier: 1, slideShadows: true }}
 				pagination={{ clickable: true }}
 				navigation
-				modules={[Parallax, Pagination, Navigation]}
+				modules={[EffectCoverflow, Pagination, Navigation]}
 				className="agents-swiper"
 			>
 				{topAgents.map((agent) => {
@@ -125,89 +126,79 @@ const TopAgents = (props: TopAgentsProps) => {
 					const isLiked = agent?.meLiked?.[0]?.myFavorite;
 
 					return (
-						<SwiperSlide key={agent._id}>
-							<Box
-								className="agent-slide-bg"
-								style={{ backgroundImage: `url(${agentImage})` }}
-								data-swiper-parallax="1152"
-							/>
+						<SwiperSlide
+							key={agent._id}
+							style={{ backgroundImage: `url(${agentImage})` }}
+						>
+							{/* Rank badge — always visible top-right */}
+							<Box className="slide-rank-badge">
+								<Typography>#{agent.memberRank ?? '-'}</Typography>
+							</Box>
 
-							<Box className="agent-slide-overlay" />
+							{/* Content overlay — revealed on active slide */}
+							<Box className="slide-inner">
+								<Box className="slide-content">
+									{/* Role label */}
+									<Typography className="slide-agent-role">FITNESS AGENT</Typography>
 
-							<Box className="agent-slide-container">
-								<Typography className="agent-slide-role" data-swiper-parallax="-500">
-									FITNESS AGENT
-								</Typography>
-
-								<Typography
-									className="agent-slide-name"
-									data-swiper-parallax="-1000"
-									onClick={() => router.push({ pathname: '/member', query: { memberId: agent._id } })}
-								>
-									{agent.memberNick}
-								</Typography>
-
-								{agent.memberDesc && (
-									<Typography className="agent-slide-desc" data-swiper-parallax="-1500">
-										{agent.memberDesc}
+									{/* Name */}
+									<Typography
+										className="slide-agent-name"
+										onClick={() => router.push({ pathname: '/member', query: { memberId: agent._id } })}
+									>
+										{agent.memberNick}
 									</Typography>
-								)}
 
-								<Stack
-									className="agent-slide-stats"
-									direction="row"
-									gap="14px"
-									data-swiper-parallax="-800"
-								>
-									<Stack direction="row" alignItems="center" gap="5px" className="stat-chip">
-										<HomeWorkIcon style={{ fontSize: 13 }} />
-										<Typography>{agent.memberProperties ?? 0} listings</Typography>
-									</Stack>
-									<Stack direction="row" alignItems="center" gap="5px" className="stat-chip">
-										<RemoveRedEyeIcon style={{ fontSize: 13 }} />
-										<Typography>{agent.memberViews ?? 0} views</Typography>
-									</Stack>
-									<Stack direction="row" alignItems="center" gap="5px" className="stat-chip">
-										<EmojiEventsIcon style={{ fontSize: 13 }} />
-										<Typography>{agent.memberPoints ?? 0} pts</Typography>
-									</Stack>
-								</Stack>
+									{/* Description */}
+									{agent.memberDesc && (
+										<Typography className="slide-agent-desc">{agent.memberDesc}</Typography>
+									)}
 
-								<Stack
-									className="agent-slide-actions"
-									direction="row"
-									gap="10px"
-									alignItems="center"
-									data-swiper-parallax="-600"
-								>
-									<IconButton
-										className={`slide-action-btn ${isFollowing ? 'following' : ''}`}
-										onClick={(e: MouseEvent<HTMLButtonElement>) => {
-											e.stopPropagation();
-											followAgentHandler(user, agent._id);
-										}}
-									>
-										{isFollowing ? (
-											<PersonRemoveIcon style={{ fontSize: 16 }} />
-										) : (
-											<PersonAddIcon style={{ fontSize: 16 }} />
-										)}
-									</IconButton>
-									<IconButton
-										className={`slide-action-btn ${isLiked ? 'liked' : ''}`}
-										onClick={(e: MouseEvent<HTMLButtonElement>) => {
-											e.stopPropagation();
-											likeAgentHandler(user, agent._id);
-										}}
-									>
-										<FavoriteIcon style={{ fontSize: 16 }} />
-									</IconButton>
-									<Typography className="slide-like-count">{agent.memberLikes}</Typography>
+									{/* Stats chips */}
+									<Stack className="slide-stats" direction="row" gap="8px" flexWrap="wrap" justifyContent="center">
+										<Stack direction="row" alignItems="center" gap="4px" className="slide-chip">
+											<HomeWorkIcon style={{ fontSize: 12 }} />
+											<Typography>{agent.memberProperties ?? 0} listings</Typography>
+										</Stack>
+										<Stack direction="row" alignItems="center" gap="4px" className="slide-chip">
+											<RemoveRedEyeIcon style={{ fontSize: 12 }} />
+											<Typography>{agent.memberViews ?? 0} views</Typography>
+										</Stack>
+										<Stack direction="row" alignItems="center" gap="4px" className="slide-chip">
+											<EmojiEventsIcon style={{ fontSize: 12 }} />
+											<Typography>{agent.memberPoints ?? 0} pts</Typography>
+										</Stack>
+									</Stack>
 
-									<Link href={`/member?memberId=${agent._id}`}>
-										<Box className="slide-view-btn">View Profile</Box>
-									</Link>
-								</Stack>
+									{/* Actions */}
+									<Stack className="slide-action-row" direction="row" gap="8px" alignItems="center">
+										<IconButton
+											className={`slide-icon-btn ${isFollowing ? 'following' : ''}`}
+											onClick={(e: MouseEvent<HTMLButtonElement>) => {
+												e.stopPropagation();
+												followAgentHandler(user, agent._id);
+											}}
+										>
+											{isFollowing
+												? <PersonRemoveIcon style={{ fontSize: 15 }} />
+												: <PersonAddIcon style={{ fontSize: 15 }} />
+											}
+										</IconButton>
+										<IconButton
+											className={`slide-icon-btn ${isLiked ? 'liked' : ''}`}
+											onClick={(e: MouseEvent<HTMLButtonElement>) => {
+												e.stopPropagation();
+												likeAgentHandler(user, agent._id);
+											}}
+										>
+											<FavoriteIcon style={{ fontSize: 15 }} />
+										</IconButton>
+										<Typography className="slide-like-count">{agent.memberLikes ?? 0}</Typography>
+										<Link href={`/member?memberId=${agent._id}`}>
+											<Box className="slide-explore-btn">EXPLORE</Box>
+										</Link>
+									</Stack>
+								</Box>
 							</Box>
 						</SwiperSlide>
 					);

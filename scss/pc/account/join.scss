@@ -40,20 +40,29 @@
             display: flex;
             flex-direction: row;
             align-items: center;
+            gap: 14px;
             margin-bottom: 40px;
 
             .logo-img {
-              height: 48px;
-              width: auto;
-              object-fit: contain;
+              width: 68px;
+              height: 68px;
+              border-radius: 50%;
+              border: 2.5px solid #ff4500;
+              object-fit: cover;
+              flex-shrink: 0;
             }
 
-            span {
-              font-family: 'Barlow Condensed', sans-serif;
-              font-size: 24px;
-              font-weight: 800;
-              color: #181a20;
-              letter-spacing: 1.5px;
+            .logo-text {
+              font-family: 'Bebas Neue', 'Barlow Condensed', sans-serif;
+              font-size: 34px;
+              letter-spacing: 3px;
+              line-height: 1;
+              color: #0d0d1a;
+
+              em {
+                color: #ff4500;
+                font-style: normal;
+              }
             }
           }
 

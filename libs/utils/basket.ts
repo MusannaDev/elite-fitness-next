@@ -65,11 +65,16 @@ export const deleteBasketItem = (itemId: string, itemType: string): BasketItem[]
   return next;
 };
 
-export const basketToOrderItems = (items: BasketItem[]): OrderItemInput[] =>
-  items.map((item) => ({
+const toMoney = (value: number): number => Math.round(value * 100) / 100;
+
+export const basketToOrderItems = (items: BasketItem[], discountRate: number = 0): OrderItemInput[] => {
+  const safeDiscountRate = Math.min(Math.max(discountRate, 0), 0.9);
+  const multiplier = 1 - safeDiscountRate;
+
+  return items.map((item) => ({
     itemId: item._id,
     itemType: item.itemType,
-    itemPrice: item.price,
+    itemPrice: toMoney(item.price * multiplier),
     itemQuantity: item.quantity,
   }));
-
+};

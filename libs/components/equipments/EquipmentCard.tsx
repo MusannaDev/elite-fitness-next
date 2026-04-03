@@ -5,12 +5,17 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Equipment } from '../../types/equipment/equipment';
 import Link from 'next/link';
 import { formatterStr } from '../../utils';
 import { REACT_APP_API_URL, topEquipmentRank } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { addBasketItem } from '../../utils/basket';
+import { BasketItem } from '../../types/order/cart';
+import { OrderItemType } from '../../enums/order.enum';
+import { sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
 interface EquipmentCardType {
 	equipment: Equipment;
@@ -48,6 +53,19 @@ const EquipmentCard = (props: EquipmentCardType) => {
 	const { equipment, likeEquipmentHandler, myFavorites, recentlyVisited } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
+
+	const addToCartHandler = () => {
+		const item: BasketItem = {
+			_id: equipment._id,
+			name: equipment.equipmentName,
+			image: equipment.equipmentImages?.[0],
+			price: equipment.equipmentPrice,
+			quantity: 1,
+			itemType: OrderItemType.EQUIPMENT,
+		};
+		addBasketItem(item);
+		sweetTopSmallSuccessAlert('Added to cart!', 700);
+	};
 	const imagePath: string = equipment?.equipmentImages[0]
 		? `${REACT_APP_API_URL}/${equipment?.equipmentImages[0]}`
 		: '/img/banner/header1.svg';
@@ -122,7 +140,7 @@ const EquipmentCard = (props: EquipmentCardType) => {
 						</button>
 
 						{/* Basket */}
-						<button className="action-btn basket-btn">
+						<button className="action-btn basket-btn" onClick={addToCartHandler} title="Add to cart">
 							<ShoppingBagOutlinedIcon />
 							<span className="action-count action-count--amber">{equipment?.equipmentLeftCount ?? 0}</span>
 						</button>
@@ -140,7 +158,7 @@ const EquipmentCard = (props: EquipmentCardType) => {
 
 				{/* Price overlay */}
 				<Box component="div" className="price-box">
-					<Typography>Rs. {formatterStr(equipment?.equipmentPrice)}</Typography>
+					<Typography>$ {formatterStr(equipment?.equipmentPrice)}</Typography>
 				</Box>
 			</Stack>
 
@@ -182,6 +200,12 @@ const EquipmentCard = (props: EquipmentCardType) => {
 					<Stack className="type">
 						<Typography>{equipment.equipmentCategory}</Typography>
 					</Stack>
+					{!recentlyVisited && (
+						<Box component={'button'} className={'cart-btn'} onClick={addToCartHandler}>
+							<AddShoppingCartIcon />
+							<span>Add to Cart</span>
+						</Box>
+					)}
 				</Stack>
 			</Stack>
 		</Stack>

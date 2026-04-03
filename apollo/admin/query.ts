@@ -346,3 +346,58 @@ export const GET_ORDERS_BY_ADMIN = gql`
     }
   }
 `
+
+/**************************
+ *        INQUIRY         *
+ *************************/
+
+export const GET_INQUIRIES_BY_ADMIN = gql`
+	query GetInquiriesByAdmin($input: InquiriesInquiry!) {
+		getInquiriesByAdmin(input: $input) {
+			list {
+				_id
+				inquiryType
+				inquiryStatus
+				inquiryTitle
+				inquiryContent
+				inquiryImages
+				memberId
+				adminResponse
+				respondedAt
+				createdAt
+				updatedAt
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+export const GET_ALL_INQUIRIES_BY_ADMIN = GET_INQUIRIES_BY_ADMIN;
+
+/**************************
+ *         NOTICE         *
+ *************************/
+
+export const GET_NOTICES_BY_ADMIN = gql`
+	query GetNoticesByAdmin($input: NoticesInquiry!) {
+		getNoticesByAdmin(input: $input) {
+			list {
+				_id
+				noticeCategory
+				noticeStatus
+				noticeTitle
+				noticeContent
+				memberId
+				createdAt
+				updatedAt
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+export const GET_ALL_NOTICES_BY_ADMIN = GET_NOTICES_BY_ADMIN;

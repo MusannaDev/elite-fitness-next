@@ -1,7 +1,13 @@
 export enum NoticeCategory {
 	FAQ = 'FAQ',
 	TERMS = 'TERMS',
-	INQUIRY = 'INQUIRY',
+	ANNOUNCEMENT = 'ANNOUNCEMENT',
+	UPDATE = 'UPDATE',
+	MAINTENANCE = 'MAINTENANCE',
+	PROMOTION = 'PROMOTION',
+	POLICY = 'POLICY',
+	EVENT = 'EVENT',
+	ALERT = 'ALERT',
 }
 
 export enum NoticeStatus {

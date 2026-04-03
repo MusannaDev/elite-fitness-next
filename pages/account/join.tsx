@@ -95,6 +95,9 @@ const Join: NextPage = () => {
 						{/* Logo */}
 						<Box className={'logo'}>
 							<img src="/img/logo/elite.webp" alt="EliteFit" className={'logo-img'} />
+							<div className={'logo-text'}>
+								<strong>ELITE</strong><em>FIT</em>
+							</div>
 						</Box>
 
 						{/* Tabs */}

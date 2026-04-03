@@ -104,7 +104,7 @@ const TopSalesManagers = (props: TopSalesManagersProps) => {
 					<Typography className="section-sub">Your go-to gear advisors</Typography>
 				</Stack>
 
-				<Stack className="managers-strip">
+				<Box className="managers-grid">
 					{managers.map((m) => (
 						<TopSalesManagerCard
 							key={m._id}
@@ -113,7 +113,7 @@ const TopSalesManagers = (props: TopSalesManagersProps) => {
 							followManagerHandler={followManagerHandler}
 						/>
 					))}
-				</Stack>
+				</Box>
 			</Stack>
 		</Stack>
 	);

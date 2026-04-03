@@ -12,6 +12,10 @@ import { userVar } from '../../../apollo/store';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { addBasketItem } from '../../utils/basket';
+import { BasketItem } from '../../types/order/cart';
+import { OrderItemType } from '../../enums/order.enum';
+import { sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
 interface ClotheCardType {
 	clothe: Clothe;
@@ -26,6 +30,19 @@ const ClotheCard = (props: ClotheCardType) => {
 	const { clothe, likeClotheHandler, myFavorites, recentlyVisited, likedOverride } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
+
+	const addToCartHandler = () => {
+		const item: BasketItem = {
+			_id: clothe._id,
+			name: clothe.clotheName,
+			image: clothe.clotheImages?.[0],
+			price: clothe.clothePrice,
+			quantity: 1,
+			itemType: OrderItemType.CLOTHES,
+		};
+		addBasketItem(item);
+		sweetTopSmallSuccessAlert('Added to cart!', 700);
+	};
 
 	const imagePath: string = clothe?.clotheImages[0]
 		? `${REACT_APP_API_URL}/${clothe?.clotheImages[0]}`
@@ -69,7 +86,7 @@ const ClotheCard = (props: ClotheCardType) => {
 							</Box>
 
 							{/* Bag */}
-							<Box component={'button'} className={'action-btn'} onClick={() => {}}>
+							<Box component={'button'} className={'action-btn'} onClick={addToCartHandler} title="Add to cart">
 								<ShoppingBagOutlinedIcon />
 								{clothe?.clotheLeftCount !== undefined && clothe?.clotheLeftCount > 0 && (
 									<span className={'action-count'}>{clothe?.clotheLeftCount}</span>
@@ -119,11 +136,11 @@ const ClotheCard = (props: ClotheCardType) => {
 
 					<Stack className="type-buttons">
 						<Stack className="type">
-							<Typography>{formatterStr(clothe?.clothePrice)}</Typography>
+							<Typography>$ {formatterStr(clothe?.clothePrice)}</Typography>
 						</Stack>
 
 						{!recentlyVisited && (
-							<Box component={'button'} className={'cart-btn'} onClick={() => {}}>
+							<Box component={'button'} className={'cart-btn'} onClick={addToCartHandler}>
 								<ShoppingCartOutlinedIcon />
 								<span>Add to Cart</span>
 							</Box>

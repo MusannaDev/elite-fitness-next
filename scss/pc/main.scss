@@ -69,8 +69,6 @@
 @import '/scss/pc/member/memberEquipments.scss';
 
 @import '/scss/pc/order/order';
-@import '/scss/pc/order/detail.scss';
-
 
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;1,700&family=Barlow+Condensed:wght@300;400;600;700&display=swap');
 
@@ -230,7 +228,9 @@ body {
 									text-decoration: none;
 
 									span {
-										display: block;
+										display: flex;
+										align-items: center;
+										gap: 8px;
 										padding: 10px 22px;
 										color: rgba(242, 242, 242, 0.7);
 										font-family: $font-condensed;
@@ -239,6 +239,15 @@ body {
 										letter-spacing: 1px;
 										text-transform: uppercase;
 										transition: color 0.15s, background 0.15s, padding-left 0.15s;
+
+										.order-dot {
+											display: inline-block;
+											width: 7px;
+											height: 7px;
+											border-radius: 50%;
+											flex-shrink: 0;
+											font-style: normal;
+										}
 
 										&:hover {
 											color: $orange;

@@ -673,3 +673,155 @@ export const UPDATE_ORDER = gql`
   }
 
 `
+
+/**************************
+ *        INQUIRY         *
+ *************************/
+
+export const CREATE_INQUIRY = gql`
+	mutation CreateInquiry($input: InquiryInput!) {
+		createInquiry(input: $input) {
+			_id
+			inquiryType
+			inquiryStatus
+			inquiryTitle
+			inquiryContent
+			inquiryImages
+			memberId
+			adminResponse
+			respondedAt
+			createdAt
+			updatedAt
+			memberData {
+				_id
+				memberType
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFullName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberProducts
+				memberClothes
+				memberEquipments
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+		}
+	}
+`;
+
+export const UPDATE_INQUIRY = gql`
+	mutation UpdateInquiry($input: InquiryUpdate!) {
+		updateInquiry(input: $input) {
+			_id
+			inquiryType
+			inquiryStatus
+			inquiryTitle
+			inquiryContent
+			inquiryImages
+			memberId
+			adminResponse
+			respondedAt
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const DELETE_INQUIRY = gql`
+	mutation DeleteInquiry($input: String!) {
+		deleteInquiry(inquiryId: $input) {
+			_id
+			inquiryType
+			inquiryStatus
+			inquiryTitle
+			inquiryContent
+			inquiryImages
+			memberId
+			adminResponse
+			respondedAt
+			createdAt
+			updatedAt
+			memberData {
+				_id
+				memberType
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFullName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberProducts
+				memberClothes
+				memberEquipments
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+		}
+	}
+`;
+
+/**************************
+ *         NOTICE         *
+ *************************/
+
+export const CREATE_NOTICE = gql`
+	mutation CreateNotice($input: NoticeInput!) {
+		createNotice(input: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const UPDATE_NOTICE = gql`
+	mutation UpdateNotice($input: NoticeUpdate!) {
+		updateNotice(input: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;

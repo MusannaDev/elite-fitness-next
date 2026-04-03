@@ -556,7 +556,7 @@ $f-sans:     'DM Sans', 'Inter', sans-serif;
 				.main-config {
 					width: 1080px;
 					align-items: center;
-					gap: 109px;
+					gap: 20px;
 
 					.list-config {
 						display: grid;
@@ -995,3 +995,10 @@ $f-sans:     'DM Sans', 'Inter', sans-serif;
 	}
 }
 
+// Product cards: on hover use product filter accent color
+#pc-wrap #product-list-page .cart-btn:hover {
+	background: $f-neon;
+	color: #ffffff;
+	border-color: $f-neon;
+	box-shadow: 0 6px 20px rgba(43, 180, 122, 0.32);
+}

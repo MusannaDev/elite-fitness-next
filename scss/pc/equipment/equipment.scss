@@ -832,7 +832,7 @@ $e-display:   'Syne', 'DM Sans', sans-serif;
                 .type-buttons {
                   flex-direction: row;
                   width: 100%;
-                  justify-content: flex-start;
+                  justify-content: space-between;
                   align-items: center;
 
                   .type {
@@ -896,3 +896,10 @@ $e-display:   'Syne', 'DM Sans', sans-serif;
   }
 }
 
+// Equipment cards: on hover use equipment filter accent color
+#pc-wrap #equipment-list-page .cart-btn:hover {
+  background: $e-blue;
+  color: #ffffff;
+  border-color: $e-blue;
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.36);
+}

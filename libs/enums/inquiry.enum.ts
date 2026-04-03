@@ -1,0 +1,15 @@
+export enum InquiryType {
+	MEMBERSHIP = 'MEMBERSHIP',
+	TRAINING = 'TRAINING',
+	PRODUCT = 'PRODUCT',
+	EQUIPMENT = 'EQUIPMENT',
+	PAYMENT = 'PAYMENT',
+	GENERAL = 'GENERAL',
+}
+
+export enum InquiryStatus {
+	PENDING = 'PENDING',
+	ANSWERED = 'ANSWERED',
+	CLOSED = 'CLOSED',
+	DELETE = 'DELETE',
+}

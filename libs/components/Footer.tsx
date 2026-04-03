@@ -31,17 +31,17 @@ const Footer = () => {
 					<div className={'footer-contact'}>
 						<div className={'contact-item'}>
 							<span className={'contact-label'}>HOTLINE</span>
-							<a href="tel:+821048672909">+82 10 4867 2909</a>
+							<a href="tel:+821073205355">+8210 7320 5355</a>
 						</div>
 						<div className={'contact-item'}>
 							<span className={'contact-label'}>LIVE SUPPORT</span>
-							<a href="tel:+821048672909">+82 10 4867 2909</a>
+							<a href="tel:+821073205355">+8210 7320 5355</a>
 						</div>
 					</div>
 					<div className={'social-links'}>
-						<a href="#" aria-label="Facebook"><FacebookOutlinedIcon /></a>
-						<a href="#" aria-label="Telegram"><TelegramIcon /></a>
-						<a href="#" aria-label="Instagram"><InstagramIcon /></a>
+						<a href="https://www.facebook.com/otabek.juraev.931355" target="_blank" rel="noreferrer" aria-label="Facebook"><FacebookOutlinedIcon /></a>
+						<a href="https://t.me/musannacorporation" target="_blank" rel="noreferrer" aria-label="Telegram"><TelegramIcon /></a>
+						<a href="https://www.instagram.com/0tabek_juraev/" target="_blank" rel="noreferrer" aria-label="Instagram"><InstagramIcon /></a>
 						<a href="#" aria-label="Twitter"><TwitterIcon /></a>
 						<a href="#" aria-label="YouTube"><YouTubeIcon /></a>
 					</div>

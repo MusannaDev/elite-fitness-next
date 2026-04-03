@@ -62,11 +62,11 @@ const TopTrainerCard = (props: TopTrainerCardProps) => {
 						</Box>
 						<Box className="tr-stat">
 							<Typography className="tr-stat-num">{trainer.memberProducts ?? 0}</Typography>
-							<Typography className="tr-stat-lbl">Programs</Typography>
+							<Typography className="tr-stat-lbl">Products</Typography>
 						</Box>
 						<Box className="tr-stat">
-							<Typography className="tr-stat-num">{trainer.memberPoints ?? 0}</Typography>
-							<Typography className="tr-stat-lbl">Points</Typography>
+							<Typography className="tr-stat-num">{trainer.memberRank ?? 0}</Typography>
+							<Typography className="tr-stat-lbl">Ranking</Typography>
 						</Box>
 					</Stack>
 

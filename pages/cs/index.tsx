@@ -6,6 +6,7 @@ import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import Notice from '../../libs/components/cs/Notice';
 import Faq from '../../libs/components/cs/Faq';
+import Inquiry from '../../libs/components/cs/Inquiry';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -32,7 +33,7 @@ const CS: NextPage = () => {
 				<Box component={'div'} className={'cs-hero'}>
 					<div className={'hero-eyebrow'}>Support Center</div>
 					<h1 className={'hero-title'}>How can we help you?</h1>
-					<p className={'hero-sub'}>Browse announcements or find answers to common questions</p>
+					<p className={'hero-sub'}>Browse announcements, find answers, or send us your inquiry</p>
 
 					{/* Tab switcher */}
 					<div className={'cs-tab-switcher'}>
@@ -50,6 +51,13 @@ const CS: NextPage = () => {
 							<span className={'tab-dot'} />
 							FAQ
 						</button>
+						<button
+							className={`tab-pill ${tab === 'inquiry' ? 'active' : ''}`}
+							onClick={() => changeTabHandler('inquiry')}
+						>
+							<span className={'tab-dot'} />
+							Inquiry
+						</button>
 					</div>
 				</Box>
 
@@ -57,6 +65,7 @@ const CS: NextPage = () => {
 				<Box component={'div'} className={'cs-body'}>
 					{tab === 'notice' && <Notice />}
 					{tab === 'faq' && <Faq />}
+					{tab === 'inquiry' && <Inquiry />}
 				</Box>
 			</Stack>
 		</Stack>

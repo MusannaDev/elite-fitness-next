@@ -12,6 +12,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import TablePagination from '@mui/material/TablePagination';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { InquiryList } from '../../../libs/components/admin/cs/InquiryList';
+import { InquiryStatus } from '../../../libs/enums/inquiry.enum';
 
 const InquiryArticles: NextPage = (props: any) => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
@@ -35,7 +36,7 @@ const InquiryArticles: NextPage = (props: any) => {
 					<TabContext value={value}>
 						<Box component={'div'}>
 							<List className={'tab-menu'}>
-								{['ALL', 'ACTIVE', 'BLOCKED', 'DELETED'].map((tab) => (
+								{['ALL', InquiryStatus.PENDING, InquiryStatus.ANSWERED, InquiryStatus.CLOSED, InquiryStatus.DELETE].map((tab) => (
 									<ListItem key={tab} onClick={(e: any) => tabChangeHandler(e, tab)} value={tab}
 										className={value === tab ? 'li on' : 'li'}>
 										{tab === 'ALL' ? 'All' : tab.charAt(0) + tab.slice(1).toLowerCase()} (0)

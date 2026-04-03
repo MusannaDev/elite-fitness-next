@@ -1,23 +1,12 @@
-import { OrderItemType, OrderStatus, PaymentMethod } from '../../enums/order.enum';
-import { Member } from '../member/member';
-
-export interface TotalCounter {
-  total: number;
-}
-
-export interface MeLiked {
-  memberId: string;
-  likeRefId: string;
-  myFavorite: boolean;
-}
+import { OrderStatus, PaymentMethod, OrderItemType } from '../../enums/order.enum';
 
 export interface OrderItem {
   _id: string;
-  itemQuantity: number;
-  itemPrice: number;
-  itemType: OrderItemType;
-  orderId: string;
   itemId: string;
+  itemType: OrderItemType;
+  itemPrice: number;
+  itemQuantity: number;
+  orderId: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -29,17 +18,12 @@ export interface Order {
   orderStatus: OrderStatus;
   paymentMethod: PaymentMethod;
   memberId: string;
-  confirmedAt?: Date;
-  deliveredAt?: Date;
-  cancelledAt?: Date;
   createdAt: Date;
   updatedAt: Date;
-  /** from aggregation **/
-  orderItems?: OrderItem[];
-  memberData?: Member;
+  orderItems: OrderItem[];
 }
 
 export interface Orders {
   list: Order[];
-  metaCounter: TotalCounter[];
+  metaCounter: { total: number }[];
 }

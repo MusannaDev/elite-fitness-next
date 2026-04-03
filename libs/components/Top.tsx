@@ -36,8 +36,10 @@ const Top = () => {
 	// Dropdown hover state with delay refs
 	const [shopsOpen, setShopsOpen] = useState(false);
 	const [membersOpen, setMembersOpen] = useState(false);
+	const [ordersOpen, setOrdersOpen] = useState(false);
 	const shopsTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const membersTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const ordersTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 	/** LIFECYCLE **/
 	useEffect(() => {
@@ -102,6 +104,7 @@ const Top = () => {
 		return () => {
 			if (shopsTimeout.current) clearTimeout(shopsTimeout.current);
 			if (membersTimeout.current) clearTimeout(membersTimeout.current);
+			if (ordersTimeout.current) clearTimeout(ordersTimeout.current);
 		};
 	}, []);
 
@@ -152,6 +155,15 @@ const Top = () => {
 	};
 	const handleMembersLeave = () => {
 		membersTimeout.current = setTimeout(() => setMembersOpen(false), 200);
+	};
+
+	// Orders dropdown handlers
+	const handleOrdersEnter = () => {
+		if (ordersTimeout.current) clearTimeout(ordersTimeout.current);
+		setOrdersOpen(true);
+	};
+	const handleOrdersLeave = () => {
+		ordersTimeout.current = setTimeout(() => setOrdersOpen(false), 200);
 	};
 
 	const StyledMenu = styled((props: MenuProps) => (
@@ -268,9 +280,10 @@ const Top = () => {
 									<Link href={'/mypage'}>
 										<div className={'nav-link'}>{t('My Page')}</div>
 									</Link>
+
 									<Link href={'/order'}>
-										<div className={'nav-link'}>Orders</div>
-									</Link>
+									<div className={'nav-link'}>Orders</div>
+								</Link>
 								</>
 							)}
 

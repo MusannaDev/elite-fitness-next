@@ -93,13 +93,8 @@ const withLayoutBasic = (Component: any) => {
 					bgImage = '/img/banner/header2.svg';
 					break;
 				case '/order':
-					title = 'Orders';
+					title = 'My Orders';
 					desc = 'Track and manage your orders';
-					bgImage = '/img/banner/header2.svg';
-					break;
-				case '/order/detail':
-					title = 'Order Detail';
-					desc = 'Track and manage your order';
 					bgImage = '/img/banner/header2.svg';
 					break;
 				case '/cs':

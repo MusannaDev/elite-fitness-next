@@ -1310,3 +1310,117 @@ export const GET_MY_ORDERS = gql`
     }
   }
 `
+
+/**************************
+ *        INQUIRY         *
+ *************************/
+
+export const GET_INQUIRY = gql`
+	query GetInquiry($input: String!) {
+		getInquiry(inquiryId: $input) {
+			_id
+			inquiryType
+			inquiryStatus
+			inquiryTitle
+			inquiryContent
+			inquiryImages
+			memberId
+			adminResponse
+			respondedAt
+			createdAt
+			updatedAt
+			memberData {
+				_id
+				memberType
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFullName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberProducts
+				memberClothes
+				memberEquipments
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+		}
+	}
+`;
+
+export const GET_INQUIRIES = gql`
+	query GetInquiries($input: InquiriesInquiry!) {
+		getInquiries(input: $input) {
+			list {
+				_id
+				inquiryType
+				inquiryStatus
+				inquiryTitle
+				inquiryContent
+				inquiryImages
+				memberId
+				adminResponse
+				respondedAt
+				createdAt
+				updatedAt
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+/**************************
+ *         NOTICE         *
+ *************************/
+
+export const GET_NOTICES = gql`
+	query GetNotices($input: NoticesInquiry!) {
+		getNotices(input: $input) {
+			list {
+				_id
+				noticeCategory
+				noticeStatus
+				noticeTitle
+				noticeContent
+				memberId
+				createdAt
+				updatedAt
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+export const GET_NOTICE = gql`
+	query GetNotice($input: String!) {
+		getNotice(noticeId: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
