@@ -1,0 +1,1292 @@
+#pc-wrap {
+	#product-detail-page,
+	#equipment-detail-page,
+	#property-detail-page,
+	#clothe-detail-page,
+	.agent-detail-page,
+	.trainer-detail-page,
+	.sales-manager-detail-page {
+		--dtx-ink: #0f172a;
+		--dtx-muted: #475569;
+		--dtx-border: rgba(148, 163, 184, 0.34);
+		--dtx-surface: linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(246, 249, 253, 0.84) 100%);
+		--dtx-surface-strong: linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(247, 250, 253, 0.92) 100%);
+		--dtx-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+		--dtx-shadow-soft: 0 8px 18px rgba(15, 23, 42, 0.06);
+		--dtx-blur: blur(14px) saturate(1.22);
+	}
+
+	#product-detail-page {
+		--dtx-accent: #18a97a;
+	}
+
+		#equipment-detail-page {
+		--dtx-accent: #7c3aed;
+	}
+
+	#property-detail-page {
+		--dtx-accent: #e8392a;
+	}
+
+	#clothe-detail-page {
+		--dtx-accent: #8eb52e;
+	}
+
+	.agent-detail-page {
+		--dtx-accent: #5f67d8;
+	}
+
+	.trainer-detail-page {
+		--dtx-accent: #df5a3e;
+	}
+
+	.sales-manager-detail-page {
+		--dtx-accent: #f06a39;
+	}
+
+	#product-detail-page,
+	#clothe-detail-page {
+		.product-desc-config,
+		.clothe-desc-config {
+			gap: 24px !important;
+		}
+
+		.product-desc-config .left-config,
+		.clothe-desc-config .left-config {
+			gap: 18px !important;
+		}
+
+		.product-desc-config .left-config > .prop-desc-config,
+		.product-desc-config .left-config > .reviews-config,
+		.product-desc-config .left-config > .leave-review-config,
+		.clothe-desc-config .left-config > .prop-desc-config,
+		.clothe-desc-config .left-config > .reviews-config,
+		.clothe-desc-config .left-config > .leave-review-config,
+		.product-desc-config .right-config,
+		.clothe-desc-config .right-config {
+			background: var(--dtx-surface) !important;
+			border: 1px solid var(--dtx-border) !important;
+			border-top: 4px solid var(--dtx-accent) !important;
+			border-radius: 18px !important;
+			box-shadow: var(--dtx-shadow) !important;
+			backdrop-filter: var(--dtx-blur) !important;
+			-webkit-backdrop-filter: var(--dtx-blur) !important;
+		}
+
+		.product-desc-config .left-config > .prop-desc-config,
+		.clothe-desc-config .left-config > .prop-desc-config {
+			padding: 22px !important;
+		}
+
+		.product-desc-config .left-config > .prop-desc-config .top,
+		.clothe-desc-config .left-config > .prop-desc-config .top {
+			padding: 16px !important;
+			border-radius: 14px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: var(--dtx-surface-strong) !important;
+			box-shadow: var(--dtx-shadow-soft) !important;
+		}
+
+		.product-desc-config .left-config > .prop-desc-config .bottom,
+		.clothe-desc-config .left-config > .prop-desc-config .bottom {
+			margin-top: 14px !important;
+			padding: 16px !important;
+			border-radius: 14px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: var(--dtx-surface-strong) !important;
+		}
+
+		.product-desc-config .left-config > .prop-desc-config .bottom .info-box,
+		.clothe-desc-config .left-config > .prop-desc-config .bottom .info-box {
+			display: grid !important;
+			grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+			gap: 12px !important;
+		}
+
+		.product-desc-config .left-config > .prop-desc-config .bottom .info-box .left,
+		.product-desc-config .left-config > .prop-desc-config .bottom .info-box .right,
+		.clothe-desc-config .left-config > .prop-desc-config .bottom .info-box .left,
+		.clothe-desc-config .left-config > .prop-desc-config .bottom .info-box .right {
+			display: flex !important;
+			flex-direction: column !important;
+			gap: 10px !important;
+			padding: 0 !important;
+		}
+
+		.product-desc-config .left-config > .prop-desc-config .bottom .info-box .left .info,
+		.product-desc-config .left-config > .prop-desc-config .bottom .info-box .right .info,
+		.clothe-desc-config .left-config > .prop-desc-config .bottom .info-box .left .info,
+		.clothe-desc-config .left-config > .prop-desc-config .bottom .info-box .right .info {
+			display: flex !important;
+			align-items: center !important;
+			justify-content: space-between !important;
+			gap: 10px !important;
+			margin: 0 !important;
+			padding: 12px 14px !important;
+			border-radius: 12px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: var(--dtx-surface-strong) !important;
+			box-shadow: var(--dtx-shadow-soft) !important;
+		}
+
+		.product-desc-config .left-config > .prop-desc-config .bottom .info .title,
+		.clothe-desc-config .left-config > .prop-desc-config .bottom .info .title {
+			font-size: 11px !important;
+			font-weight: 700 !important;
+			letter-spacing: 0.9px !important;
+			text-transform: uppercase !important;
+			color: var(--dtx-muted) !important;
+		}
+
+		.product-desc-config .left-config > .prop-desc-config .bottom .info .data,
+		.clothe-desc-config .left-config > .prop-desc-config .bottom .info .data {
+			font-size: 15px !important;
+			font-weight: 700 !important;
+			line-height: 1.3 !important;
+			color: var(--dtx-ink) !important;
+			text-align: right !important;
+		}
+
+		.product-desc-config .left-config > .reviews-config,
+		.clothe-desc-config .left-config > .reviews-config {
+			padding: 20px !important;
+		}
+
+		.product-desc-config .left-config > .reviews-config .review-list,
+		.clothe-desc-config .left-config > .reviews-config .review-list {
+			gap: 12px !important;
+		}
+
+		.product-desc-config .left-config > .reviews-config .review-config,
+		.clothe-desc-config .left-config > .reviews-config .review-config {
+			border-radius: 14px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: var(--dtx-surface-strong) !important;
+			box-shadow: var(--dtx-shadow-soft) !important;
+		}
+
+		.product-desc-config .left-config > .leave-review-config,
+		.clothe-desc-config .left-config > .leave-review-config {
+			padding: 20px !important;
+		}
+
+		.product-desc-config .left-config > .leave-review-config textarea,
+		.clothe-desc-config .left-config > .leave-review-config textarea {
+			border-radius: 12px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: var(--dtx-surface-strong) !important;
+			min-height: 130px !important;
+			padding: 13px 14px !important;
+		}
+
+		.product-desc-config .right-config,
+		.clothe-desc-config .right-config {
+			padding: 18px !important;
+			gap: 12px !important;
+		}
+
+		.product-desc-config .right-config .info-box,
+		.clothe-desc-config .right-config .info-box {
+			border-radius: 12px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: var(--dtx-surface-strong) !important;
+			padding: 12px !important;
+			box-shadow: var(--dtx-shadow-soft) !important;
+		}
+
+		.product-desc-config .right-config input,
+		.product-desc-config .right-config textarea,
+		.clothe-desc-config .right-config input,
+		.clothe-desc-config .right-config textarea {
+			border-radius: 10px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: #fff !important;
+			color: var(--dtx-ink) !important;
+		}
+	}
+
+	#equipment-detail-page {
+		.equipment-info-config {
+			display: grid !important;
+			grid-template-columns: minmax(420px, 1.05fr) minmax(420px, 0.95fr) !important;
+			grid-template-areas: 'gallery summary' !important;
+			gap: 56px !important;
+			align-items: stretch !important;
+		}
+
+		.equipment-info-config .images {
+			grid-area: gallery !important;
+		}
+
+		.equipment-info-config .info {
+			grid-area: summary !important;
+		}
+
+		.equipment-desc-config {
+			gap: 24px !important;
+		}
+
+		.equipment-desc-config .left-config {
+			gap: 18px !important;
+		}
+
+		.equipment-desc-config .left-config > .prop-desc-config,
+		.equipment-desc-config .left-config > .reviews-config,
+		.equipment-desc-config .left-config > .leave-review-config,
+		.equipment-desc-config .right-config {
+			background: var(--dtx-surface) !important;
+			border: 1px solid var(--dtx-border) !important;
+			border-top: 4px solid var(--dtx-accent) !important;
+			border-radius: 18px !important;
+			box-shadow: var(--dtx-shadow) !important;
+			backdrop-filter: var(--dtx-blur) !important;
+			-webkit-backdrop-filter: var(--dtx-blur) !important;
+		}
+
+		.equipment-desc-config .left-config > .prop-desc-config {
+			padding: 22px !important;
+		}
+
+		.equipment-desc-config .left-config > .prop-desc-config .top {
+			padding: 16px !important;
+			border-radius: 14px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: var(--dtx-surface-strong) !important;
+			box-shadow: var(--dtx-shadow-soft) !important;
+		}
+
+		.equipment-desc-config .left-config > .prop-desc-config .bottom {
+			margin-top: 14px !important;
+			padding: 16px !important;
+			border-radius: 14px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: var(--dtx-surface-strong) !important;
+		}
+
+		.equipment-desc-config .left-config > .prop-desc-config .bottom .info-box {
+			display: grid !important;
+			grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+			gap: 12px !important;
+		}
+
+		.equipment-desc-config .left-config > .prop-desc-config .bottom .info-box .left,
+		.equipment-desc-config .left-config > .prop-desc-config .bottom .info-box .right {
+			display: flex !important;
+			flex-direction: column !important;
+			gap: 10px !important;
+			padding: 0 !important;
+		}
+
+		.equipment-desc-config .left-config > .prop-desc-config .bottom .info-box .left .info,
+		.equipment-desc-config .left-config > .prop-desc-config .bottom .info-box .right .info {
+			display: flex !important;
+			align-items: center !important;
+			justify-content: space-between !important;
+			gap: 10px !important;
+			margin: 0 !important;
+			padding: 12px 14px !important;
+			border-radius: 12px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: var(--dtx-surface-strong) !important;
+			box-shadow: var(--dtx-shadow-soft) !important;
+		}
+
+		.equipment-desc-config .left-config > .prop-desc-config .bottom .info .title {
+			font-size: 11px !important;
+			font-weight: 700 !important;
+			letter-spacing: 0.9px !important;
+			text-transform: uppercase !important;
+			color: var(--dtx-muted) !important;
+		}
+
+		.equipment-desc-config .left-config > .prop-desc-config .bottom .info .data {
+			font-size: 15px !important;
+			font-weight: 700 !important;
+			line-height: 1.3 !important;
+			color: var(--dtx-ink) !important;
+			text-align: right !important;
+		}
+
+		.equipment-desc-config .left-config > .reviews-config {
+			padding: 20px !important;
+		}
+
+		.equipment-desc-config .left-config > .reviews-config .review-list {
+			gap: 12px !important;
+		}
+
+		.equipment-desc-config .left-config > .reviews-config .review-config {
+			border-radius: 14px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: var(--dtx-surface-strong) !important;
+			box-shadow: var(--dtx-shadow-soft) !important;
+		}
+
+		.equipment-desc-config .left-config > .leave-review-config {
+			padding: 20px !important;
+		}
+
+		.equipment-desc-config .left-config > .leave-review-config textarea {
+			border-radius: 12px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: var(--dtx-surface-strong) !important;
+			min-height: 130px !important;
+			padding: 13px 14px !important;
+		}
+
+		.equipment-desc-config .right-config {
+			padding: 18px !important;
+			gap: 12px !important;
+		}
+
+		.equipment-desc-config .right-config .info-box {
+			border-radius: 12px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: var(--dtx-surface-strong) !important;
+			padding: 12px !important;
+			box-shadow: var(--dtx-shadow-soft) !important;
+		}
+
+		.equipment-desc-config .right-config input,
+		.equipment-desc-config .right-config textarea {
+			border-radius: 10px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: #fff !important;
+			color: var(--dtx-ink) !important;
+		}
+		}
+
+		#property-detail-page {
+			.property-info-config {
+				display: grid !important;
+				grid-template-columns: minmax(420px, 1.05fr) minmax(420px, 0.95fr) !important;
+				grid-template-areas: 'gallery summary' !important;
+				gap: 56px !important;
+				align-items: stretch !important;
+			}
+
+			.property-info-config .images {
+				grid-area: gallery !important;
+			}
+
+			.property-info-config .info {
+				grid-area: summary !important;
+			}
+
+			.property-info-config .info .add-cart-section {
+				display: none !important;
+			}
+
+			.property-info-config .info .left-box .bottom-box {
+				display: grid !important;
+				grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+				gap: 10px !important;
+				margin-top: 12px !important;
+			}
+
+			.property-info-config .info .left-box .bottom-box .option {
+				display: flex !important;
+				align-items: center !important;
+				gap: 10px !important;
+				padding: 10px 12px !important;
+				border-radius: 12px !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: var(--dtx-surface-strong) !important;
+				box-shadow: var(--dtx-shadow-soft) !important;
+			}
+
+			.property-info-config .info .left-box .bottom-box .option svg,
+			.property-info-config .info .left-box .bottom-box .option img {
+				width: 18px !important;
+				height: 18px !important;
+				color: var(--dtx-accent) !important;
+				fill: currentColor !important;
+				opacity: 1 !important;
+			}
+
+			.property-info-config .info .left-box .bottom-box .option .MuiTypography-root {
+				font-size: 14px !important;
+				font-weight: 600 !important;
+				color: var(--dtx-ink) !important;
+				line-height: 1.3 !important;
+			}
+
+			.property-desc-config {
+				gap: 24px !important;
+			}
+
+			.property-desc-config .left-config {
+				gap: 18px !important;
+			}
+
+			.property-desc-config .left-config > .options-config,
+			.property-desc-config .left-config > .prop-desc-config,
+			.property-desc-config .left-config > .reviews-config,
+			.property-desc-config .left-config > .leave-review-config,
+			.property-desc-config .right-config {
+				background: var(--dtx-surface) !important;
+				border: 1px solid var(--dtx-border) !important;
+				border-top: 4px solid var(--dtx-accent) !important;
+				border-radius: 18px !important;
+				box-shadow: var(--dtx-shadow) !important;
+				backdrop-filter: var(--dtx-blur) !important;
+				-webkit-backdrop-filter: var(--dtx-blur) !important;
+			}
+
+			.property-desc-config .left-config > .options-config {
+				display: grid !important;
+				grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+				gap: 12px !important;
+				padding: 22px !important;
+			}
+
+			.property-desc-config .left-config > .options-config .option {
+				display: flex !important;
+				align-items: center !important;
+				gap: 12px !important;
+				margin: 0 !important;
+				padding: 12px 14px !important;
+				border-radius: 12px !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: var(--dtx-surface-strong) !important;
+				box-shadow: var(--dtx-shadow-soft) !important;
+			}
+
+			.property-desc-config .left-config > .options-config .option .svg-box {
+				display: inline-flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+				width: 38px !important;
+				height: 38px !important;
+				border-radius: 10px !important;
+				border: 1px solid rgba(232, 57, 42, 0.24) !important;
+				background: rgba(232, 57, 42, 0.08) !important;
+				flex: 0 0 38px;
+			}
+
+			.property-desc-config .left-config > .options-config .option .svg-box svg,
+			.property-desc-config .left-config > .options-config .option .svg-box img,
+			.property-desc-config .left-config > .options-config .option .svg-box .MuiSvgIcon-root {
+				width: 20px !important;
+				height: 20px !important;
+				color: var(--dtx-accent) !important;
+				fill: currentColor !important;
+				opacity: 1 !important;
+				filter: none !important;
+			}
+
+			.property-desc-config .left-config > .options-config .option .option-includes {
+				display: flex !important;
+				flex-direction: column !important;
+				gap: 2px !important;
+				min-width: 0 !important;
+			}
+
+			.property-desc-config .left-config > .options-config .option .title {
+				font-size: 11px !important;
+				font-weight: 700 !important;
+				letter-spacing: 0.9px !important;
+				text-transform: uppercase !important;
+				color: var(--dtx-muted) !important;
+			}
+
+			.property-desc-config .left-config > .options-config .option .option-data {
+				font-size: 16px !important;
+				font-weight: 700 !important;
+				line-height: 1.25 !important;
+				color: var(--dtx-ink) !important;
+			}
+
+			.property-desc-config .left-config > .prop-desc-config {
+				padding: 22px !important;
+			}
+
+			.property-desc-config .left-config > .prop-desc-config .top {
+				padding: 16px !important;
+				border-radius: 14px !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: var(--dtx-surface-strong) !important;
+				box-shadow: var(--dtx-shadow-soft) !important;
+			}
+
+			.property-desc-config .left-config > .prop-desc-config .bottom {
+				margin-top: 14px !important;
+				padding: 16px !important;
+				border-radius: 14px !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: var(--dtx-surface-strong) !important;
+			}
+
+			.property-desc-config .left-config > .prop-desc-config .bottom .info-box {
+				display: grid !important;
+				grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+				gap: 12px !important;
+			}
+
+			.property-desc-config .left-config > .prop-desc-config .bottom .info-box .left,
+			.property-desc-config .left-config > .prop-desc-config .bottom .info-box .right {
+				display: flex !important;
+				flex-direction: column !important;
+				gap: 10px !important;
+				padding: 0 !important;
+			}
+
+			.property-desc-config .left-config > .prop-desc-config .bottom .info-box .left .info,
+			.property-desc-config .left-config > .prop-desc-config .bottom .info-box .right .info {
+				display: flex !important;
+				align-items: center !important;
+				justify-content: space-between !important;
+				gap: 10px !important;
+				margin: 0 !important;
+				padding: 12px 14px !important;
+				border-radius: 12px !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: var(--dtx-surface-strong) !important;
+				box-shadow: var(--dtx-shadow-soft) !important;
+			}
+
+			.property-desc-config .left-config > .prop-desc-config .bottom .info .title {
+				font-size: 11px !important;
+				font-weight: 700 !important;
+				letter-spacing: 0.9px !important;
+				text-transform: uppercase !important;
+				color: var(--dtx-muted) !important;
+			}
+
+			.property-desc-config .left-config > .prop-desc-config .bottom .info .data {
+				font-size: 15px !important;
+				font-weight: 700 !important;
+				line-height: 1.3 !important;
+				color: var(--dtx-ink) !important;
+				text-align: right !important;
+			}
+
+			.property-desc-config .left-config > .reviews-config {
+				padding: 20px !important;
+			}
+
+			.property-desc-config .left-config > .reviews-config .review-list {
+				gap: 12px !important;
+			}
+
+			.property-desc-config .left-config > .reviews-config .review-config {
+				border-radius: 14px !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: var(--dtx-surface-strong) !important;
+				box-shadow: var(--dtx-shadow-soft) !important;
+			}
+
+			.property-desc-config .left-config > .leave-review-config {
+				padding: 20px !important;
+			}
+
+			.property-desc-config .left-config > .leave-review-config textarea {
+				border-radius: 12px !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: var(--dtx-surface-strong) !important;
+				min-height: 130px !important;
+				padding: 13px 14px !important;
+			}
+
+			.property-desc-config .right-config {
+				padding: 18px !important;
+				gap: 12px !important;
+			}
+
+			.property-desc-config .right-config .info-box {
+				border-radius: 12px !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: var(--dtx-surface-strong) !important;
+				padding: 12px !important;
+				box-shadow: var(--dtx-shadow-soft) !important;
+			}
+
+			.property-desc-config .right-config input,
+			.property-desc-config .right-config textarea {
+				border-radius: 10px !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: #fff !important;
+				color: var(--dtx-ink) !important;
+			}
+		}
+
+		#product-detail-page,
+		#equipment-detail-page,
+		#property-detail-page,
+		#clothe-detail-page {
+			.similar-products-config,
+			.similar-equipments-config,
+			.similar-properties-config,
+			.similar-clothes-config {
+				margin-top: 84px !important;
+				padding: 18px !important;
+				border-radius: 20px !important;
+				border: 1px solid var(--dtx-border) !important;
+				border-top: 4px solid var(--dtx-accent) !important;
+				background: var(--dtx-surface) !important;
+				box-shadow: var(--dtx-shadow) !important;
+				backdrop-filter: var(--dtx-blur) !important;
+				-webkit-backdrop-filter: var(--dtx-blur) !important;
+			}
+
+			.similar-products-config .title-pagination-box,
+			.similar-equipments-config .title-pagination-box,
+			.similar-properties-config .title-pagination-box,
+			.similar-clothes-config .title-pagination-box {
+				display: flex !important;
+				align-items: flex-end !important;
+				justify-content: space-between !important;
+				gap: 20px !important;
+				padding: 6px 4px 18px !important;
+				border-bottom: 1px solid var(--dtx-border) !important;
+			}
+
+			.similar-products-config .title-box .main-title,
+			.similar-equipments-config .title-box .main-title,
+			.similar-properties-config .title-box .main-title,
+			.similar-clothes-config .title-box .main-title {
+				font-family: 'Cormorant Garamond', Georgia, serif !important;
+				font-size: clamp(34px, 4.2vw, 56px) !important;
+				font-weight: 700 !important;
+				letter-spacing: -0.02em !important;
+				line-height: 0.95 !important;
+				color: color-mix(in srgb, var(--dtx-accent) 24%, var(--dtx-ink) 76%) !important;
+				text-transform: none !important;
+			}
+
+			.similar-products-config .title-box .sub-title,
+			.similar-equipments-config .title-box .sub-title,
+			.similar-properties-config .title-box .sub-title,
+			.similar-clothes-config .title-box .sub-title {
+				margin-top: 6px !important;
+				font-size: 11px !important;
+				font-weight: 700 !important;
+				letter-spacing: 2.4px !important;
+				text-transform: uppercase !important;
+				color: var(--dtx-muted) !important;
+			}
+
+			.similar-products-config .pagination-box,
+			.similar-equipments-config .pagination-box,
+			.similar-properties-config .pagination-box,
+			.similar-clothes-config .pagination-box {
+				display: inline-flex !important;
+				align-items: center !important;
+				gap: 10px !important;
+				padding: 6px 10px !important;
+				border-radius: 999px !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: var(--dtx-surface-strong) !important;
+				box-shadow: var(--dtx-shadow-soft) !important;
+			}
+
+			.similar-products-config .swiper-similar-prev,
+			.similar-products-config .swiper-similar-next,
+			.similar-equipments-config .swiper-similar-prev,
+			.similar-equipments-config .swiper-similar-next,
+			.similar-properties-config .swiper-similar-prev,
+			.similar-properties-config .swiper-similar-next,
+			.similar-clothes-config .swiper-similar-prev,
+			.similar-clothes-config .swiper-similar-next {
+				width: 36px !important;
+				height: 36px !important;
+				padding: 8px !important;
+				border-radius: 50% !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: #fff !important;
+				color: var(--dtx-accent) !important;
+				cursor: pointer !important;
+				transition: all 0.25s ease !important;
+			}
+
+			.similar-products-config .swiper-similar-prev:hover,
+			.similar-products-config .swiper-similar-next:hover,
+			.similar-equipments-config .swiper-similar-prev:hover,
+			.similar-equipments-config .swiper-similar-next:hover,
+			.similar-properties-config .swiper-similar-prev:hover,
+			.similar-properties-config .swiper-similar-next:hover,
+			.similar-clothes-config .swiper-similar-prev:hover,
+			.similar-clothes-config .swiper-similar-next:hover {
+				background: var(--dtx-accent) !important;
+				color: #fff !important;
+				border-color: var(--dtx-accent) !important;
+				transform: translateY(-1px) !important;
+			}
+
+			.similar-products-config .swiper-similar-pagination,
+			.similar-equipments-config .swiper-similar-pagination,
+			.similar-properties-config .swiper-similar-pagination,
+			.similar-clothes-config .swiper-similar-pagination {
+				display: inline-flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+				min-width: 54px !important;
+				height: 24px !important;
+			}
+
+			.similar-products-config .swiper-pagination-bullet,
+			.similar-equipments-config .swiper-pagination-bullet,
+			.similar-properties-config .swiper-pagination-bullet,
+			.similar-clothes-config .swiper-pagination-bullet {
+				width: 8px !important;
+				height: 8px !important;
+				margin: 0 4px !important;
+				border-radius: 999px !important;
+				background: color-mix(in srgb, var(--dtx-accent) 24%, #cbd5e1 76%) !important;
+				opacity: 0.55 !important;
+				transition: all 0.25s ease !important;
+			}
+
+			.similar-products-config .swiper-pagination-bullet-active,
+			.similar-equipments-config .swiper-pagination-bullet-active,
+			.similar-properties-config .swiper-pagination-bullet-active,
+			.similar-clothes-config .swiper-pagination-bullet-active {
+				width: 24px !important;
+				opacity: 1 !important;
+				background: var(--dtx-accent) !important;
+			}
+
+			.similar-products-config .cards-box,
+			.similar-equipments-config .cards-box,
+			.similar-properties-config .cards-box,
+			.similar-clothes-config .cards-box {
+				margin-top: 16px !important;
+				padding: 8px !important;
+				border-radius: 16px !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: var(--dtx-surface-strong) !important;
+				box-shadow: var(--dtx-shadow-soft) !important;
+			}
+
+			.similar-products-config .cards-box .swiper,
+			.similar-equipments-config .cards-box .swiper,
+			.similar-properties-config .cards-box .swiper,
+			.similar-clothes-config .cards-box .swiper {
+				overflow: visible !important;
+				padding: 6px 2px 8px !important;
+			}
+
+			.similar-products-config .similar-products-slide,
+			.similar-equipments-config .similar-homes-slide,
+			.similar-properties-config .similar-homes-slide,
+			.similar-clothes-config .similar-clothes-slide {
+				width: clamp(300px, 31vw, 420px) !important;
+				height: auto !important;
+				display: flex !important;
+			}
+
+			.similar-products-config .similar-products-slide > *,
+			.similar-equipments-config .similar-homes-slide > *,
+			.similar-properties-config .similar-homes-slide > *,
+			.similar-clothes-config .similar-clothes-slide > * {
+				width: 100% !important;
+				height: 100% !important;
+				margin: 0 !important;
+			}
+
+			.similar-products-config .product-big-card-box,
+			.similar-equipments-config .equipment-big-card,
+			.similar-properties-config .property-big-card-box,
+			.similar-clothes-config .clothes-big-card-box {
+				width: 100% !important;
+				margin: 0 !important;
+				border-radius: 16px !important;
+				overflow: hidden !important;
+				border: 1px solid var(--dtx-border) !important;
+				box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12) !important;
+				transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+			}
+
+			.similar-products-config .product-big-card-box:hover,
+			.similar-equipments-config .equipment-big-card:hover,
+			.similar-properties-config .property-big-card-box:hover,
+			.similar-clothes-config .clothes-big-card-box:hover {
+				transform: translateY(-6px) !important;
+				box-shadow: 0 18px 30px rgba(15, 23, 42, 0.18) !important;
+			}
+
+			/* Card internals: unified modern style */
+			.similar-products-config .product-big-card-box,
+			.similar-properties-config .property-big-card-box,
+			.similar-clothes-config .clothes-big-card-box,
+			.similar-equipments-config .equipment-big-card {
+				display: flex !important;
+				flex-direction: column !important;
+				background: linear-gradient(160deg, #ffffff 0%, #f8fafc 100%) !important;
+			}
+
+			.similar-products-config .product-big-card-box .card-img,
+			.similar-properties-config .property-big-card-box .card-img,
+			.similar-clothes-config .clothes-big-card-box .card-img,
+			.similar-equipments-config .equipment-big-card .card-img {
+				position: relative !important;
+				height: 262px !important;
+				overflow: hidden !important;
+				border-radius: 14px 14px 0 0 !important;
+				border-bottom: 1px solid var(--dtx-border) !important;
+				background-color: #edf1f6 !important;
+				background-size: cover !important;
+				background-position: center !important;
+				background-repeat: no-repeat !important;
+			}
+
+			/* Product cards: keep full product visible (no crop) */
+			.similar-products-config .product-big-card-box .card-img {
+				background-size: contain !important;
+				background-position: center center !important;
+				background-repeat: no-repeat !important;
+				background-color: #eef2f7 !important;
+			}
+
+			.similar-products-config .product-big-card-box .card-img img,
+			.similar-properties-config .property-big-card-box .card-img img,
+			.similar-clothes-config .clothes-big-card-box .card-img img,
+			.similar-equipments-config .equipment-big-card .card-img img {
+				width: 100% !important;
+				height: 100% !important;
+				object-fit: cover !important;
+				transition: transform 0.35s ease !important;
+			}
+
+			.similar-products-config .product-big-card-box:hover .card-img img,
+			.similar-properties-config .property-big-card-box:hover .card-img img,
+			.similar-clothes-config .clothes-big-card-box:hover .card-img img,
+			.similar-equipments-config .equipment-big-card:hover .card-img img {
+				transform: scale(1.05) !important;
+			}
+
+			.similar-products-config .product-big-card-box .card-img .status,
+			.similar-properties-config .property-big-card-box .card-img .status,
+			.similar-clothes-config .clothes-big-card-box .card-img .status,
+			.similar-equipments-config .equipment-big-card .card-img .status-badge,
+			.similar-equipments-config .equipment-big-card .card-img .bestseller-badge {
+				z-index: 2 !important;
+				border-radius: 999px !important;
+				border: 1px solid rgba(15, 23, 42, 0.12) !important;
+				background: rgba(15, 23, 42, 0.76) !important;
+				backdrop-filter: blur(8px) !important;
+				-webkit-backdrop-filter: blur(8px) !important;
+				color: #f8fafc !important;
+				font-weight: 700 !important;
+				letter-spacing: 0.4px !important;
+			}
+
+			.similar-products-config .product-big-card-box .card-img .price,
+			.similar-properties-config .property-big-card-box .card-img .price,
+			.similar-clothes-config .clothes-big-card-box .card-img .price,
+			.similar-equipments-config .equipment-big-card .card-img .price-box {
+				z-index: 2 !important;
+				border-radius: 12px !important;
+				border: 1px solid rgba(15, 23, 42, 0.14) !important;
+				background: rgba(255, 255, 255, 0.9) !important;
+				backdrop-filter: blur(8px) !important;
+				-webkit-backdrop-filter: blur(8px) !important;
+				box-shadow: 0 8px 18px rgba(15, 23, 42, 0.14) !important;
+				color: #0f172a !important;
+				font-weight: 800 !important;
+			}
+
+			.similar-equipments-config .equipment-big-card .card-img .price-box p {
+				color: #0f172a !important;
+				font-weight: 800 !important;
+				font-size: 18px !important;
+			}
+
+			.similar-products-config .product-big-card-box .info,
+			.similar-properties-config .property-big-card-box .info,
+			.similar-clothes-config .clothes-big-card-box .info,
+			.similar-equipments-config .equipment-big-card .card-info {
+				padding: 16px 16px 14px !important;
+				background: transparent !important;
+				border: none !important;
+				box-shadow: none !important;
+				display: flex !important;
+				flex-direction: column !important;
+				gap: 10px !important;
+			}
+
+			.similar-products-config .product-big-card-box .title,
+			.similar-properties-config .property-big-card-box .title,
+			.similar-clothes-config .clothes-big-card-box .title,
+			.similar-equipments-config .equipment-big-card .card-info .name p {
+				font-size: clamp(20px, 2.2vw, 30px) !important;
+				font-weight: 800 !important;
+				line-height: 1.15 !important;
+				letter-spacing: -0.01em !important;
+				color: #0f172a !important;
+				text-transform: none !important;
+				overflow: hidden !important;
+				display: -webkit-box !important;
+				-webkit-line-clamp: 2 !important;
+				-webkit-box-orient: vertical !important;
+			}
+
+			.similar-products-config .product-big-card-box .desc,
+			.similar-properties-config .property-big-card-box .desc,
+			.similar-clothes-config .clothes-big-card-box .desc,
+			.similar-equipments-config .equipment-big-card .card-info .brand p {
+				margin: 0 !important;
+				font-size: 14px !important;
+				font-weight: 500 !important;
+				color: #64748b !important;
+			}
+
+			.similar-products-config .product-big-card-box .options,
+			.similar-properties-config .property-big-card-box .options,
+			.similar-clothes-config .clothes-big-card-box .options {
+				display: flex !important;
+				flex-wrap: wrap !important;
+				gap: 8px !important;
+				margin: 0 !important;
+			}
+
+			.similar-products-config .product-big-card-box .options > div,
+			.similar-properties-config .property-big-card-box .options > div,
+			.similar-clothes-config .clothes-big-card-box .options > div,
+			.similar-equipments-config .equipment-big-card .card-info .options .option {
+				display: inline-flex !important;
+				align-items: center !important;
+				gap: 6px !important;
+				padding: 6px 10px !important;
+				border-radius: 999px !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: rgba(255, 255, 255, 0.92) !important;
+			}
+
+			.similar-products-config .product-big-card-box .options > div span,
+			.similar-properties-config .property-big-card-box .options > div span,
+			.similar-clothes-config .clothes-big-card-box .options > div span,
+			.similar-equipments-config .equipment-big-card .card-info .options .option p {
+				font-size: 12px !important;
+				font-weight: 700 !important;
+				color: #334155 !important;
+				line-height: 1.2 !important;
+			}
+
+			.similar-products-config .product-big-card-box .options > div img,
+			.similar-products-config .product-big-card-box .options > div svg,
+			.similar-properties-config .property-big-card-box .options > div img,
+			.similar-properties-config .property-big-card-box .options > div svg,
+			.similar-clothes-config .clothes-big-card-box .options > div img,
+			.similar-clothes-config .clothes-big-card-box .options > div svg,
+			.similar-equipments-config .equipment-big-card .card-info .options .option svg,
+			.similar-equipments-config .equipment-big-card .card-info .options .option img {
+				width: 14px !important;
+				height: 14px !important;
+				color: var(--dtx-accent) !important;
+				fill: currentColor !important;
+				opacity: 1 !important;
+				filter: none !important;
+			}
+
+			.similar-products-config .product-big-card-box .MuiDivider-root,
+			.similar-properties-config .property-big-card-box .MuiDivider-root,
+			.similar-clothes-config .clothes-big-card-box .MuiDivider-root,
+			.similar-equipments-config .equipment-big-card .card-info .divider {
+				margin: 2px 0 0 !important;
+				border-color: var(--dtx-border) !important;
+				background: var(--dtx-border) !important;
+			}
+
+			.similar-products-config .product-big-card-box .bott,
+			.similar-properties-config .property-big-card-box .bott,
+			.similar-clothes-config .clothes-big-card-box .bott,
+			.similar-equipments-config .equipment-big-card .card-info .type-buttons {
+				display: flex !important;
+				align-items: center !important;
+				justify-content: space-between !important;
+				gap: 10px !important;
+				padding-top: 4px !important;
+			}
+
+			.similar-products-config .product-big-card-box .bott > div:first-child,
+			.similar-properties-config .property-big-card-box .bott > div:first-child,
+			.similar-clothes-config .clothes-big-card-box .bott > div:first-child {
+				width: auto !important;
+				display: inline-flex !important;
+				align-items: center !important;
+				gap: 8px !important;
+				flex-wrap: wrap !important;
+			}
+
+			.similar-products-config .product-big-card-box .bott > div:first-child p,
+			.similar-properties-config .property-big-card-box .bott > div:first-child p,
+			.similar-clothes-config .clothes-big-card-box .bott > div:first-child p,
+			.similar-equipments-config .equipment-big-card .card-info .type .category-tag {
+				padding: 6px 10px !important;
+				border-radius: 8px !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: rgba(255, 255, 255, 0.95) !important;
+				font-size: 12px !important;
+				font-weight: 700 !important;
+				color: #0f172a !important;
+			}
+
+			.similar-equipments-config .equipment-big-card .card-info .type .location-tag,
+			.similar-products-config .product-big-card-box .bott > div:first-child span,
+			.similar-properties-config .property-big-card-box .bott > div:first-child span,
+			.similar-clothes-config .clothes-big-card-box .bott > div:first-child span {
+				font-size: 12px !important;
+				font-weight: 600 !important;
+				color: #64748b !important;
+			}
+
+			.similar-products-config .product-big-card-box .buttons-box,
+			.similar-properties-config .property-big-card-box .buttons-box,
+			.similar-clothes-config .clothes-big-card-box .buttons-box,
+			.similar-equipments-config .equipment-big-card .card-info .buttons {
+				display: inline-flex !important;
+				align-items: center !important;
+				gap: 6px !important;
+			}
+
+			.similar-products-config .product-big-card-box .buttons-box .MuiIconButton-root,
+			.similar-properties-config .property-big-card-box .buttons-box .MuiIconButton-root,
+			.similar-clothes-config .clothes-big-card-box .buttons-box .MuiIconButton-root,
+			.similar-equipments-config .equipment-big-card .card-info .buttons .MuiIconButton-root {
+				width: 30px !important;
+				height: 30px !important;
+				border-radius: 8px !important;
+				border: 1px solid var(--dtx-border) !important;
+				background: #fff !important;
+			}
+
+			.similar-products-config .product-big-card-box .buttons-box .MuiIconButton-root svg,
+			.similar-properties-config .property-big-card-box .buttons-box .MuiIconButton-root svg,
+			.similar-clothes-config .clothes-big-card-box .buttons-box .MuiIconButton-root svg,
+			.similar-equipments-config .equipment-big-card .card-info .buttons .MuiIconButton-root svg {
+				font-size: 18px !important;
+				color: var(--dtx-accent) !important;
+			}
+
+			.similar-products-config .product-big-card-box .view-cnt,
+			.similar-properties-config .property-big-card-box .view-cnt,
+			.similar-clothes-config .clothes-big-card-box .view-cnt,
+			.similar-equipments-config .equipment-big-card .card-info .buttons .button-box > p {
+				font-size: 12px !important;
+				font-weight: 700 !important;
+				color: #334155 !important;
+				min-width: 12px !important;
+			}
+		}
+
+		.agent-detail-page,
+	.trainer-detail-page,
+	.sales-manager-detail-page {
+		.review-box {
+			background: var(--dtx-surface) !important;
+			border: 1px solid var(--dtx-border) !important;
+			border-top: 4px solid var(--dtx-accent) !important;
+			border-radius: 18px !important;
+			box-shadow: var(--dtx-shadow) !important;
+			backdrop-filter: var(--dtx-blur) !important;
+			-webkit-backdrop-filter: var(--dtx-blur) !important;
+		}
+
+		.review-box .review-wrap {
+			gap: 12px !important;
+		}
+
+		.review-box .review-wrap .review-card {
+			border-radius: 14px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: var(--dtx-surface-strong) !important;
+			box-shadow: var(--dtx-shadow-soft) !important;
+		}
+
+		.review-box .leave-review-config {
+			border-radius: 14px !important;
+			border: 1px solid var(--dtx-border) !important;
+			border-top: 3px solid var(--dtx-accent) !important;
+			background: var(--dtx-surface-strong) !important;
+			box-shadow: var(--dtx-shadow-soft) !important;
+		}
+
+		.review-box .leave-review-config textarea {
+			border-radius: 12px !important;
+			border: 1px solid var(--dtx-border) !important;
+			background: #fff !important;
+			color: var(--dtx-ink) !important;
+		}
+	}
+
+		#product-detail-page .product-desc-config .left-config .leave-review-config .submit-btn .submit-review,
+		#equipment-detail-page .equipment-desc-config .left-config .leave-review-config .submit-btn .submit-review,
+		#property-detail-page .property-desc-config .left-config .leave-review-config .submit-btn .submit-review,
+		#clothe-detail-page .clothe-desc-config .left-config .leave-review-config .submit-btn .submit-review,
+	.agent-detail-page .container .review-box .leave-review-config .submit-btn .submit-review,
+	.trainer-detail-page .container .review-box .leave-review-config .submit-btn .submit-review,
+	.sales-manager-detail-page .container .review-box .leave-review-config .submit-btn .submit-review {
+		height: 50px !important;
+		min-width: 210px !important;
+		padding: 0 18px !important;
+		border-radius: 0 !important;
+		background: var(--dtx-accent) !important;
+		border: 1px solid var(--dtx-accent) !important;
+		box-shadow: none !important;
+		display: inline-flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		gap: 10px !important;
+		text-transform: uppercase !important;
+	}
+
+		#product-detail-page .product-desc-config .left-config .leave-review-config .submit-btn .submit-review .title,
+		#equipment-detail-page .equipment-desc-config .left-config .leave-review-config .submit-btn .submit-review .title,
+		#property-detail-page .property-desc-config .left-config .leave-review-config .submit-btn .submit-review .title,
+		#clothe-detail-page .clothe-desc-config .left-config .leave-review-config .submit-btn .submit-review .title,
+	.agent-detail-page .container .review-box .leave-review-config .submit-btn .submit-review .title,
+	.trainer-detail-page .container .review-box .leave-review-config .submit-btn .submit-review .title,
+	.sales-manager-detail-page .container .review-box .leave-review-config .submit-btn .submit-review .title {
+		font-size: 12px !important;
+		font-weight: 700 !important;
+		letter-spacing: 1px !important;
+		color: #ffffff !important;
+	}
+
+		#product-detail-page .product-desc-config .left-config .leave-review-config .submit-btn .submit-review svg path,
+		#equipment-detail-page .equipment-desc-config .left-config .leave-review-config .submit-btn .submit-review svg path,
+		#property-detail-page .property-desc-config .left-config .leave-review-config .submit-btn .submit-review svg path,
+		#clothe-detail-page .clothe-desc-config .left-config .leave-review-config .submit-btn .submit-review svg path,
+	.agent-detail-page .container .review-box .leave-review-config .submit-btn .submit-review svg path,
+	.trainer-detail-page .container .review-box .leave-review-config .submit-btn .submit-review svg path,
+	.sales-manager-detail-page .container .review-box .leave-review-config .submit-btn .submit-review svg path {
+		fill: #ffffff !important;
+		stroke: #ffffff !important;
+	}
+}
+
+	[data-theme='dark'] #pc-wrap {
+		#product-detail-page,
+		#equipment-detail-page,
+		#property-detail-page,
+		#clothe-detail-page,
+		.agent-detail-page,
+		.trainer-detail-page,
+	.sales-manager-detail-page {
+		--dtx-ink: #edf2ff;
+		--dtx-muted: #bfcadf;
+		--dtx-border: rgba(148, 163, 184, 0.32);
+		--dtx-surface: linear-gradient(145deg, rgba(27, 35, 51, 0.88) 0%, rgba(21, 28, 41, 0.82) 100%);
+		--dtx-surface-strong: linear-gradient(145deg, rgba(31, 40, 58, 0.92) 0%, rgba(24, 32, 47, 0.86) 100%);
+	}
+
+	#product-detail-page,
+	#clothe-detail-page {
+		.product-desc-config .left-config > .prop-desc-config .top,
+		.product-desc-config .left-config > .prop-desc-config .bottom,
+		.product-desc-config .left-config > .prop-desc-config .bottom .info-box .left .info,
+		.product-desc-config .left-config > .prop-desc-config .bottom .info-box .right .info,
+		.product-desc-config .left-config > .reviews-config .review-config,
+		.product-desc-config .right-config .info-box,
+		.clothe-desc-config .left-config > .prop-desc-config .top,
+		.clothe-desc-config .left-config > .prop-desc-config .bottom,
+		.clothe-desc-config .left-config > .prop-desc-config .bottom .info-box .left .info,
+		.clothe-desc-config .left-config > .prop-desc-config .bottom .info-box .right .info,
+		.clothe-desc-config .left-config > .reviews-config .review-config,
+		.clothe-desc-config .right-config .info-box {
+			background: var(--dtx-surface-strong) !important;
+		}
+
+		.product-desc-config .right-config input,
+		.product-desc-config .right-config textarea,
+		.product-desc-config .left-config > .leave-review-config textarea,
+		.clothe-desc-config .right-config input,
+		.clothe-desc-config .right-config textarea,
+		.clothe-desc-config .left-config > .leave-review-config textarea {
+			background: rgba(15, 21, 33, 0.78) !important;
+			color: #edf2ff !important;
+		}
+	}
+
+		#equipment-detail-page {
+			.equipment-desc-config .left-config > .prop-desc-config .top,
+		.equipment-desc-config .left-config > .prop-desc-config .bottom,
+		.equipment-desc-config .left-config > .prop-desc-config .bottom .info-box .left .info,
+		.equipment-desc-config .left-config > .prop-desc-config .bottom .info-box .right .info,
+		.equipment-desc-config .left-config > .reviews-config .review-config,
+		.equipment-desc-config .right-config .info-box {
+			background: var(--dtx-surface-strong) !important;
+		}
+
+		.equipment-desc-config .right-config input,
+		.equipment-desc-config .right-config textarea,
+			.equipment-desc-config .left-config > .leave-review-config textarea {
+				background: rgba(15, 21, 33, 0.78) !important;
+				color: #edf2ff !important;
+			}
+		}
+
+		#property-detail-page {
+			.property-desc-config .left-config > .prop-desc-config .top,
+			.property-desc-config .left-config > .prop-desc-config .bottom,
+			.property-desc-config .left-config > .prop-desc-config .bottom .info-box .left .info,
+			.property-desc-config .left-config > .prop-desc-config .bottom .info-box .right .info,
+			.property-desc-config .left-config > .reviews-config .review-config,
+			.property-desc-config .right-config .info-box {
+				background: var(--dtx-surface-strong) !important;
+			}
+
+			.property-desc-config .right-config input,
+			.property-desc-config .right-config textarea,
+			.property-desc-config .left-config > .leave-review-config textarea {
+				background: rgba(15, 21, 33, 0.78) !important;
+				color: #edf2ff !important;
+			}
+		}
+
+	.agent-detail-page,
+	.trainer-detail-page,
+	.sales-manager-detail-page {
+		.review-box .review-wrap .review-card,
+		.review-box .leave-review-config {
+			background: var(--dtx-surface-strong) !important;
+		}
+
+		.review-box .leave-review-config textarea {
+			background: rgba(15, 21, 33, 0.78) !important;
+			color: #edf2ff !important;
+		}
+	}
+}
+
+	@media (max-width: 1500px) {
+		#pc-wrap {
+				#product-detail-page,
+				#equipment-detail-page,
+				#property-detail-page,
+				#clothe-detail-page {
+					.similar-products-config .title-pagination-box,
+					.similar-equipments-config .title-pagination-box,
+					.similar-properties-config .title-pagination-box,
+					.similar-clothes-config .title-pagination-box {
+						flex-direction: column !important;
+						align-items: flex-start !important;
+						gap: 12px !important;
+					}
+
+					.similar-products-config .pagination-box,
+					.similar-equipments-config .pagination-box,
+					.similar-properties-config .pagination-box,
+					.similar-clothes-config .pagination-box {
+						align-self: flex-end !important;
+					}
+
+					.similar-products-config .similar-products-slide,
+					.similar-equipments-config .similar-homes-slide,
+					.similar-properties-config .similar-homes-slide,
+					.similar-clothes-config .similar-clothes-slide {
+						width: min(420px, calc(100vw - 96px)) !important;
+					}
+
+					.property-info-config .info .left-box .bottom-box,
+					.property-desc-config .left-config > .options-config,
+					.product-desc-config .left-config > .prop-desc-config .bottom .info-box,
+					.equipment-desc-config .left-config > .prop-desc-config .bottom .info-box,
+					.property-desc-config .left-config > .prop-desc-config .bottom .info-box,
+					.clothe-desc-config .left-config > .prop-desc-config .bottom .info-box {
+						grid-template-columns: 1fr !important;
+					}
+		}
+	}
+}

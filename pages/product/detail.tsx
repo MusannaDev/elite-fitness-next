@@ -363,7 +363,13 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className={'images'}>
 								<Stack className={'main-image'}>
 									<img
-										src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/product/bigImage.png'}
+										src={
+											slideImage
+												? `${REACT_APP_API_URL}/${slideImage}`
+												: product?.productImages?.[0]
+													? `${REACT_APP_API_URL}/${product.productImages[0]}`
+													: '/img/banner/header1.svg'
+										}
 										alt={'main-image'}
 									/>
 								</Stack>

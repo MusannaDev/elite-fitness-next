@@ -10,6 +10,9 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import StraightenIcon from '@mui/icons-material/Straighten';
+import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined';
+import CheckroomOutlinedIcon from '@mui/icons-material/CheckroomOutlined';
 
 interface ClothesBigCardProps {
 	clothe: Clothe;
@@ -51,15 +54,15 @@ const ClothesBigCard = (props: ClothesBigCardProps) => {
 					<p className={'desc'}>{clothe?.clotheBrand}</p>
 					<div className={'options'}>
 						<div>
-							<img src="/img/icons/size.svg" alt="" />
+							<StraightenIcon fontSize="small" />
 							<span>{clothe?.clotheSize}</span>
 						</div>
 						<div>
-							<img src="/img/icons/color.svg" alt="" />
+							<PaletteOutlinedIcon fontSize="small" />
 							<span>{clothe?.clotheColor}</span>
 						</div>
 						<div>
-							<img src="/img/icons/material.svg" alt="" />
+							<CheckroomOutlinedIcon fontSize="small" />
 							<span>{clothe?.clotheMaterial}</span>
 						</div>
 					</div>

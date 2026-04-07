@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { Stack, Box, Typography, IconButton, Collapse } from '@mui/material';
+import React from 'react';
+import { Stack, Box, Typography, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { useRouter } from 'next/router';
@@ -14,8 +13,6 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { REACT_APP_API_URL } from '../../config';
 import { Member } from '../../types/member/member';
-import { CommentGroup } from '../../enums/comment.enum';
-import MemberComments from '../comment/MemberComments';
 
 interface TopSalesManagerCardProps {
 	manager: Member;
@@ -27,7 +24,6 @@ const TopSalesManagerCard = (props: TopSalesManagerCardProps) => {
 	const { manager, likeManagerHandler, followManagerHandler } = props;
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const [commentOpen, setCommentOpen] = useState(false);
 
 	const managerImage = manager?.memberImage
 		? `${REACT_APP_API_URL}/${manager.memberImage}`
@@ -99,13 +95,10 @@ const TopSalesManagerCard = (props: TopSalesManagerCardProps) => {
 					</IconButton>
 					<Typography className="sm-count">{manager.memberViews ?? 0}</Typography>
 
-					<IconButton
-						size="small"
-						className={`sm-icon-btn ${commentOpen ? 'active' : ''}`}
-						onClick={() => setCommentOpen(!commentOpen)}
-					>
+					<IconButton size="small" className="sm-icon-btn">
 						<ChatBubbleOutlineIcon style={{ fontSize: 14 }} />
 					</IconButton>
+					<Typography className="sm-count">{manager.memberComments ?? 0}</Typography>
 
 					<Box className="sm-spacer" />
 
@@ -132,16 +125,6 @@ const TopSalesManagerCard = (props: TopSalesManagerCardProps) => {
 				</Stack>
 			</Box>
 
-			{/* Comment panel */}
-			<Collapse in={commentOpen}>
-				<Box className="sm-comment-panel">
-					<MemberComments
-						commentGroup={CommentGroup.MEMBER}
-						commentRefId={manager._id}
-						memberId={user?._id}
-					/>
-				</Box>
-			</Collapse>
 		</Stack>
 	);
 };

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
@@ -29,9 +29,9 @@ const Top = () => {
 	const [colorChange, setColorChange] = useState(false);
 	const [anchorEl, setAnchorEl] = React.useState<any | HTMLElement>(null);
 	let open = Boolean(anchorEl);
-	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
+	const forceSolidNavbar = useMemo(() => router.pathname !== '/', [router.pathname]);
 
 	// Dropdown hover state with delay refs
 	const [shopsOpen, setShopsOpen] = useState(false);
@@ -48,50 +48,6 @@ const Top = () => {
 			setLang('en');
 		} else {
 			setLang(localStorage.getItem('locale'));
-		}
-	}, [router]);
-
-	useEffect(() => {
-		switch (router.pathname) {
-			case '/property/detail':
-				setBgColor(true);
-				break;
-			default:
-				setBgColor(false);
-				break;
-		}
-	}, [router]);
-
-	useEffect(() => {
-		switch (router.pathname) {
-			case '/product/detail':
-				setBgColor(true);
-				break;
-			default:
-				setBgColor(false);
-				break;
-		}
-	}, [router]);
-
-	useEffect(() => {
-		switch (router.pathname) {
-			case '/equipment/detail':
-				setBgColor(true);
-				break;
-			default:
-				setBgColor(false);
-				break;
-		}
-	}, [router]);
-
-	useEffect(() => {
-		switch (router.pathname) {
-			case '/clothes/detail':
-				setBgColor(true);
-				break;
-			default:
-				setBgColor(false);
-				break;
 		}
 	}, [router]);
 
@@ -126,14 +82,6 @@ const Top = () => {
 		},
 		[router],
 	);
-
-	const changeNavbarColor = () => {
-		if (window.scrollY >= 50) {
-			setColorChange(true);
-		} else {
-			setColorChange(false);
-		}
-	};
 
 	const handleClose = () => {
 		setAnchorEl(null);
@@ -191,9 +139,13 @@ const Top = () => {
 		},
 	}));
 
-	if (typeof window !== 'undefined') {
-		window.addEventListener('scroll', changeNavbarColor);
-	}
+	useEffect(() => {
+		if (device === 'mobile' || typeof window === 'undefined') return;
+		const handleScroll = () => setColorChange(window.scrollY >= 50);
+		handleScroll();
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, [device, router.pathname]);
 
 	if (device === 'mobile') {
 		return (
@@ -210,7 +162,7 @@ const Top = () => {
 	} else {
 		return (
 			<Stack className={'navbar'}>
-				<Stack className={`navbar-main ${colorChange ? 'scrolled' : ''} ${bgColor ? 'transparent' : ''}`}>
+				<Stack className={`navbar-main ${colorChange ? 'scrolled' : ''} ${forceSolidNavbar ? 'force-solid' : ''}`}>
 					<Stack className={'nav-container'}>
 						{/* LOGO */}
 						<Box component={'div'} className={'logo-box'}>

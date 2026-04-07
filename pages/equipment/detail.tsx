@@ -354,7 +354,13 @@ const EquipmentDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className={'images'}>
 								<Stack className={'main-image'}>
 									<img
-										src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/equipment/bigImage.png'}
+										src={
+											slideImage
+												? `${REACT_APP_API_URL}/${slideImage}`
+												: equipment?.equipmentImages?.[0]
+													? `${REACT_APP_API_URL}/${equipment.equipmentImages[0]}`
+													: '/img/banner/header1.svg'
+										}
 										alt={'main-image'}
 									/>
 								</Stack>
@@ -372,55 +378,6 @@ const EquipmentDetail: NextPage = ({ initialComment, ...props }: any) => {
 						</Stack>
 						<Stack className={'equipment-desc-config'}>
 							<Stack className={'left-config'}>
-								<Stack className={'options-config'}>
-									<Stack className={'option'}>
-										<Stack className={'svg-box'}>
-											<img src="/img/icons/category.svg" alt="" />
-										</Stack>
-										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Category</Typography>
-											<Typography className={'option-data'}>{equipment?.equipmentCategory}</Typography>
-										</Stack>
-									</Stack>
-									<Stack className={'option'}>
-										<Stack className={'svg-box'}>
-											<img src="/img/icons/material.svg" alt="" />
-										</Stack>
-										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Material</Typography>
-											<Typography className={'option-data'}>{equipment?.equipmentMaterial}</Typography>
-										</Stack>
-									</Stack>
-									<Stack className={'option'}>
-										<Stack className={'svg-box'}>
-											<img src="/img/icons/location.svg" alt="" />
-										</Stack>
-										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Location</Typography>
-											<Typography className={'option-data'}>{equipment?.equipmentLocation}</Typography>
-										</Stack>
-									</Stack>
-									<Stack className={'option'}>
-										<Stack className={'svg-box'}>
-											<img src="/img/icons/weight.svg" alt="" />
-										</Stack>
-										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Weight Capacity</Typography>
-											<Typography className={'option-data'}>
-												{equipment?.equipmentWeightCapacity ?? 'N/A'}
-											</Typography>
-										</Stack>
-									</Stack>
-									<Stack className={'option'}>
-										<Stack className={'svg-box'}>
-											<img src="/img/icons/stock.svg" alt="" />
-										</Stack>
-										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Stock</Typography>
-											<Typography className={'option-data'}>{equipment?.equipmentLeftCount}</Typography>
-										</Stack>
-									</Stack>
-								</Stack>
 								<Stack className={'prop-desc-config'}>
 									<Stack className={'top'}>
 										<Typography className={'title'}>Equipment Description</Typography>

@@ -636,22 +636,34 @@ $p-sans:      'DM Sans', 'Inter', sans-serif;
       .leave-review-config {
         .main-title {
           font-size: 52px !important;
-          color: #f7f7f8 !important;
+          color: rgba(43, 180, 122, 0.3) !important;
           text-transform: none !important;
           letter-spacing: -0.02em !important;
+          opacity: 1 !important;
+          text-shadow: none !important;
         }
 
+        .review-title { color: #263547 !important; }
+
         textarea, input {
-          background: #111217 !important;
-          border: 1px solid rgba(255,255,255,.14) !important;
-          color: #f4f4f5 !important;
+          background: #ffffff !important;
+          border: 1px solid rgba(43, 180, 122, 0.34) !important;
+          color: #1a2a31 !important;
+          box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06) !important;
         }
 
         .submit-review {
-          background: #f5f5f5 !important;
-          border: 1px solid #f5f5f5 !important;
-          .title { color: #14161b !important; }
-          svg path { fill: #14161b !important; }
+          margin-top: 20px !important;
+          background: rgba(43, 180, 122, 0.09) !important;
+          border: 1px solid rgba(43, 180, 122, 0.45) !important;
+          .title { color: #1f7d57 !important; }
+          svg path { fill: #1f7d57 !important; }
+          &:hover {
+            background: #2bb47a !important;
+            border-color: #2bb47a !important;
+            .title { color: #ffffff !important; }
+            svg path { fill: #ffffff !important; }
+          }
         }
       }
     }
@@ -1212,4 +1224,105 @@ $p-sans:      'DM Sans', 'Inter', sans-serif;
     svg path { fill: currentColor !important; }
     img[src*='/img/icons/'] { filter: brightness(0) invert(1) !important; opacity: 0.6 !important; }
   }
+}
+
+
+
+/* ===== Product Detail: Glass Sections ===== */
+#pc-wrap #product-detail-page {
+  background: linear-gradient(160deg, #f0f7f3 0%, #f5faf7 50%, #eef6f1 100%) !important;
+
+  .product-desc-config {
+    gap: 20px !important;
+    .left-config { gap: 20px !important; }
+
+    .prop-desc-config,
+    .reviews-config,
+    .leave-review-config {
+      background: rgba(255,255,255,.82) !important;
+      backdrop-filter: blur(20px) saturate(160%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+      border: 1px solid rgba(43,180,122,.22) !important;
+      border-top: 3px solid #2bb47a !important;
+      border-radius: 18px !important;
+      padding: 32px !important;
+      box-shadow: 0 4px 24px rgba(43,180,122,.1), inset 0 1px 0 rgba(255,255,255,.9) !important;
+    }
+
+    .prop-desc-config {
+      .top .title, .bottom .title {
+        color: #2bb47a !important; font-size: 10px !important;
+        letter-spacing: 3px !important; font-weight: 700 !important;
+      }
+      .top .desc { color: #1a1a1a !important; font-size: 15px !important; line-height: 1.85 !important; }
+      .info-box .left .info, .info-box .right .info {
+        padding: 12px 16px !important; border-bottom: none !important;
+        border-radius: 10px !important; margin-bottom: 6px !important;
+        background: rgba(43,180,122,.06) !important; border: 1px solid rgba(43,180,122,.15) !important;
+        .title { color: #2bb47a !important; font-size: 10px !important; letter-spacing: 1px !important; width: 150px !important; }
+        .data { color: #111 !important; font-size: 14px !important; font-weight: 600 !important; }
+      }
+    }
+
+    .reviews-config {
+      .review-cnt .reviews { color: #2bb47a !important; font-size: 12px !important; letter-spacing: 2px !important; }
+      .review-config {
+        padding: 20px !important; border-bottom: none !important; border-radius: 12px !important;
+        background: rgba(43,180,122,.05) !important; border: 1px solid rgba(43,180,122,.15) !important; margin-bottom: 10px !important;
+        .img-box { border-radius: 50% !important; border-color: rgba(43,180,122,.4) !important; }
+        .name { color: #111 !important; font-size: 14px !important; font-weight: 700 !important; }
+        .date { color: #888 !important; font-size: 11px !important; }
+        .description { color: #333 !important; border-left: 3px solid rgba(43,180,122,.5) !important; font-size: 14px !important; line-height: 1.75 !important; }
+      }
+      svg { color: #2bb47a !important; }
+    }
+
+    .leave-review-config {
+      .main-title { font-size: 22px !important; font-weight: 700 !important; color: #111 !important; text-transform: none !important; }
+      .review-title { color: #555 !important; font-size: 13px !important; }
+      textarea {
+        background: #fff !important; border: 1px solid rgba(43,180,122,.3) !important;
+        border-radius: 12px !important; color: #111 !important; font-size: 14px !important; padding: 14px 16px !important;
+        &:focus { border-color: #2bb47a !important; outline: none !important; }
+        &::placeholder { color: #aaa !important; }
+      }
+      .submit-review {
+        border-radius: 12px !important; background: #2bb47a !important; border: none !important;
+        padding: 13px 32px !important;
+        &:hover { background: #249966 !important; }
+        .title { color: #fff !important; font-size: 13px !important; letter-spacing: 1.5px !important; }
+      }
+    }
+
+    .right-config {
+      background: rgba(255,255,255,.82) !important;
+      backdrop-filter: blur(20px) !important; -webkit-backdrop-filter: blur(20px) !important;
+      border: 1px solid rgba(43,180,122,.22) !important; border-top: 3px solid #2bb47a !important;
+      border-radius: 18px !important; box-shadow: 0 4px 24px rgba(43,180,122,.1) !important; padding: 28px !important;
+      .info-box {
+        .main-title { color: #2bb47a !important; font-size: 10px !important; letter-spacing: 3px !important; }
+        img { border-radius: 50% !important; border-color: rgba(43,180,122,.4) !important; }
+        .name { color: #111 !important; font-size: 15px !important; font-weight: 700 !important; }
+        .number { color: #555 !important; }
+        .listings { color: #2bb47a !important; }
+        input, textarea {
+          background: #fff !important; border: 1px solid rgba(43,180,122,.25) !important;
+          border-radius: 10px !important; color: #111 !important;
+          &:focus { border-color: #2bb47a !important; }
+          &::placeholder { color: #aaa !important; }
+        }
+        .send-message {
+          border-radius: 12px !important; background: #2bb47a !important; border: none !important;
+          &:hover { background: #249966 !important; }
+          .title { color: #fff !important; }
+        }
+        svg { color: #2bb47a !important; }
+      }
+    }
+  }
+
+  .product-desc-config p, .product-desc-config span,
+  .product-desc-config .MuiTypography-root { color: #333 !important; }
+  .product-desc-config img[src*='/img/icons/'] { filter: none !important; opacity: 1 !important; }
+  .product-desc-config svg { color: #2bb47a !important; }
 }

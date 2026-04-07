@@ -3,6 +3,7 @@ import { Button, CircularProgress, Pagination, Stack, Typography } from '@mui/ma
 import CancelIcon from '@mui/icons-material/Cancel';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import { useRouter } from 'next/router';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_MY_ORDERS } from '../../../apollo/user/query';
 import { UPDATE_ORDER } from '../../../apollo/user/mutation';
@@ -16,6 +17,7 @@ import { normalizeMyOrdersResponse } from '../../utils/order';
 import { OrderItemSnapshotMap, readOrderItemSnapshots } from '../../utils/orderSnapshot';
 import OrderItemRow from './OrderItemRow';
 import AddItemMenuButton from './AddItemMenuButton';
+import OrderPaymentDialog from './OrderPaymentDialog';
 import moment from 'moment';
 
 const ITEM_META: Record<OrderItemType, { emoji: string; label: string; bg: string }> = {
@@ -31,10 +33,13 @@ interface Props {
 }
 
 const ConfirmedOrders = ({ setActiveStatus }: Props) => {
+	const router = useRouter();
 	const [orders, setOrders] = useState<Order[]>([]);
 	const [total,  setTotal]  = useState<number>(0);
 	const [page,   setPage]   = useState<number>(1);
 	const [snapshots, setSnapshots] = useState<OrderItemSnapshotMap>({});
+	const [payingOrder, setPayingOrder] = useState<Order | null>(null);
+	const [processingOrderId, setProcessingOrderId] = useState<string>('');
 
 	const inquiry = useMemo<OrderInquiry>(() => ({
 		page,
@@ -75,17 +80,27 @@ const ConfirmedOrders = ({ setActiveStatus }: Props) => {
 		}
 	};
 
-	const paymentHandler = async (orderId: string) => {
+	const paymentHandler = async (order: Order) => {
+		setPayingOrder(order);
+	};
+
+	const paymentSuccessHandler = async (orderId: string, paymentRef: string) => {
 		try {
-			const ok = await sweetConfirmAlert('Proceed payment for this order?');
-			if (!ok) return;
+			setProcessingOrderId(orderId);
 			const nextStatus = PAYMENT_STATUS_FLOW[OrderStatus.CONFIRMED];
 			const input: OrderUpdate = { orderId, orderStatus: nextStatus };
 			await updateOrder({ variables: { input } });
-			await sweetTopSmallSuccessAlert('Payment confirmed, shipping started.', 900);
+			await sweetTopSmallSuccessAlert(
+				`Payment completed successfully. Shipping has started. Ref: ${paymentRef.slice(-8).toUpperCase()}`,
+				1200,
+			);
+			setPayingOrder(null);
 			setActiveStatus(nextStatus);
+			router.push(`/order?status=${nextStatus}`);
 		} catch (err: any) {
 			sweetMixinErrorAlert(err.message);
+		} finally {
+			setProcessingOrderId('');
 		}
 	};
 
@@ -150,7 +165,10 @@ const ConfirmedOrders = ({ setActiveStatus }: Props) => {
 								<Button className="btn-oc-cancel" startIcon={<CancelIcon />}
 									onClick={() => cancelHandler(order._id)}>Cancel</Button>
 								<Button className="btn-oc-fulfill" startIcon={<CreditCardIcon />}
-									onClick={() => paymentHandler(order._id)}>Payment</Button>
+									disabled={processingOrderId === order._id}
+									onClick={() => paymentHandler(order)}>
+									{processingOrderId === order._id ? 'Processing...' : 'Payment'}
+								</Button>
 								<AddItemMenuButton />
 							</div>
 						</div>
@@ -163,6 +181,13 @@ const ConfirmedOrders = ({ setActiveStatus }: Props) => {
 							onChange={(_, p) => setPage(p)} shape="rounded" color="primary" />
 					</div>
 				)}
+
+				<OrderPaymentDialog
+					open={Boolean(payingOrder)}
+					order={payingOrder}
+					onClose={() => setPayingOrder(null)}
+					onPaid={paymentSuccessHandler}
+				/>
 			</Stack>
 		);
 };

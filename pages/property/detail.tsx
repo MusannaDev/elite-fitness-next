@@ -24,7 +24,6 @@ import { CommentGroup } from '../../libs/enums/comment.enum';
 import { Pagination as MuiPagination } from '@mui/material';
 import Link from 'next/link';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import BathtubOutlinedIcon from '@mui/icons-material/BathtubOutlined';
 import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoomOutlined';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -81,7 +80,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			if(data?.getProperty) setProperty(data.getProperty);
-			if(data.getPropety) setSlideImage(data.getProperty.propertyImages[0]);
+			if(data?.getProperty) setSlideImage(data.getProperty.propertyImages[0]);
 		}
 	});
 
@@ -330,16 +329,17 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Typography className={'price-value'}>${formatterStr(property?.propertyPrice)}</Typography>
 									</Stack>
 								</Stack>
-								<Stack className={'add-cart-section'}>
-									<Button className={'add-cart-btn'} startIcon={<ShoppingCartOutlinedIcon />}>
-										Add to Cart
-									</Button>
-								</Stack>
 							</Stack>
 							<Stack className={'images'}>
 								<Stack className={'main-image'}>
 									<img
-										src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
+										src={
+											slideImage
+												? `${REACT_APP_API_URL}/${slideImage}`
+												: property?.propertyImages?.[0]
+													? `${REACT_APP_API_URL}/${property.propertyImages[0]}`
+													: '/img/banner/header1.svg'
+										}
 										alt={'main-image'}
 									/>
 								</Stack>

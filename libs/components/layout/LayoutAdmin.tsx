@@ -44,7 +44,7 @@ const withAdminLayout = (Component: ComponentType) => {
 		if (!user || user?.memberType !== MemberType.ADMIN) return null;
 
 		return (
-			<main id="pc-wrap" className={`admin ${theme}`}>
+			<main id="pc-wrap" className={`admin ${theme} classic-modern layout-admin`}>
 				<Box component={'div'} sx={{ display: 'flex', minHeight: '100vh' }}>
 
 					{/* ── Dark Sidebar ───────────────────────────────────────── */}

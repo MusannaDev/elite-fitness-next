@@ -10,6 +10,9 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import EmojiFoodBeverageIcon from '@mui/icons-material/EmojiFoodBeverage';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 interface ProductBigCardProps {
 	product: Product;
@@ -51,15 +54,15 @@ const ProductBigCard = (props: ProductBigCardProps) => {
 					<p className={'desc'}>{product?.productBrand}</p>
 					<div className={'options'}>
 						<div>
-							<img src="/img/icons/weight.svg" alt="" />
+							<FitnessCenterIcon fontSize="small" />
 							<span>{product?.productWeight}</span>
 						</div>
 						<div>
-							<img src="/img/icons/flavor.svg" alt="" />
+							<EmojiFoodBeverageIcon fontSize="small" />
 							<span>{product?.productFlavor}</span>
 						</div>
 						<div>
-							<img src="/img/icons/benefit.svg" alt="" />
+							<CheckCircleOutlineIcon fontSize="small" />
 							<span>{product?.productBenefits}</span>
 						</div>
 					</div>

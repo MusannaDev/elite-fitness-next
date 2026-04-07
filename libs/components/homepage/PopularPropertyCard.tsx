@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { Stack, Box, Typography, IconButton, Divider, Collapse } from '@mui/material';
+import React from 'react';
+import { Stack, Box, Typography, IconButton, Divider } from '@mui/material';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import BedIcon from '@mui/icons-material/Bed';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
@@ -12,8 +11,6 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { REACT_APP_API_URL, topPropertyRank } from '../../config';
 import { Property } from '../../types/property/property';
-import { CommentGroup } from '../../enums/comment.enum';
-import PropertyComments from '../comment/PropertyComments';
 
 interface PopularPropertyCardProps {
 	property: Property;
@@ -24,7 +21,6 @@ const PopularPropertyCard = (props: PopularPropertyCardProps) => {
 	const { property, likePropertyHandler } = props;
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const [commentOpen, setCommentOpen] = useState(false);
 
 	const pushDetailHandler = async (propertyId: string) => {
 		await router.push({ pathname: '/property/detail', query: { id: propertyId } });
@@ -98,32 +94,12 @@ const PopularPropertyCard = (props: PopularPropertyCardProps) => {
 						</IconButton>
 						<Typography className="action-count">{property.propertyLikes}</Typography>
 
-						<IconButton
-							size="small"
-							className={`action-icon comment-icon ${commentOpen ? 'active' : ''}`}
-							onClick={() => setCommentOpen(!commentOpen)}
-						>
+						<IconButton size="small" className="action-icon comment-icon">
 							<ChatBubbleOutlineIcon style={{ fontSize: 14 }} />
-							<KeyboardArrowUpIcon
-								style={{
-									fontSize: 10,
-									transform: commentOpen ? 'rotate(0deg)' : 'rotate(180deg)',
-									transition: 'transform 0.25s',
-								}}
-							/>
 						</IconButton>
+						<Typography className="action-count">{property.propertyComments ?? 0}</Typography>
 					</Stack>
 				</Stack>
-
-				<Collapse in={commentOpen}>
-					<Box className="comment-section">
-						<PropertyComments
-							commentGroup={CommentGroup.PROPERTY}
-							commentRefId={property._id}
-							memberId={user?._id}
-						/>
-					</Box>
-				</Collapse>
 			</Box>
 		</Stack>
 	);

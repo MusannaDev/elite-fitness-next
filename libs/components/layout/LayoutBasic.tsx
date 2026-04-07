@@ -157,7 +157,7 @@ const withLayoutBasic = (Component: any) => {
 						<title>EliteFit</title>
 						<meta name={'title'} content={`EliteFit`} />
 					</Head>
-					<Stack id="pc-wrap" className="light">
+					<Stack id="pc-wrap" className="light classic-modern layout-basic">
 						<Stack id={'top'}>
 							<Top />
 						</Stack>

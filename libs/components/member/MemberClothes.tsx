@@ -22,6 +22,7 @@ import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
 import WcOutlinedIcon from '@mui/icons-material/WcOutlined';
+import { REACT_APP_API_URL } from '../../config';
 
 // ─── Category display labels ─────────────────────────────────────────────────
 const CATEGORY_LABELS: Record<ClotheCategory, string> = {
@@ -332,7 +333,7 @@ const MemberClothes: NextPage = ({ initialInput, ...props }: any) => {
 									{/* ① clotheName · clotheBrand */}
 									<Stack className="mcl-cell th-item">
 										<Box className="mcl-img-wrap">
-											<img src={cl.clotheImages?.[0] ?? '/img/banner/header1.svg'} alt={cl.clotheName} />
+											<img src={cl.clotheImages?.[0] ? `${REACT_APP_API_URL}/${cl.clotheImages[0]}` : '/img/banner/header1.svg'} alt={cl.clotheName} />
 											<Tooltip title={cl.clotheStatus} arrow placement="top">
 												<Box className="mcl-status-dot" style={{ background: statusDot }} />
 											</Tooltip>

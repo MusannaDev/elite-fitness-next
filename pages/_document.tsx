@@ -17,7 +17,7 @@ export default function Document() {
 						'최고의 피트니스 장비, 운동복, 헬스장 멤버십을 EliteFit.uz에서 찾아보세요 | ' +
 						"En iyi fitness ekipmanları, spor kıyafetleri ve spor salonu üyeliklerini EliteFit.uz'de bulun | " +
 						'اعثر على أفضل معدات اللياقة البدنية والملابس الرياضية وعضويات الصالة الرياضية في EliteFit.uz | ' +
-						'EliteFit.uz da eng yaxshi fitnes jihozlar, sport kiyimlar va sport zal obunalarini toping'
+						'Find top fitness equipment, sportswear, and gym memberships at EliteFit.uz'
 					}
 				/>
 			</Head>

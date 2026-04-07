@@ -89,6 +89,22 @@ const ShippingOrders = ({ setActiveStatus }: Props) => {
 
 	return (
 		<Stack gap="14px" className="os-shipping-list">
+			<Box className="os-shipping-note">
+				<Stack direction="row" justifyContent="space-between" alignItems="flex-start" gap="14px" flexWrap="wrap">
+					<Box>
+						<Typography className="os-shipping-note__title">Estimated Delivery</Typography>
+						<Typography className="os-shipping-note__desc">
+							Your orders will arrive within 2-3 business days.
+						</Typography>
+					</Box>
+					<Stack className="os-shipping-note__chips" direction="row" gap="8px" flexWrap="wrap">
+						<span>Classic Packing</span>
+						<span>Live Tracking</span>
+						<span>Safe Delivery</span>
+					</Stack>
+				</Stack>
+			</Box>
+
 			{orders.map((order: Order) => (
 				<Box key={order._id} className="oc-card oc-card--shipping" style={{ borderLeftColor: SM.color }}>
 

@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { Stack, Box, Typography, IconButton, Collapse } from '@mui/material';
+import React from 'react';
+import { Stack, Box, Typography, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import HomeWorkIcon from '@mui/icons-material/HomeWork';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { useRouter } from 'next/router';
@@ -13,8 +12,6 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { REACT_APP_API_URL } from '../../config';
 import { Member } from '../../types/member/member';
-import { CommentGroup } from '../../enums/comment.enum';
-import MemberComments from '../comment/MemberComments';
 
 interface TopAgentCardProps {
 	agent: Member;
@@ -26,7 +23,6 @@ const TopAgentCard = (props: TopAgentCardProps) => {
 	const { agent, likeAgentHandler, followAgentHandler } = props;
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const [commentOpen, setCommentOpen] = useState(false);
 
 	const agentImage = agent?.memberImage
 		? `${REACT_APP_API_URL}/${agent.memberImage}`
@@ -100,32 +96,11 @@ const TopAgentCard = (props: TopAgentCardProps) => {
 					<Typography className="action-count">{agent.memberLikes}</Typography>
 				</Stack>
 
-				<IconButton
-					size="small"
-					className={`comment-toggle ${commentOpen ? 'active' : ''}`}
-					onClick={() => setCommentOpen(!commentOpen)}
-				>
+				<IconButton size="small" className="comment-toggle">
 					<ChatBubbleOutlineIcon style={{ fontSize: 14 }} />
 					<Typography className="comment-cnt">{agent.memberComments ?? 0}</Typography>
-					<KeyboardArrowUpIcon
-						style={{
-							fontSize: 12,
-							transform: commentOpen ? 'rotate(0deg)' : 'rotate(180deg)',
-							transition: 'transform 0.25s',
-						}}
-					/>
 				</IconButton>
 			</Box>
-
-			<Collapse in={commentOpen}>
-				<Box className="comment-panel">
-					<MemberComments
-						commentGroup={CommentGroup.MEMBER}
-						commentRefId={agent._id}
-						memberId={user?._id}
-					/>
-				</Box>
-			</Collapse>
 		</Stack>
 	);
 };

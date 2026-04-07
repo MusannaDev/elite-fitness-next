@@ -5,6 +5,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+import EggAltIcon from '@mui/icons-material/EggAlt';
 import { Product } from '../../types/product/product';
 import Link from 'next/link';
 import { formatterStr } from '../../utils';
@@ -239,17 +242,17 @@ const ProductCard = (props: ProductCardType) => {
 
 					<Stack className="specs-row">
 						<Stack className="spec-item">
-							<img src="/img/icons/weight.svg" alt="" />
+							<FitnessCenterIcon fontSize="small" />
 							<Typography>{product.productWeight}</Typography>
 						</Stack>
 						<span className="spec-dot" />
 						<Stack className="spec-item">
-							<img src="/img/icons/calories.svg" alt="" />
+							<LocalFireDepartmentIcon fontSize="small" />
 							<Typography>{product.productCalories} kcal</Typography>
 						</Stack>
 						<span className="spec-dot" />
 						<Stack className="spec-item">
-							<img src="/img/icons/protein.svg" alt="" />
+							<EggAltIcon fontSize="small" />
 							<Typography>{product.productProteinPerServing}g protein</Typography>
 						</Stack>
 					</Stack>

@@ -48,8 +48,8 @@ const ClotheCard = (props: ClotheCardType) => {
 		? `${REACT_APP_API_URL}/${clothe?.clotheImages[0]}`
 		: '/img/banner/header1.svg';
 
-	// likedOverride mavjud bo'lsa undan foydalanamiz (ClotheList boshqaradi)
-	// Aks holda clothe props dan o'qiymiz (myFavorites sahifasi uchun)
+	// Use likedOverride when provided (controlled by ClotheList)
+	// Otherwise, read from clothe props (for My Favorites page)
 	const isLiked = likedOverride
 		? likedOverride.liked
 		: myFavorites || !!(clothe?.meLiked && clothe?.meLiked[0]?.myFavorite);
@@ -93,7 +93,7 @@ const ClotheCard = (props: ClotheCardType) => {
 								)}
 							</Box>
 
-							{/* Like — isLiked va likesCount to'g'ridan-to'g'ri props dan keladi */}
+							{/* Like — isLiked and likesCount come directly from props */}
 							<Box
 								component={'button'}
 								className={`action-btn${isLiked ? ' is-liked' : ''}`}

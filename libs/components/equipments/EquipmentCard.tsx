@@ -6,6 +6,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import BuildIcon from '@mui/icons-material/Build';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import { Equipment } from '../../types/equipment/equipment';
 import Link from 'next/link';
 import { formatterStr } from '../../utils';
@@ -179,17 +182,17 @@ const EquipmentCard = (props: EquipmentCardType) => {
 
 				<Stack className="options">
 					<Stack className="option">
-						<img src="/img/icons/material.svg" alt="" />
+						<BuildIcon fontSize="small" />
 						<Typography>{equipment.equipmentMaterial}</Typography>
 					</Stack>
 					<Stack className="option">
-						<img src="/img/icons/weight.svg" alt="" />
+						<FitnessCenterIcon fontSize="small" />
 						<Typography>
 							{equipment.equipmentWeight ? `${equipment.equipmentWeight} kg` : 'N/A'}
 						</Typography>
 					</Stack>
 					<Stack className="option">
-						<img src="/img/icons/stock.svg" alt="" />
+						<InventoryIcon fontSize="small" />
 						<Typography>{equipment.equipmentLeftCount} in stock</Typography>
 					</Stack>
 				</Stack>

@@ -211,7 +211,9 @@ const TrainerDetail: NextPage = ({ initialInput, initialComment, ...props }: any
 							className={'info'}
 							onClick={() => redirectToMemberPageHandler(trainer?._id as string)}
 						>
+							<span className={'role-chip'}>Trainer Profile</span>
 							<strong>{trainer?.memberFullName ?? trainer?.memberNick}</strong>
+							<p className={'role-sub'}>Performance and nutrition specialist</p>
 							<div>
 								<img src="/img/icons/call.svg" alt="" />
 								<span>{trainer?.memberPhone}</span>
@@ -219,6 +221,10 @@ const TrainerDetail: NextPage = ({ initialInput, initialComment, ...props }: any
 						</Box>
 					</Stack>
 					<Stack className={'trainer-product-list'}>
+						<Stack className={'section-head'}>
+							<span>Storefront</span>
+							<p>Recommended products from this trainer</p>
+						</Stack>
 						<Stack className={'card-wrap'}>
 							{trainerProducts.map((product: Product) => {
 								return (
@@ -258,6 +264,7 @@ const TrainerDetail: NextPage = ({ initialInput, initialComment, ...props }: any
 					</Stack>
 					<Stack className={'review-box'}>
 						<Stack className={'main-intro'}>
+							<Typography className={'eyebrow'}>Testimonials</Typography>
 							<span>Reviews</span>
 							<p>We are glad to see you again</p>
 						</Stack>

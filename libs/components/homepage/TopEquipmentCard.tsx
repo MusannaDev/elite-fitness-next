@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { Stack, Box, Typography, IconButton, Collapse } from '@mui/material';
+import React from 'react';
+import { Stack, Box, Typography, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import PlaceIcon from '@mui/icons-material/Place';
 import CategoryIcon from '@mui/icons-material/Category';
@@ -12,8 +11,6 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { REACT_APP_API_URL } from '../../config';
 import { Equipment } from '../../types/equipment/equipment';
-import { CommentGroup } from '../../enums/comment.enum';
-import EquipmentComments from '../comment/EquipmentComments';
 
 interface TopEquipmentCardProps {
 	equipment: Equipment;
@@ -24,7 +21,6 @@ const TopEquipmentCard = (props: TopEquipmentCardProps) => {
 	const { equipment, likeHandler } = props;
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const [commentOpen, setCommentOpen] = useState(false);
 
 	const pushDetailHandler = async (equipmentId: string) => {
 		await router.push({ pathname: '/equipment/detail', query: { id: equipmentId } });
@@ -99,34 +95,14 @@ const TopEquipmentCard = (props: TopEquipmentCardProps) => {
 							</IconButton>
 							<Typography className="equip-count">{equipment.equipmentLikes}</Typography>
 
-							<IconButton
-								size="small"
-								className={`equip-btn comment-btn ${commentOpen ? 'active' : ''}`}
-								onClick={() => setCommentOpen(!commentOpen)}
-							>
+							<IconButton size="small" className="equip-btn comment-btn">
 								<ChatBubbleOutlineIcon style={{ fontSize: 14 }} />
-								<KeyboardArrowUpIcon
-									style={{
-										fontSize: 10,
-										transform: commentOpen ? 'rotate(0deg)' : 'rotate(180deg)',
-										transition: 'transform 0.25s',
-									}}
-								/>
 							</IconButton>
+							<Typography className="equip-count">{equipment.equipmentComments ?? 0}</Typography>
 						</Stack>
 					</Stack>
 				</Stack>
 			</Box>
-
-			<Collapse in={commentOpen}>
-				<Box className="equip-comment-section">
-					<EquipmentComments
-						commentGroup={CommentGroup.EQUIPMENT}
-						commentRefId={equipment._id}
-						memberId={user?._id}
-					/>
-				</Box>
-			</Collapse>
 		</Stack>
 	);
 };

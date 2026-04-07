@@ -146,7 +146,9 @@ const SalesManagerDetail: NextPage = ({ initialComment, ...props }: any) => {
 							className={'info'}
 							onClick={() => redirectToMemberPageHandler(salesManager?._id as string)}
 						>
+							<span className={'role-chip'}>Sales Manager Profile</span>
 							<strong>{salesManager?.memberFullName ?? salesManager?.memberNick}</strong>
+							<p className={'role-sub'}>Client acquisition and deal strategy</p>
 							<div>
 								<img src="/img/icons/call.svg" alt="" />
 								<span>{salesManager?.memberPhone}</span>
@@ -156,6 +158,7 @@ const SalesManagerDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 					<Stack className={'review-box'}>
 						<Stack className={'main-intro'}>
+							<Typography className={'eyebrow'}>Testimonials</Typography>
 							<span>Reviews</span>
 							<p>we are glad to see you again</p>
 						</Stack>

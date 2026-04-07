@@ -48,20 +48,20 @@ const ClotheList: NextPage = ({ initialInput, ...props }: any) => {
 			setClothes(list);
 			setTotal(data?.getClothes?.metaCounter[0]?.total ?? 0);
 
-			// ── DEBUG: meLiked serverdan to'g'ri kelayotganini tekshirish ──
+			// ── DEBUG: verify that meLiked is coming correctly from the server ──
 			console.log('=== SERVER DATA ===');
 			list.forEach((c) => {
 				console.log(`${c.clotheName} | likes: ${c.clotheLikes} | meLiked:`, c.meLiked);
 			});
 			console.log('==================');
 
-			// Serverdan kelgan like holatini likedMap ga to'liq yuklaymiz
-			// (reload qilganda likedMap bo'sh bo'ladi, shuning uchun server data ishlatiladi)
+			// Fully load server like state into likedMap
+			// (on reload, likedMap is empty, so server data is used)
 			setLikedMap((prev) => {
 				const next = { ...prev };
 				list.forEach((c) => {
-					// Faqat likedMap da YO'Q itemlarni serverdan yuklaymiz
-					// Bor itemlarni override qilmaymiz (like bosgandan keyin refetch bo'lsa)
+					// Only load items that are NOT in likedMap yet
+					// Do not override existing items (if refetch happens after like click)
 					if (!(c._id in next)) {
 						next[c._id] = {
 							liked: !!(c.meLiked && c.meLiked[0]?.myFavorite),
@@ -84,7 +84,7 @@ const ClotheList: NextPage = ({ initialInput, ...props }: any) => {
 	}, [router]);
 
 	useEffect(() => {
-		// Filter o'zgarganda likedMap ni TOZALAYMIZ — yangi list keladi
+		// Clear likedMap when filter changes — a new list is coming
 		setLikedMap({});
 		getClothesRefetch({ input: searchFilter }).then();
 	}, [searchFilter]);
@@ -117,12 +117,12 @@ const ClotheList: NextPage = ({ initialInput, ...props }: any) => {
 				};
 			});
 
-			// Mutation — refetch CHAQIRMAYMIZ
+			// Mutation — do not refetch
 			await likeTargetClothe({ variables: { input: id } });
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			// Xato bo'lsa orqaga qaytaramiz
+			// Revert optimistic update on error
 			setLikedMap((prev) => {
 				const current = prev[id];
 				if (!current) return prev;

@@ -96,7 +96,7 @@ const Advertisement = () => {
 									preload="auto"
 									style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }}
 								>
-									<source src="/video/ads.mov" type="video/mp4" />
+									<source src="/video/Fitness_intro.mp4" type="video/mp4" />
 								</video>
 							</Box>
 						) : (

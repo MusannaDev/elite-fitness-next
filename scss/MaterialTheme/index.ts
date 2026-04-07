@@ -182,9 +182,14 @@ export const light = {
 		MuiOutlinedInput: {
 			styleOverrides: {
 				root: {
-					height: '48px',
+					minHeight: '48px',
 					width: '100%',
 					backgroundColor: '#fff',
+					'&.MuiInputBase-multiline': {
+						height: 'auto',
+						paddingTop: '12px',
+						paddingBottom: '12px',
+					},
 					input: {},
 				},
 				notchedOutline: {

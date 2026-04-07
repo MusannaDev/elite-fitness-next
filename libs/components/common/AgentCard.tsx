@@ -123,7 +123,7 @@ const AgentCard = (props: AgentCardProps) => {
 		[isFollowing, agent?._id, user, followMember, unfollowMember, refetch],
 	);
 
-	// default background: rasm bo'lsa rasm, bo'lmasa rang
+	// Default background: use image if available, otherwise fallback color
 	const hexBg = imagePath
 		? `url(${imagePath}) center/cover no-repeat`
 		: color.bg;

@@ -25,6 +25,7 @@ export const GET_AGENTS = gql`
 				memberPoints
 				memberLikes
 				memberViews
+				memberComments
 				deletedAt
 				createdAt
 				updatedAt
@@ -256,6 +257,7 @@ export const GET_PROPERTIES = gql`
 				propertyRooms
 				propertyViews
 				propertyLikes
+				propertyComments
 				propertyRank
 				propertyImages
 				propertyDesc

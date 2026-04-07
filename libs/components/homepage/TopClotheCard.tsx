@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
-import { Stack, Box, Typography, IconButton, Chip, Collapse } from '@mui/material';
+import React from 'react';
+import { Stack, Box, Typography, IconButton, Chip } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { REACT_APP_API_URL } from '../../config';
 import { Clothe } from '../../types/clothes/clothes';
-import { CommentGroup } from '../../enums/comment.enum';
-import ClotheComments from '../comment/ClotheComments';
 
 interface TopClothesCardProps {
 	clothe: Clothe;
@@ -21,7 +18,6 @@ const TopClothesCard = (props: TopClothesCardProps) => {
 	const { clothe, likeHandler } = props;
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const [commentOpen, setCommentOpen] = useState(false);
 
 	const pushDetailHandler = async (clotheId: string) => {
 		await router.push({ pathname: '/clothes/detail', query: { id: clotheId } });
@@ -92,32 +88,12 @@ const TopClothesCard = (props: TopClothesCardProps) => {
 						</IconButton>
 						<Typography className="clothes-count">{clothe.clotheLikes}</Typography>
 
-						<IconButton
-							size="small"
-							className={`clothes-action-btn comment-btn ${commentOpen ? 'active' : ''}`}
-							onClick={() => setCommentOpen(!commentOpen)}
-						>
+						<IconButton size="small" className="clothes-action-btn comment-btn">
 							<ChatBubbleOutlineIcon style={{ fontSize: 13 }} />
-							<KeyboardArrowUpIcon
-								style={{
-									fontSize: 10,
-									transform: commentOpen ? 'rotate(0deg)' : 'rotate(180deg)',
-									transition: 'transform 0.25s',
-								}}
-							/>
 						</IconButton>
+						<Typography className="clothes-count">{clothe.clotheComments ?? 0}</Typography>
 					</Stack>
 				</Stack>
-
-				<Collapse in={commentOpen}>
-					<Box className="clothes-comment-section">
-						<ClotheComments
-							commentGroup={CommentGroup.CLOTHE}
-							commentRefId={clothe._id}
-							memberId={user?._id}
-						/>
-					</Box>
-				</Collapse>
 			</Box>
 		</Stack>
 	);

@@ -9,6 +9,7 @@ import { formatterStr } from '../../utils';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
 import { ClotheStatus } from '../../enums/clothes.enum';
+import { REACT_APP_API_URL } from '../../config';
 
 interface ClotheCardProps {
 	clothe: Clothe;
@@ -89,7 +90,7 @@ export const ClotheCard = (props: ClotheCardProps) => {
 		return (
 			<Stack className="clothe-card-box">
 				<Stack className="image-box" onClick={() => pushClotheDetail(clothe?._id)}>
-					<img src={`${process.env.REACT_APP_API_URL}/${clothe.clotheImages[0]}`} alt="" />
+					<img src={`${REACT_APP_API_URL}/${clothe.clotheImages[0]}`} alt="" />
 				</Stack>
 				<Stack className="information-box" onClick={() => pushClotheDetail(clothe?._id)}>
 					<Typography className="name">{clothe.clotheName}</Typography>

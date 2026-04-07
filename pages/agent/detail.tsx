@@ -209,7 +209,9 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 							alt=""
 						/>
 						<Box component={'div'} className={'info'} onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
+							<span className={'role-chip'}>Agent Profile</span>
 							<strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
+							<p className={'role-sub'}>Curated property advisor</p>
 							<div>
 								<img src="/img/icons/call.svg" alt="" />
 								<span>{agent?.memberPhone}</span>
@@ -217,6 +219,10 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 						</Box>
 					</Stack>
 					<Stack className={'agent-home-list'}>
+						<Stack className={'section-head'}>
+							<span>Portfolio</span>
+							<p>Available properties listed by this agent</p>
+						</Stack>
 						<Stack className={'card-wrap'}>
 							{agentProperties.map((property: Property) => {
 								return (
@@ -252,6 +258,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 					</Stack>
 					<Stack className={'review-box'}>
 						<Stack className={'main-intro'}>
+							<Typography className={'eyebrow'}>Testimonials</Typography>
 							<span>Reviews</span>
 							<p>we are glad to see you again</p>
 						</Stack>

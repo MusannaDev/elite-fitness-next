@@ -21,10 +21,10 @@ const HeroSection = () => {
 		const video = videoRef.current;
 		if (!video) return;
 
-		// Imperativ ravishda muted o'rnatish (autoplay uchun zarur)
+		// Set muted imperatively (required for autoplay)
 		video.muted = true;
 
-		// Videoni yuklash va o'ynash
+		// Load and play video
 		video.load();
 		const playPromise = video.play();
 		if (playPromise !== undefined) {
@@ -122,7 +122,7 @@ const withLayoutMain = (Component: any) => {
 		const user = useReactiveVar(userVar);
 		const router = useRouter();
 
-		// Faqat homepage da HeroSection ko'rsatish
+		// Show HeroSection only on the homepage
 		const isHomePage = router.pathname === '/';
 
 		/** LIFECYCLE **/
@@ -152,10 +152,10 @@ const withLayoutMain = (Component: any) => {
 						<title>EliteFit</title>
 						<meta name={'title'} content={`EliteFit`} />
 					</Head>
-					<div id="pc-wrap" className="light">
+					<div id="pc-wrap" className="light classic-modern layout-home">
 						<div id={'top'}><Top /></div>
 
-						{/* HeroSection faqat bosh sahifada */}
+						{/* HeroSection only on the homepage */}
 						{isHomePage && <HeroSection />}
 
 						<div id={'main'}><Component {...props} /></div>

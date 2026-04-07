@@ -466,6 +466,141 @@ $green:      #059669;
   }
 }
 
+// ── Payment dialog
+.oc-pay-paper {
+  border-radius: 18px !important;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.14) !important;
+}
+
+.oc-pay-dialog {
+  .MuiDialogTitle-root {
+    font-weight: 800;
+    font-size: 20px;
+    color: #0f172a;
+    letter-spacing: 0.3px;
+    background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  }
+}
+
+.oc-pay-subtitle {
+  font-size: 12px !important;
+  color: $text-muted !important;
+  margin-bottom: 10px !important;
+}
+
+.oc-pay-summary {
+  margin-top: 10px;
+  background: linear-gradient(180deg, #fbfdff 0%, #f6f9ff 100%);
+  border: 1px solid #dbe8ff;
+  border-radius: 12px;
+  padding: 12px 14px;
+
+  .MuiTypography-root {
+    font-size: 12px !important;
+    color: $text-mid !important;
+  }
+
+  strong {
+    font-size: 12px;
+    color: $text;
+    font-family: 'DM Mono', monospace;
+  }
+}
+
+.oc-pay-grand {
+  padding-top: 6px;
+  margin-top: 2px;
+  border-top: 1px dashed #c5d4f8;
+}
+
+.oc-demo-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  padding: 16px 18px;
+  background: linear-gradient(145deg, #1d2f4f 0%, #2d4f7f 55%, #4b73a8 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 0 14px 34px rgba(37, 78, 147, 0.34);
+}
+
+.oc-demo-glow {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  right: -20px;
+  top: -60px;
+  background: radial-gradient(circle, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) 68%);
+}
+
+.oc-demo-card-top {
+  position: relative;
+  z-index: 1;
+}
+
+.oc-demo-bank {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.8px !important;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+
+.oc-demo-chip {
+  width: 40px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.36);
+  background: linear-gradient(145deg, rgba(255,255,255,0.78) 0%, rgba(214,224,241,0.58) 100%);
+}
+
+.oc-demo-number {
+  position: relative;
+  z-index: 1;
+  margin-top: 20px !important;
+  font-family: 'DM Mono', monospace !important;
+  letter-spacing: 2px !important;
+  font-size: 23px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+}
+
+.oc-demo-bottom {
+  position: relative;
+  z-index: 1;
+  margin-top: 18px !important;
+}
+
+.oc-demo-label {
+  font-size: 9px !important;
+  color: rgba(255, 255, 255, 0.70) !important;
+  letter-spacing: 0.7px !important;
+  text-transform: uppercase;
+}
+
+.oc-demo-value {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  letter-spacing: 0.4px !important;
+}
+
+.oc-demo-fields {
+  margin-top: 12px;
+
+  .MuiInputBase-root {
+    border-radius: 10px !important;
+    background: #ffffff;
+  }
+
+  .MuiInputLabel-root {
+    font-size: 12px !important;
+  }
+}
+
 // ── Empty / loading state
 .oc-empty {
   display: flex;
@@ -530,17 +665,44 @@ $green:      #059669;
 }
 
 .os-shipping-list .oc-card--shipping {
-  background:
-    repeating-linear-gradient(
-      -45deg,
-      #ffffff,
-      #ffffff 14px,
-      #f7f1ff 14px,
-      #f7f1ff 28px
-    );
+  background: linear-gradient(180deg, #ffffff 0%, #f9f7ff 100%);
+  border-color: #e7defb;
+  box-shadow: 0 8px 20px rgba(108, 76, 179, 0.08);
 
   .oc-card-footer {
-    background: #fbf8ff;
+    background: #f7f3ff;
+  }
+}
+
+.os-shipping-note {
+  border: 1px solid #d9cff8;
+  border-radius: 16px;
+  background: linear-gradient(130deg, #ffffff 0%, #f6f0ff 58%, #ece3ff 100%);
+  padding: 15px 16px;
+  box-shadow: 0 8px 22px rgba(124, 58, 237, 0.10);
+}
+
+.os-shipping-note__title {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: #4c1d95 !important;
+}
+
+.os-shipping-note__desc {
+  margin-top: 3px !important;
+  font-size: 13px !important;
+  color: #5b4b85 !important;
+}
+
+.os-shipping-note__chips {
+  span {
+    font-size: 11px;
+    font-weight: 700;
+    color: #5b21b6;
+    background: rgba(139, 92, 246, 0.11);
+    border: 1px solid rgba(139, 92, 246, 0.22);
+    border-radius: 999px;
+    padding: 5px 10px;
   }
 }
 

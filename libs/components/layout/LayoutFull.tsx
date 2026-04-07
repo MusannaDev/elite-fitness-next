@@ -56,7 +56,7 @@ const withLayoutFull = (Component: any) => {
 						<title>Elite-fitness</title>
 						<meta name={'title'} content={`Elite-fitness`} />
 					</Head>
-					<Stack id="pc-wrap" className="light">
+					<Stack id="pc-wrap" className="light classic-modern layout-full">
 						<Stack id={'top'}>
 							<Top />
 						</Stack>

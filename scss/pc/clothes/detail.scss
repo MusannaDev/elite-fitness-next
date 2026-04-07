@@ -2,7 +2,7 @@
 $cl-accent:    #a0c814;
 $cl-accent-bg: rgba(160, 200, 20, 0.08);
 $cl-dark:      #111111;
-$cl-bg:        #f7f7f5;
+$cl-bg:        #ffffff;
 $cl-surface:   #ffffff;
 $cl-text:      #1a1a1a;
 $cl-text-mid:  #555555;
@@ -755,22 +755,34 @@ $cl-sans:      'DM Sans', 'Inter', sans-serif;
       .leave-review-config {
         .main-title {
           font-size: 52px !important;
-          color: #f7f7f8 !important;
+          color: rgba(137, 170, 18, 0.3) !important;
           text-transform: none !important;
           letter-spacing: -0.02em !important;
+          opacity: 1 !important;
+          text-shadow: none !important;
         }
 
+        .review-title { color: #26303f !important; }
+
         textarea, input {
-          background: #111217 !important;
-          border: 1px solid rgba(255,255,255,.14) !important;
-          color: #f4f4f5 !important;
+          background: #ffffff !important;
+          border: 1px solid rgba(160, 200, 20, 0.4) !important;
+          color: #1d2735 !important;
+          box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06) !important;
         }
 
         .submit-review {
-          background: #f5f5f5 !important;
-          border: 1px solid #f5f5f5 !important;
-          .title { color: #14161b !important; }
-          svg path { fill: #14161b !important; }
+          margin-top: 20px !important;
+          background: rgba(160, 200, 20, 0.14) !important;
+          border: 1px solid rgba(137, 170, 18, 0.48) !important;
+          .title { color: #5b7310 !important; }
+          svg path { fill: #5b7310 !important; }
+          &:hover {
+            background: #89aa12 !important;
+            border-color: #89aa12 !important;
+            .title { color: #ffffff !important; }
+            svg path { fill: #ffffff !important; }
+          }
         }
       }
     }
@@ -1120,218 +1132,102 @@ $cl-sans:      'DM Sans', 'Inter', sans-serif;
   }
 }
 
-/* ===== Clothes Detail: Classic Gradient Glass Effect ===== */
 
-/* ── Light Theme ─────────────────────────────────────────────────────────── */
-[data-theme="light"] #pc-wrap #clothe-detail-page {
-  background: #ffffff !important;
 
-  .clothe-info-config .info .left-box {
-    background: rgba(255, 255, 255, 0.72) !important;
-    backdrop-filter: blur(18px) saturate(1.8) !important;
-    -webkit-backdrop-filter: blur(18px) saturate(1.8) !important;
-    border: 1px solid rgba(255, 255, 255, 0.88) !important;
-    border-radius: 14px !important;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 1) !important;
-    color: #111111 !important;
-  }
+/* ===== Clothes Detail: Glass Sections ===== */
+#pc-wrap #clothe-detail-page {
+  background: linear-gradient(160deg, #f7fae8 0%, #fafce8 50%, #f4f8e0 100%) !important;
 
-  .clothe-info-config .info .right-box {
-    background: rgba(255, 255, 255, 0.72) !important;
-    backdrop-filter: blur(18px) saturate(1.8) !important;
-    -webkit-backdrop-filter: blur(18px) saturate(1.8) !important;
-    border: 1px solid rgba(255, 255, 255, 0.88) !important;
-    border-radius: 14px !important;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07) !important;
-    p { color: #111111 !important; }
-  }
+  .clothe-desc-config {
+    gap: 20px !important;
+    .left-config { gap: 20px !important; }
 
-  .clothe-info-config .info .add-cart-section {
-    background: rgba(255, 255, 255, 0.62) !important;
-    backdrop-filter: blur(14px) !important;
-    -webkit-backdrop-filter: blur(14px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.82) !important;
-    border-radius: 12px !important;
-    .add-cart-btn {
-      background: #a0c814 !important;
-      color: #111 !important;
-      border-color: #a0c814 !important;
+    .prop-desc-config,
+    .reviews-config,
+    .leave-review-config {
+      background: rgba(255,255,255,.82) !important;
+      backdrop-filter: blur(20px) saturate(160%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+      border: 1px solid rgba(160,200,20,.25) !important;
+      border-top: 3px solid #a0c814 !important;
+      border-radius: 18px !important;
+      padding: 32px !important;
+      box-shadow: 0 4px 24px rgba(160,200,20,.12), inset 0 1px 0 rgba(255,255,255,.9) !important;
+    }
+
+    .prop-desc-config {
+      .top .title, .bottom .title {
+        color: #7a9a0a !important; font-size: 10px !important; letter-spacing: 3px !important; font-weight: 700 !important;
+      }
+      .top .desc { color: #1a1a1a !important; font-size: 15px !important; line-height: 1.85 !important; }
+      .info-box .left .info, .info-box .right .info {
+        padding: 12px 16px !important; border-bottom: none !important;
+        border-radius: 10px !important; margin-bottom: 6px !important;
+        background: rgba(160,200,20,.07) !important; border: 1px solid rgba(160,200,20,.2) !important;
+        .title { color: #7a9a0a !important; font-size: 10px !important; letter-spacing: 1px !important; width: 150px !important; }
+        .data { color: #111 !important; font-size: 14px !important; font-weight: 600 !important; }
+      }
+    }
+
+    .reviews-config {
+      .review-cnt .reviews { color: #7a9a0a !important; font-size: 12px !important; letter-spacing: 2px !important; }
+      .review-config {
+        padding: 20px !important; border-bottom: none !important; border-radius: 12px !important;
+        background: rgba(160,200,20,.05) !important; border: 1px solid rgba(160,200,20,.2) !important; margin-bottom: 10px !important;
+        .img-box { border-radius: 50% !important; border-color: rgba(160,200,20,.45) !important; }
+        .name { color: #111 !important; font-size: 14px !important; font-weight: 700 !important; }
+        .date { color: #888 !important; font-size: 11px !important; }
+        .description { color: #333 !important; border-left: 3px solid rgba(160,200,20,.6) !important; font-size: 14px !important; line-height: 1.75 !important; }
+      }
+      svg { color: #7a9a0a !important; }
+    }
+
+    .leave-review-config {
+      .main-title { font-size: 22px !important; font-weight: 700 !important; color: #111 !important; text-transform: none !important; }
+      .review-title { color: #555 !important; font-size: 13px !important; }
+      textarea {
+        background: #fff !important; border: 1px solid rgba(160,200,20,.35) !important;
+        border-radius: 12px !important; color: #111 !important; font-size: 14px !important; padding: 14px 16px !important;
+        &:focus { border-color: #a0c814 !important; outline: none !important; }
+        &::placeholder { color: #aaa !important; }
+      }
+      .submit-review {
+        border-radius: 12px !important; background: #a0c814 !important; border: none !important;
+        padding: 13px 32px !important;
+        &:hover { background: #8aaa0a !important; }
+        .title { color: #111 !important; font-size: 13px !important; letter-spacing: 1.5px !important; }
+      }
+    }
+
+    .right-config {
+      background: rgba(255,255,255,.82) !important;
+      backdrop-filter: blur(20px) !important; -webkit-backdrop-filter: blur(20px) !important;
+      border: 1px solid rgba(160,200,20,.25) !important; border-top: 3px solid #a0c814 !important;
+      border-radius: 18px !important; box-shadow: 0 4px 24px rgba(160,200,20,.12) !important; padding: 28px !important;
+      .info-box {
+        .main-title { color: #7a9a0a !important; font-size: 10px !important; letter-spacing: 3px !important; }
+        img { border-radius: 50% !important; border-color: rgba(160,200,20,.45) !important; }
+        .name { color: #111 !important; font-size: 15px !important; font-weight: 700 !important; }
+        .number { color: #555 !important; }
+        .listings { color: #7a9a0a !important; }
+        input, textarea {
+          background: #fff !important; border: 1px solid rgba(160,200,20,.3) !important;
+          border-radius: 10px !important; color: #111 !important;
+          &:focus { border-color: #a0c814 !important; }
+          &::placeholder { color: #aaa !important; }
+        }
+        .send-message {
+          border-radius: 12px !important; background: #a0c814 !important; border: none !important;
+          &:hover { background: #8aaa0a !important; }
+          .title { color: #111 !important; }
+        }
+        svg { color: #7a9a0a !important; }
+      }
     }
   }
 
-  .clothe-info-config .info .price-box {
-    background: rgba(255, 255, 255, 0.65) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.85) !important;
-    border-radius: 12px !important;
-    .price-value { color: #111111 !important; }
-  }
-
-  .clothe-info-config .info .top-box > .MuiTypography-root,
-  .clothe-info-config .info .top-box > .details-box,
-  .clothe-info-config .info .top-box > .date,
-  .clothe-info-config .info .top-box > svg {
-    background: rgba(255, 255, 255, 0.55) !important;
-    border-color: rgba(0, 0, 0, 0.08) !important;
-    color: #111111 !important;
-  }
-
-  .clothe-info-config .info .in-stock,
-  .clothe-info-config .info .out-of-stock {
-    background: rgba(255, 255, 255, 0.55) !important;
-    border-color: rgba(0, 0, 0, 0.08) !important;
-  }
-
-  .clothe-desc-config .left-config .prop-desc-config,
-  .clothe-desc-config .left-config .reviews-config,
-  .clothe-desc-config .left-config .leave-review-config {
-    background: rgba(255, 255, 255, 0.65) !important;
-    backdrop-filter: blur(20px) saturate(1.5) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(1.5) !important;
-    border: 1px solid rgba(255, 255, 255, 0.85) !important;
-    border-top: 3px solid #a0c814 !important;
-    border-radius: 14px !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
-    padding: 26px 28px !important;
-    .top .title, .bottom .title { color: #555555 !important; }
-    .top .desc { color: #111111 !important; }
-    .info .title { color: #555555 !important; }
-    .info .data { color: #111111 !important; }
-  }
-
-  .clothe-desc-config .right-config {
-    background: rgba(255, 255, 255, 0.72) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.85) !important;
-    border-top: 3px solid #a0c814 !important;
-    border-radius: 14px !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07) !important;
-    .info-box .main-title,
-    .info-box .sub-title,
-    .info-box .name,
-    .info-box .number { color: #111111 !important; }
-    input, textarea {
-      background: rgba(255, 255, 255, 0.8) !important;
-      border-color: rgba(0, 0, 0, 0.1) !important;
-      color: #111111 !important;
-    }
-  }
-
-  .clothe-info-config,
-  .clothe-desc-config,
-  .similar-clothes-config {
-    svg { color: #555555 !important; }
-    svg path { fill: currentColor !important; stroke: currentColor !important; }
-    img[src*='/img/icons/'] { filter: none !important; opacity: 1 !important; }
-  }
-
-  .clothe-info-config .info .title-main { color: #111111 !important; }
-}
-
-/* ── Dark Theme ──────────────────────────────────────────────────────────── */
-[data-theme="dark"] #pc-wrap #clothe-detail-page {
-  background: linear-gradient(135deg, #0c1004 0%, #141a06 50%, #0e1205 100%) !important;
-
-  .clothe-info-config .info .left-box,
-  .clothe-info-config .info .right-box {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
-    backdrop-filter: blur(20px) saturate(1.3) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(1.3) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 14px !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
-  }
-
-  .clothe-info-config .info .add-cart-section {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.09) !important;
-    border-radius: 12px !important;
-  }
-
-  .clothe-info-config .info .price-box {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    border-radius: 12px !important;
-  }
-
-  .clothe-desc-config .left-config .prop-desc-config,
-  .clothe-desc-config .left-config .reviews-config,
-  .clothe-desc-config .left-config .leave-review-config {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
-    backdrop-filter: blur(24px) saturate(1.2) !important;
-    -webkit-backdrop-filter: blur(24px) saturate(1.2) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-top: 3px solid rgba(160, 200, 20, 0.6) !important;
-    border-radius: 14px !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
-  }
-
-  .clothe-desc-config .right-config {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
-    backdrop-filter: blur(24px) !important;
-    -webkit-backdrop-filter: blur(24px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-top: 3px solid rgba(160, 200, 20, 0.6) !important;
-    border-radius: 14px !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45) !important;
-    .info-box .main-title,
-    .info-box .sub-title,
-    .info-box .name,
-    .info-box .number { color: #f0f0f8 !important; }
-    input, textarea {
-      background: rgba(255, 255, 255, 0.05) !important;
-      border-color: rgba(255, 255, 255, 0.12) !important;
-      color: #f0f0f8 !important;
-      &::placeholder { color: rgba(240, 240, 248, 0.35) !important; }
-    }
-  }
-
-  /* ── Text, Icon & Input overrides for dark theme ── */
-  color: #f0f0f8 !important;
-
-  .clothe-info-config .info .title-main { color: #f0f0f8 !important; }
-  .clothe-info-config .info .left-box {
-    p, span, .MuiTypography-root { color: #c0c0d8 !important; }
-  }
-  .clothe-info-config .info .right-box {
-    p, span, .MuiTypography-root { color: #c0c0d8 !important; }
-    .price-value { color: #ffffff !important; }
-  }
-  .clothe-info-config .info .price-box .price-value { color: #ffffff !important; }
-  .clothe-info-config .info .in-stock  { color: #4ade80 !important; }
-  .clothe-info-config .info .out-of-stock { color: #f87171 !important; }
-  .clothe-info-config .info .top-box {
-    .MuiTypography-root, .brand, .category, .city, .date, .detail-item { color: #9090b0 !important; }
-    svg path { fill: #9090b0 !important; }
-  }
-
-  .clothe-desc-config .left-config .prop-desc-config,
-  .clothe-desc-config .left-config .reviews-config,
-  .clothe-desc-config .left-config .leave-review-config {
-    .top .title, .bottom .title { color: #8888a0 !important; }
-    .top .desc { color: #d0d0e8 !important; }
-    .info .title { color: #8888a0 !important; }
-    .info .data  { color: #d0d0e8 !important; }
-    p, span, .MuiTypography-root { color: #c0c0d8 !important; }
-    textarea, input {
-      background: rgba(255, 255, 255, 0.05) !important;
-      border-color: rgba(255, 255, 255, 0.12) !important;
-      color: #f0f0f8 !important;
-      &::placeholder { color: rgba(240, 240, 248, 0.35) !important; }
-    }
-  }
-
-  .clothe-info-config,
-  .clothe-desc-config,
-  .similar-clothes-config {
-    svg { color: #8888a0 !important; }
-    svg path { fill: currentColor !important; }
-    img[src*='/img/icons/'] { filter: brightness(0) invert(1) !important; opacity: 0.6 !important; }
-  }
+  .clothe-desc-config p, .clothe-desc-config span,
+  .clothe-desc-config .MuiTypography-root { color: #333 !important; }
+  .clothe-desc-config img[src*='/img/icons/'] { filter: none !important; opacity: 1 !important; }
+  .clothe-desc-config svg { color: #7a9a0a !important; }
 }
