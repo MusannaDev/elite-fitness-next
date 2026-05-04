@@ -8,6 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { REACT_APP_API_URL } from '../../../config';
 import { ProductStatus } from '../../../enums/product.enum';
 import { Product } from '../../../types/product/product';
+import { formatProductWeight } from '../../../utils/productWeight';
 
 const headCells = [
 	{ id: 'id',       label: 'ID',       align: 'left' as const },
@@ -72,7 +73,7 @@ export const ProductPanelList = ({ products, anchorEl, menuIconClickHandler, men
 									<TableCell align="center"><Box className={'tag-pill amber'}>{product.productBrand}</Box></TableCell>
 									<TableCell align="center"><Typography className={'price-text'}>${product.productPrice?.toLocaleString()}</Typography></TableCell>
 									<TableCell align="center"><Box className={'tag-pill stone'}>{product.productCategory}</Box></TableCell>
-									<TableCell align="center"><Typography className={'meta-text'}>{product.productWeight}</Typography></TableCell>
+									<TableCell align="center"><Typography className={'meta-text'}>{formatProductWeight(product.productWeight)}</Typography></TableCell>
 									<TableCell align="center"><Typography className={'meta-text'}>{product.productFlavor}</Typography></TableCell>
 									<TableCell align="center">
 										<Box sx={{

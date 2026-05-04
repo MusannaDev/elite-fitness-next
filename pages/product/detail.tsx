@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import { Product } from '../../libs/types/product/product';
 import moment from 'moment';
 import { formatterStr } from '../../libs/utils';
+import { formatProductWeight } from '../../libs/utils/productWeight';
 import { REACT_APP_API_URL } from '../../libs/config';
 import { userVar } from '../../apollo/store';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
@@ -291,7 +292,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Typography className={'category'}>{product?.productCategory}</Typography>
 										<Stack className={'divider'}></Stack>
 										<Stack className={'details-box'}>
-											<Typography className={'detail-item'}>Weight: {product?.productWeight}</Typography>
+											<Typography className={'detail-item'}>Weight: {formatProductWeight(product?.productWeight)}</Typography>
 											<Typography className={'detail-item'}>Flavor: {product?.productFlavor}</Typography>
 										</Stack>
 										<Stack className={'divider'}></Stack>
@@ -410,7 +411,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Weight</Typography>
-													<Typography className={'data'}>{product?.productWeight}</Typography>
+													<Typography className={'data'}>{formatProductWeight(product?.productWeight)}</Typography>
 												</Box>
 											</Stack>
 											<Stack className={'right'}>

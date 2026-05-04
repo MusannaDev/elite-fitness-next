@@ -31,6 +31,7 @@ import { CREATE_COMMENT, LIKE_TARGET_BOARD_ARTICLE, UPDATE_COMMENT } from '../..
 import { GET_BOARD_ARTICLE, GET_COMMENTS } from '../../apollo/user/query';
 import { Messages } from '../../libs/config';
 import { CommentUpdate } from '../../libs/types/comment/comment.update';
+import { useThemeMode } from '../../libs/contexts/ThemeModeContext';
 const ToastViewerComponent = dynamic(() => import('../../libs/components/community/TViewer'), { ssr: false });
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -67,6 +68,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const [updatedCommentId, setUpdatedCommentId] = useState<string>('');
 	const [likeLoading, setLikeLoading] = useState<boolean>(false);
 	const [boardArticle, setBoardArticle] = useState<BoardArticle>();
+	const { themeMode } = useThemeMode();
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetBoardArticle] = useMutation(LIKE_TARGET_BOARD_ARTICLE);
@@ -203,7 +205,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 		return <div>COMMUNITY DETAIL PAGE MOBILE</div>;
 	} else {
 		return (
-			<div id="community-detail-page" className="light">
+			<div id="community-detail-page" className={themeMode}>
 				{/* Aurora blobs — dark only */}
 				<div className="detail-blobs">
 					<div className="blob blob1" />

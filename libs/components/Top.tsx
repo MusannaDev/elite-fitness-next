@@ -15,8 +15,11 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import { REACT_APP_API_URL } from '../config';
 import Basket from './Basket';
+import { useThemeMode } from '../contexts/ThemeModeContext';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -32,6 +35,7 @@ const Top = () => {
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
 	const forceSolidNavbar = useMemo(() => router.pathname !== '/', [router.pathname]);
+	const { themeMode, toggleThemeMode } = useThemeMode();
 
 	// Dropdown hover state with delay refs
 	const [shopsOpen, setShopsOpen] = useState(false);
@@ -156,6 +160,15 @@ const Top = () => {
 				<Link href={'/community?articleCategory=FREE'}><div>{t('Community')}</div></Link>
 				{user?._id && <Link href={'/order'}><div>Orders</div></Link>}
 				<Link href={'/cs'}><div>{t('CS')}</div></Link>
+				<button
+					type="button"
+					className="theme-toggle-btn"
+					onClick={toggleThemeMode}
+					aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+					title={themeMode === 'dark' ? 'Light mode' : 'Night mode'}
+				>
+					{themeMode === 'dark' ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
+				</button>
 				<Basket />
 			</Stack>
 		);
@@ -246,8 +259,15 @@ const Top = () => {
 
 						{/* USER BOX */}
 						<Box component={'div'} className={'user-box'}>
-							<Basket />
-
+							<button
+								type="button"
+								className="theme-toggle-btn"
+								onClick={toggleThemeMode}
+								aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+								title={themeMode === 'dark' ? 'Light mode' : 'Night mode'}
+							>
+								{themeMode === 'dark' ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
+							</button>
 							{user?._id ? (
 								<>
 									<div
@@ -277,14 +297,16 @@ const Top = () => {
 										</MenuItem>
 									</Menu>
 								</>
-							) : (
-								<Link href={'/account/join'}>
-									<div className={'join-box'}>
-										<AccountCircleOutlinedIcon />
-										<span>{t('Login')} / {t('Register')}</span>
-									</div>
-								</Link>
-							)}
+								) : (
+									<Link href={'/account/join'}>
+										<div className={'join-box'}>
+											<span className={'join-icon'}>
+												<AccountCircleOutlinedIcon />
+											</span>
+											<span className={'join-label'}>{t('Login')} / {t('Register')}</span>
+										</div>
+									</Link>
+								)}
 
 							<div className={'lan-box'}>
 								{user?._id && (

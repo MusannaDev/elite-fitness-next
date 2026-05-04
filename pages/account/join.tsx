@@ -4,6 +4,7 @@ import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { Box, Stack } from '@mui/material';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 import { logIn, signUp } from '../../libs/auth';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -73,14 +74,52 @@ const Join: NextPage = () => {
 		}
 	}, [input]);
 
+	const uploadAvatarForSignup = useCallback(async (file: File): Promise<string> => {
+		const formData = new FormData();
+		formData.append(
+			'operations',
+			JSON.stringify({
+				query: `mutation ImageUploader($file: Upload!, $target: String!) {
+					imageUploader(file: $file, target: $target)
+				}`,
+				variables: {
+					file: null,
+					target: 'member',
+				},
+			}),
+		);
+		formData.append(
+			'map',
+			JSON.stringify({
+				'0': ['variables.file'],
+			}),
+		);
+		formData.append('0', file);
+
+		const response = await axios.post(`${process.env.REACT_APP_API_GRAPHQL_URL}`, formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+				'apollo-require-preflight': true,
+			},
+		});
+
+		const uploadedPath = response?.data?.data?.imageUploader;
+		if (!uploadedPath) throw new Error('Image upload failed');
+		return uploadedPath;
+	}, []);
+
 	const doSignUp = useCallback(async () => {
 		try {
-			await signUp(input.nick, input.password, input.phone, input.type);
+			let memberImage: string | undefined = undefined;
+			if (avatarFile) {
+				memberImage = await uploadAvatarForSignup(avatarFile);
+			}
+			await signUp(input.nick, input.password, input.phone, input.type, memberImage);
 			await router.push(`${router.query.referrer ?? '/'}`);
 		} catch (err: any) {
 			await sweetMixinErrorAlert(err.message);
 		}
-	}, [input]);
+	}, [avatarFile, input, router, uploadAvatarForSignup]);
 
 	if (device === 'mobile') {
 		return <div>JOIN MOBILE</div>;

@@ -15,9 +15,10 @@ import { T } from '../../types/common';
 import { Property } from '../../types/property/property';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import { REACT_APP_API_URL } from '../../config';
-import { Message } from '../../enums/common.enum';
+import { Direction, Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import Link from 'next/link';
+import { sortByEngagement } from '../../utils/ranking';
 
 interface PopularPropertiesProps {
 	initialInput: PropertiesInquiry;
@@ -29,14 +30,30 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 	const user = useReactiveVar(userVar);
 	const [popularProperties, setPopularProperties] = useState<Property[]>([]);
 	const [active, setActive] = useState<number>(0);
+	const propertiesInput: PropertiesInquiry = {
+		...initialInput,
+		sort: 'propertyLikes',
+		direction: Direction.DESC,
+	};
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
 
 	const { refetch: getPropertiesRefetch } = useQuery(GET_PROPERTIES, {
 		fetchPolicy: 'cache-and-network',
-		variables: { input: initialInput },
+		variables: { input: propertiesInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setPopularProperties(data?.getProperties?.list || []);
+			setPopularProperties(
+				sortByEngagement(
+					data?.getProperties?.list ?? [],
+					(property: Property) => ({
+						likes: property.propertyLikes,
+						views: property.propertyViews,
+						comments: property.propertyComments,
+						rank: property.propertyRank,
+					}),
+					propertiesInput.limit,
+				),
+			);
 		},
 	});
 
@@ -45,7 +62,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 			if (!id) return;
 			if (!user?._id) throw new Error(Message.NOT_AUTHENTICATED);
 			await likeTargetProperty({ variables: { input: id } });
-			await getPropertiesRefetch({ input: initialInput });
+			await getPropertiesRefetch({ input: propertiesInput });
 			await sweetTopSmallSuccessAlert('success', 700);
 		} catch (err: any) {
 			sweetMixinErrorAlert(err.message).then();
@@ -172,7 +189,7 @@ PopularProperties.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 8,
-		sort: 'propertyViews',
+		sort: 'propertyLikes',
 		direction: 'DESC',
 		search: {},
 	},

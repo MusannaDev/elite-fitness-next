@@ -6,6 +6,20 @@ export default function Document() {
 			<Head>
 				<meta name="robots" content="index,follow" />
 				<link rel="icon" type="image/png" href="/img/logo/elite.svg" />
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `
+							(function () {
+								try {
+									var themeMode = localStorage.getItem('elite-theme-mode');
+									if (themeMode === 'dark' || themeMode === 'light') {
+										document.documentElement.setAttribute('data-theme', themeMode);
+									}
+								} catch (e) {}
+							})();
+						`,
+					}}
+				/>
 
 				{/* SEO */}
 				<meta name="keyword" content={'elitefit, elitefit.uz, adam mern, mern nestjs fullstack'} />

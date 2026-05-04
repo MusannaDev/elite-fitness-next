@@ -167,3 +167,4 @@ const PendingOrders = ({ setActiveStatus }: Props) => {
 };
 
 export default PendingOrders;
+

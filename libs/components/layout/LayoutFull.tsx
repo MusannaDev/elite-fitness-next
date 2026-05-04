@@ -7,8 +7,10 @@ import Footer from '../Footer';
 import { Stack } from '@mui/material';
 import { getJwtToken, updateUserInfo } from '../../auth';
 import Chat from '../Chat';
+import Basket from '../Basket';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { useThemeMode } from '../../contexts/ThemeModeContext';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -18,6 +20,7 @@ const withLayoutFull = (Component: any) => {
 		const router = useRouter();
 		const device = useDeviceDetect();
 		const user = useReactiveVar(userVar);
+		const { themeMode } = useThemeMode();
 
 		/** LIFECYCLE **/
 		useEffect(() => {
@@ -34,7 +37,7 @@ const withLayoutFull = (Component: any) => {
 						<title>Elite-fitness</title>
 						<meta name={'title'} content={`Elite-fitness`} />
 					</Head>
-					<Stack id="mobile-wrap">
+					<Stack id="mobile-wrap" className={themeMode}>
 						<Stack id={'top'}>
 							<Top />
 						</Stack>
@@ -56,7 +59,7 @@ const withLayoutFull = (Component: any) => {
 						<title>Elite-fitness</title>
 						<meta name={'title'} content={`Elite-fitness`} />
 					</Head>
-					<Stack id="pc-wrap" className="light classic-modern layout-full">
+					<Stack id="pc-wrap" className={`${themeMode} classic-modern layout-full`}>
 						<Stack id={'top'}>
 							<Top />
 						</Stack>
@@ -65,7 +68,8 @@ const withLayoutFull = (Component: any) => {
 							<Component {...props} />
 						</Stack>
 
-					  <Chat />
+						<Basket floating />
+						<Chat />
 
 						<Stack id={'footer'}>
 							<Footer />

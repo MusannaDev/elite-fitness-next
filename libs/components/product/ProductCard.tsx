@@ -11,6 +11,7 @@ import EggAltIcon from '@mui/icons-material/EggAlt';
 import { Product } from '../../types/product/product';
 import Link from 'next/link';
 import { formatterStr } from '../../utils';
+import { formatProductWeight } from '../../utils/productWeight';
 import { REACT_APP_API_URL, topProductRank } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
@@ -243,7 +244,7 @@ const ProductCard = (props: ProductCardType) => {
 					<Stack className="specs-row">
 						<Stack className="spec-item">
 							<FitnessCenterIcon fontSize="small" />
-							<Typography>{product.productWeight}</Typography>
+							<Typography>{formatProductWeight(product.productWeight)}</Typography>
 						</Stack>
 						<span className="spec-dot" />
 						<Stack className="spec-item">

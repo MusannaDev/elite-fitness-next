@@ -3,7 +3,7 @@ import { initializeApollo } from '../../apollo/client';
 import { userVar } from '../../apollo/store';
 import { CustomJwtPayload } from '../types/customJwtPayload';
 import { sweetMixinErrorAlert } from '../sweetAlert';
-import { LOGIN, SIGN_UP } from '../../apollo/user/mutation';
+import { LOGIN, SIGN_UP, UPDATE_MEMBER } from '../../apollo/user/mutation';
 
 export function getJwtToken(): any {
 	if (typeof window !== 'undefined') {
@@ -64,13 +64,22 @@ const requestJwtToken = async ({
 	}
 };
 
-export const signUp = async (nick: string, password: string, phone: string, type: string): Promise<void> => {
+export const signUp = async (
+	nick: string,
+	password: string,
+	phone: string,
+	type: string,
+	memberImage?: string,
+): Promise<void> => {
 	try {
-		const { jwtToken } = await requestSignUpJwtToken({ nick, password, phone, type });
+		const { jwtToken } = await requestSignUpJwtToken({ nick, password, phone, type, memberImage });
 
 		if (jwtToken) {
 			updateStorage({ jwtToken });
 			updateUserInfo(jwtToken);
+			if (memberImage) {
+				await updateMemberImageAfterSignUp(memberImage);
+			}
 		}
 	} catch (err) {
 		console.warn('login err', err);
@@ -84,19 +93,29 @@ const requestSignUpJwtToken = async ({
 	password,
 	phone,
 	type,
+	memberImage,
 }: {
 	nick: string;
 	password: string;
 	phone: string;
 	type: string;
+	memberImage?: string;
 }): Promise<{ jwtToken: string }> => {
 	const apolloClient = await initializeApollo();
 
 	try {
+		const signupInput: any = {
+			memberNick: nick,
+			memberPassword: password,
+			memberPhone: phone,
+			memberType: type,
+		};
+		if (memberImage) signupInput.memberImage = memberImage;
+
 		const result = await apolloClient.mutate({
 			mutation: SIGN_UP,
 			variables: {
-				input: { memberNick: nick, memberPassword: password, memberPhone: phone, memberType: type },
+				input: signupInput,
 			},
 			fetchPolicy: 'network-only',
 		});
@@ -116,6 +135,35 @@ const requestSignUpJwtToken = async ({
 				break;
 		}
 		throw new Error('token error');
+	}
+};
+
+const updateMemberImageAfterSignUp = async (memberImage: string): Promise<void> => {
+	try {
+		const token = getJwtToken();
+		if (!token) return;
+		const claims = decodeJWT<CustomJwtPayload>(token);
+		if (!claims?._id) return;
+
+		const apolloClient = await initializeApollo();
+		const result = await apolloClient.mutate({
+			mutation: UPDATE_MEMBER,
+			variables: {
+				input: {
+					_id: claims._id,
+					memberImage,
+				},
+			},
+			fetchPolicy: 'network-only',
+		});
+
+		const nextToken = result?.data?.updateMember?.accessToken;
+		if (nextToken) {
+			updateStorage({ jwtToken: nextToken });
+			updateUserInfo(nextToken);
+		}
+	} catch (err) {
+		console.warn('post-signup image update err', err);
 	}
 };
 

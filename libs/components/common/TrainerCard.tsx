@@ -158,7 +158,7 @@ const TrainerCard = (props: TrainerCardProps) => {
 						<span>{trainer?.memberProducts}</span> products
 					</div>
 
-					<IconButton className={'like-btn-float'} onClick={handleLikeClick}>
+					<IconButton type="button" className={'like-btn-float'} onClick={handleLikeClick}>
 						{localLiked ? (
 							<FavoriteIcon className="liked" />
 						) : (
@@ -201,6 +201,7 @@ const TrainerCard = (props: TrainerCardProps) => {
 
 					{user?._id !== trainer?._id && (
 						<button
+							type="button"
 							className={`follow-btn ${isFollowing ? 'followed' : ''}`}
 							onClick={handleFollowClick}
 						>

@@ -78,7 +78,6 @@ const TrainerList: NextPage = ({ initialInput, ...props }: any) => {
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2);
 			await likeTargetMember({ variables: { input: id } });
-			await getTrainersRefetch({ input: searchFilter });
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('ERROR, likeMemberHandler:', err.message);
@@ -92,7 +91,6 @@ const TrainerList: NextPage = ({ initialInput, ...props }: any) => {
 			if (!user._id) throw new Error(Messages.error2);
 
 			await subscribe({ variables: { input: id } });
-			await getTrainersRefetch({ input: searchFilter });
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('ERROR, subscribeHandler:', err.message);
@@ -106,7 +104,6 @@ const TrainerList: NextPage = ({ initialInput, ...props }: any) => {
 			if (!user._id) throw new Error(Messages.error2);
 
 			await unsubscribe({ variables: { input: id } });
-			await getTrainersRefetch({ input: searchFilter });
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('ERROR, unsubscribeHandler:', err.message);

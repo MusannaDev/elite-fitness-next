@@ -12,9 +12,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GET_TRAINERS } from '../../../apollo/user/query';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../../apollo/user/mutation';
 import { T } from '../../types/common';
-import { Message } from '../../enums/common.enum';
+import { Direction, Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import Link from 'next/link';
+import { sortByEngagement } from '../../utils/ranking';
 
 interface TopTrainersProps {
 	initialInput: AgentsInquiry;
@@ -24,6 +25,11 @@ const TopTrainers = (props: TopTrainersProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const [topTrainers, setTopTrainers] = useState<Member[]>([]);
+	const topTrainersInput: AgentsInquiry = {
+		...initialInput,
+		sort: 'memberLikes',
+		direction: Direction.DESC,
+	};
 
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
 	const [subscribe] = useMutation(SUBSCRIBE);
@@ -31,10 +37,21 @@ const TopTrainers = (props: TopTrainersProps) => {
 
 	const { refetch } = useQuery(GET_TRAINERS, {
 		fetchPolicy: 'cache-and-network',
-		variables: { input: initialInput },
+		variables: { input: topTrainersInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setTopTrainers(data?.getTrainers?.list);
+			setTopTrainers(
+				sortByEngagement(
+					data?.getTrainers?.list ?? [],
+					(trainer: Member) => ({
+						likes: trainer.memberLikes,
+						views: trainer.memberViews,
+						comments: trainer.memberComments,
+						rank: trainer.memberRank,
+					}),
+					topTrainersInput.limit,
+				),
+			);
 		},
 	});
 
@@ -43,7 +60,7 @@ const TopTrainers = (props: TopTrainersProps) => {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 			await likeTargetMember({ variables: { input: id } });
-			await refetch({ input: initialInput });
+			await refetch({ input: topTrainersInput });
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			sweetMixinErrorAlert(err.message).then();
@@ -60,7 +77,7 @@ const TopTrainers = (props: TopTrainersProps) => {
 			} else {
 				await subscribe({ variables: { input: id } });
 			}
-			await refetch({ input: initialInput });
+			await refetch({ input: topTrainersInput });
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			sweetMixinErrorAlert(err.message).then();
@@ -127,7 +144,7 @@ TopTrainers.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 6,
-		sort: 'memberRank',
+		sort: 'memberLikes',
 		direction: 'DESC',
 		search: {},
 	},

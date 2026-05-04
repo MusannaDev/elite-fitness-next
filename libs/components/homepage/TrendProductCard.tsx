@@ -9,6 +9,7 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { REACT_APP_API_URL } from '../../config';
 import { Product } from '../../types/product/product';
+import { formatProductWeight } from '../../utils/productWeight';
 
 interface TrendProductCardProps {
 	product: Product;
@@ -26,11 +27,20 @@ const TrendProductCard = (props: TrendProductCardProps) => {
 	};
 
 	return (
-		<Stack
-			className="trend-product-card"
-			style={{ backgroundImage: `url(${REACT_APP_API_URL}/${product?.productImages?.[0]})` }}
-			onClick={() => pushDetailHandler(product._id)}
-		>
+		<Stack className="trend-product-card" onClick={() => pushDetailHandler(product._id)}>
+			<Box
+				style={{
+					position: 'absolute',
+					inset: 0,
+					zIndex: 0,
+					backgroundImage: product?.productImages?.[0]
+						? `url(${REACT_APP_API_URL}/${product.productImages[0]})`
+						: 'none',
+					backgroundSize: 'cover',
+					backgroundPosition: 'center',
+					backgroundRepeat: 'no-repeat',
+				}}
+			/>
 			{/* Top badges — rank + category */}
 			<Box className="card-top-badges">
 				{product.productCategory && (
@@ -67,7 +77,7 @@ const TrendProductCard = (props: TrendProductCardProps) => {
 					{product.productWeight && (
 						<Box className="macro-pill weight">
 							<ScaleIcon style={{ fontSize: 10 }} />
-							<Typography component="span">{product.productWeight}</Typography>
+							<Typography component="span">{formatProductWeight(product.productWeight)}</Typography>
 						</Box>
 					)}
 				</Stack>
@@ -76,14 +86,18 @@ const TrendProductCard = (props: TrendProductCardProps) => {
 				<Stack direction="row" alignItems="center" justifyContent="space-between" className="card-footer">
 					<Typography className="product-price">${product.productPrice}</Typography>
 					<Stack direction="row" alignItems="center" gap="4px">
-						<IconButton size="small" className="ap-btn" onClick={(e) => e.stopPropagation()}>
+						<IconButton
+							size="small"
+							className="ap-btn"
+							onClick={(e: React.MouseEvent<HTMLButtonElement>) => e.stopPropagation()}
+						>
 							<RemoveRedEyeIcon style={{ fontSize: 13 }} />
 						</IconButton>
 						<Typography className="ap-count">{product.productViews}</Typography>
 						<IconButton
 							size="small"
 							className={`ap-btn ${product?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
-							onClick={(e) => {
+							onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
 								e.stopPropagation();
 								likeProductHandler(user, product._id);
 							}}

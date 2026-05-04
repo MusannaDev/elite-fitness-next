@@ -1002,3 +1002,102 @@ $f-sans:     'DM Sans', 'Inter', sans-serif;
 	border-color: $f-neon;
 	box-shadow: 0 6px 20px rgba(43, 180, 122, 0.32);
 }
+
+[data-theme='dark'] #pc-wrap #product-list-page,
+#pc-wrap.dark #product-list-page {
+	background: transparent;
+
+	.filter-config {
+		padding: 6px;
+		border-radius: 28px;
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+		box-shadow:
+			0 28px 60px -34px rgba(2, 8, 22, 0.96),
+			0 0 0 1px rgba(255, 255, 255, 0.05);
+	}
+
+	.sort-rail {
+		background: linear-gradient(180deg, rgba(12, 23, 40, 0.96) 0%, rgba(9, 18, 34, 0.92) 100%);
+		border-color: rgba(43, 180, 122, 0.3);
+		box-shadow:
+			0 18px 34px -24px rgba(2, 8, 22, 0.72),
+			0 0 0 1px rgba(255, 255, 255, 0.04);
+
+		&__label { color: rgba(205, 216, 238, 0.72); border-right-color: rgba(43, 180, 122, 0.24); }
+		&__pill { color: rgba(223, 233, 252, 0.82); }
+		&__pill:hover { background: rgba(43, 180, 122, 0.12); color: #66e3ab; border-color: rgba(43, 180, 122, 0.34); }
+		&__pill.active {
+			background: linear-gradient(135deg, #2bb47a 0%, #34d399 100%);
+			box-shadow: 0 12px 22px -14px rgba(43, 180, 122, 0.85);
+		}
+	}
+
+	.filter-main {
+		background: linear-gradient(180deg, rgba(10, 20, 36, 0.98) 0%, rgba(8, 16, 30, 0.96) 100%) !important;
+		border: 1px solid rgba(43, 180, 122, 0.18) !important;
+		border-top: 3px solid #34d399 !important;
+		border-radius: 22px !important;
+		box-shadow:
+			0 30px 56px -34px rgba(2, 8, 22, 0.96),
+			0 10px 26px -18px rgba(43, 180, 122, 0.22) !important;
+	}
+
+	.filter-header,
+	.filter-footer {
+		background: rgba(9, 18, 34, 0.94);
+		border-color: rgba(255, 255, 255, 0.08) !important;
+	}
+
+	.filter-title,
+	.accordion-label.is-open { color: #f6f9ff !important; }
+
+	.reset-btn,
+	.filter-search,
+	.accordion-icon,
+	.tag-chip,
+	.price-range-wrap,
+	.price-input-wrap {
+		background: rgba(12, 21, 37, 0.88) !important;
+		border-color: rgba(148, 163, 184, 0.24) !important;
+	}
+
+	.filter-active-text,
+	.accordion-label,
+	.tag-chip span,
+	.price-block-currency,
+	.total-result p,
+	.no-data p { color: rgba(205, 216, 238, 0.74) !important; }
+
+	.filter-search input,
+	.price-input { color: #eef4ff !important; }
+
+	.filter-search svg,
+	.search-clear,
+	.accordion-chevron { color: rgba(191, 202, 223, 0.74) !important; }
+
+	.filter-active-bar {
+		background: linear-gradient(135deg, rgba(43, 180, 122, 0.18) 0%, rgba(43, 180, 122, 0.08) 100%);
+		border: 1px solid rgba(43, 180, 122, 0.24);
+		border-radius: 12px;
+		padding: 8px 10px;
+	}
+
+	.filter-active-count {
+		background: linear-gradient(135deg, #2bb47a 0%, #34d399 100%);
+		box-shadow: 0 10px 18px -12px rgba(43, 180, 122, 0.86);
+	}
+
+	.price-block,
+	.top,
+	.bottom .card-footer { border-color: rgba(148, 163, 184, 0.16) !important; }
+
+	.card-config {
+		box-shadow: 0 18px 40px rgba(2, 8, 22, 0.3);
+	}
+
+	.pagination-config .MuiPaginationItem-root {
+		background: rgba(10, 18, 33, 0.84);
+		border-color: rgba(148, 163, 184, 0.24);
+		color: #dce6fb;
+	}
+}

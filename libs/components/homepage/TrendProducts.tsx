@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Stack, Box, Typography } from '@mui/material';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { EffectCoverflow, Pagination, Navigation } from 'swiper';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import TrendProductCard from './TrendProductCard';
 import { Product } from '../../types/product/product';
@@ -10,9 +8,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GET_PRODUCTS } from '../../../apollo/user/query';
 import { LIKE_TARGET_PRODUCT } from '../../../apollo/user/mutation';
 import { T } from '../../types/common';
-import { Message } from '../../enums/common.enum';
+import { Direction, Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import Link from 'next/link';
+import { sortByEngagement } from '../../utils/ranking';
 
 interface TrendProductsProps {
 	initialInput: ProductsInquiry;
@@ -22,15 +21,31 @@ const TrendProducts = (props: TrendProductsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const [trendProducts, setTrendProducts] = useState<Product[]>([]);
+	const trendProductsInput: ProductsInquiry = {
+		...initialInput,
+		limit: 6,
+		sort: 'productLikes',
+		direction: Direction.DESC,
+	};
 
 	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
 
 	const { refetch: getProductsRefetch } = useQuery(GET_PRODUCTS, {
 		fetchPolicy: 'cache-and-network',
-		variables: { input: initialInput },
+		variables: { input: trendProductsInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setTrendProducts(data?.getProducts?.list);
+			const rankedProducts = sortByEngagement(
+				data?.getProducts?.list ?? [],
+				(product: Product) => ({
+					likes: product.productLikes,
+					views: product.productViews,
+					comments: product.productComments,
+					rank: product.productRank,
+				}),
+				6,
+			);
+			setTrendProducts(rankedProducts);
 		},
 	});
 
@@ -39,7 +54,7 @@ const TrendProducts = (props: TrendProductsProps) => {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 			await likeTargetProduct({ variables: { input: id } });
-			await getProductsRefetch({ input: initialInput });
+			await getProductsRefetch({ input: trendProductsInput });
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			sweetMixinErrorAlert(err.message).then();
@@ -94,35 +109,17 @@ const TrendProducts = (props: TrendProductsProps) => {
 						<Typography>No trending products yet</Typography>
 					</Box>
 				) : (
-					<Swiper
-						grabCursor
-						centeredSlides
-						slidesPerView={3}
-						speed={600}
-						effect="coverflow"
-						loop
-						pagination={{ clickable: true }}
-						navigation
-						coverflowEffect={{
-							rotate: 50,
-							stretch: 0,
-							depth: 100,
-							modifier: 1,
-							slideShadows: true,
-						}}
-						modules={[EffectCoverflow, Pagination, Navigation]}
-						className="trend-swiper"
-					>
+					<Stack direction="row" flexWrap="wrap" gap={3} justifyContent="center" className="trend-grid">
 						{trendProducts.map((product, index) => (
-							<SwiperSlide key={product._id}>
+							<Box key={product._id} className="trend-grid-item">
 								<TrendProductCard
 									product={product}
 									likeProductHandler={likeProductHandler}
 									rank={index + 1}
 								/>
-							</SwiperSlide>
+							</Box>
 						))}
-					</Swiper>
+					</Stack>
 				)}
 			</Stack>
 		</Stack>
@@ -132,8 +129,8 @@ const TrendProducts = (props: TrendProductsProps) => {
 TrendProducts.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 8,
-		sort: 'productViews',
+		limit: 6,
+		sort: 'productLikes',
 		direction: 'DESC',
 		search: {},
 	},

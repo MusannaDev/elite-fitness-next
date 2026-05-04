@@ -16,6 +16,7 @@ import { LIKE_TARGET_BOARD_ARTICLE } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { Messages } from '../../libs/config';
 import { userVar } from '../../apollo/store';
+import { useThemeMode } from '../../libs/contexts/ThemeModeContext';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -39,6 +40,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	const [boardArticles, setBoardArticles] = useState<BoardArticle[]>([]);
 	const [totalCount, setTotalCount] = useState<number>(0);
 	const user = useReactiveVar(userVar);
+	const { themeMode } = useThemeMode();
 
 	if (articleCategory) initialInput.search.articleCategory = articleCategory;
 
@@ -100,7 +102,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 		return <h1>COMMUNITY PAGE MOBILE</h1>;
 	} else {
 		return (
-			<div id="community-list-page" className="light">
+			<div id="community-list-page" className={themeMode}>
 				<div className="community-blobs">
 					<div className="blob blob1" />
 					<div className="blob blob2" />

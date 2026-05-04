@@ -8,6 +8,7 @@ import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';
 import { T } from '../../types/common';
 import { BoardArticleCategory } from '../../enums/board-article.enum';
+import { sortByEngagement } from '../../utils/ranking';
 
 const TABS = [
 	{ key: BoardArticleCategory.NEWS,      label: 'News',        icon: '📡' },
@@ -19,36 +20,46 @@ const TABS = [
 const CommunityBoards = () => {
 	const device = useDeviceDetect();
 	const [activeTab, setActiveTab] = useState<BoardArticleCategory>(BoardArticleCategory.NEWS);
-	const [searchCommunity] = useState({ page: 1, sort: 'articleViews', direction: 'DESC' });
+	const [searchCommunity] = useState({ page: 1, sort: 'articleLikes', direction: 'DESC' });
 
 	const [newsArticles,      setNewsArticles]      = useState<BoardArticle[]>([]);
 	const [freeArticles,      setFreeArticles]      = useState<BoardArticle[]>([]);
 	const [recommendArticles, setRecommendArticles] = useState<BoardArticle[]>([]);
 	const [humorArticles,     setHumorArticles]     = useState<BoardArticle[]>([]);
+	const rankArticles = (list: BoardArticle[] = []) =>
+		sortByEngagement(
+			list,
+			(article: BoardArticle) => ({
+				likes: article.articleLikes,
+				views: article.articleViews,
+				comments: article.articleComments,
+			}),
+			7,
+		);
 
 	useQuery(GET_BOARD_ARTICLES, {
 		fetchPolicy: 'network-only',
 		variables: { input: { ...searchCommunity, limit: 7, search: { articleCategory: BoardArticleCategory.NEWS } } },
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => setNewsArticles(data?.getBoardArticles?.list),
+		onCompleted: (data: T) => setNewsArticles(rankArticles(data?.getBoardArticles?.list ?? [])),
 	});
 	useQuery(GET_BOARD_ARTICLES, {
 		fetchPolicy: 'network-only',
 		variables: { input: { ...searchCommunity, limit: 7, search: { articleCategory: BoardArticleCategory.FREE } } },
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => setFreeArticles(data?.getBoardArticles?.list),
+		onCompleted: (data: T) => setFreeArticles(rankArticles(data?.getBoardArticles?.list ?? [])),
 	});
 	useQuery(GET_BOARD_ARTICLES, {
 		fetchPolicy: 'network-only',
 		variables: { input: { ...searchCommunity, limit: 7, search: { articleCategory: BoardArticleCategory.RECOMMEND } } },
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => setRecommendArticles(data?.getBoardArticles?.list),
+		onCompleted: (data: T) => setRecommendArticles(rankArticles(data?.getBoardArticles?.list ?? [])),
 	});
 	useQuery(GET_BOARD_ARTICLES, {
 		fetchPolicy: 'network-only',
 		variables: { input: { ...searchCommunity, limit: 7, search: { articleCategory: BoardArticleCategory.HUMOR } } },
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => setHumorArticles(data?.getBoardArticles?.list),
+		onCompleted: (data: T) => setHumorArticles(rankArticles(data?.getBoardArticles?.list ?? [])),
 	});
 
 	const articlesMap: Record<BoardArticleCategory, BoardArticle[]> = {

@@ -9,11 +9,14 @@ import Drawer from '@mui/material/Drawer';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import { getJwtToken, logOut, updateUserInfo } from '../../auth';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { REACT_APP_API_URL } from '../../config';
 import { MemberType } from '../../enums/member.enum';
+import { useThemeMode } from '../../contexts/ThemeModeContext';
 
 const SIDEBAR = 200;
 
@@ -25,7 +28,7 @@ const withAdminLayout = (Component: ComponentType) => {
 		const [loading, setLoading] = useState(true);
 		const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 		const [title, setTitle] = useState('admin');
-		const theme = 'light';
+		const { themeMode, toggleThemeMode } = useThemeMode();
 
 		useEffect(() => {
 			const jwt = getJwtToken();
@@ -44,7 +47,7 @@ const withAdminLayout = (Component: ComponentType) => {
 		if (!user || user?.memberType !== MemberType.ADMIN) return null;
 
 		return (
-			<main id="pc-wrap" className={`admin ${theme} classic-modern layout-admin`}>
+			<main id="pc-wrap" className={`admin ${themeMode} classic-modern layout-admin`} data-theme={themeMode}>
 				<Box component={'div'} sx={{ display: 'flex', minHeight: '100vh' }}>
 
 					{/* ── Dark Sidebar ───────────────────────────────────────── */}
@@ -103,6 +106,15 @@ const withAdminLayout = (Component: ComponentType) => {
 
 						{/* Inline topbar */}
 						<Stack direction="row" alignItems="center" justifyContent="flex-end" gap="8px" sx={{ mb: '20px' }}>
+							<button
+								type="button"
+								className="theme-toggle"
+								onClick={toggleThemeMode}
+								aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+								title={themeMode === 'dark' ? 'Light mode' : 'Night mode'}
+							>
+								{themeMode === 'dark' ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
+							</button>
 							<Box onClick={handleOpenUserMenu} sx={{
 								display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer',
 								background: 'var(--surface)', border: '1px solid var(--border)',

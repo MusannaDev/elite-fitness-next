@@ -886,3 +886,92 @@ $cl-sans:      'DM Sans', 'Inter', sans-serif;
 	}
 }
 
+[data-theme='dark'] #pc-wrap #clothe-list-page,
+#pc-wrap.dark #clothe-list-page {
+	background: transparent;
+
+	.filter-config {
+		padding: 6px;
+		border-radius: 28px;
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+		box-shadow:
+			0 28px 60px -34px rgba(2, 8, 22, 0.96),
+			0 0 0 1px rgba(255, 255, 255, 0.05);
+	}
+
+	.sort-rail {
+		background: linear-gradient(180deg, rgba(12, 23, 40, 0.96) 0%, rgba(9, 18, 34, 0.92) 100%);
+		border-color: rgba(160, 200, 20, 0.32);
+		box-shadow:
+			0 18px 34px -24px rgba(2, 8, 22, 0.72),
+			0 0 0 1px rgba(255, 255, 255, 0.04);
+
+		&__label { color: rgba(205, 216, 238, 0.72); border-right-color: rgba(160, 200, 20, 0.24); }
+		&__pill { color: rgba(223, 233, 252, 0.82); }
+		&__pill:hover { background: rgba(160, 200, 20, 0.12); color: #d9f99d; border-color: rgba(160, 200, 20, 0.34); }
+		&__pill.active {
+			background: linear-gradient(135deg, #9fca14 0%, #d9f99d 100%);
+			color: #17210f;
+			box-shadow: 0 12px 22px -14px rgba(160, 200, 20, 0.85);
+		}
+	}
+
+	.MuiMenu-paper {
+		background: rgba(11, 20, 37, 0.96) !important;
+		border-color: rgba(148, 163, 184, 0.24) !important;
+
+		.MuiMenuItem-root {
+			color: #dce6fb !important;
+		}
+	}
+
+	.cl-filter {
+		background: linear-gradient(180deg, rgba(10, 20, 36, 0.98) 0%, rgba(8, 16, 30, 0.96) 100%) !important;
+		border: 1px solid rgba(160, 200, 20, 0.18) !important;
+		border-top: 3px solid #d9f99d !important;
+		border-radius: 22px !important;
+		box-shadow:
+			0 30px 56px -34px rgba(2, 8, 22, 0.96),
+			0 10px 26px -18px rgba(160, 200, 20, 0.22) !important;
+	}
+
+	.cl-filter__header,
+	.cl-filter__footer {
+		background: rgba(9, 18, 34, 0.94);
+		border-color: rgba(255, 255, 255, 0.08) !important;
+	}
+
+	.cl-filter__heading,
+	.cl-price__tag { color: #f6f9ff !important; }
+
+	.cl-filter__trash,
+	.cl-chip,
+	.cl-filter-section,
+	.cl-price__track,
+	.cl-filter__apply-count {
+		border-color: rgba(148, 163, 184, 0.24) !important;
+	}
+
+	.cl-chip,
+	.cl-filter__trash,
+	.cl-price__track { background: rgba(12, 21, 37, 0.88) !important; }
+
+	.cl-filter__apply {
+		box-shadow: 0 16px 28px -18px rgba(160, 200, 20, 0.35);
+	}
+
+	.cl-filter__close,
+	.cl-filter-section__title,
+	.cl-chip__label,
+	.total-result p,
+	.no-data p { color: rgba(205, 216, 238, 0.74) !important; }
+
+	.cl-price__range::-webkit-slider-thumb { border-color: rgba(8, 16, 30, 0.96); }
+	.cl-price__range::-moz-range-thumb { border-color: rgba(8, 16, 30, 0.96); }
+
+	.pagination-config .MuiPaginationItem-root {
+		background: rgba(10, 18, 33, 0.84);
+		border-color: rgba(148, 163, 184, 0.24);
+		color: #dce6fb;
+	}
+}

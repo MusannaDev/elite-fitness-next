@@ -13,6 +13,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import EmojiFoodBeverageIcon from '@mui/icons-material/EmojiFoodBeverage';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { formatProductWeight } from '../../utils/productWeight';
 
 interface ProductBigCardProps {
 	product: Product;
@@ -55,7 +56,7 @@ const ProductBigCard = (props: ProductBigCardProps) => {
 					<div className={'options'}>
 						<div>
 							<FitnessCenterIcon fontSize="small" />
-							<span>{product?.productWeight}</span>
+							<span>{formatProductWeight(product?.productWeight)}</span>
 						</div>
 						<div>
 							<EmojiFoodBeverageIcon fontSize="small" />

@@ -77,7 +77,6 @@ const SalesManagerList: NextPage = ({ initialInput, ...props }: any) => {
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2);
 			await likeTargetMember({ variables: { input: id } });
-			await getSalesManagersRefetch({ input: searchFilter });
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('ERROR, likeMemberHandler:', err.message);
@@ -187,7 +186,6 @@ const SalesManagerList: NextPage = ({ initialInput, ...props }: any) => {
 											salesManager={salesManager}
 											key={salesManager._id}
 											likeMemberHandler={likeMemberHandler}
-											refetch={() => getSalesManagersRefetch({ input: searchFilter })}
 										/>
 									))}
 								</div>

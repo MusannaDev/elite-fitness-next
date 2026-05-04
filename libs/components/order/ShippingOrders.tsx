@@ -26,9 +26,10 @@ const SM = { color: '#7c3aed', bg: '#ede9fe', light: '#faf5ff' };
 
 interface Props {
 	setActiveStatus: (status: OrderStatus) => void;
+	refreshSeed?: number;
 }
 
-const ShippingOrders = ({ setActiveStatus }: Props) => {
+const ShippingOrders = ({ setActiveStatus, refreshSeed = 0 }: Props) => {
 	const [orders, setOrders] = useState<Order[]>([]);
 	const [total,  setTotal]  = useState<number>(0);
 	const [page,   setPage]   = useState<number>(1);
@@ -54,7 +55,7 @@ const ShippingOrders = ({ setActiveStatus }: Props) => {
 
 	useEffect(() => {
 		refetch({ input: inquiry });
-	}, [page]);
+	}, [inquiry, page, refreshSeed, refetch]);
 
 	useEffect(() => {
 		setSnapshots(readOrderItemSnapshots());
@@ -101,6 +102,7 @@ const ShippingOrders = ({ setActiveStatus }: Props) => {
 						<span>Classic Packing</span>
 						<span>Live Tracking</span>
 						<span>Safe Delivery</span>
+						<span>Auto Delivered in 3 Days</span>
 					</Stack>
 				</Stack>
 			</Box>

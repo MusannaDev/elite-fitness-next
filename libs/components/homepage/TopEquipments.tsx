@@ -10,9 +10,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GET_EQUIPMENTS } from '../../../apollo/user/query';
 import { LIKE_TARGET_EQUIPMENT } from '../../../apollo/user/mutation';
 import { T } from '../../types/common';
-import { Message } from '../../enums/common.enum';
+import { Direction, Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import Link from 'next/link';
+import { sortByEngagement } from '../../utils/ranking';
 
 interface TopEquipmentsProps {
 	initialInput: EquipmentsInquiry;
@@ -22,15 +23,31 @@ const TopEquipments = (props: TopEquipmentsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const [topEquipments, setTopEquipments] = useState<Equipment[]>([]);
+	const equipmentsInput: EquipmentsInquiry = {
+		...initialInput,
+		sort: 'equipmentLikes',
+		direction: Direction.DESC,
+	};
 
 	const [likeTargetEquipment] = useMutation(LIKE_TARGET_EQUIPMENT);
 
 	const { refetch } = useQuery(GET_EQUIPMENTS, {
 		fetchPolicy: 'cache-and-network',
-		variables: { input: initialInput },
+		variables: { input: equipmentsInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setTopEquipments(data?.getEquipments?.list);
+			setTopEquipments(
+				sortByEngagement(
+					data?.getEquipments?.list ?? [],
+					(equipment: Equipment) => ({
+						likes: equipment.equipmentLikes,
+						views: equipment.equipmentViews,
+						comments: equipment.equipmentComments,
+						rank: equipment.equipmentRank,
+					}),
+					equipmentsInput.limit,
+				),
+			);
 		},
 	});
 
@@ -39,7 +56,7 @@ const TopEquipments = (props: TopEquipmentsProps) => {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 			await likeTargetEquipment({ variables: { input: id } });
-			await refetch({ input: initialInput });
+			await refetch({ input: equipmentsInput });
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			sweetMixinErrorAlert(err.message).then();
@@ -115,7 +132,7 @@ TopEquipments.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 6,
-		sort: 'equipmentRank',
+		sort: 'equipmentLikes',
 		direction: 'DESC',
 		search: {},
 	},

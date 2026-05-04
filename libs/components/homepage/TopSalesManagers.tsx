@@ -8,9 +8,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GET_SALES_MANAGERS } from '../../../apollo/user/query';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../../apollo/user/mutation';
 import { T } from '../../types/common';
-import { Message } from '../../enums/common.enum';
+import { Direction, Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import Link from 'next/link';
+import { sortByEngagement } from '../../utils/ranking';
 
 interface TopSalesManagersProps {
 	initialInput: MembersInquiry;
@@ -20,6 +21,11 @@ const TopSalesManagers = (props: TopSalesManagersProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const [managers, setManagers] = useState<Member[]>([]);
+	const managersInput: MembersInquiry = {
+		...initialInput,
+		sort: 'memberLikes',
+		direction: Direction.DESC,
+	};
 
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
 	const [subscribe] = useMutation(SUBSCRIBE);
@@ -27,10 +33,21 @@ const TopSalesManagers = (props: TopSalesManagersProps) => {
 
 	const { refetch } = useQuery(GET_SALES_MANAGERS, {
 		fetchPolicy: 'cache-and-network',
-		variables: { input: initialInput },
+		variables: { input: managersInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setManagers(data?.getSalesManagers?.list);
+			setManagers(
+				sortByEngagement(
+					data?.getSalesManagers?.list ?? [],
+					(manager: Member) => ({
+						likes: manager.memberLikes,
+						views: manager.memberViews,
+						comments: manager.memberComments,
+						rank: manager.memberRank,
+					}),
+					managersInput.limit,
+				),
+			);
 		},
 	});
 
@@ -39,7 +56,7 @@ const TopSalesManagers = (props: TopSalesManagersProps) => {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 			await likeTargetMember({ variables: { input: id } });
-			await refetch({ input: initialInput });
+			await refetch({ input: managersInput });
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			sweetMixinErrorAlert(err.message).then();
@@ -56,7 +73,7 @@ const TopSalesManagers = (props: TopSalesManagersProps) => {
 			} else {
 				await subscribe({ variables: { input: id } });
 			}
-			await refetch({ input: initialInput });
+			await refetch({ input: managersInput });
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			sweetMixinErrorAlert(err.message).then();
@@ -123,7 +140,7 @@ TopSalesManagers.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 6,
-		sort: 'memberRank',
+		sort: 'memberLikes',
 		direction: 'DESC',
 		search: {},
 	},

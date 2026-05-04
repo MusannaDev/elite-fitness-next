@@ -25,7 +25,11 @@ import {
 } from '../utils/basket';
 import { saveOrderItemSnapshots } from '../utils/orderSnapshot';
 
-const Basket = (): JSX.Element => {
+interface BasketProps {
+  floating?: boolean;
+}
+
+const Basket = ({ floating = false }: BasketProps): JSX.Element => {
   const router = useRouter();
   const user = useReactiveVar(userVar);
   const [createOrder, { loading }] = useMutation(CREATE_ORDER);
@@ -117,17 +121,71 @@ const Basket = (): JSX.Element => {
         aria-controls={open ? 'basket-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
-        onClick={(e) => setAnchorEl(e.currentTarget)}
-        sx={{
-          color: '#ff4500',
-          '&:hover': {
-            backgroundColor: 'transparent',
-            color: '#ff4500',
-          },
-        }}
+        onClick={(e: React.MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget)}
+        sx={
+          floating
+            ? {
+                position: 'fixed',
+                right: '28px',
+                bottom: '160px',
+                width: 56,
+                height: 56,
+                borderRadius: '50%',
+                background: 'linear-gradient(140deg, #0b253f 0%, #13556c 58%, #149973 100%)',
+                border: '1px solid rgba(255, 255, 255, 0.22)',
+                boxShadow:
+                  '0 14px 30px rgba(7, 14, 24, 0.34), 0 0 0 1px rgba(255, 255, 255, 0.12) inset',
+                color: '#f6fbff',
+                zIndex: 98,
+                transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                '&:hover': {
+                  background: 'linear-gradient(140deg, #0c2f4f 0%, #16738e 62%, #1ab38d 100%)',
+                  transform: 'translateY(-2px) scale(1.04)',
+                  boxShadow:
+                    '0 20px 40px rgba(7, 14, 24, 0.4), 0 0 24px rgba(20, 153, 115, 0.3)',
+                },
+                '@media (max-width: 900px)': {
+                  right: '18px',
+                  bottom: '146px',
+                },
+                '@media (max-width: 560px)': {
+                  right: '14px',
+                  bottom: '128px',
+                  width: 52,
+                  height: 52,
+                },
+              }
+            : {
+                color: '#ff4500',
+                '&:hover': {
+                  backgroundColor: 'transparent',
+                  color: '#ff4500',
+                },
+              }
+        }
       >
-        <Badge badgeContent={totalCount} color="error" max={99}>
-          <LocalMallOutlinedIcon sx={{ fontSize: 26, width: 26, height: 26, color: '#ff4500' }} />
+        <Badge
+          badgeContent={totalCount}
+          color="error"
+          max={99}
+          sx={
+            floating
+              ? {
+                  '& .MuiBadge-badge': {
+                    border: '1px solid rgba(255,255,255,0.35)',
+                  },
+                }
+              : undefined
+          }
+        >
+          <LocalMallOutlinedIcon
+            sx={{
+              fontSize: 26,
+              width: 26,
+              height: 26,
+              color: floating ? '#f6fbff' : '#ff4500',
+            }}
+          />
         </Badge>
       </IconButton>
 

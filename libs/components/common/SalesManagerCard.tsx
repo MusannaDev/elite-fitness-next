@@ -41,11 +41,10 @@ const setLocalFollow = (userId: string, smId: string, following: boolean) => {
 interface SalesManagerCardProps {
 	salesManager: any;
 	likeMemberHandler: any;
-	refetch?: () => void;
 }
 
 const SalesManagerCard = (props: SalesManagerCardProps) => {
-	const { salesManager, likeMemberHandler, refetch } = props;
+	const { salesManager, likeMemberHandler } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const imagePath: string = salesManager?.memberImage
@@ -57,7 +56,17 @@ const SalesManagerCard = (props: SalesManagerCardProps) => {
 		getLocalFollow(user?._id, salesManager?._id),
 	);
 	const [localFollowers, setLocalFollowers] = useState<number>(salesManager?.memberFollowers || 0);
+	const [localLiked, setLocalLiked] = useState<boolean>(
+		!!(salesManager?.meLiked && salesManager?.meLiked[0]?.myFavorite),
+	);
+	const [localLikes, setLocalLikes] = useState<number>(salesManager?.memberLikes || 0);
 	const followInteracted = useRef(false);
+
+	useEffect(() => {
+		const serverLiked = !!(salesManager?.meLiked && salesManager?.meLiked[0]?.myFavorite);
+		setLocalLiked(serverLiked);
+		setLocalLikes(salesManager?.memberLikes || 0);
+	}, [salesManager?.meLiked, salesManager?.memberLikes]);
 
 	useEffect(() => {
 		if (followInteracted.current) return;
@@ -91,14 +100,32 @@ const SalesManagerCard = (props: SalesManagerCardProps) => {
 					await followMember({ variables: { input: salesManager?._id } });
 				}
 				setLocalFollow(user._id, salesManager?._id, !wasFollowed);
-				if (refetch) refetch();
 			} catch (err: any) {
 				setIsFollowed(wasFollowed);
 				setLocalFollowers((prev) => (wasFollowed ? prev + 1 : Math.max(0, prev - 1)));
 				sweetMixinErrorAlert(err.message).then();
 			}
 		},
-		[isFollowed, salesManager?._id, user, followMember, unfollowMember, refetch],
+		[isFollowed, salesManager?._id, user, followMember, unfollowMember],
+	);
+
+	const likeHandler = useCallback(
+		async (e: React.MouseEvent) => {
+			e.preventDefault();
+			e.stopPropagation();
+
+			const nextLiked = !localLiked;
+			setLocalLiked(nextLiked);
+			setLocalLikes((prev) => (nextLiked ? prev + 1 : Math.max(0, prev - 1)));
+
+			try {
+				await likeMemberHandler(user, salesManager?._id);
+			} catch (err: any) {
+				setLocalLiked(!nextLiked);
+				setLocalLikes((prev) => (!nextLiked ? prev + 1 : Math.max(0, prev - 1)));
+			}
+		},
+		[localLiked, likeMemberHandler, user, salesManager?._id],
 	);
 
 	if (device === 'mobile') {
@@ -129,7 +156,7 @@ const SalesManagerCard = (props: SalesManagerCardProps) => {
 						</span>
 						<span className="sm-badge sm-badge-like">
 							<FavoriteIcon style={{ fontSize: 11, color: '#ff6b8a' }} />
-							{salesManager?.memberLikes ?? 0}
+							{localLikes}
 						</span>
 						<span className="sm-badge sm-badge-followers">
 							<PersonAddAlt1Icon style={{ fontSize: 11 }} />
@@ -148,17 +175,20 @@ const SalesManagerCard = (props: SalesManagerCardProps) => {
 							<span className="sm-tag">{salesManager.memberClothes}</span>
 						)}
 
-						<div className="sm-actions">
+						<div
+							className="sm-actions"
+							onClick={(e) => {
+								e.preventDefault();
+								e.stopPropagation();
+							}}
+						>
 							{/* Like */}
 							<button
+								type="button"
 								className="sm-icon-btn"
-								onClick={(e) => {
-									e.preventDefault();
-									e.stopPropagation();
-									likeMemberHandler(user, salesManager?._id);
-								}}
+								onClick={likeHandler}
 							>
-								{salesManager?.meLiked && salesManager?.meLiked[0]?.myFavorite ? (
+								{localLiked ? (
 									<FavoriteIcon style={{ fontSize: 14, color: '#ff6b8a' }} />
 								) : (
 									<FavoriteBorderIcon style={{ fontSize: 14, color: 'rgba(255,255,255,0.9)' }} />
@@ -168,6 +198,7 @@ const SalesManagerCard = (props: SalesManagerCardProps) => {
 							{/* Follow — hidden for own card */}
 							{user?._id !== salesManager?._id && (
 								<button
+									type="button"
 									className={`sm-follow-btn ${isFollowed ? 'following' : ''}`}
 									onClick={followHandler}
 								>

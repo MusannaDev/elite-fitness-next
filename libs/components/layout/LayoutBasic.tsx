@@ -7,7 +7,9 @@ import Footer from '../Footer';
 import { Stack } from '@mui/material';
 import { getJwtToken, updateUserInfo } from '../../auth';
 import Chat from '../Chat';
+import Basket from '../Basket';
 import { useTranslation } from 'next-i18next';
+import { useThemeMode } from '../../contexts/ThemeModeContext';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -18,6 +20,7 @@ const withLayoutBasic = (Component: any) => {
 		const { t } = useTranslation('common');
 		const device = useDeviceDetect();
 		const [authHeader, setAuthHeader] = useState<boolean>(false);
+		const { themeMode } = useThemeMode();
 
 		const memoizedValues = useMemo(() => {
 			let title = '',
@@ -85,27 +88,27 @@ const withLayoutBasic = (Component: any) => {
 				case '/community':
 					title = 'Community';
 					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/community.webp';
 					break;
 				case '/community/detail':
 					title = 'Community Detail';
 					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/community.webp';
 					break;
 				case '/order':
 					title = 'My Orders';
 					desc = 'Track and manage your orders';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/community.webp';
 					break;
 				case '/cs':
 					title = 'CS';
 					desc = 'We are glad to see you again!';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/community.webp';
 					break;
 				case '/account/join':
 					title = 'Login/Signup';
 					desc = 'Authentication Process';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/community.webp';
 					setAuthHeader(true);
 					break;
 				case '/member':
@@ -135,7 +138,7 @@ const withLayoutBasic = (Component: any) => {
 						<title>EliteFit</title>
 						<meta name={'title'} content={`EliteFit`} />
 					</Head>
-					<Stack id="mobile-wrap">
+					<Stack id="mobile-wrap" className={themeMode}>
 						<Stack id={'top'}>
 							<Top />
 						</Stack>
@@ -157,7 +160,7 @@ const withLayoutBasic = (Component: any) => {
 						<title>EliteFit</title>
 						<meta name={'title'} content={`EliteFit`} />
 					</Head>
-					<Stack id="pc-wrap" className="light classic-modern layout-basic">
+					<Stack id="pc-wrap" className={`${themeMode} classic-modern layout-basic`}>
 						<Stack id={'top'}>
 							<Top />
 						</Stack>
@@ -181,6 +184,7 @@ const withLayoutBasic = (Component: any) => {
 							<Component {...props} />
 						</Stack>
 
+						<Basket floating />
 						<Chat />
 
 						<Stack id={'footer'}>

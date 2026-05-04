@@ -1,0 +1,34 @@
+services:
+  elite-fitness-next: 
+    container_name: elite-fitness-next
+    restart: always
+    image: node:20.10.0
+    environment:
+      - PORT=3000
+      - REACT_APP_API_URL=http://localhost:4001
+      - REACT_APP_API_GRAPHQL_URL=/api/graphql
+      - REACT_APP_API_GRAPHQL_INTERNAL_URL=http://host.docker.internal:4001/graphql
+      - REACT_APP_API_WS=ws://localhost:4001
+
+    ports:
+      - 4000:3000
+    volumes:
+      - ./:/usr/src/elite-fitness-next
+      
+    working_dir: /usr/src/elite-fitness-next
+
+    networks:
+      - client-network
+    
+    command: bash -c "yarn && yarn run dev"
+
+networks:
+  client-network:
+    driver: bridge
+
+
+
+
+#elite-fitness-next: localhost:4000 <==> container:3001
+#elite-fitness-api: localhost:4001 <==> container:3002
+#elite-fitness-batch: localhost:4002 <==> container:3003
