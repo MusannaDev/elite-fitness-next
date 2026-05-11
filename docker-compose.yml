@@ -12,6 +12,10 @@ services:
 
     ports:
       - 4000:3000
+
+    env_file:
+      - env.local
+
     volumes:
       - ./:/usr/src/elite-fitness-next
       
