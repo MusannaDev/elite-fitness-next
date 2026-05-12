@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Stack, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { REACT_APP_API_URL } from '../../../config';
+import { NEXT_PUBLIC_API_URL } from '../../../config';
 import { ClotheStatus } from '../../../enums/clothes.enum';
 import { Clothe } from '../../../types/clothes/clothes';
 
@@ -60,7 +60,7 @@ export const ClothePanelList = ({ clothes, anchorEl, menuIconClickHandler, menuI
 							<TableRow><TableCell align="center" colSpan={11}><Typography className={'no-data'}>No clothes found</Typography></TableCell></TableRow>
 						)}
 						{clothes.map((clothe: Clothe, index: number) => {
-							const img = clothe?.clotheImages?.[0] ? `${REACT_APP_API_URL}/${clothe.clotheImages[0]}` : '/img/profile/defaultUser.svg';
+							const img = clothe?.clotheImages?.[0] ? `${NEXT_PUBLIC_API_URL}/${clothe.clotheImages[0]}` : '/img/profile/defaultUser.svg';
 							const ss = statusStyle(clothe.clotheStatus);
 							const gs = genderStyle(clothe.clotheGender);
 							return (

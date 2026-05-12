@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { Button, CircularProgress, Stack, Typography } from '@mui/material';
 import { getJwtToken } from '../../auth';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 
 interface ImageUploaderProps {
@@ -16,7 +16,7 @@ interface ImageUploaderProps {
 const toImageUrl = (src: string) => {
 	if (!src) return '';
 	if (src.startsWith('http')) return src;
-	return `${REACT_APP_API_URL}/${src}`;
+	return `${NEXT_PUBLIC_API_URL}/${src}`;
 };
 
 const ImageUploader = (props: ImageUploaderProps) => {
@@ -58,7 +58,7 @@ const ImageUploader = (props: ImageUploaderProps) => {
 					formData.append('map', JSON.stringify({ '0': ['variables.file'] }));
 					formData.append('0', file);
 
-					const response = await axios.post(`${process.env.REACT_APP_API_GRAPHQL_URL}`, formData, { headers });
+					const response = await axios.post(`${process.env.NEXT_PUBLIC_API_GRAPHQL_URL}`, formData, { headers });
 					return response?.data?.data?.imageUploader;
 				}),
 			);

@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 import { Equipment } from '../../libs/types/equipment/equipment';
 import moment from 'moment';
 import { formatterStr } from '../../libs/utils';
-import { REACT_APP_API_URL } from '../../libs/config';
+import { NEXT_PUBLIC_API_URL } from '../../libs/config';
 import { userVar } from '../../apollo/store';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
@@ -356,9 +356,9 @@ const EquipmentDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<img
 										src={
 											slideImage
-												? `${REACT_APP_API_URL}/${slideImage}`
+												? `${NEXT_PUBLIC_API_URL}/${slideImage}`
 												: equipment?.equipmentImages?.[0]
-													? `${REACT_APP_API_URL}/${equipment.equipmentImages[0]}`
+													? `${NEXT_PUBLIC_API_URL}/${equipment.equipmentImages[0]}`
 													: '/img/banner/header1.svg'
 										}
 										alt={'main-image'}
@@ -366,7 +366,7 @@ const EquipmentDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 								<Stack className={'sub-images'}>
 									{equipment?.equipmentImages.map((subImg: string) => {
-										const imagePath: string = `${REACT_APP_API_URL}/${subImg}`;
+										const imagePath: string = `${NEXT_PUBLIC_API_URL}/${subImg}`;
 										return (
 											<Stack className={'sub-img-box'} onClick={() => changeImageHandler(subImg)} key={subImg}>
 												<img src={imagePath} alt={'sub-image'} />
@@ -508,7 +508,7 @@ const EquipmentDetail: NextPage = ({ initialComment, ...props }: any) => {
 											className={'member-image'}
 											src={
 												equipment?.memberData?.memberImage
-													? `${REACT_APP_API_URL}/${equipment?.memberData?.memberImage}`
+													? `${NEXT_PUBLIC_API_URL}/${equipment?.memberData?.memberImage}`
 													: '/img/profile/defaultUser.svg'
 											}
 										/>

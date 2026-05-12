@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Clothe } from '../../types/clothes/clothes';
-import { REACT_APP_API_URL, topClotheRank } from '../../config';
+import { NEXT_PUBLIC_API_URL, topClotheRank } from '../../config';
 import { formatterStr } from '../../utils';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
@@ -38,7 +38,7 @@ const ClothesBigCard = (props: ClothesBigCardProps) => {
 				<Box
 					component={'div'}
 					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${clothe?.clotheImages?.[0]})` }}
+					style={{ backgroundImage: `url(${NEXT_PUBLIC_API_URL}/${clothe?.clotheImages?.[0]})` }}
 				>
 					{clothe && clothe?.clotheRank >= topClotheRank && (
 						<div className={'status'}>

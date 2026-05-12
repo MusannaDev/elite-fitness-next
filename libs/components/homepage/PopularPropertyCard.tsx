@@ -9,7 +9,7 @@ import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { REACT_APP_API_URL, topPropertyRank } from '../../config';
+import { NEXT_PUBLIC_API_URL, topPropertyRank } from '../../config';
 import { Property } from '../../types/property/property';
 
 interface PopularPropertyCardProps {
@@ -32,7 +32,7 @@ const PopularPropertyCard = (props: PopularPropertyCardProps) => {
 			<Box className="prop-image-wrap" onClick={() => pushDetailHandler(property._id)}>
 				<Box
 					className="prop-image"
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages?.[0]})` }}
+					style={{ backgroundImage: `url(${NEXT_PUBLIC_API_URL}/${property?.propertyImages?.[0]})` }}
 				/>
 				{property?.propertyRank >= topPropertyRank && (
 					<Box className="top-badge">

@@ -10,7 +10,7 @@ import Stack from '@mui/material/Stack';
 import OpenInBrowserRoundedIcon from '@mui/icons-material/OpenInBrowserRounded';
 import Moment from 'react-moment';
 import { BoardArticle } from '../../../types/board-article/board-article';
-import { REACT_APP_API_URL } from '../../../config';
+import { NEXT_PUBLIC_API_URL } from '../../../config';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
 import { BoardArticleStatus } from '../../../enums/board-article.enum';
@@ -81,7 +81,7 @@ const CommunityArticleList = (props: CommunityArticleListProps) => {
 										<Link href={`/member?memberId=${article?.memberData?._id}`}>
 											<Stack direction={'row'} alignItems={'center'} gap={'7px'}>
 												<Avatar
-													src={article?.memberData?.memberImage ? `${REACT_APP_API_URL}/${article?.memberData?.memberImage}` : '/img/profile/defaultUser.svg'}
+													src={article?.memberData?.memberImage ? `${NEXT_PUBLIC_API_URL}/${article?.memberData?.memberImage}` : '/img/profile/defaultUser.svg'}
 													sx={{ width: 24, height: 24 }}
 												/>
 												<Typography className={'meta-text'} sx={{ fontWeight: 600 }}>{article?.memberData?.memberNick}</Typography>

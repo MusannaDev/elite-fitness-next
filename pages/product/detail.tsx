@@ -17,7 +17,7 @@ import { Product } from '../../libs/types/product/product';
 import moment from 'moment';
 import { formatterStr } from '../../libs/utils';
 import { formatProductWeight } from '../../libs/utils/productWeight';
-import { REACT_APP_API_URL } from '../../libs/config';
+import { NEXT_PUBLIC_API_URL } from '../../libs/config';
 import { userVar } from '../../apollo/store';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
@@ -366,9 +366,9 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<img
 										src={
 											slideImage
-												? `${REACT_APP_API_URL}/${slideImage}`
+												? `${NEXT_PUBLIC_API_URL}/${slideImage}`
 												: product?.productImages?.[0]
-													? `${REACT_APP_API_URL}/${product.productImages[0]}`
+													? `${NEXT_PUBLIC_API_URL}/${product.productImages[0]}`
 													: '/img/banner/header1.svg'
 										}
 										alt={'main-image'}
@@ -376,7 +376,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 								<Stack className={'sub-images'}>
 									{product?.productImages?.map((subImg: string) => {
-										const imagePath: string = `${REACT_APP_API_URL}/${subImg}`;
+										const imagePath: string = `${NEXT_PUBLIC_API_URL}/${subImg}`;
 										return (
 											<Stack className={'sub-img-box'} onClick={() => changeImageHandler(subImg)} key={subImg}>
 												<img src={imagePath} alt={'sub-image'} />
@@ -512,7 +512,7 @@ const ProductDetail: NextPage = ({ initialComment, ...props }: any) => {
 											className={'member-image'}
 											src={
 												product?.memberData?.memberImage
-													? `${REACT_APP_API_URL}/${product?.memberData?.memberImage}`
+													? `${NEXT_PUBLIC_API_URL}/${product?.memberData?.memberImage}`
 													: '/img/profile/defaultUser.svg'
 											}
 										/>

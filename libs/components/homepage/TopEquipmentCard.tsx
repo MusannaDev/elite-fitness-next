@@ -9,7 +9,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { Equipment } from '../../types/equipment/equipment';
 
 interface TopEquipmentCardProps {
@@ -34,7 +34,7 @@ const TopEquipmentCard = (props: TopEquipmentCardProps) => {
 				<Box className="equip-image-side" onClick={() => pushDetailHandler(equipment._id)}>
 					<Box
 						className="equip-image"
-						style={{ backgroundImage: `url(${REACT_APP_API_URL}/${equipment?.equipmentImages?.[0]})` }}
+						style={{ backgroundImage: `url(${NEXT_PUBLIC_API_URL}/${equipment?.equipmentImages?.[0]})` }}
 					/>
 					{equipment.isBestseller && (
 						<Box className="equip-bestseller"><Typography>Best Seller</Typography></Box>

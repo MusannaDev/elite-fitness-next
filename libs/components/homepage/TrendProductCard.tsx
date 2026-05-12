@@ -7,7 +7,7 @@ import ScaleIcon from '@mui/icons-material/Scale';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { Product } from '../../types/product/product';
 import { formatProductWeight } from '../../utils/productWeight';
 
@@ -34,7 +34,7 @@ const TrendProductCard = (props: TrendProductCardProps) => {
 					inset: 0,
 					zIndex: 0,
 					backgroundImage: product?.productImages?.[0]
-						? `url(${REACT_APP_API_URL}/${product.productImages[0]})`
+						? `url(${NEXT_PUBLIC_API_URL}/${product.productImages[0]})`
 						: 'none',
 					backgroundSize: 'cover',
 					backgroundPosition: 'center',

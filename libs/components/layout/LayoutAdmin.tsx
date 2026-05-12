@@ -14,7 +14,7 @@ import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import { getJwtToken, logOut, updateUserInfo } from '../../auth';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { MemberType } from '../../enums/member.enum';
 import { useThemeMode } from '../../contexts/ThemeModeContext';
 
@@ -83,7 +83,7 @@ const withAdminLayout = (Component: ComponentType) => {
 						<Stack direction="row" alignItems="center" gap="8px"
 							sx={{ mx: '8px', mt: '10px', mb: '4px', p: '8px', borderRadius: '10px', background: 'rgba(255,255,255,0.04)' }}>
 							<Avatar
-								src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
+								src={user?.memberImage ? `${NEXT_PUBLIC_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
 								sx={{ width: 28, height: 28, border: '2px solid rgba(255,255,255,0.1)' }}
 							/>
 							<Box sx={{ flex: 1, minWidth: 0 }}>
@@ -121,7 +121,7 @@ const withAdminLayout = (Component: ComponentType) => {
 								borderRadius: '24px', px: '10px', py: '5px',
 								'&:hover': { borderColor: 'var(--text-3)' },
 							}}>
-								<Avatar src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
+								<Avatar src={user?.memberImage ? `${NEXT_PUBLIC_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
 									sx={{ width: 24, height: 24 }} />
 								<Typography sx={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-1)' }}>{user?.memberNick}</Typography>
 								<Box sx={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981', flexShrink: 0 }} />

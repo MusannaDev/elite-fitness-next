@@ -11,7 +11,7 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { Member } from '../../types/member/member';
 
 interface TopSalesManagerCardProps {
@@ -26,7 +26,7 @@ const TopSalesManagerCard = (props: TopSalesManagerCardProps) => {
 	const user = useReactiveVar(userVar);
 
 	const managerImage = manager?.memberImage
-		? `${REACT_APP_API_URL}/${manager.memberImage}`
+		? `${NEXT_PUBLIC_API_URL}/${manager.memberImage}`
 		: '/img/profile/defaultUser.svg';
 
 	const isFollowing = manager?.meFollowed?.[0]?.myFollowing;

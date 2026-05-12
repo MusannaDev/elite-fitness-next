@@ -6,7 +6,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { Clothe } from '../../types/clothes/clothes';
 
 interface TopClothesCardProps {
@@ -29,7 +29,7 @@ const TopClothesCard = (props: TopClothesCardProps) => {
 			<Box className="clothes-img-wrap" onClick={() => pushDetailHandler(clothe._id)}>
 				<Box
 					className="clothes-img"
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${clothe?.clotheImages?.[0]})` }}
+					style={{ backgroundImage: `url(${NEXT_PUBLIC_API_URL}/${clothe?.clotheImages?.[0]})` }}
 				/>
 
 				{/* Hover overlay showing size / gender / material */}

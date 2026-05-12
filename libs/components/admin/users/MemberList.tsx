@@ -8,7 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Stack, Box } from '@mui/material';
 import { Member } from '../../../types/member/member';
-import { REACT_APP_API_URL } from '../../../config';
+import { NEXT_PUBLIC_API_URL } from '../../../config';
 import { MemberStatus, MemberType } from '../../../enums/member.enum';
 
 const headCells = [
@@ -72,7 +72,7 @@ export const MemberPanelList = ({ members, anchorEl, menuIconClickHandler, menuI
 
 						{members.map((member: Member, index: number) => {
 							const memberImage = member.memberImage
-								? `${REACT_APP_API_URL}/${member.memberImage}`
+								? `${NEXT_PUBLIC_API_URL}/${member.memberImage}`
 								: '/img/profile/defaultUser.svg';
 							const ts = typeStyle(member.memberType);
 							const ss = statusStyle(member.memberStatus);

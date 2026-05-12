@@ -8,7 +8,7 @@ export const config = {
 	},
 };
 
-const targetUrl = process.env.REACT_APP_API_GRAPHQL_INTERNAL_URL || 'http://host.docker.internal:4001/graphql';
+const targetUrl = process.env.NEXT_PUBLIC_API_GRAPHQL_URL || 'http://187.127.102.63:4001/graphql';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
 	const target = new URL(targetUrl);

@@ -23,7 +23,7 @@ import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 
 const CATEGORY_COLORS: Record<EquipmentCategory, string> = {
 	[EquipmentCategory.MACHINES]:    '#3b82f6',
@@ -280,7 +280,7 @@ const MemberEquipments: NextPage = ({ initialInput, ...props }: any) => {
 									{/* ① equipmentName · equipmentBrand · equipmentWeight */}
 									<Stack className="meq-cell th-item">
 										<Box className="meq-img-wrap">
-											<img src={eq.equipmentImages?.[0] ? `${REACT_APP_API_URL}/${eq.equipmentImages[0]}` : '/img/banner/header1.svg'} alt={eq.equipmentName} />
+											<img src={eq.equipmentImages?.[0] ? `${NEXT_PUBLIC_API_URL}/${eq.equipmentImages[0]}` : '/img/banner/header1.svg'} alt={eq.equipmentName} />
 											<Tooltip title={eq.equipmentStatus} arrow placement="top">
 												<Box className="meq-status-dot" style={{ background: statusDot }} />
 											</Tooltip>

@@ -96,7 +96,7 @@ const Join: NextPage = () => {
 		);
 		formData.append('0', file);
 
-		const response = await axios.post(`${process.env.REACT_APP_API_GRAPHQL_URL}`, formData, {
+		const response = await axios.post(`${process.env.NEXT_PUBLIC_API_GRAPHQL_URL}`, formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 				'apollo-require-preflight': true,

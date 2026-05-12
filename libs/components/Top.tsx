@@ -17,7 +17,7 @@ import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
-import { REACT_APP_API_URL } from '../config';
+import { NEXT_PUBLIC_API_URL } from '../config';
 import Basket from './Basket';
 import { useThemeMode } from '../contexts/ThemeModeContext';
 
@@ -277,7 +277,7 @@ const Top = () => {
 										<img
 											src={
 												user?.memberImage
-													? `${REACT_APP_API_URL}/${user?.memberImage}`
+													? `${NEXT_PUBLIC_API_URL}/${user?.memberImage}`
 													: '/img/profile/defaultUser.svg'
 											}
 											alt="user"

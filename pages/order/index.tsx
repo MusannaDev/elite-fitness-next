@@ -10,7 +10,7 @@ import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import { userVar } from '../../apollo/store';
 import { GET_MY_ORDERS } from '../../apollo/user/query';
 import { UPDATE_ORDER } from '../../apollo/user/mutation';
-import { REACT_APP_API_URL } from '../../libs/config';
+import { NEXT_PUBLIC_API_URL } from '../../libs/config';
 import { OrderStatus } from '../../libs/enums/order.enum';
 import { T } from '../../libs/types/common';
 import { OrderInquiry } from '../../libs/types/order/order.input';
@@ -104,7 +104,7 @@ const OrdersPage: NextPage = () => {
 						<Box className="op-avatar-wrap">
 							<img
 								src={user?.memberImage
-									? `${REACT_APP_API_URL}/${user.memberImage}`
+									? `${NEXT_PUBLIC_API_URL}/${user.memberImage}`
 									: '/img/profile/defaultUser.svg'}
 								className="op-avatar"
 								alt="avatar"

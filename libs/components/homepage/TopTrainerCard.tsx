@@ -8,7 +8,7 @@ import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { Member } from '../../types/member/member';
 
 interface TopTrainerCardProps {
@@ -23,7 +23,7 @@ const TopTrainerCard = (props: TopTrainerCardProps) => {
 	const user = useReactiveVar(userVar);
 
 	const trainerImage = trainer?.memberImage
-		? `${REACT_APP_API_URL}/${trainer.memberImage}`
+		? `${NEXT_PUBLIC_API_URL}/${trainer.memberImage}`
 		: '/img/profile/defaultUser.svg';
 
 	const isFollowing = trainer?.meFollowed?.[0]?.myFollowing;

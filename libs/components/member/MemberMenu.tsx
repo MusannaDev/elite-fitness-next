@@ -4,7 +4,7 @@ import { Stack, Typography, Box, List, ListItem, Button } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Link from 'next/link';
 import { Member } from '../../types/member/member';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { GET_MEMBER } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { useQuery } from '@apollo/client';
@@ -50,7 +50,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 			<Stack className={'mm-profile-card'}>
 				<Box className={'mm-avatar-ring'}>
 					<img
-						src={member?.memberImage ? `${REACT_APP_API_URL}/${member.memberImage}` : '/img/profile/defaultUser.svg'}
+						src={member?.memberImage ? `${NEXT_PUBLIC_API_URL}/${member.memberImage}` : '/img/profile/defaultUser.svg'}
 						alt={'member-photo'}
 						className={'mm-avatar-img'}
 					/>

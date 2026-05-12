@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Stack, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { REACT_APP_API_URL } from '../../../config';
+import { NEXT_PUBLIC_API_URL } from '../../../config';
 import { EquipmentStatus } from '../../../enums/equipment.enum';
 import { Equipment } from '../../../types/equipment/equipment';
 
@@ -52,7 +52,7 @@ export const EquipmentPanelList = ({ equipments, anchorEl, menuIconClickHandler,
 							<TableRow><TableCell align="center" colSpan={10}><Typography className={'no-data'}>No equipments found</Typography></TableCell></TableRow>
 						)}
 						{equipments.map((eq: Equipment, index: number) => {
-							const img = eq?.equipmentImages?.[0] ? `${REACT_APP_API_URL}/${eq.equipmentImages[0]}` : '/img/profile/defaultUser.svg';
+							const img = eq?.equipmentImages?.[0] ? `${NEXT_PUBLIC_API_URL}/${eq.equipmentImages[0]}` : '/img/profile/defaultUser.svg';
 							const ss = statusStyle(eq.equipmentStatus);
 							return (
 								<TableRow hover key={eq._id} sx={{ '&:last-child td': { border: 0 } }}>

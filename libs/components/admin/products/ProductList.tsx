@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Stack, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { REACT_APP_API_URL } from '../../../config';
+import { NEXT_PUBLIC_API_URL } from '../../../config';
 import { ProductStatus } from '../../../enums/product.enum';
 import { Product } from '../../../types/product/product';
 import { formatProductWeight } from '../../../utils/productWeight';
@@ -52,7 +52,7 @@ export const ProductPanelList = ({ products, anchorEl, menuIconClickHandler, men
 							<TableRow><TableCell align="center" colSpan={9}><Typography className={'no-data'}>No products found</Typography></TableCell></TableRow>
 						)}
 						{products.map((product: Product, index: number) => {
-							const img = product?.productImages?.[0] ? `${REACT_APP_API_URL}/${product.productImages[0]}` : '/img/profile/defaultUser.svg';
+							const img = product?.productImages?.[0] ? `${NEXT_PUBLIC_API_URL}/${product.productImages[0]}` : '/img/profile/defaultUser.svg';
 							const ss = statusStyle(product.productStatus);
 							return (
 								<TableRow hover key={product._id} sx={{ '&:last-child td': { border: 0 } }}>

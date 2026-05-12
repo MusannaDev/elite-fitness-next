@@ -10,7 +10,7 @@ import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import { Property } from '../../types/property/property';
 import Link from 'next/link';
 import { formatterStr } from '../../utils';
-import { REACT_APP_API_URL, topPropertyRank } from '../../config';
+import { NEXT_PUBLIC_API_URL, topPropertyRank } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 
@@ -27,7 +27,7 @@ const PropertyCard = (props: PropertyCardType) => {
 	const user = useReactiveVar(userVar);
 
 	const imagePath: string = property?.propertyImages[0]
-		? `${REACT_APP_API_URL}/${property?.propertyImages[0]}`
+		? `${NEXT_PUBLIC_API_URL}/${property?.propertyImages[0]}`
 		: '/img/banner/header1.svg';
 
 	const isLiked = myFavorites || !!(property?.meLiked && property?.meLiked[0]?.myFavorite);

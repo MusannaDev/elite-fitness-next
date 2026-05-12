@@ -9,7 +9,7 @@ import { formatterStr } from '../../utils';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
 import { EquipmentStatus } from '../../enums/equipment.enum';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 
 interface EquipmentCardProps {
 	equipment: Equipment;
@@ -63,7 +63,7 @@ export const EquipmentCard = (props: EquipmentCardProps) => {
 		return (
 			<Stack className="equipment-card-box">
 				<Stack className="image-box" onClick={() => pushEquipmentDetail(equipment?._id)}>
-					<img src={`${REACT_APP_API_URL}/${equipment.equipmentImages[0]}`} alt="" />
+					<img src={`${NEXT_PUBLIC_API_URL}/${equipment.equipmentImages[0]}`} alt="" />
 				</Stack>
 				<Stack className="information-box" onClick={() => pushEquipmentDetail(equipment?._id)}>
 					<Typography className="name">{equipment.equipmentName}</Typography>

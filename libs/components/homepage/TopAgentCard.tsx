@@ -10,7 +10,7 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { Member } from '../../types/member/member';
 
 interface TopAgentCardProps {
@@ -25,7 +25,7 @@ const TopAgentCard = (props: TopAgentCardProps) => {
 	const user = useReactiveVar(userVar);
 
 	const agentImage = agent?.memberImage
-		? `${REACT_APP_API_URL}/${agent.memberImage}`
+		? `${NEXT_PUBLIC_API_URL}/${agent.memberImage}`
 		: '/img/profile/defaultUser.svg';
 
 	const pushDetailHandler = async (memberId: string) => {

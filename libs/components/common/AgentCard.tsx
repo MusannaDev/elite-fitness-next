@@ -3,7 +3,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Link from 'next/link';
 import { useReactiveVar, useMutation } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { SUBSCRIBE, UNSUBSCRIBE } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { Messages } from '../../config';
@@ -60,7 +60,7 @@ const AgentCard = (props: AgentCardProps) => {
 	const color = HEX_COLORS[colorIndex % HEX_COLORS.length];
 
 	const imagePath: string = agent?.memberImage
-		? `${REACT_APP_API_URL}/${agent.memberImage}`
+		? `${NEXT_PUBLIC_API_URL}/${agent.memberImage}`
 		: '';
 
 	const initials = agent?.memberFullName

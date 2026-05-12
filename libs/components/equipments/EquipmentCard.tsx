@@ -12,7 +12,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import { Equipment } from '../../types/equipment/equipment';
 import Link from 'next/link';
 import { formatterStr } from '../../utils';
-import { REACT_APP_API_URL, topEquipmentRank } from '../../config';
+import { NEXT_PUBLIC_API_URL, topEquipmentRank } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { addBasketItem } from '../../utils/basket';
@@ -70,7 +70,7 @@ const EquipmentCard = (props: EquipmentCardType) => {
 		sweetTopSmallSuccessAlert('Added to cart!', 700);
 	};
 	const imagePath: string = equipment?.equipmentImages[0]
-		? `${REACT_APP_API_URL}/${equipment?.equipmentImages[0]}`
+		? `${NEXT_PUBLIC_API_URL}/${equipment?.equipmentImages[0]}`
 		: '/img/banner/header1.svg';
 
 	const serverLiked = !!(myFavorites || (equipment?.meLiked && equipment?.meLiked[0]?.myFavorite));

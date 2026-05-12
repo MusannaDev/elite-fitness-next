@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { Stack, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Property } from '../../../types/property/property';
-import { REACT_APP_API_URL } from '../../../config';
+import { NEXT_PUBLIC_API_URL } from '../../../config';
 import { PropertyStatus } from '../../../enums/property.enum';
 
 const headCells = [
@@ -54,7 +54,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 							<TableRow><TableCell align="center" colSpan={7}><Typography className={'no-data'}>No properties found</Typography></TableCell></TableRow>
 						)}
 						{properties.map((property: Property, index: number) => {
-							const propertyImage = `${REACT_APP_API_URL}/${property?.propertyImages[0]}`;
+							const propertyImage = `${NEXT_PUBLIC_API_URL}/${property?.propertyImages[0]}`;
 							const ss = statusStyle(property.propertyStatus);
 							return (
 								<TableRow hover key={property._id} sx={{ '&:last-child td': { border: 0 } }}>

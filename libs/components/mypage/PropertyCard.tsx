@@ -9,7 +9,7 @@ import { formatterStr } from '../../utils';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
 import { PropertyStatus } from '../../enums/property.enum';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 
 interface PropertyCardProps {
 	property: Property;
@@ -58,7 +58,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 		return (
 			<Stack className="property-card-box">
 				<Stack className="image-box" onClick={() => pushPropertyDetail(property?._id)}>
-					<img src={`${REACT_APP_API_URL}/${property.propertyImages[0]}`} alt="" />
+					<img src={`${NEXT_PUBLIC_API_URL}/${property.propertyImages[0]}`} alt="" />
 				</Stack>
 				<Stack className="information-box" onClick={() => pushPropertyDetail(property?._id)}>
 					<Typography className="name">{property.propertyTitle}</Typography>

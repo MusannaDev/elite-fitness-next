@@ -12,7 +12,7 @@ import { Product } from '../../types/product/product';
 import Link from 'next/link';
 import { formatterStr } from '../../utils';
 import { formatProductWeight } from '../../utils/productWeight';
-import { REACT_APP_API_URL, topProductRank } from '../../config';
+import { NEXT_PUBLIC_API_URL, topProductRank } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { addBasketItem } from '../../utils/basket';
@@ -77,7 +77,7 @@ const ProductCard = (props: ProductCardType) => {
 		sweetTopSmallSuccessAlert('Added to cart!', 700);
 	};
 	const imagePath: string = product?.productImages[0]
-		? `${REACT_APP_API_URL}/${product?.productImages[0]}`
+		? `${NEXT_PUBLIC_API_URL}/${product?.productImages[0]}`
 		: '/img/banner/header1.svg';
 
 	// Determine initial liked state: localStorage first, then server, then myFavorites

@@ -9,7 +9,7 @@ import { formatterStr } from '../../utils';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
 import { ProductStatus } from '../../enums/product.enum';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 
 interface ProductCardProps {
 	product: Product;
@@ -58,7 +58,7 @@ export const ProductCard = (props: ProductCardProps) => {
 		return (
 			<Stack className="product-card-box">
 				<Stack className="image-box" onClick={() => pushProductDetail(product?._id)}>
-					<img src={`${REACT_APP_API_URL}/${product.productImages[0]}`} alt="" />
+					<img src={`${NEXT_PUBLIC_API_URL}/${product.productImages[0]}`} alt="" />
 				</Stack>
 				<Stack className="information-box" onClick={() => pushProductDetail(product?._id)}>
 					<Typography className="name">{product.productName}</Typography>

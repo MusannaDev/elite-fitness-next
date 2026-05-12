@@ -6,7 +6,7 @@ import { GET_COMMENTS } from '../../../apollo/user/query';
 import { CREATE_COMMENT } from '../../../apollo/user/mutation';
 import { T } from '../../types/common';
 import { CommentGroup } from '../../enums/comment.enum';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 
 interface MemberCommentsProps {
 	commentGroup: CommentGroup;
@@ -72,7 +72,7 @@ const MemberComments = (props: MemberCommentsProps) => {
 				<Stack className="comments-list">
 					{comments.map((comment) => {
 						const avatar = comment?.memberData?.memberImage
-							? `${REACT_APP_API_URL}/${comment.memberData.memberImage}`
+							? `${NEXT_PUBLIC_API_URL}/${comment.memberData.memberImage}`
 							: '/img/profile/defaultUser.svg';
 
 						return (

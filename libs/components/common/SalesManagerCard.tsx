@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Link from 'next/link';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -48,7 +48,7 @@ const SalesManagerCard = (props: SalesManagerCardProps) => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const imagePath: string = salesManager?.memberImage
-		? `${REACT_APP_API_URL}/${salesManager?.memberImage}`
+		? `${NEXT_PUBLIC_API_URL}/${salesManager?.memberImage}`
 		: '/img/profile/defaultUser.svg';
 
 	const [isFollowed, setIsFollowed] = useState<boolean>(

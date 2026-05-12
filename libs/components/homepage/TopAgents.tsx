@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { useMutation, useQuery } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { Member } from '../../types/member/member';
 import { AgentsInquiry } from '../../types/member/member.input';
 import { GET_AGENTS } from '../../../apollo/user/query';
@@ -118,7 +118,7 @@ const TopAgents = (props: TopAgentsProps) => {
 				<Stack className="agents-list">
 					{topAgents.map((agent) => {
 						const agentImage = agent?.memberImage
-							? `${REACT_APP_API_URL}/${agent.memberImage}`
+							? `${NEXT_PUBLIC_API_URL}/${agent.memberImage}`
 							: '/img/profile/defaultUser.svg';
 						return (
 							<Box
@@ -145,7 +145,7 @@ const TopAgents = (props: TopAgentsProps) => {
 		.filter((agent) => agent._id !== featuredAgent?._id)
 		.slice(0, 4);
 	const featuredAgentImage = featuredAgent?.memberImage
-		? `${REACT_APP_API_URL}/${featuredAgent.memberImage}`
+		? `${NEXT_PUBLIC_API_URL}/${featuredAgent.memberImage}`
 		: '/img/profile/defaultUser.svg';
 	const featuredFollowing = !!featuredAgent?.meFollowed?.[0]?.myFollowing;
 	const featuredLiked = !!featuredAgent?.meLiked?.[0]?.myFavorite;
@@ -216,7 +216,7 @@ const TopAgents = (props: TopAgentsProps) => {
 						<Box className="agents-stack-panel">
 							{stackedAgents.map((agent, index) => {
 								const agentImage = agent?.memberImage
-									? `${REACT_APP_API_URL}/${agent.memberImage}`
+									? `${NEXT_PUBLIC_API_URL}/${agent.memberImage}`
 									: '/img/profile/defaultUser.svg';
 								const isFollowing = agent?.meFollowed?.[0]?.myFollowing;
 								const isLiked = agent?.meLiked?.[0]?.myFavorite;

@@ -13,7 +13,7 @@ import { userVar } from '../../apollo/store';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
-import { Messages, REACT_APP_API_URL } from '../../libs/config';
+import { Messages, NEXT_PUBLIC_API_URL } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { CREATE_COMMENT } from '../../apollo/user/mutation';
 import { GET_COMMENTS, GET_MEMBER } from '../../apollo/user/query';
@@ -136,7 +136,7 @@ const SalesManagerDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<img
 							src={
 								salesManager?.memberImage
-									? `${REACT_APP_API_URL}/${salesManager?.memberImage}`
+									? `${NEXT_PUBLIC_API_URL}/${salesManager?.memberImage}`
 									: '/img/profile/defaultUser.svg'
 							}
 							alt=""

@@ -10,7 +10,7 @@ import { InquiryStatus, InquiryType } from '../../enums/inquiry.enum';
 import { InquiriesInquiry, InquiryInput } from '../../types/inquiry/inquiry.input';
 import { Inquiry as InquiryItem } from '../../types/inquiry/inquiry';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import ImageUploader from '../common/ImageUploader';
 
 const INQUIRY_TYPES: { label: string; value: InquiryType }[] = [
@@ -40,7 +40,7 @@ const formatDate = (date?: Date | string) => {
 const toImageUrl = (src: string) => {
 	if (!src) return '';
 	if (src.startsWith('http')) return src;
-	return `${REACT_APP_API_URL}/${src}`;
+	return `${NEXT_PUBLIC_API_URL}/${src}`;
 };
 
 const Inquiry = () => {

@@ -10,7 +10,7 @@ import ScrollableFeed from 'react-scrollable-feed';
 import { useReactiveVar } from '@apollo/client';
 import { socketVar, userVar } from '../../apollo/store';
 import { Member } from '../types/member/member';
-import { Messages, REACT_APP_API_URL } from '../config';
+import { Messages, NEXT_PUBLIC_API_URL } from '../config';
 import { sweetErrorAlert } from '../sweetAlert';
 
 interface MessagePayload {
@@ -190,7 +190,7 @@ const Chat = () => {
 		const memberImage = memberData?.memberImage;
 		if (!memberImage) return '/img/profile/defaultUser.svg';
 		if (memberImage.startsWith('http')) return memberImage;
-		return `${REACT_APP_API_URL}/${memberImage}`;
+		return `${NEXT_PUBLIC_API_URL}/${memberImage}`;
 	}, []);
 
 	const triggerAiReply = useCallback(

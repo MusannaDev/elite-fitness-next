@@ -16,7 +16,7 @@ import { ProductsInquiry } from '../../libs/types/product/product.input';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
-import { Messages, REACT_APP_API_URL } from '../../libs/config';
+import { Messages, NEXT_PUBLIC_API_URL } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { CREATE_COMMENT, LIKE_TARGET_MEMBER, LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
 import { GET_TRAINERS, GET_COMMENTS, GET_MEMBER, GET_PRODUCTS } from '../../apollo/user/query';
@@ -201,7 +201,7 @@ const TrainerDetail: NextPage = ({ initialInput, initialComment, ...props }: any
 						<img
 							src={
 								trainer?.memberImage
-									? `${REACT_APP_API_URL}/${trainer?.memberImage}`
+									? `${NEXT_PUBLIC_API_URL}/${trainer?.memberImage}`
 									: '/img/profile/defaultUser.svg'
 							}
 							alt=""

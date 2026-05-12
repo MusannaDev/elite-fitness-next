@@ -4,7 +4,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Stack, Typography } from '@mui/material';
 import { BoardArticle } from '../../types/board-article/board-article';
 import Moment from 'react-moment';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import IconButton from '@mui/material/IconButton';
@@ -27,7 +27,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 	const user = useReactiveVar(userVar);
 
 	const imagePath: string | null = boardArticle?.articleImage
-		? `${REACT_APP_API_URL}/${boardArticle?.articleImage}`
+		? `${NEXT_PUBLIC_API_URL}/${boardArticle?.articleImage}`
 		: null;
 
 	const colorClass = CARD_COLORS[Math.floor(Math.random() * CARD_COLORS.length)];
@@ -80,7 +80,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 								className="card-avatar"
 								style={{
 									backgroundImage: boardArticle?.memberData?.memberImage
-										? `url(${REACT_APP_API_URL}/${boardArticle?.memberData?.memberImage})`
+										? `url(${NEXT_PUBLIC_API_URL}/${boardArticle?.memberData?.memberImage})`
 										: undefined,
 								}}
 							>

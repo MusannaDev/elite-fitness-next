@@ -28,5 +28,5 @@ networks:
 
 
 #elite-fitness-next: localhost:4000 <==> container:3001
-#elite-fitness-api: localhost:4001 <==> container:3002
+#elite-fitness-api: 187.127.102.63:4001 <==> container:3002
 #elite-fitness-batch: localhost:4002 <==> container:3003

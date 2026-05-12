@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { OrderItem } from '../../types/order/order';
 import { OrderItemType } from '../../enums/order.enum';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { OrderItemSnapshotMap, orderItemSnapshotKey } from '../../utils/orderSnapshot';
 import { GET_CLOTHE, GET_EQUIPMENT, GET_PRODUCT } from '../../../apollo/user/query';
 
@@ -19,7 +19,7 @@ interface Props {
 const imageUrl = (path?: string): string | null => {
   if (!path) return null;
   if (path.startsWith('http')) return path;
-  return `${REACT_APP_API_URL}/${path}`;
+  return `${NEXT_PUBLIC_API_URL}/${path}`;
 };
 
 const OrderItemRow = ({ item, accentColor, itemMeta, snapshots, muted = false }: Props): JSX.Element => {

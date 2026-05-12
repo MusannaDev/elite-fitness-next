@@ -22,7 +22,7 @@ const CATEGORY_META: Record<BoardArticleCategory, { label: string; icon: string;
 const CommunityCard = ({ article, index, variant }: CommunityCardProps) => {
 	const device = useDeviceDetect();
 	const articleImage = article?.articleImage
-		? `${process.env.REACT_APP_API_URL}/${article?.articleImage}`
+		? `${process.env.NEXT_PUBLIC_API_URL}/${article?.articleImage}`
 		: '/img/event.svg';
 
 	const meta = CATEGORY_META[article?.articleCategory] ?? CATEGORY_META[BoardArticleCategory.FREE];

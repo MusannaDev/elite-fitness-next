@@ -11,7 +11,7 @@ import { NoticeInput, NoticesInquiry } from '../../types/notice/notice.input';
 import { Notice as NoticeItem } from '../../types/notice/notice';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import ImageUploader from '../common/ImageUploader';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 
 const NOTICE_IMAGE_MARKER = '[notice-images]:';
 
@@ -45,7 +45,7 @@ const formatDate = (date?: Date | string): string => {
 const toImageUrl = (src: string) => {
 	if (!src) return '';
 	if (src.startsWith('http')) return src;
-	return `${REACT_APP_API_URL}/${src}`;
+	return `${NEXT_PUBLIC_API_URL}/${src}`;
 };
 
 const serializeNoticeContent = (text: string, images: string[]) => {

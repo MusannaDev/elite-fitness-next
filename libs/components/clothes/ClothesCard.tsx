@@ -6,7 +6,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Clothe } from '../../types/clothes/clothes';
 import Link from 'next/link';
 import { formatterStr } from '../../utils';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
@@ -45,7 +45,7 @@ const ClotheCard = (props: ClotheCardType) => {
 	};
 
 	const imagePath: string = clothe?.clotheImages[0]
-		? `${REACT_APP_API_URL}/${clothe?.clotheImages[0]}`
+		? `${NEXT_PUBLIC_API_URL}/${clothe?.clotheImages[0]}`
 		: '/img/banner/header1.svg';
 
 	// Use likedOverride when provided (controlled by ClotheList)

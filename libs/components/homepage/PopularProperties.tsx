@@ -14,7 +14,7 @@ import { userVar } from '../../../apollo/store';
 import { T } from '../../types/common';
 import { Property } from '../../types/property/property';
 import { PropertiesInquiry } from '../../types/property/property.input';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { Direction, Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import Link from 'next/link';
@@ -78,7 +78,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 
 	const activeItem = items[active];
 	const activeImage = activeItem?.propertyImages?.[0]
-		? `${REACT_APP_API_URL}/${activeItem.propertyImages[0]}`
+		? `${NEXT_PUBLIC_API_URL}/${activeItem.propertyImages[0]}`
 		: '/img/home/property1.svg';
 
 	const goPropertyDetail = async (id?: string) => {
@@ -112,7 +112,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 					<div className="image-accordion">
 						{items.map((item, index) => {
 							const imageUrl = item?.propertyImages?.[0]
-								? `${REACT_APP_API_URL}/${item.propertyImages[0]}`
+								? `${NEXT_PUBLIC_API_URL}/${item.propertyImages[0]}`
 								: '/img/home/property1.svg';
 							const isActive = index === active;
 

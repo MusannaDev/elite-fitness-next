@@ -5,7 +5,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Link from 'next/link';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import { logOut } from '../../auth';
 import { sweetConfirmAlert } from '../../sweetAlert';
 import {
@@ -111,7 +111,7 @@ const MyMenu = () => {
 						<img
 							src={
 								user?.memberImage
-									? `${REACT_APP_API_URL}/${user.memberImage}`
+									? `${NEXT_PUBLIC_API_URL}/${user.memberImage}`
 									: '/img/profile/defaultUser.svg'
 							}
 							alt="profile"

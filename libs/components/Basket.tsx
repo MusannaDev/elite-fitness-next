@@ -9,7 +9,7 @@ import { useMutation, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { CREATE_ORDER } from '../../apollo/user/mutation';
 import { userVar } from '../../apollo/store';
-import { REACT_APP_API_URL } from '../config';
+import { NEXT_PUBLIC_API_URL } from '../config';
 import { OrderInput } from '../types/order/order.input';
 import { OrderStatus, PaymentMethod } from '../enums/order.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../sweetAlert';
@@ -110,7 +110,7 @@ const Basket = ({ floating = false }: BasketProps): JSX.Element => {
   const imageUrl = (path?: string) => {
     if (!path) return '/img/profile/defaultUser.svg';
     if (path.startsWith('http')) return path;
-    return `${REACT_APP_API_URL}/${path}`;
+    return `${NEXT_PUBLIC_API_URL}/${path}`;
   };
 
   return (

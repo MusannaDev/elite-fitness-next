@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { FollowInquiry } from '../../types/follow/follow.input';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { Following } from '../../types/follow/follow';
-import { REACT_APP_API_URL } from '../../config';
+import { NEXT_PUBLIC_API_URL } from '../../config';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
@@ -101,7 +101,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 
 					{memberFollowings.map((following: Following) => {
 						const imagePath: string = following?.followingData?.memberImage
-							? `${REACT_APP_API_URL}/${following?.followingData?.memberImage}`
+							? `${NEXT_PUBLIC_API_URL}/${following?.followingData?.memberImage}`
 							: '/img/profile/defaultUser.svg';
 						return (
 							<Stack className="follow-card" key={following._id}>
