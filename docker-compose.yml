@@ -20,7 +20,7 @@ services:
     networks:
       - client-network
      
-    command: bash -c "yarn && yarn run build && yarn run start"
+    command: bash -c "corepack enable && yarn && yarn run build && yarn run start"
 
 networks:
   client-network:
